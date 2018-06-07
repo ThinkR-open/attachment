@@ -12,7 +12,9 @@
 #' }
 #' @importFrom magrittr %>%
 get_dependencies <- function(path="DESCRIPTION",dput=TRUE,field=c('Depends','Imports')){
-  out <- read.dcf(path)[,field] %>%
+
+   out <- read.dcf(path)
+   out <- out[,intersect(colnames(out),field)] %>%
     gsub(pattern = "\n",replacement = "") %>%
     strsplit(",") %>%
     unlist() %>%
