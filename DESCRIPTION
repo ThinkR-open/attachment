@@ -1,0 +1,14 @@
+Package: attachment
+Title: Deal with dependencies
+Version: 0.0.0.9000
+Authors@R: person('Vincent', 'Guyader', email = 'vincent@thinkr.fr', role = c('cre', 'aut'))
+Description: Tools to help to manage dependencies during pacakge developement.
+License: {{ License }}
+LazyData: true
+URL: https://github.com/Thinkr-open/attachment
+BugReports: https://github.com/Thinkr-open/attachment/issues
+Encoding: UTF-8
+RoxygenNote: 6.0.1
+Imports: 
+    magrittr,
+    stringr
