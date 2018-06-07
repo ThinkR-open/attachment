@@ -2,9 +2,11 @@
 #'
 #' @param path path to NAMESPACE file
 #'
-#' @return
+#' @return a vector
 #' @export
 #' @importFrom stringr str_match
+#' @importFrom stats setNames
+#' @importFrom utils read.table
 #' @examples
 #' \dontrun{
 #' dependencies_from_namespace()

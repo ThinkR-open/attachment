@@ -3,8 +3,7 @@ usethis::use_readme_rmd()
 usethis::use_git()
 usethis::use_travis()
 usethis::use_news_md()
-options(usethis.full_name = "Vincent Guyader")
-usethis::use_gpl3_license()
+
 usethis::use_code_of_conduct()
 
 library(desc)
@@ -33,8 +32,11 @@ fill_desc_generic <- function(name, Title,
   my_desc$write(file = "DESCRIPTION")
 }
 fill_desc_generic(name = "attachment",
-                  Description  = "Tools to help to manage dependencies during pacakge developement.",
+                  Description  = "Tools to help to manage dependencies during package developement.",
                   Title = "Deal with dependencies")
 
 usethis::use_pipe()
 usethis::use_package("stringr")
+options(usethis.full_name = "Vincent Guyader")
+usethis::use_gpl3_license()
+usethis::use_tidy_description()
