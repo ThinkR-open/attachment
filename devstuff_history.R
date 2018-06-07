@@ -37,6 +37,7 @@ fill_desc_generic(name = "attachment",
 
 usethis::use_pipe()
 usethis::use_package("stringr")
+usethis::use_package("magrittr")
 options(usethis.full_name = "Vincent Guyader")
 usethis::use_gpl3_license()
 usethis::use_tidy_description()
