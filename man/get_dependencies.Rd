@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_dependencies.R
 \name{get_dependencies}
 \alias{get_dependencies}
-\title{return all package dependencies from current package}
+\title{Return all package dependencies from current package}
 \usage{
 get_dependencies(path = "DESCRIPTION", dput = TRUE, field = c("Depends",
   "Imports"))
@@ -14,11 +14,14 @@ get_dependencies(path = "DESCRIPTION", dput = TRUE, field = c("Depends",
 
 \item{field}{DESCRIPTION fied to parse, Import and Depends by default}
 }
+\value{
+A character vector with packages names
+}
 \description{
-return all package dependencies from current package
+Return all package dependencies from current package
 }
 \examples{
 \dontrun{
-list_imports()
+get_dependencies()
 }
 }
