@@ -42,3 +42,5 @@ usethis::use_gpl3_license()
 usethis::use_tidy_description()
 
 usethis::use_vignette("fill-pkg-description")
+
+devtools::build_vignettes()
