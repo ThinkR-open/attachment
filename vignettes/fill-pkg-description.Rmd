@@ -1,0 +1,57 @@
+---
+title: "Vignette Title"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Load package {attachment}
+```{r}
+library(attachment)
+# library(test)
+```
+
+# Use "devstuff_history.R"
+
+When building your package, create a file called "devstuff_history.R" in the root directory. You will store all "manual" calls to `devtools::xxx` and `usethis::xxx` in this script.  
+Its first line should be :
+
+```r
+usethis::use_build_ignore("devstuff_history.R")
+```
+
+You can then call {attachment} in this file to help you build your namespace.
+
+# Get all packages listed in "namespace"
+After running `devtools::document()`, you can get the list of packages in your package with `att_from_namespace()`
+
+```{r, eval=FALSE}
+att_from_namespace()
+```
+
+# Get all packages called in your vignettes
+If you have vignette, you may want to list extra libraries, not listed in your "Depends" list.
+
+```{r, eval=FALSE}
+att_from_vignettes()
+```
+
+# Fill your DESCRIPTION file
+Of course, what you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your "devstuff_history.R"
+
+```{r, eval=FALSE}
+att_to_description()
+```
+
+

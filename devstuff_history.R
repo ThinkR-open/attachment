@@ -40,3 +40,5 @@ usethis::use_package("magrittr")
 options(usethis.full_name = "Vincent Guyader")
 usethis::use_gpl3_license()
 usethis::use_tidy_description()
+
+usethis::use_vignette("fill-pkg-description")

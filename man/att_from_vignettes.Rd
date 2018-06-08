@@ -9,6 +9,10 @@ att_from_vignettes(path = "vignettes")
 \arguments{
 \item{path}{path to vignettes directory}
 }
+\value{
+Character vector of packages called with library or require.
+{knitr} and {rmarkdown} are added by default to allow building the vignettes.
+}
 \description{
 Get all packages called in vignettes
 }

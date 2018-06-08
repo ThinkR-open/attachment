@@ -26,6 +26,9 @@ att_from_vignette <- function(path) {
 #'
 #' @param path path to vignettes directory
 #'
+#' @return Character vector of packages called with library or require.
+#' {knitr} and {rmarkdown} are added by default to allow building the vignettes.
+#'
 #' @examples
 #' \dontrun{
 #' att_from_vignettes("vignettes")
@@ -33,8 +36,9 @@ att_from_vignette <- function(path) {
 #' @export
 att_from_vignettes <- function(path = "vignettes") {
   all_f <- file.path(path, list.files(path))
-  lapply(all_f, att_from_vignette) %>%
+  res <- lapply(all_f, att_from_vignette) %>%
     unlist() %>%
     unique() %>%
     na.omit()
+  c("knitr", "rmarkdown", res)
 }
