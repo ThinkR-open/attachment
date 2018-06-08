@@ -6,7 +6,9 @@ attachment
 ==========
 
 The goal of attachment is to help to deal with package dependencies during package development.
+
 When building a package, we have to add `@importFrom` in our documentation and don't forget to add the list of dependencies in the "Imports" or "Suggests" package lists in the DESCRIPTION file.
+
 Why do you have to repeat twice the same thing ?
 And what happens when you remove a dependency for one of your functions ? Do you really want to run a "Find in files" to verify that you do not need this package anymore ?
 
