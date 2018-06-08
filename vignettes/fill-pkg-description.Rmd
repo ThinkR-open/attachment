@@ -54,4 +54,11 @@ Of course, what you really want is to fill and update your description file alon
 att_to_description()
 ```
 
+# Create a file for package installation
+Once your package is finished. Well, is a package ever finished ? Let's say, once you want to release a version of your package, you may want to deliver the list of dependencies your users will have to install. A little script like `install.packages(c(...all dep...))` would be so nice :
+
+```{r, eval=FALSE}
+get_dependencies()
+```
+
 
