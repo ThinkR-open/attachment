@@ -19,7 +19,6 @@ knitr::opts_chunk$set(
 # Load package {attachment}
 ```{r}
 library(attachment)
-# library(test)
 ```
 
 # Use "devstuff_history.R"
