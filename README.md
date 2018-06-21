@@ -7,12 +7,12 @@ attachment
 
 The goal of attachment is to help to deal with package dependencies during package development.
 
-When building a package, we have to add `@importFrom` in our documentation and don't forget to add the list of dependencies in the "Imports" or "Suggests" package lists in the DESCRIPTION file.
+When building a package, we have to add `@importFrom` in our documentation or `pkg::fun` in the R code. The most important is not to forget to add the list of dependencies in the "Imports" or "Suggests" package lists in the DESCRIPTION file.
 
 Why do you have to repeat twice the same thing ?
 And what happens when you remove a dependency for one of your functions ? Do you really want to run a "Find in files" to verify that you do not need this package anymore ?
 
-Let {attachment} help you ! This reads your NAMESPACE and your vignettes and update the DESCRIPTION file for you. Are you ready to be lazy ?
+Let {attachment} help you ! This reads your NAMESPACE, your functions in R directory and your vignettes, then update the DESCRIPTION file accordingly. Are you ready to be lazy ?
 
 Installation
 ------------
@@ -29,7 +29,7 @@ Use package {attachment}
 library(attachment)
 ```
 
-What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your package:
+What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only the following function will really be called. Use and abuse during the development of your package !
 
 ``` r
 attachment::att_to_description()
@@ -38,7 +38,7 @@ attachment::att_to_description()
 Vignette
 --------
 
-There is also a vignette in this package.
+There is also a vignette with recommandation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at `devstuff_history.R` in the present package*)
 
 ``` r
 vignette("fill-pkg-description", package = "attachment")
