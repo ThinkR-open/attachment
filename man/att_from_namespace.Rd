@@ -4,10 +4,12 @@
 \alias{att_from_namespace}
 \title{return package dependencies from NAMESPACE file}
 \usage{
-att_from_namespace(path = "NAMESPACE")
+att_from_namespace(path = "NAMESPACE", document = TRUE)
 }
 \arguments{
 \item{path}{path to NAMESPACE file}
+
+\item{document}{Run function document of devtools package}
 }
 \value{
 a vector

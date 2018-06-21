@@ -1,6 +1,7 @@
 #' return package dependencies from NAMESPACE file
 #'
 #' @param path path to NAMESPACE file
+#' @param document Run function document of devtools package
 #'
 #' @return a vector
 #' @export
@@ -11,7 +12,10 @@
 #' \dontrun{
 #' att_from_namespace()
 #' }
-att_from_namespace <- function(path = "NAMESPACE") {
+att_from_namespace <- function(path = "NAMESPACE", document = TRUE) {
+  if (isTRUE(document)) {
+    devtools::document(".")
+  }
   base <- read.table(path)[["V1"]]
 
   na.omit(unique(c(
