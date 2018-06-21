@@ -15,8 +15,10 @@ Imports:
     usethis,
     utils
 Suggests: 
+    covr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true

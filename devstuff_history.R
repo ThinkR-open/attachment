@@ -35,12 +35,18 @@ fill_desc_generic(name = "attachment",
                   Title = "Deal with dependencies")
 
 usethis::use_pipe()
-usethis::use_package("stringr")
-usethis::use_package("magrittr")
+# usethis::use_package("stringr")
+# usethis::use_package("magrittr")
 options(usethis.full_name = "Vincent Guyader")
 usethis::use_gpl3_license()
 usethis::use_tidy_description()
+usethis::use_test("attachment")
+usethis::use_coverage()
+usethis::use_appveyor()
+
+attachment::att_to_description()
 
 usethis::use_vignette("fill-pkg-description")
 
 devtools::build_vignettes()
+# devtools::load_all(".")
