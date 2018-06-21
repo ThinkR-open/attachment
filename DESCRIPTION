@@ -19,3 +19,7 @@ Imports:
     usethis,
     utils,
     devtools
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
