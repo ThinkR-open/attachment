@@ -10,9 +10,9 @@
 #'
 #' @examples
 #' \dontrun{
-#' get_dependencies()
+#' att_from_description()
 #' }
-get_dependencies <- function(path = "DESCRIPTION", dput = TRUE,
+att_from_description <- function(path = "DESCRIPTION", dput = FALSE,
                              field = c("Depends", "Imports")) {
   out <- read.dcf(path)
   out <- out[, intersect(colnames(out), field)] %>%
