@@ -33,10 +33,17 @@ usethis::use_build_ignore("devstuff_history.R")
 You can then call {attachment} in this file to help you build your namespace.
 
 ## Get all packages listed in "namespace"
-After running `devtools::document()`, you can get the list of packages in your package with `att_from_namespace()`
+You can get the list of packages in your package with `att_from_namespace()`
 
 ```{r, eval=FALSE}
 att_from_namespace()
+```
+
+## Get all packages added using `pkg::function`
+This read all files in the `R` directory.
+
+```{r, eval=FALSE}
+att_from_functions()
 ```
 
 ## Get all packages called in your vignettes

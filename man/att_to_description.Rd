@@ -5,14 +5,18 @@
 \title{Add packages to description}
 \usage{
 att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
-  path.v = "vignettes")
+  path.r = "R", path.v = "vignettes", document = TRUE)
 }
 \arguments{
 \item{path}{path to namespace file}
 
 \item{path.d}{path to description file}
 
+\item{path.r}{path to directory with R scripts}
+
 \item{path.v}{path to vignettes}
+
+\item{document}{Run function document of devtools package}
 }
 \description{
 Add packages to description

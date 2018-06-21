@@ -2,27 +2,32 @@
 #'
 #' @param path path to namespace file
 #' @param path.d path to description file
+#' @param path.r path to directory with R scripts
 #' @param path.v path to vignettes
 #'
+#' @inheritParams att_from_namespace
 #' @importFrom desc description
 #' @importFrom usethis use_package use_tidy_description
 #'
 #' @export
 att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
-                               path.v = "vignettes") {
-  depends <- att_from_namespace(path)
+                               path.r = "R", path.v = "vignettes",
+                               document = TRUE) {
+  depends <- c(att_from_namespace(path, document = document),
+               att_from_functions(path.r)) %>%
+    unique()
   vg <- att_from_vignettes(path.v)
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
   suggests <- vg[!vg %in% c(depends, pkg_name)]
 
-  suggest_orig <- desc$get("Suggests")
-  if (dir.exists("tests") | grepl("testthat", suggest_orig)) {
+  suggests_orig <- desc$get("Suggests")
+  if (dir.exists("tests") | grepl("testthat", suggests_orig)) {
     suggests_keep <- "testthat"
   } else {
     suggests_keep <- NULL
   }
-  if (file.exists("codecov.yml") | grepl("covr", suggest_orig)) {
+  if (file.exists("codecov.yml") | grepl("covr", suggests_orig)) {
     suggests_keep <- c(suggests_keep, "covr")
   } else {
     suggests_keep <- NULL
