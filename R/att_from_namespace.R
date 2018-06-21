@@ -18,8 +18,9 @@ att_from_namespace <- function(path = "NAMESPACE", document = TRUE) {
   }
   base <- read.table(path)[["V1"]]
 
-  na.omit(unique(c(
+  out <- na.omit(unique(c(
     unique(str_match(base, "importFrom\\(([[:alnum:]]+),.*")[, 2]),
     unique(str_match(base, "import\\(([[:alnum:]]+).*")[, 2])
   )))
+  c(out,NULL)
 }
