@@ -16,7 +16,7 @@ a vector
 Look for functions called with `::`
 }
 \details{
-Calls from pkg::fun in roxygen squeleton are ignored
+Calls from pkg::fun in roxygen skeleton are ignored
 }
 \examples{
 \dontrun{
