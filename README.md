@@ -35,6 +35,12 @@ What you really want is to fill and update your description file along with the 
 attachment::att_to_description()
 ```
 
+To quickly install missing packages from a DESCRIPTION file, you can use
+
+``` r
+attachment::install_from_description()
+```
+
 Vignette
 --------
 

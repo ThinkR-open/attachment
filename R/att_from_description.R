@@ -25,5 +25,5 @@ att_from_description <- function(path = "DESCRIPTION", dput = FALSE,
   if (!dput) {
     return(out)
   }
-  out %>% dput()
+  dput(out)
 }

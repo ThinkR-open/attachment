@@ -46,6 +46,14 @@ What you really want is to fill and update your description file along with the 
 attachment::att_to_description()
 ```
 
+To quickly install missing packages from a DESCRIPTION file, use :
+
+```{r, eval=FALSE}
+attachment::install_from_description()
+```
+
+
+
 ## Vignette
 
 There is also a vignette with recommandation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at `devstuff_history.R` in the present package*)
@@ -53,6 +61,8 @@ There is also a vignette with recommandation to have a `devstuff_history.R` in t
 ```{r, eval=FALSE}
 vignette("fill-pkg-description", package = "attachment")
 ```
+
+
 
 
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
