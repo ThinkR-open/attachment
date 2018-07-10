@@ -18,7 +18,7 @@ install_from_description(path = "DESCRIPTION", field = c("Depends",
 Install missing package from DESCRIPTION
 }
 \examples{
-/dontrun{
+\dontrun{
 install_from_description()
 }
 }

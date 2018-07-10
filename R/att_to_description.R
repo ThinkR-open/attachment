@@ -2,8 +2,8 @@
 #'
 #' @param path path to namespace file
 #' @param path.d path to description file
-#' @param path.r path to directory with R scripts
-#' @param path.v path to vignettes
+#' @param dir.r path to directory with R scripts
+#' @param dir.v path to vignettes directory
 #'
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
@@ -11,12 +11,13 @@
 #'
 #' @export
 att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
-                               path.r = "R", path.v = "vignettes",
+                               dir.r = "R", dir.v = "vignettes",
                                document = TRUE) {
   depends <- c(att_from_namespace(path, document = document),
-               att_from_functions(path.r)) %>%
-    unique()
-  vg <- att_from_vignettes(path.v)
+               att_from_rscripts(dir.r))
+
+  vg <- att_from_rmds(dir.v)
+
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
   suggests <- vg[!vg %in% c(depends, pkg_name)]

@@ -39,18 +39,18 @@ You can get the list of packages in your package with `att_from_namespace()`
 att_from_namespace()
 ```
 
-## Get all packages added using `pkg::function`
-This read all files in the `R` directory.
+## Get all packages added using `pkg::function` or library/require
+This reads all files in directories of R scripts (default to `R` directory of a package)
 
 ```{r, eval=FALSE}
-att_from_functions()
+att_from_rscripts()
 ```
 
-## Get all packages called in your vignettes
-If you have vignette, you may want to list extra libraries, not listed in your "Depends" list.
+## Get all packages called in your Rmd
+If you have vignette, you may want to list extra libraries, not listed in your "Depends" list. This function applies to any Rmd file, of course.
 
 ```{r, eval=FALSE}
-att_from_vignettes()
+att_from_rmds()
 ```
 
 ## Fill your DESCRIPTION file
@@ -67,14 +67,14 @@ Once your package is finished. Well, is a package ever finished ? Let's say, onc
 create_dependencies_file()
 ```
 
-This file will be place in `inst/dependencies.R` and contains :
+This file will be placed in `inst/dependencies.R` and contains :
 
 ```{r, eval=FALSE}
 to_install <- c("desc","devtools","magrittr","stats","stringr","usethis","utils")
 for (i in to_install) {
   message(paste("looking for ", i))
   if (!requireNamespace(i)) {
-    message(paste("     installing", i))
+    message(paste("installing", i))
     install.packages(i)
   }
 

@@ -2,7 +2,7 @@ Package: attachment
 Title: Deal with Dependencies
 Version: 0.0.1.9000
 Authors@R: c(person('Vincent', 'Guyader', email = 'vincent@thinkr.fr', role = c('cre', 'aut')),
- person('S?bastien', 'Rochette', email = 'sebastien@thinkr.fr', role = c('aut')))
+ person('Sébastien', 'Rochette', email = 'sebastien@thinkr.fr', role = c('aut')))
 Description: Tools to help to manage dependencies during package development.
 License: GPL-3
 URL: https://github.com/Thinkr-open/attachment
@@ -10,13 +10,15 @@ BugReports: https://github.com/Thinkr-open/attachment/issues
 Imports: 
     desc,
     devtools,
+    glue,
+    knitr,
     magrittr,
     stats,
     stringr,
     usethis,
     utils
 Suggests: 
-    knitr,
+    covr,
     rmarkdown,
     testthat
 VignetteBuilder: knitr

@@ -2,9 +2,10 @@
 
 export("%>%")
 export(att_from_description)
-export(att_from_functions)
 export(att_from_namespace)
-export(att_from_vignettes)
+export(att_from_rmds)
+export(att_from_rscript)
+export(att_from_rscripts)
 export(att_to_description)
 export(create_dependencies_file)
 export(install_from_description)

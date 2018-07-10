@@ -17,7 +17,7 @@ create_dependencies_file <- function(path = "DESCRIPTION",
   dir.create(dirname(to),recursive = TRUE,showWarnings = FALSE)
 
   ll <- att_from_description()
-content<-  glue('to_install <- c("*{collapse(as.character(ll),sep="\\",\\"")}*")
+content<-  glue::glue('to_install <- c("*{collapse(as.character(ll),sep="\\",\\"")}*")
   for (i in to_install) {
     message(paste("looking for ", i))
     if (!requireNamespace(i)) {
@@ -33,7 +33,7 @@ file <- normalizePath(to,mustWork = FALSE)
 file.create(file)
 cat(content,file = file)
 
-file.edit(file, editor = "internal")
+utils::file.edit(file, editor = "internal")
 
 
 }
