@@ -13,7 +13,6 @@
 #' att_from_functions()
 #' }
 att_from_rscript <- function(file) {
-
   f <- readLines(file)
 
   pkg_points <- f %>%
@@ -24,7 +23,7 @@ att_from_rscript <- function(file) {
   w.lib <- grep("library|require", f)
   if (length(w.lib) != 0) {
     pkg_lib <- f[w.lib] %>%
-      str_extract("(?<=library\\().*(?=\\))|(?<=require\\().*(?=\\))")
+      str_extract("(?<=library\\()[[:alnum:]\\.]+(?=\\))|(?<=require\\()[[:alnum:]\\.]+(?=\\))")
   } else {
     pkg_lib <- NA
   }
