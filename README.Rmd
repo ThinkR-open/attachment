@@ -52,18 +52,18 @@ To quickly install missing packages from a DESCRIPTION file, use :
 attachment::install_from_description()
 ```
 
-
+Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
 
 ## Vignette
 
-There is also a vignette with recommandation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at `devstuff_history.R` in the present package*)
+Package {attachment} has a vignette to present the different functions available. There is also a recommandation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at [devstuff_history.R](https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R) in the present package*)
 
 ```{r, eval=FALSE}
 vignette("fill-pkg-description", package = "attachment")
 ```
 
 
-
-
+  
+  
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
   By participating in this project you agree to abide by its terms.
