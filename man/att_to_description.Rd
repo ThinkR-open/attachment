@@ -8,13 +8,13 @@ att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
   dir.r = "R", dir.v = "vignettes", document = TRUE)
 }
 \arguments{
-\item{path}{path to namespace file}
+\item{path}{path to namespace file.}
 
-\item{path.d}{path to description file}
+\item{path.d}{path to description file.}
 
-\item{dir.r}{path to directory with R scripts}
+\item{dir.r}{path to directory with R scripts.}
 
-\item{dir.v}{path to vignettes directory}
+\item{dir.v}{path to vignettes directory. Set to empty (dir.v = "") to ignore.}
 
 \item{document}{Run function document of devtools package}
 }

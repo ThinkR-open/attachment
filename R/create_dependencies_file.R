@@ -14,11 +14,10 @@
 create_dependencies_file <- function(path = "DESCRIPTION",
                                      field = c("Depends", "Imports"),
                                      to = "inst/dependencies.R") {
-
-  dir.create(dirname(to),recursive = TRUE,showWarnings = FALSE)
+  dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
 
   ll <- att_from_description()
-content <-  glue::glue('to_install <- c("*{glue::collapse(as.character(ll),sep="\\",\\"")}*")
+  content <- glue::glue('to_install <- c("*{glue::collapse(as.character(ll),sep="\\",\\"")}*")
   for (i in to_install) {
     message(paste("looking for ", i))
     if (!requireNamespace(i)) {
@@ -26,15 +25,13 @@ content <-  glue::glue('to_install <- c("*{glue::collapse(as.character(ll),sep="
       install.packages(i)
     }
 
-  }',.open="*{",.close="}*" )
+  }', .open = "*{", .close = "}*")
 
 
 
-file <- normalizePath(to,mustWork = FALSE)
-file.create(file)
-cat(content,file = file)
+  file <- normalizePath(to, mustWork = FALSE)
+  file.create(file)
+  cat(content, file = file)
 
-utils::file.edit(file, editor = "internal")
-
-
+  utils::file.edit(file, editor = "internal")
 }
