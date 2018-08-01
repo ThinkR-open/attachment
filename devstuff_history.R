@@ -45,6 +45,7 @@ usethis::use_coverage()
 usethis::use_appveyor()
 
 attachment::att_to_description()
+attachment::create_dependencies_file()
 
 usethis::use_vignette("fill-pkg-description")
 

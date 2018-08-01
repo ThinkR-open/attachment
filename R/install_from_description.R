@@ -10,7 +10,7 @@
 #' \dontrun{
 #' install_from_description()
 #' }
-install_from_description <- function(path = "DESCRIPTION", field = c("Depends", "Imports"),...) {
+install_from_description <- function(path = "DESCRIPTION", field = c("Depends", "Imports", "Suggests"),...) {
 
   to_be_installed <- att_from_description(path = path,field = field)
   already_installed <- names(utils::installed.packages()[,'Package'])

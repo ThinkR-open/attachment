@@ -1,4 +1,4 @@
-to_install <- c("desc","devtools","magrittr","stats","stringr","usethis","utils")
+to_install <- c("desc","devtools","glue","knitr","magrittr","stats","stringr","usethis","utils")
 for (i in to_install) {
   message(paste("looking for ", i))
   if (!requireNamespace(i)) {
