@@ -4,6 +4,7 @@
 #' @param path.d path to description file.
 #' @param dir.r path to directory with R scripts.
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
+#' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown for instance)
 #'
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
@@ -12,6 +13,7 @@
 #' @export
 att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
                                dir.r = "R", dir.v = "vignettes",
+                               extra.suggests = NULL,
                                document = TRUE) {
   if (!file.exists(path)) {
     stop(paste("There is no file named", path, "in the current directory"))
@@ -59,6 +61,6 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   # print(paste("Add:", paste(depends, collapse = ", "), "in Depends"))
   tmp <- lapply(depends, use_package)
   # print(paste("Add:", paste(suggests, collapse = ", "), "in Suggests (from vignettes)"))
-  tmp <- lapply(c(suggests, suggests_keep), function(x) use_package(x, type = "Suggests"))
+  tmp <- lapply(unique(c(suggests, suggests_keep, extra.suggests)), function(x) use_package(x, type = "Suggests"))
   use_tidy_description()
 }

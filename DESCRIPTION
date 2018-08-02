@@ -19,6 +19,7 @@ Imports:
     utils
 Suggests: 
     covr,
+    pkgdown,
     rmarkdown,
     testthat
 VignetteBuilder: knitr

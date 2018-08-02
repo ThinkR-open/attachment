@@ -10,7 +10,7 @@ create_dependencies_file(path = "DESCRIPTION", field = c("Depends",
 \arguments{
 \item{path}{path to the DESCRIPTION file}
 
-\item{field}{DESCRIPTION fied to parse, Import and Depends by default}
+\item{field}{DESCRIPTION fied to parse, "Import" and "Depends" by default. Can add "Suggests"}
 
 \item{to}{path to dependencies.R "inst/dependencies.R" by default}
 }
