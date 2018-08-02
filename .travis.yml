@@ -4,6 +4,9 @@ language: R
 sudo: false
 cache: packages
 
+r_github_packages:
+- ThinkR-open/attachment  # pre-install to avoid vignette package errors
+
 after_success:
   - Rscript -e 'pkgdown::build_site()'
 
