@@ -1,5 +1,6 @@
 pandoc: '2.2'
 pkgdown: 1.1.0
 pkgdown_sha: ~
-articles: []
+articles:
+  fill-pkg-description: fill-pkg-description.html
 
