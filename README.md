@@ -4,6 +4,9 @@
 
 <img src="https://github.com/Thinkr-open/attachment/blob/master/img/attachment-hex2.png" width=250px>
 
+attachment
+==========
+
 The goal of attachment is to help to deal with package dependencies during package development.
 
 When building a package, we have to add `@importFrom` in our documentation or `pkg::fun` in the R code. The most important is not to forget to add the list of dependencies in the "Imports" or "Suggests" package lists in the DESCRIPTION file.
