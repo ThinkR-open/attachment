@@ -52,7 +52,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/fill-pkg-description.html">Vignette Title</a>
+      <a href="articles/fill-pkg-description.html">Extract scripts dependencies and generate your Description file</a>
     </li>
   </ul>
 </li>
@@ -84,9 +84,7 @@
     
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<div id="attachment" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#attachment" class="anchor"></a>attachment</h1></div>
+<p><img src="https://github.com/Thinkr-open/attachment/blob/master/img/attachment-hex.png" alt="attachment"> # attachment</p>
 <p>The goal of attachment is to help to deal with package dependencies during package development.</p>
 <p>When building a package, we have to add <code>@importFrom</code> in our documentation or <code>pkg::fun</code> in the R code. The most important is not to forget to add the list of dependencies in the “Imports” or “Suggests” package lists in the DESCRIPTION file.</p>
 <p>Why do you have to repeat twice the same thing ?<br>
@@ -114,7 +112,6 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <p>Package {attachment} has a vignette to present the different functions available. There is also a recommandation to have a <code>devstuff_history.R</code> in the root directory of your package. (<em>Have a look at <a href="https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R">devstuff_history.R</a> in the present package</em>)</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">vignette</span>(<span class="st">"fill-pkg-description"</span>, <span class="dt">package =</span> <span class="st">"attachment"</span>)</a></code></pre></div>
 <p>Please note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
-</div>
 </div>
   </div>
 
