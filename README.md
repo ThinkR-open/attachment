@@ -2,7 +2,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Travis build status](https://travis-ci.org/ThinkR-open/attachment.svg?branch=master)](https://travis-ci.org/ThinkR-open/attachment)
 
-![attachment](https://github.com/Thinkr-open/attachment/blob/master/img/attachment-hex.png) \# attachment
+<img src="https://github.com/Thinkr-open/attachment/blob/master/img/attachment-hex2.png" width=250px>
 
 The goal of attachment is to help to deal with package dependencies during package development.
 
