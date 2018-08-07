@@ -43,6 +43,20 @@ To quickly install missing packages from a DESCRIPTION file, use :
 attachment::install_from_description()
 ```
 
+The `attachment::create_dependencies_file()` instruction will create a `dependencies.R` in `inst/` this kind of script which allow you to quickly install missing dependencies :
+
+``` r
+to_install <- c("desc","devtools","glue","knitr","magrittr","stats","stringr","usethis","utils")
+for (i in to_install) {
+  message(paste("looking for ", i))
+  if (!requireNamespace(i)) {
+    message(paste("     installing", i))
+    install.packages(i)
+  }
+
+}
+```
+
 Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
 
 Vignette
