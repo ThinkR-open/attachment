@@ -1,9 +1,10 @@
 #' Add packages to description
 #'
-#' @param path path to namespace file
-#' @param path.d path to description file
-#' @param dir.r path to directory with R scripts
-#' @param dir.v path to vignettes directory
+#' @param path path to namespace file.
+#' @param path.d path to description file.
+#' @param dir.r path to directory with R scripts.
+#' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
+#' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown for instance)
 #'
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
@@ -12,15 +13,34 @@
 #' @export
 att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
                                dir.r = "R", dir.v = "vignettes",
+                               extra.suggests = NULL,
                                document = TRUE) {
+  if (!file.exists(path)) {
+    stop(paste("There is no file named", path, "in the current directory"))
+  }
+  if (!file.exists(path.d)) {
+    stop(paste("There is no file named", path.d, "in the current directory"))
+  }
+  if (!dir.exists(dir.r)) {
+    stop(paste("There is no directory named", dir.r, "in the current directory"))
+  }
+  if (dir.v != "" & !dir.exists(dir.v)) {
+    stop(paste("There is no directory named", dir.v, "in the current directory"))
+  }
+
   depends <- c(att_from_namespace(path, document = document),
                att_from_rscripts(dir.r))
 
-  vg <- att_from_rmds(dir.v)
 
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
-  suggests <- vg[!vg %in% c(depends, pkg_name)]
+
+  if (dir.v != "") {
+    vg <- att_from_rmds(dir.v)
+    suggests <- vg[!vg %in% c(depends, pkg_name)]
+  } else {
+    suggests <- NULL
+  }
 
   suggests_orig <- desc$get("Suggests")
   if (dir.exists("tests") | grepl("testthat", suggests_orig)) {
@@ -41,6 +61,6 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   # print(paste("Add:", paste(depends, collapse = ", "), "in Depends"))
   tmp <- lapply(depends, use_package)
   # print(paste("Add:", paste(suggests, collapse = ", "), "in Suggests (from vignettes)"))
-  tmp <- lapply(c(suggests, suggests_keep), function(x) use_package(x, type = "Suggests"))
+  tmp <- lapply(unique(c(suggests, suggests_keep, extra.suggests)), function(x) use_package(x, type = "Suggests"))
   use_tidy_description()
 }

@@ -13,14 +13,14 @@
 #' att_from_description()
 #' }
 att_from_description <- function(path = "DESCRIPTION", dput = FALSE,
-                             field = c("Depends", "Imports")) {
+                             field = c("Depends", "Imports", "Suggests")) {
   out <- read.dcf(path)
   out <- out[, intersect(colnames(out), field)] %>%
     gsub(pattern = "\n", replacement = "") %>%
     strsplit(",") %>%
     unlist() %>%
     setNames(NULL)
-  out <- out[!grepl("^R [(]", out)]
+  out <- out[!grepl("^R [(]", out)] %>% sort()
 
   if (!dput) {
     return(out)

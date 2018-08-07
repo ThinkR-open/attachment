@@ -5,16 +5,19 @@
 \title{Add packages to description}
 \usage{
 att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
-  dir.r = "R", dir.v = "vignettes", document = TRUE)
+  dir.r = "R", dir.v = "vignettes", extra.suggests = NULL,
+  document = TRUE)
 }
 \arguments{
-\item{path}{path to namespace file}
+\item{path}{path to namespace file.}
 
-\item{path.d}{path to description file}
+\item{path.d}{path to description file.}
 
-\item{dir.r}{path to directory with R scripts}
+\item{dir.r}{path to directory with R scripts.}
 
-\item{dir.v}{path to vignettes directory}
+\item{dir.v}{path to vignettes directory. Set to empty (dir.v = "") to ignore.}
+
+\item{extra.suggests}{vector of other packages that should be added in Suggests (pkgdown for instance)}
 
 \item{document}{Run function document of devtools package}
 }

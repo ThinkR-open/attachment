@@ -2,6 +2,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 [![Travis build status](https://travis-ci.org/ThinkR-open/attachment.svg?branch=master)](https://travis-ci.org/ThinkR-open/attachment)
 
+<img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex2.png" width=250px>
+
 attachment
 ==========
 
@@ -35,16 +37,18 @@ What you really want is to fill and update your description file along with the 
 attachment::att_to_description()
 ```
 
-To quickly install missing packages from a DESCRIPTION file, you can use
+To quickly install missing packages from a DESCRIPTION file, use :
 
 ``` r
 attachment::install_from_description()
 ```
 
+Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
+
 Vignette
 --------
 
-There is also a vignette with recommandation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at `devstuff_history.R` in the present package*)
+Package {attachment} has a vignette to present the different functions available. There is also a recommandation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at [devstuff\_history.R](https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R) in the present package*)
 
 ``` r
 vignette("fill-pkg-description", package = "attachment")
