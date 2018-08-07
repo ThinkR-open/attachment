@@ -5,7 +5,7 @@
 #' @param to path to dependencies.R "inst/dependencies.R" by default
 #'
 #' @export
-#' @importFrom glue glue collapse
+#' @importFrom glue glue glue_collapse
 #'
 #' @examples
 #' \dontrun{
@@ -18,7 +18,7 @@ create_dependencies_file <- function(path = "DESCRIPTION",
   dir.create(dirname(to),recursive = TRUE,showWarnings = FALSE)
 
   ll <- att_from_description()
-content <-  glue::glue('to_install <- c("*{glue::collapse(as.character(ll),sep="\\",\\"")}*")
+content <-  glue::glue('to_install <- c("*{glue::glue_collapse(as.character(ll),sep="\\",\\"")}*")
   for (i in to_install) {
     message(paste("looking for ", i))
     if (!requireNamespace(i)) {

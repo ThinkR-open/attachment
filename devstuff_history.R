@@ -21,7 +21,7 @@ fill_desc_generic <- function(
   unlink("DESCRIPTION")
   my_desc <- desc::description$new("!new")
   my_desc$set("Package", name)
-  my_desc$set("Authors@R", glue("c(", collapse(dev, sep = ",\n\t\t"), ")"))
+  my_desc$set("Authors@R", glue("c(", glue_collapse(dev, sep = ",\n\t\t"), ")"))
   my_desc$del("Maintainer")
   my_desc$set_version(version)
   my_desc$set(Title = Title)
