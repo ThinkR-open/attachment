@@ -43,7 +43,7 @@ To quickly install missing packages from a DESCRIPTION file, use :
 attachment::install_from_description()
 ```
 
-The `attachment::create_dependencies_file()` instruction will create a `dependencies.R` in `inst/` this kind of script which allow you to quickly install missing dependencies :
+The `attachment::create_dependencies_file()` instruction will create a `dependencies.R` file in `inst/` this script contain the procedure to quickly install missing dependencies :
 
 ``` r
 to_install <- c("desc","devtools","glue","knitr","magrittr","stats","stringr","usethis","utils")
