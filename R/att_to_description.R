@@ -35,6 +35,10 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
 
+
+  #remove pkg_name from depends
+  depends <- setdiff(depends,pkg_name)
+
   if (dir.v != "") {
     vg <- att_from_rmds(dir.v)
     suggests <- vg[!vg %in% c(depends, pkg_name)]
