@@ -7,7 +7,7 @@
 #' @return A character vector with packages names
 #'
 #' @export
-#'
+#' @importFrom stringr str_replace_all
 #' @examples
 #' \dontrun{
 #' att_from_description()
