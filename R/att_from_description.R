@@ -8,6 +8,7 @@
 #'
 #' @export
 #' @importFrom stringr str_replace_all str_trim
+#'
 #' @examples
 #' \dontrun{
 #' att_from_description()
