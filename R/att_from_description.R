@@ -20,7 +20,12 @@ att_from_description <- function(path = "DESCRIPTION", dput = FALSE,
     strsplit(",") %>%
     unlist() %>%
     setNames(NULL)
-  out <- out[!grepl("^R [(]", out)] %>% sort()
+  out <- out[!grepl("^R [(]", out)] %>%
+    str_replace_all("\\(.+\\)","") %>%
+    str_trim() %>%
+    sort()
+
+
 
   if (!dput) {
     return(out)
