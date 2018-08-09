@@ -19,6 +19,8 @@ install_from_description <- function(path = "DESCRIPTION", field = c("Depends", 
 #' install  packages if missing
 #'
 #' @param to_be_installed a character vector containing required packages names
+#' @param ...  Arguments to be passed to \code{\link[utils]{install.packages}}
+
 #'
 #' @export
 #'

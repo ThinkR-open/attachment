@@ -8,6 +8,8 @@ install_if_missing(to_be_installed, ...)
 }
 \arguments{
 \item{to_be_installed}{a character vector containing required packages names}
+
+\item{...}{Arguments to be passed to \code{\link[utils]{install.packages}}}
 }
 \description{
 install  packages if missing
