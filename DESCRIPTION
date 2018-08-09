@@ -1,6 +1,6 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.0.2
+Version: 0.0.2.9000
 Authors@R: c(person('Vincent', 'Guyader', email = 'vincent@thinkr.fr', role = c('cre', 'aut')),
  person('Sébastien', 'Rochette', email = 'sebastien@thinkr.fr', role = c('aut')))
 Description: Tools to help to manage dependencies during package development.
