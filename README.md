@@ -68,4 +68,6 @@ Package {attachment} has a vignette to present the different functions available
 vignette("fill-pkg-description", package = "attachment")
 ```
 
+See full documentation realised using {pkgdown} at <https://thinkr-open.github.io/attachment/>
+
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
