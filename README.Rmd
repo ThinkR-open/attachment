@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
  [![Travis build status](https://travis-ci.org/ThinkR-open/attachment.svg?branch=master)](https://travis-ci.org/ThinkR-open/attachment)
 
-<img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex2.png" width=250px>
+<img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex-thinkr.png" width=250px>
 
 # attachment
 

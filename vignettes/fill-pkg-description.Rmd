@@ -30,7 +30,15 @@ Its first line should be :
 usethis::use_build_ignore("devstuff_history.R")
 ```
 
-You can then call {attachment} in this file to help you build your namespace.
+You can then call {attachment} in this file to help you build your description file.
+
+## Fill your DESCRIPTION file
+What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your "devstuff_history.R".  
+Run `attachment::att_to_description()` each time before `devtools::check()`, this will save you some warnings and errors !
+
+```{r, eval=FALSE}
+att_to_description()
+```
 
 ## Get all packages listed in "namespace"
 You can get the list of packages in your package with `att_from_namespace()`
@@ -51,13 +59,6 @@ If you have vignette, you may want to list extra libraries, not listed in your "
 
 ```{r, eval=FALSE}
 att_from_rmds()
-```
-
-## Fill your DESCRIPTION file
-Of course, what you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your "devstuff_history.R"
-
-```{r, eval=FALSE}
-att_to_description()
 ```
 
 ## Create a file for package installation
@@ -81,5 +82,6 @@ for (i in to_install) {
 }
 ```
 
+## Other possibilities
 
-
+Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
