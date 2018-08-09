@@ -35,11 +35,12 @@ att_from_rscript <- function(file) {
 #' Look for functions called with `::` and library/requires in folder of scripts
 #'
 #' @param path directory with R scripts inside
+#' @param pattern pattern to detect R script file
 #'
 #' @export
 
-att_from_rscripts <- function(path = "R") {
-  all_f <- list.files(path, full.names = TRUE)
+att_from_rscripts <- function(path = "R",pattern = "*.(r|R)") {
+  all_f <- list.files(path, full.names = TRUE,pattern = pattern)
   lapply(all_f, att_from_rscript) %>%
     unlist() %>%
     unique() %>%
