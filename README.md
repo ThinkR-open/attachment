@@ -7,7 +7,7 @@
 attachment
 ==========
 
-The goal of attachment is to help to deal with package dependencies during package development.
+The goal of attachment is to help to deal with package dependencies during package development. It also give usefull tools to install or list missing packages used inside Rscripts or Rmds.
 
 When building a package, we have to add `@importFrom` in our documentation or `pkg::fun` in the R code. The most important is not to forget to add the list of dependencies in the "Imports" or "Suggests" package lists in the DESCRIPTION file.
 
@@ -41,6 +41,13 @@ To quickly install missing packages from a DESCRIPTION file, use :
 
 ``` r
 attachment::install_from_description()
+```
+
+To quickly install missing packages needed to compile Rmd files or run Rscripts, use :
+
+``` r
+attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
+attachment::att_from_rscripts(path = ".") %>% attachment::install_if_missing()
 ```
 
 The `attachment::create_dependencies_file()` instruction will create a `dependencies.R` file in `inst/` this script contain the procedure to quickly install missing dependencies :
