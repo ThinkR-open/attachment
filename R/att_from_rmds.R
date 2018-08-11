@@ -18,6 +18,7 @@ att_from_rmd <- function(path, temp_dir = tempdir()) {
 #' Get all packages called in vignettes folder
 #'
 #' @param path path to directory with Rmds
+#' @param recursive logical. Should the listing recurse into directories?
 #'
 #' @return Character vector of packages called with library or require.
 #' {knitr} and {rmarkdown} are added by default to allow building the vignettes
@@ -28,8 +29,8 @@ att_from_rmd <- function(path, temp_dir = tempdir()) {
 #' att_from_rmds("vignettes")
 #' }
 #' @export
-att_from_rmds <- function(path = "vignettes") {
-  all_f <- list.files(path, full.names = TRUE, pattern = ".Rmd$")
+att_from_rmds <- function(path = "vignettes",recursive = TRUE) {
+  all_f <- list.files(path, full.names = TRUE, pattern = ".Rmd$",recursive = recursive)
   res <- lapply(all_f, att_from_rmd) %>%
     unlist() %>%
     unique() %>%
