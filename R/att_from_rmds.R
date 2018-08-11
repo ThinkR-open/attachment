@@ -30,7 +30,7 @@ att_from_rmd <- function(path, temp_dir = tempdir()) {
 #' }
 #' @export
 att_from_rmds <- function(path = "vignettes",recursive = TRUE) {
-  all_f <- list.files(path, full.names = TRUE, pattern = ".Rmd$",recursive = recursive)
+  all_f <- list.files(path, full.names = TRUE, pattern = "*.Rmd$|*.rmd$",recursive = recursive)
   res <- lapply(all_f, att_from_rmd) %>%
     unlist() %>%
     unique() %>%
