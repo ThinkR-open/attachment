@@ -88,7 +88,7 @@
 <div id="attachment" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#attachment" class="anchor"></a>attachment</h1></div>
-<p>The goal of attachment is to help to deal with package dependencies during package development.</p>
+<p>The goal of attachment is to help to deal with package dependencies during package development. It also give usefull tools to install or list missing packages used inside Rscripts or Rmds.</p>
 <p>When building a package, we have to add <code>@importFrom</code> in our documentation or <code>pkg::fun</code> in the R code. The most important is not to forget to add the list of dependencies in the “Imports” or “Suggests” package lists in the DESCRIPTION file.</p>
 <p>Why do you have to repeat twice the same thing ?<br>
 And what happens when you remove a dependency for one of your functions ? Do you really want to run a “Find in files” to verify that you do not need this package anymore ?</p>
@@ -107,23 +107,26 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">attachment<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/attachment/topics/att_to_description">att_to_description</a></span>()</a></code></pre></div>
 <p>To quickly install missing packages from a DESCRIPTION file, use :</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">attachment<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/attachment/topics/install_from_description">install_from_description</a></span>()</a></code></pre></div>
+<p>To quickly install missing packages needed to compile Rmd files or run Rscripts, use :</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">attachment<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/attachment/topics/att_from_rmds">att_from_rmds</a></span>(<span class="dt">path =</span> <span class="st">"."</span>) <span class="op">%&gt;%</span><span class="st"> </span>attachment<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/attachment/topics/install_if_missing">install_if_missing</a></span>()</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">attachment<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/attachment/topics/att_from_rscripts">att_from_rscripts</a></span>(<span class="dt">path =</span> <span class="st">"."</span>) <span class="op">%&gt;%</span><span class="st"> </span>attachment<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/attachment/topics/install_if_missing">install_if_missing</a></span>()</a></code></pre></div>
 <p>The <code><a href="reference/create_dependencies_file.html">attachment::create_dependencies_file()</a></code> instruction will create a <code>dependencies.R</code> file in <code>inst/</code> this script contain the procedure to quickly install missing dependencies :</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">to_install &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"desc"</span>,<span class="st">"devtools"</span>,<span class="st">"glue"</span>,<span class="st">"knitr"</span>,<span class="st">"magrittr"</span>,<span class="st">"stats"</span>,<span class="st">"stringr"</span>,<span class="st">"usethis"</span>,<span class="st">"utils"</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> to_install) {</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">"looking for "</span>, i))</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(i)) {</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">"     installing"</span>, i))</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">    <span class="kw">install.packages</span>(i)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">  }</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">}</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">to_install &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"desc"</span>,<span class="st">"devtools"</span>,<span class="st">"glue"</span>,<span class="st">"knitr"</span>,<span class="st">"magrittr"</span>,<span class="st">"stats"</span>,<span class="st">"stringr"</span>,<span class="st">"usethis"</span>,<span class="st">"utils"</span>)</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> to_install) {</a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">"looking for "</span>, i))</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(i)) {</a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">"     installing"</span>, i))</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">    <span class="kw">install.packages</span>(i)</a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">  }</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">}</a></code></pre></div>
 <p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code>att_from_rscripts</code> or Rmd files using <code>att_from_rmds</code>.</p>
 </div>
 <div id="vignette" class="section level2">
 <h2 class="hasAnchor">
 <a href="#vignette" class="anchor"></a>Vignette</h2>
 <p>Package {attachment} has a vignette to present the different functions available. There is also a recommandation to have a <code>devstuff_history.R</code> in the root directory of your package. (<em>Have a look at <a href="https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R">devstuff_history.R</a> in the present package</em>)</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">vignette</span>(<span class="st">"fill-pkg-description"</span>, <span class="dt">package =</span> <span class="st">"attachment"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">vignette</span>(<span class="st">"fill-pkg-description"</span>, <span class="dt">package =</span> <span class="st">"attachment"</span>)</a></code></pre></div>
 <p>See full documentation realised using {pkgdown} at <a href="https://thinkr-open.github.io/attachment/" class="uri">https://thinkr-open.github.io/attachment/</a></p>
 <p>Please note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
