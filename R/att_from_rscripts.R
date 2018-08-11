@@ -1,6 +1,6 @@
 #' Look for functions called with `::` and library/requires in one script
 #'
-#' @param file R script file
+#' @param path path to R script file
 #'
 #' @return a vector
 #' @export
@@ -12,8 +12,8 @@
 #' \dontrun{
 #' att_from_functions()
 #' }
-att_from_rscript <- function(file) {
-  f <- readLines(file)
+att_from_rscript <- function(path) {
+  f <- readLines(path)
 
   pkg_points <- f %>%
            .[grep("^#", ., invert = TRUE)] %>%
