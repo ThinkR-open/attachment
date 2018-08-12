@@ -13,7 +13,11 @@
 #' att_from_functions()
 #' }
 att_from_rscript <- function(path) {
-  f <- readLines(path)
+
+  # tmp <- tempfile(fileext = '.R')
+  # writeLines(as.character(parse(path)), tmp)
+
+  f <- as.character(parse(path))
 
   pkg_points <- f %>%
            .[grep("^#", ., invert = TRUE)] %>%
@@ -23,11 +27,12 @@ att_from_rscript <- function(path) {
   w.lib <- grep("library|require", f)
   if (length(w.lib) != 0) {
     pkg_lib <- f[w.lib] %>%
-      str_extract("(?<=library\\()[[:alnum:]\\.]+(?=\\))|(?<=require\\()[[:alnum:]\\.]+(?=\\))")
+      str_extract("(?<=library\\()[[:alnum:]\\.\\\"]+(?=\\))|(?<=require\\()[[:alnum:]\\.\\\"]+(?=\\))|(?<=requireNamespace\\()[[:alnum:]\\.\\\"]+(?=\\))")%>%
+      str_replace_all("\\\"$|^\\\"","")
   } else {
     pkg_lib <- NA
   }
-
+  pkg_lib
   c(pkg_lib, pkg_points) %>% unique() %>% na.omit()
 }
 
