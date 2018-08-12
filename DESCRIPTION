@@ -2,7 +2,9 @@ Package: attachment
 Title: Deal with Dependencies
 Version: 0.0.3
 Authors@R: c(person('Vincent', 'Guyader', email = 'vincent@thinkr.fr', role = c('cre', 'aut')),
- person('Sébastien', 'Rochette', email = 'sebastien@thinkr.fr', role = c('aut')))
+ person('Sébastien', 'Rochette', email = 'sebastien@thinkr.fr', role = c('aut')),
+ person("ThinkR", role = c("cph", "fnd"))
+ )
 Description: Tools to help to manage dependencies during package development.
 License: GPL-3
 URL: https://github.com/Thinkr-open/attachment
