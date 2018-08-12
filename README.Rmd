@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 # attachment
 
-The goal of attachment is to help to deal with package dependencies during package development. It also give usefull tools to install or list missing packages used inside Rscripts or Rmds.
+The goal of attachment is to help to deal with package dependencies during package development. It also gives usefull tools to install or list missing packages used inside Rscripts or Rmds.
   
 When building a package, we have to add `@importFrom` in our documentation or `pkg::fun` in the R code. The most important is not to forget to add the list of dependencies in the "Imports" or "Suggests" package lists in the DESCRIPTION file.  
 
@@ -47,13 +47,13 @@ What you really want is to fill and update your description file along with the 
 attachment::att_to_description()
 ```
 
-To quickly install missing packages from a DESCRIPTION file, use :
+To quickly install missing packages from a DESCRIPTION file, use:
 
 ```{r, eval=FALSE}
 attachment::install_from_description()
 ```
 
-To quickly install missing packages needed to compile Rmd files or run Rscripts, use :
+To quickly install missing packages needed to compile Rmd files or run Rscripts, use:
 
 ```{r, eval=FALSE}
 attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
@@ -61,7 +61,7 @@ attachment::att_from_rscripts(path = ".") %>% attachment::install_if_missing()
 ```
 
 
-The `attachment::create_dependencies_file()` instruction will create a  `dependencies.R` file in `inst/` this script contain the procedure to quickly install missing dependencies :
+Function `attachment::create_dependencies_file()` will create a `dependencies.R` file in `inst/` directory. This R script contains the procedure to quickly install missing dependencies:
 
 ```{r eval=FALSE}
 to_install <- c("desc","devtools","glue","knitr","magrittr","stats","stringr","usethis","utils")
@@ -71,7 +71,6 @@ for (i in to_install) {
     message(paste("     installing", i))
     install.packages(i)
   }
-
 }
 ```
 
@@ -91,7 +90,7 @@ vignette("fill-pkg-description", package = "attachment")
 
 
 
-See full documentation realised using {pkgdown} at <https://thinkr-open.github.io/attachment/>  
+See full documentation realized using {pkgdown} at <https://thinkr-open.github.io/attachment/>  
   
 Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md).
   By participating in this project you agree to abide by its terms.

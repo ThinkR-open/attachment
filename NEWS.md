@@ -1,4 +1,9 @@
-# attachment 0.0.2.9000
+# attachment 0.0.3.9000
+
+# attachment 0.0.3
+
+* Get ready for CRAN
+* Add tests.
 
 # attachment 0.0.2
 
