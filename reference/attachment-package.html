@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Install missing package from DESCRIPTION — install_from_description • attachment</title>
+<title>Tools to deal with package dependencies — attachment-package • attachment</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Install missing package from DESCRIPTION — install_from_description" />
+<meta property="og:title" content="Tools to deal with package dependencies — attachment-package" />
 
-<meta property="og:description" content="Install missing package from DESCRIPTION" />
+<meta property="og:description" content="The goal of attachment is to help to deal with package dependencies during package development. It also give usefull tools to install or list missing packages used inside Rscripts or Rmds." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -112,50 +112,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Install missing package from DESCRIPTION</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Thinkr-open/attachment/blob/master/R/install_from_description.R'><code>R/install_from_description.R</code></a></small>
-    <div class="hidden name"><code>install_from_description.Rd</code></div>
+    <h1>Tools to deal with package dependencies</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Thinkr-open/attachment/blob/master/R/attachment-package.R'><code>R/attachment-package.R</code></a></small>
+    <div class="hidden name"><code>attachment-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Install missing package from DESCRIPTION</p>
+    <p>The goal of attachment is to help to deal with package dependencies during package development. It also give usefull tools to install or list missing packages used inside Rscripts or Rmds.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>install_from_description</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"DESCRIPTION"</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Depends"</span>,
-  <span class='st'>"Imports"</span>, <span class='st'>"Suggests"</span>), <span class='no'>...</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>path</th>
-      <td><p>path to the DESCRIPTION file</p></td>
-    </tr>
-    <tr>
-      <th>field</th>
-      <td><p>DESCRIPTION fied to parse, Import and Depends by default</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Arguments to be passed to <code><a href='http://www.rdocumentation.org/packages/utils/topics/install.packages'>install.packages</a></code></p></td>
-    </tr>
-    </table>
+        
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Useful links:</p><ul>
+<li><p><a href='https://github.com/Thinkr-open/attachment'>https://github.com/Thinkr-open/attachment</a></p></li>
+<li><p>Report bugs at <a href='https://github.com/Thinkr-open/attachment/issues'>https://github.com/Thinkr-open/attachment/issues</a></p></li>
+</ul></div>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>install_from_description</span>()
-<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      
+      <li><a href="#see-also">See also</a></li>
+          </ul>
+
+    <h2>Author</h2>
+    
+Vincent Guyader &lt;vincent@thinkr.fr&gt;
+
+Sébastien Rochette &lt;sebastien@thinkr.fr&gt;
 
   </div>
 </div>
