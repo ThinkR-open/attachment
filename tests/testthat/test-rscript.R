@@ -9,8 +9,8 @@ test_that("rscript well parsed", {
 
                sort(
                  c("data.table",
-                   "attachment",
-                   "knitr",
+                   # "attachment",
+                   # "knitr",
                    "findme1",
                    "findme2",
                    "findme3",

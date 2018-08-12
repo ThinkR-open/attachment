@@ -9,7 +9,7 @@ test_that("rmd well parsed", {
 
                sort(
                  c("data.table",
-                   "attachment",
+                   # "attachment",
                    "knitr",
                    "findme1",
                    "findme2",
