@@ -4,10 +4,10 @@
 \alias{att_from_rscript}
 \title{Look for functions called with `::` and library/requires in one script}
 \usage{
-att_from_rscript(file)
+att_from_rscript(path)
 }
 \arguments{
-\item{file}{R script file}
+\item{path}{path to R script file}
 }
 \value{
 a vector
