@@ -43,15 +43,16 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   }
 
   suggests_orig <- desc$get("Suggests")
+  suggests_keep <- NULL
   if (dir.exists("tests") | grepl("testthat", suggests_orig)) {
-    suggests_keep <- "testthat"
+    suggests_keep <- c(suggests_keep, "testthat")
   } else {
-    suggests_keep <- NULL
+    suggests_keep <- c(suggests_keep, NULL)
   }
   if (file.exists("codecov.yml") | grepl("covr", suggests_orig)) {
     suggests_keep <- c(suggests_keep, "covr")
   } else {
-    suggests_keep <- NULL
+    suggests_keep <- c(suggests_keep, NULL)
   }
 
   desc$del("Imports")
