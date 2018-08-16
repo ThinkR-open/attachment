@@ -24,6 +24,7 @@ att_from_description <- function(path = "DESCRIPTION", dput = FALSE,
   out <- out[!grepl("^R [(]", out)] %>%
     str_replace_all("\\(.+\\)","") %>%
     str_trim() %>%
+    unique() %>%
     sort()
 
 
