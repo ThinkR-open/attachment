@@ -8,7 +8,7 @@ test_that("rscript well parsed", {
   expect_equal(sort(res),
 
                sort(
-                 c("data.table",
+                 c("find.me",
                    # "attachment",
                    # "knitr",
                    "findme1",

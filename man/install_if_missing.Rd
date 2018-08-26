@@ -14,3 +14,9 @@ install_if_missing(to_be_installed, ...)
 \description{
 install  packages if missing
 }
+\examples{
+\dontrun{
+install_if_missing(c("dplyr","ggplot2","rusk"))
+}
+
+}

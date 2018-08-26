@@ -32,7 +32,7 @@ Note that the `echo = FALSE` parameter was added to the code chunk to prevent pr
 require(dontfind)
 
 ```{r}
-library(data.table)
+library(find.me)
 require(findme1)
 require(   findme2   )
 library(findme3)
