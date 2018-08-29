@@ -15,15 +15,14 @@ Imports:
     glue (>= 1.3.0),
     knitr (>= 1.20),
     magrittr (>= 1.5),
-    stats (>= 3.4.2),
+    stats (>= 3.5.1),
     stringr (>= 1.3.1),
     usethis (>= 1.3.0),
-    utils (>= 3.4.2)
+    utils (>= 3.5.1)
 Suggests: 
-    covr (>= 3.0.1),
-    pkgdown,
+    covr (>= 3.1.0),
     rmarkdown (>= 1.10),
-    testthat (>= 1.0.2)
+    testthat (>= 2.0.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: true

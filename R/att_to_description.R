@@ -5,16 +5,20 @@
 #' @param dir.r path to directory with R scripts.
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
 #' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown for instance)
+#' @param pkg_ignore vector of packages to ignore.
+#' @param add_version Logical. Do you want to add version number of packages to description
 #'
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
-#' @importFrom usethis use_package use_tidy_description
+#' @importFrom usethis use_package use_tidy_description use_tidy_versions
 #'
 #' @export
 att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
                                dir.r = "R", dir.v = "vignettes",
                                extra.suggests = NULL,
-                               document = TRUE) {
+                               pkg_ignore = NULL,
+                               document = TRUE,
+                               add_version = FALSE) {
   if (!file.exists(path)) {
     stop(paste("There is no file named", path, "in the current directory"))
   }
@@ -28,8 +32,8 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
     stop(paste("There is no directory named", dir.v, "in the current directory"))
   }
 
-  depends <- c(att_from_namespace(path, document = document),
-               att_from_rscripts(dir.r))
+  depends <- unique(c(att_from_namespace(path, document = document),
+               att_from_rscripts(dir.r)))
 
 
   desc <- description$new(path.d)
@@ -55,6 +59,13 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
     suggests_keep <- c(suggests_keep, NULL)
   }
 
+  # Ignore packages
+  if (!is.null(pkg_ignore)) {
+    depends <- depends[!depends %in% pkg_ignore]
+    suggests <- suggests[!suggests %in% pkg_ignore]
+    suggests_keep <- suggests_keep[!suggests_keep %in% pkg_ignore]
+  }
+
   desc$del("Imports")
   desc$del("Suggests")
   desc$write(file = "DESCRIPTION")
@@ -64,4 +75,7 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   # print(paste("Add:", paste(suggests, collapse = ", "), "in Suggests (from vignettes)"))
   tmp <- lapply(unique(c(suggests, suggests_keep, extra.suggests)), function(x) use_package(x, type = "Suggests"))
   use_tidy_description()
+  if (isTRUE(add_version)) {
+    use_tidy_versions(overwrite = TRUE)
+  }
 }
