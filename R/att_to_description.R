@@ -11,6 +11,17 @@
 #' @importFrom usethis use_package use_tidy_description
 #'
 #' @export
+#' @examples
+#'
+#' \dontrun{
+#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' # browseURL(dummypackage)
+#' att_to_description(path = file.path(dummypackage,"NAMESPACE"),
+#' path.d = file.path(dummypackage,"DESCRIPTION"),
+#' dir.r = file.path(dummypackage,"R"),
+#' dir.v = file.path(dummypackage,"vignettes")
+#' )
+#' }
 att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
                                dir.r = "R", dir.v = "vignettes",
                                extra.suggests = NULL,
@@ -60,8 +71,8 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   desc$write(file = "DESCRIPTION")
 
   # print(paste("Add:", paste(depends, collapse = ", "), "in Depends"))
-  tmp <- lapply(depends, use_package)
+  tmp <- lapply(depends, use_package,pkg = path.d)
   # print(paste("Add:", paste(suggests, collapse = ", "), "in Suggests (from vignettes)"))
-  tmp <- lapply(unique(c(suggests, suggests_keep, extra.suggests)), function(x) use_package(x, type = "Suggests"))
+  tmp <- lapply(unique(c(suggests, suggests_keep, extra.suggests)), function(x) use_package(x, type = "Suggests",pkg = path.d))
   use_tidy_description()
 }
