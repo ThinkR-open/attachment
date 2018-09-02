@@ -6,10 +6,12 @@
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
 #' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown for instance)
 #'
+#' @param pkg_ignore vector of packages to ignore.
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
-#' @importFrom usethis use_tidy_description
 #' @importFrom devtools use_package
+# @param add_version Logical. Do you want to add version number of packages to description
+#'
 #'
 #' @export
 #' @examples
@@ -23,10 +25,14 @@
 #' dir.v = file.path(dummypackage,"vignettes")
 #' )
 #' }
-att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
-                               dir.r = "R", dir.v = "vignettes",
-                               extra.suggests = NULL,
-                               document = TRUE) {
+  att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
+                                 dir.r = "R", dir.v = "vignettes",
+                                 extra.suggests = NULL,
+                                 pkg_ignore = NULL,
+                                 document = TRUE
+                                 # ,
+                                 # add_version = FALSE
+                                 ) {
   if (!file.exists(path)) {
     stop(paste("There is no file named", path, "in the current directory"))
   }
@@ -67,6 +73,13 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
     suggests_keep <- c(suggests_keep, NULL)
   }
 
+  # Ignore packages
+  if (!is.null(pkg_ignore)) {
+    depends <- depends[!depends %in% pkg_ignore]
+    suggests <- suggests[!suggests %in% pkg_ignore]
+    suggests_keep <- suggests_keep[!suggests_keep %in% pkg_ignore]
+  }
+
   desc$del("Imports")
   desc$del("Suggests")
   desc$write(file = path.d)
@@ -85,6 +98,7 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
     desc$set_remotes(sort(remotes))
   }
   desc$normalize()
-  desc$write(file = "DESCRIPTION")
+  desc$write(file = path.d)
 
 }
+

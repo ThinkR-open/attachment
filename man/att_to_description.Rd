@@ -6,7 +6,7 @@
 \usage{
 att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
   dir.r = "R", dir.v = "vignettes", extra.suggests = NULL,
-  document = TRUE)
+  pkg_ignore = NULL, document = TRUE)
 }
 \arguments{
 \item{path}{path to namespace file.}
@@ -18,6 +18,8 @@ att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
 \item{dir.v}{path to vignettes directory. Set to empty (dir.v = "") to ignore.}
 
 \item{extra.suggests}{vector of other packages that should be added in Suggests (pkgdown for instance)}
+
+\item{pkg_ignore}{vector of packages to ignore.}
 
 \item{document}{Run function document of devtools package}
 }

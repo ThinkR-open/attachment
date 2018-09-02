@@ -44,7 +44,7 @@ usethis::use_test("attachment")
 usethis::use_coverage()
 usethis::use_appveyor()
 
-attachment::att_to_description()
+attachment::att_to_description(pkg_ignore = "i", add_version = TRUE)
 
 usethis::use_vignette("fill-pkg-description")
 
