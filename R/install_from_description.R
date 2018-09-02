@@ -8,7 +8,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' install_from_description()
+#'
+#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' # browseURL(dummypackage)
+#'
+#' install_from_description(path = file.path(dummypackage,"DESCRIPTION"))
 #' }
 install_from_description <- function(path = "DESCRIPTION", field = c("Depends", "Imports", "Suggests"),...) {
 

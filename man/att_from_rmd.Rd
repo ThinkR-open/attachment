@@ -16,6 +16,10 @@ Get all dependencies from a Rmd file
 }
 \examples{
 \dontrun{
-att_from_vignette("vignettes/my-vignette.Rmd")
+
+dummypackage <- system.file("dummypackage",package = "attachment")
+# browseURL(dummypackage)
+att_from_rmd(path = file.path(dummypackage,"vignettes/demo.Rmd"))
+
 }
 }

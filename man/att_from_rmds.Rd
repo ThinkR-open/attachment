@@ -21,6 +21,8 @@ Get all packages called in vignettes folder
 }
 \examples{
 \dontrun{
-att_from_rmds("vignettes")
+dummypackage <- system.file("dummypackage",package = "attachment")
+# browseURL(dummypackage)
+att_from_rmds(path = file.path(dummypackage,"vignettes"))
 }
 }

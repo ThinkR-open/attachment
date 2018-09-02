@@ -24,3 +24,15 @@ att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
 \description{
 Add packages to description
 }
+\examples{
+
+\dontrun{
+dummypackage <- system.file("dummypackage",package = "attachment")
+# browseURL(dummypackage)
+att_to_description(path = file.path(dummypackage,"NAMESPACE"),
+path.d = file.path(dummypackage,"DESCRIPTION"),
+dir.r = file.path(dummypackage,"R"),
+dir.v = file.path(dummypackage,"vignettes")
+)
+}
+}

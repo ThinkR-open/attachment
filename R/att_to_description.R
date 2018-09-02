@@ -8,7 +8,8 @@
 #'
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
-#' @importFrom usethis use_package use_tidy_description
+#' @importFrom usethis use_tidy_description
+#' @importFrom devtools use_package
 #'
 #' @export
 #' @examples
@@ -68,11 +69,22 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
 
   desc$del("Imports")
   desc$del("Suggests")
+  desc$write(file = path.d)
+  # print(paste("Add:", paste(depends, collapse = ", "), "in Depends"))
+  tmp <- lapply(depends, function(x) devtools::use_package(x, type = "Imports",pkg = dirname(path.d)))
+  # print(paste("Add:", paste(suggests, collapse = ", "), "in Suggests (from vignettes)"))
+  tmp <- lapply(unique(c(suggests, suggests_keep, extra.suggests)), function(x) devtools::use_package(x, type = "Suggests",pkg = dirname(path.d)))
+
+  desc
+  deps <- desc$get_deps()
+  deps <- deps[order(deps$type, deps$package), , drop = FALSE]
+  desc$del_deps()
+  desc$set_deps(deps)
+  remotes <- desc$get_remotes()
+  if (length(remotes) > 0) {
+    desc$set_remotes(sort(remotes))
+  }
+  desc$normalize()
   desc$write(file = "DESCRIPTION")
 
-  # print(paste("Add:", paste(depends, collapse = ", "), "in Depends"))
-  tmp <- lapply(depends, use_package,pkg = path.d)
-  # print(paste("Add:", paste(suggests, collapse = ", "), "in Suggests (from vignettes)"))
-  tmp <- lapply(unique(c(suggests, suggests_keep, extra.suggests)), function(x) use_package(x, type = "Suggests",pkg = path.d))
-  use_tidy_description()
 }

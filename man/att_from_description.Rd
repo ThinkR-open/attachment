@@ -22,6 +22,10 @@ Return all package dependencies from current package
 }
 \examples{
 \dontrun{
-att_from_description()
+
+dummypackage <- system.file("dummypackage",package = "attachment")
+# browseURL(dummypackage)
+att_from_description(path = file.path(dummypackage,"DESCRIPTION"))
+
 }
 }

@@ -19,6 +19,10 @@ return package dependencies from NAMESPACE file
 }
 \examples{
 \dontrun{
-att_from_namespace()
+
+dummypackage <- system.file("dummypackage",package = "attachment")
+# browseURL(dummypackage)
+att_from_namespace(path = file.path(dummypackage,"NAMESPACE"))
+
 }
 }

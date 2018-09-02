@@ -7,7 +7,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' att_from_vignette("vignettes/my-vignette.Rmd")
+#'
+#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' # browseURL(dummypackage)
+#' att_from_rmd(path = file.path(dummypackage,"vignettes/demo.Rmd"))
+#'
 #' }
 att_from_rmd <- function(path, temp_dir = tempdir()) {
   file <- knitr::purl(path, output = paste0(tempfile(tmpdir = temp_dir), ".R"),
@@ -26,7 +30,9 @@ att_from_rmd <- function(path, temp_dir = tempdir()) {
 #'
 #' @examples
 #' \dontrun{
-#' att_from_rmds("vignettes")
+#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' # browseURL(dummypackage)
+#' att_from_rmds(path = file.path(dummypackage,"vignettes"))
 #' }
 #' @export
 att_from_rmds <- function(path = "vignettes",recursive = TRUE) {

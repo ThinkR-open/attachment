@@ -10,7 +10,11 @@
 #' @importFrom utils read.table
 #' @examples
 #' \dontrun{
-#' att_from_namespace()
+#'
+#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' # browseURL(dummypackage)
+#' att_from_namespace(path = file.path(dummypackage,"NAMESPACE"))
+#'
 #' }
 att_from_namespace <- function(path = "NAMESPACE", document = TRUE) {
   if (isTRUE(document)) {

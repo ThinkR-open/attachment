@@ -19,7 +19,7 @@ create_dependencies_file <- function(path = "DESCRIPTION",
                                      to = "inst/dependencies.R") {
   dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
 
-  ll <- att_from_description(path=path,field = field)
+  ll <- att_from_description(path=path, field = field)
   content <- glue::glue('to_install <- c("*{glue::glue_collapse(as.character(ll),sep="\\",\\"")}*")
   for (i in to_install) {
     message(paste("looking for ", i))
