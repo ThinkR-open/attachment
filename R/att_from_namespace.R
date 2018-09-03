@@ -18,7 +18,7 @@
 #' }
 att_from_namespace <- function(path = "NAMESPACE", document = TRUE) {
   if (isTRUE(document)) {
-    devtools::document(".")
+    devtools::document(basename(path))
   }
   base <- read.table(path)[["V1"]]
 
