@@ -3,10 +3,10 @@
 #' @param x a vector
 #'
 #' @export
-#' @importFrom utils na.omit
+#' @importFrom stats na.omit
 #' @importFrom magrittr %>%
 my_mean <- function(x){
-  x <- x %>% utils::na.omit()
+  x <- x %>% stats::na.omit()
   1+1
   sum(x)/length(x)
 }
