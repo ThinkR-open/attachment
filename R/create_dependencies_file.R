@@ -9,14 +9,17 @@
 #'
 #' @examples
 #' \dontrun{
-#' create_dependencies_file()
+#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' # browseURL(dummypackage)
+#'
+#' create_dependencies_file(file.path(dummypackage,"DESCRIPTION"))
 #' }
 create_dependencies_file <- function(path = "DESCRIPTION",
                                      field = c("Depends", "Imports"),
                                      to = "inst/dependencies.R") {
   dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
 
-  ll <- att_from_description(field = field)
+  ll <- att_from_description(path=path, field = field)
   content <- glue::glue('to_install <- c("*{glue::glue_collapse(as.character(ll),sep="\\",\\"")}*")
   for (i in to_install) {
     message(paste("looking for ", i))

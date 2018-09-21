@@ -6,7 +6,7 @@
 \usage{
 att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
   dir.r = "R", dir.v = "vignettes", extra.suggests = NULL,
-  pkg_ignore = NULL, document = TRUE, add_version = FALSE)
+  pkg_ignore = NULL, document = TRUE)
 }
 \arguments{
 \item{path}{path to namespace file.}
@@ -22,9 +22,19 @@ att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
 \item{pkg_ignore}{vector of packages to ignore.}
 
 \item{document}{Run function document of devtools package}
-
-\item{add_version}{Logical. Do you want to add version number of packages to description}
 }
 \description{
 Add packages to description
+}
+\examples{
+
+\dontrun{
+dummypackage <- system.file("dummypackage",package = "attachment")
+# browseURL(dummypackage)
+att_to_description(path = file.path(dummypackage,"NAMESPACE"),
+path.d = file.path(dummypackage,"DESCRIPTION"),
+dir.r = file.path(dummypackage,"R"),
+dir.v = file.path(dummypackage,"vignettes")
+)
+}
 }

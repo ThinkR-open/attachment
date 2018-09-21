@@ -19,6 +19,9 @@ Create a dependencies.R in the `inst` folder
 }
 \examples{
 \dontrun{
-create_dependencies_file()
+dummypackage <- system.file("dummypackage",package = "attachment")
+# browseURL(dummypackage)
+
+create_dependencies_file(file.path(dummypackage,"DESCRIPTION"))
 }
 }

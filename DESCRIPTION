@@ -1,6 +1,6 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.0.3
+Version: 0.0.4
 Authors@R: c(person('Vincent', 'Guyader', email = 'vincent@thinkr.fr', role = c('cre', 'aut')),
  person('Sébastien', 'Rochette', email = 'sebastien@thinkr.fr', role = c('aut')),
  person("ThinkR", role = c("cph", "fnd"))
@@ -15,10 +15,11 @@ Imports:
     glue (>= 1.3.0),
     knitr (>= 1.20),
     magrittr (>= 1.5),
-    stats (>= 3.5.1),
+    stats (>= 3.5.0),
     stringr (>= 1.3.1),
     usethis (>= 1.3.0),
-    utils (>= 3.5.1)
+    utils,
+    roxygen2
 Suggests: 
     covr (>= 3.1.0),
     rmarkdown (>= 1.10),

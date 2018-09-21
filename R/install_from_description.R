@@ -8,7 +8,11 @@
 #'
 #' @examples
 #' \dontrun{
-#' install_from_description()
+#'
+#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' # browseURL(dummypackage)
+#'
+#' install_from_description(path = file.path(dummypackage,"DESCRIPTION"))
 #' }
 install_from_description <- function(path = "DESCRIPTION", field = c("Depends", "Imports", "Suggests"),...) {
 
@@ -20,14 +24,20 @@ install_from_description <- function(path = "DESCRIPTION", field = c("Depends", 
 #'
 #' @param to_be_installed a character vector containing required packages names
 #' @param ...  Arguments to be passed to \code{\link[utils]{install.packages}}
-
 #'
 #' @export
+#' @examples
+#' \dontrun{
+#' install_if_missing(c("dplyr","ggplot2","rusk"))
+#' }
 #'
 install_if_missing <- function(to_be_installed,...){
-  already_installed <- names(utils::installed.packages()[,'Package'])
+  suppressWarnings(
+  already_installed <- basename(find.package(to_be_installed))
+  )
   will_be_installed <- setdiff(to_be_installed, already_installed)
-  if ( length(will_be_installed) == 0){
+
+  if ( length(will_be_installed) == 0 ){
     cat("All required packages are installed")
     return(invisible(NULL))
   }

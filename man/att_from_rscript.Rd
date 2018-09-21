@@ -20,6 +20,10 @@ Calls from pkg::fun in roxygen skeleton and comments are ignored
 }
 \examples{
 \dontrun{
-att_from_functions()
+
+dummypackage <- system.file("dummypackage",package = "attachment")
+# browseURL(dummypackage)
+
+att_from_rscript(path = file.path(dummypackage,"R","my_mean.R"))
 }
 }

@@ -1,4 +1,4 @@
-library(data.table)
+library(find.me)
 require(findme1)
 require(   findme2   )
 library(findme3)
