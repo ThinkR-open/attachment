@@ -3,6 +3,7 @@
 export("%>%")
 export(att_from_description)
 export(att_from_namespace)
+export(att_from_rmd)
 export(att_from_rmds)
 export(att_from_rscript)
 export(att_from_rscripts)

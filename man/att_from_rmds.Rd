@@ -7,7 +7,7 @@
 att_from_rmds(path = "vignettes", recursive = TRUE)
 }
 \arguments{
-\item{path}{path to directory with Rmds}
+\item{path}{path to directory with Rmds or vector of Rmd files}
 
 \item{recursive}{logical. Should the listing recurse into directories?}
 }

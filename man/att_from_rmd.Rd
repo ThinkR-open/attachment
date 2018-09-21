@@ -18,4 +18,5 @@ Get all dependencies from a Rmd file
 \dontrun{
 att_from_vignette("vignettes/my-vignette.Rmd")
 }
+
 }
