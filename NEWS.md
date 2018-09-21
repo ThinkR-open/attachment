@@ -1,6 +1,9 @@
-# attachment 0.0.3.9000
+# attachment 0.0.4.9000
 
 * `att_from_rmds` now accept a vector of Rmd filenames
+
+# attachment 0.0.3
+
 * `att_to_description(add_version = TRUE)` adds version of package in DESCRIPTION
 * `att_to_description(pkg_ignore)` adds possibility to ignore some packages
 
