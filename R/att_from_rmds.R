@@ -52,7 +52,7 @@ res <- lapply(all_f, att_from_rmd) %>%
     na.omit()
 
   if (isTRUE(any(grepl("vignettes", path)))) {
-    c("knitr", "rmarkdown", res)
+    unique(c("knitr", "rmarkdown", res))
   } else {
     res
   }
