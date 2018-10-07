@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.4</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.5</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@
       <h1>Extract scripts dependencies and generate your Description file</h1>
                         <h4 class="author">Sébastien Rochette</h4>
             
-            <h4 class="date">2018-09-21</h4>
+            <h4 class="date">2018-10-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/master/vignettes/fill-pkg-description.Rmd"><code>vignettes/fill-pkg-description.Rmd</code></a></small>
       <div class="hidden name"><code>fill-pkg-description.Rmd</code></div>
@@ -101,7 +101,7 @@
 <a href="#use-devstuff_history-r" class="anchor"></a>Use “devstuff_history.R”</h2>
 <p>When building your package, create a file called “devstuff_history.R” in the root directory. You will store all “manual” calls to <code>devtools::xxx</code> and <code>usethis::xxx</code> in this script.<br>
 Its first line should be :</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/usethis/topics/use_build_ignore">use_build_ignore</a></span>(<span class="st">"devstuff_history.R"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">usethis<span class="op">::</span><span class="kw">use_build_ignore</span>(<span class="st">"devstuff_history.R"</span>)</a></code></pre></div>
 <p>You can then call {attachment} in this file to help you build your description file.</p>
 </div>
 <div id="fill-your-description-file" class="section level2">
@@ -135,20 +135,26 @@ Run <code><a href="../reference/att_to_description.html">attachment::att_to_desc
 <p>Once your package is finished. Well, is a package ever finished ? Let’s say, once you want to release a version of your package, you may want to deliver the list of dependencies your users will have to install. A little script like <code>install.packages(c(...all dep...))</code> would be so nice :</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/create_dependencies_file.html">create_dependencies_file</a></span>()</a></code></pre></div>
 <p>This file will be placed in <code>inst/dependencies.R</code> and contains :</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">to_install &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"desc"</span>,<span class="st">"devtools"</span>,<span class="st">"magrittr"</span>,<span class="st">"stats"</span>,<span class="st">"stringr"</span>,<span class="st">"usethis"</span>,<span class="st">"utils"</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="cf">for</span> (i <span class="cf">in</span> to_install) {</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3">  <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">"looking for "</span>, i))</a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">  <span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(i)) {</a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">    <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">"installing"</span>, i))</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">    <span class="kw">install.packages</span>(i)</a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">  }</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">}</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># No Remotes ----</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="co"># remotes::install_github("ThinkR-open/fcuk")</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co"># Attachments ----</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">to_install &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"covr"</span>, <span class="st">"desc"</span>, <span class="st">"devtools"</span>, <span class="st">"glue"</span>, <span class="st">"knitr"</span>, <span class="st">"magrittr"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"stats"</span>, <span class="st">"stringr"</span>, <span class="st">"testthat"</span>, <span class="st">"utils"</span>)</a>
+<a class="sourceLine" id="cb8-5" data-line-number="5"><span class="cf">for</span> (i <span class="cf">in</span> to_install) {</a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">  <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">"looking for "</span>, i))</a>
+<a class="sourceLine" id="cb8-7" data-line-number="7">  <span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(i)) {</a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">    <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">"     installing"</span>, i))</a>
+<a class="sourceLine" id="cb8-9" data-line-number="9">    <span class="kw">install.packages</span>(i)</a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">  }</a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">}</a></code></pre></div>
 </div>
 <div id="other-possibilities" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-possibilities" class="anchor"></a>Other possibilities</h2>
 <p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code>att_from_rscripts</code> or Rmd files using <code>att_from_rmds</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">dummypackage &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"dummypackage"</span>, <span class="dt">package =</span> <span class="st">"attachment"</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span>(<span class="dt">path =</span> dummypackage)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span>(<span class="dt">path =</span> <span class="kw">file.path</span>(dummypackage,<span class="st">"vignettes"</span>))</a></code></pre></div>
 </div>
   </div>
 
