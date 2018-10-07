@@ -127,7 +127,9 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
                 " is(are) in category Depends. Check your Description file",
                 " to be sure it is really what you want."
         )
-        deps_new <- rbind(Other_depends_keep, deps_new)
+        # If in Depends, not in Imports
+        deps_new <- rbind(Other_depends_keep,
+                          deps_new[-which(deps_new$package %in% Other_depends_keep$package),])
       }
     }
 
