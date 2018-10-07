@@ -52,7 +52,8 @@ usethis::use_test("attachment")
 usethis::use_coverage()
 usethis::use_appveyor()
 
-attachment::att_to_description(pkg_ignore = c("i", "remotes"))
+attachment::att_to_description(pkg_ignore = c("i", "remotes"),
+                               extra.suggests = "pkgdown")
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
 
 usethis::use_vignette("fill-pkg-description")
