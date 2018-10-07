@@ -17,12 +17,8 @@ att_from_rscripts(path = "R", pattern = "*.(r|R)$", recursive = TRUE)
 Look for functions called with `::` and library/requires in folder of scripts
 }
 \examples{
-
-\dontrun{
-
 dummypackage <- system.file("dummypackage",package = "attachment")
 # browseURL(dummypackage)
 
 att_from_rscripts(path = dummypackage)
-}
 }

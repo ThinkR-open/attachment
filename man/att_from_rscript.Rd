@@ -19,11 +19,9 @@ Look for functions called with `::` and library/requires in one script
 Calls from pkg::fun in roxygen skeleton and comments are ignored
 }
 \examples{
-\dontrun{
 
 dummypackage <- system.file("dummypackage",package = "attachment")
 # browseURL(dummypackage)
 
 att_from_rscript(path = file.path(dummypackage,"R","my_mean.R"))
-}
 }

@@ -47,13 +47,17 @@ To quickly install missing packages needed to compile Rmd files or run Rscripts,
 
 ``` r
 attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
+
 attachment::att_from_rscripts(path = ".") %>% attachment::install_if_missing()
 ```
 
 Function `attachment::create_dependencies_file()` will create a `dependencies.R` file in `inst/` directory. This R script contains the procedure to quickly install missing dependencies:
 
 ``` r
-to_install <- c("desc","devtools","glue","knitr","magrittr","stats","stringr","usethis","utils")
+# No Remotes ----
+# remotes::install_github("ThinkR-open/fcuk")
+# Attachments ----
+to_install <- c("covr", "desc", "devtools", "glue", "knitr", "magrittr", "rmarkdown", "stats", "stringr", "testthat", "utils")
 for (i in to_install) {
   message(paste("looking for ", i))
   if (!requireNamespace(i)) {
@@ -65,6 +69,13 @@ for (i in to_install) {
 
 Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
 
+``` r
+dummypackage <- system.file("dummypackage", package = "attachment")
+
+att_from_rscripts(path = dummypackage)
+att_from_rmds(path = file.path(dummypackage,"vignettes"))
+```
+
 Vignette
 --------
 
@@ -73,6 +84,8 @@ Package {attachment} has a vignette to present the different functions available
 ``` r
 vignette("fill-pkg-description", package = "attachment")
 ```
+
+The vignette is available on the {pkgdown} page: <https://thinkr-open.github.io/attachment/articles/fill-pkg-description.html>
 
 See full documentation realized using {pkgdown} at <https://thinkr-open.github.io/attachment/>
 

@@ -24,12 +24,13 @@
 #' dir.v = file.path(dummypackage,"vignettes")
 #' )
 #' }
-  att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
-                                 dir.r = "R", dir.v = "vignettes",
-                                 extra.suggests = NULL,
-                                 pkg_ignore = NULL,
-                                 document = TRUE
-                                 ) {
+
+att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
+                               dir.r = "R", dir.v = "vignettes",
+                               extra.suggests = NULL,
+                               pkg_ignore = NULL,
+                               document = TRUE
+) {
   if (!file.exists(path)) {
     stop(paste("There is no file named path=", path, "in the current directory"))
   }
@@ -45,7 +46,7 @@
 
   # Find dependencies in namespace and scripts
   depends <- unique(c(att_from_namespace(path, document = document),
-               att_from_rscripts(dir.r)))
+                      att_from_rscripts(dir.r)))
 
 
   desc <- description$new(path.d)
@@ -101,7 +102,7 @@
   deps_new <- data.frame(type = "Imports", package = depends, stringsAsFactors = FALSE) %>%
     rbind(data.frame(type = "Suggests", package = unique(c(suggests, suggests_keep, extra.suggests)),
                      stringsAsFactors = FALSE)) %>%
-  # deps_new <- deps_new[order(deps_new$type, deps_new$package), , drop = FALSE]
+    # deps_new <- deps_new[order(deps_new$type, deps_new$package), , drop = FALSE]
     merge(deps_orig, by = c("type", "package"), sort = TRUE, all.x = TRUE, all.y = FALSE)
 
   deps_new$version[is.na(deps_new$version)] <- "*"

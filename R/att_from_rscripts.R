@@ -9,13 +9,12 @@
 #' Calls from pkg::fun in roxygen skeleton and comments are ignored
 #'
 #' @examples
-#' \dontrun{
 #'
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #' # browseURL(dummypackage)
 #'
 #' att_from_rscript(path = file.path(dummypackage,"R","my_mean.R"))
-#' }
+
 att_from_rscript <- function(path) {
 
   # tmp <- tempfile(fileext = '.R')
@@ -51,14 +50,10 @@ att_from_rscript <- function(path) {
 #'
 #' @export
 #' @examples
-#'
-#' \dontrun{
-#'
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #' # browseURL(dummypackage)
 #'
 #' att_from_rscripts(path = dummypackage)
-#' }
 
 att_from_rscripts <- function(path = "R",pattern = "*.(r|R)$",recursive=TRUE) {
   all_f <- list.files(path, full.names = TRUE,pattern = pattern,recursive = recursive)

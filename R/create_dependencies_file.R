@@ -10,20 +10,21 @@
 #' @importFrom desc description
 #'
 #' @examples
-#' \dontrun{
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #' # browseURL(dummypackage)
 #'
-#' create_dependencies_file(file.path(dummypackage,"DESCRIPTION"))
-#' }
+#' create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+#' to = file.path(dummypackage, "inst/dependencies.R"),
+#' open_file = FALSE)
+
 create_dependencies_file <- function(path = "DESCRIPTION",
                                      field = c("Depends", "Imports"),
                                      to = "inst/dependencies.R",
                                      open_file = TRUE) {
 
   if (!dir.exists(dirname(to))) {
-    dir.create(dir_to, recursive = TRUE, showWarnings = FALSE)
-    dir_to <- normalizePath(dir_to)
+    dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
+    dir_to <- normalizePath(dirname(to))
   } else {
     dir_to <- normalizePath(dirname(to))
   }

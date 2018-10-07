@@ -15,11 +15,9 @@ att_from_rmd(path, temp_dir = tempdir())
 Get all dependencies from a Rmd file
 }
 \examples{
-\dontrun{
 
 dummypackage <- system.file("dummypackage",package = "attachment")
 # browseURL(dummypackage)
 att_from_rmd(path = file.path(dummypackage,"vignettes/demo.Rmd"))
 
-}
 }

@@ -10,11 +10,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="author" content="Vignette Author" />
+<meta name="author" content="Sébastien Rochette" />
 
-<meta name="date" content="2018-07-08" />
+<meta name="date" content="2018-10-07" />
 
-<title>Vignette Title</title>
+<title>Extract scripts dependencies and generate your Description file</title>
 
 
 
@@ -68,9 +68,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<h1 class="title toc-ignore">Vignette Title</h1>
-<h4 class="author"><em>Vignette Author</em></h4>
-<h4 class="date"><em>2018-07-08</em></h4>
+<h1 class="title toc-ignore">Extract scripts dependencies and generate your Description file</h1>
+<h4 class="author"><em>Sébastien Rochette</em></h4>
+<h4 class="date"><em>2018-10-07</em></h4>
 
 
 
@@ -83,42 +83,53 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>When building your package, create a file called “devstuff_history.R” in the root directory. You will store all “manual” calls to <code>devtools::xxx</code> and <code>usethis::xxx</code> in this script.<br />
 Its first line should be :</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">usethis<span class="op">::</span><span class="kw">use_build_ignore</span>(<span class="st">&quot;devstuff_history.R&quot;</span>)</code></pre></div>
-<p>You can then call {attachment} in this file to help you build your namespace.</p>
+<p>You can then call {attachment} in this file to help you build your description file.</p>
+</div>
+<div id="fill-your-description-file" class="section level2">
+<h2>Fill your DESCRIPTION file</h2>
+<p>What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your “devstuff_history.R”.<br />
+Run <code>attachment::att_to_description()</code> each time before <code>devtools::check()</code>, this will save you some warnings and errors !</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">att_to_description</span>()</code></pre></div>
 </div>
 <div id="get-all-packages-listed-in-namespace" class="section level2">
 <h2>Get all packages listed in “namespace”</h2>
 <p>You can get the list of packages in your package with <code>att_from_namespace()</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">att_from_namespace</span>()</code></pre></div>
 </div>
-<div id="get-all-packages-added-using-pkgfunction" class="section level2">
-<h2>Get all packages added using <code>pkg::function</code></h2>
-<p>This read all files in the <code>R</code> directory.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">att_from_functions</span>()</code></pre></div>
+<div id="get-all-packages-added-using-pkgfunction-or-libraryrequire" class="section level2">
+<h2>Get all packages added using <code>pkg::function</code> or library/require</h2>
+<p>This reads all files in directories of R scripts (default to <code>R</code> directory of a package)</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">att_from_rscripts</span>()</code></pre></div>
 </div>
-<div id="get-all-packages-called-in-your-vignettes" class="section level2">
-<h2>Get all packages called in your vignettes</h2>
-<p>If you have vignette, you may want to list extra libraries, not listed in your “Depends” list.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">att_from_vignettes</span>()</code></pre></div>
-</div>
-<div id="fill-your-description-file" class="section level2">
-<h2>Fill your DESCRIPTION file</h2>
-<p>Of course, what you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your “devstuff_history.R”</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">att_to_description</span>()</code></pre></div>
+<div id="get-all-packages-called-in-your-rmd" class="section level2">
+<h2>Get all packages called in your Rmd</h2>
+<p>If you have vignette, you may want to list extra libraries, not listed in your “Depends” list. This function applies to any Rmd file, of course.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">att_from_rmds</span>()</code></pre></div>
 </div>
 <div id="create-a-file-for-package-installation" class="section level2">
 <h2>Create a file for package installation</h2>
 <p>Once your package is finished. Well, is a package ever finished ? Let’s say, once you want to release a version of your package, you may want to deliver the list of dependencies your users will have to install. A little script like <code>install.packages(c(...all dep...))</code> would be so nice :</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">create_dependencies_file</span>()</code></pre></div>
-<p>This file will be place in <code>inst/dependencies.R</code> and contains :</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">to_install &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;desc&quot;</span>,<span class="st">&quot;devtools&quot;</span>,<span class="st">&quot;magrittr&quot;</span>,<span class="st">&quot;stats&quot;</span>,<span class="st">&quot;stringr&quot;</span>,<span class="st">&quot;usethis&quot;</span>,<span class="st">&quot;utils&quot;</span>)
+<p>This file will be placed in <code>inst/dependencies.R</code> and contains :</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># No Remotes ----</span>
+<span class="co"># remotes::install_github(&quot;ThinkR-open/fcuk&quot;)</span>
+<span class="co"># Attachments ----</span>
+to_install &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;covr&quot;</span>, <span class="st">&quot;desc&quot;</span>, <span class="st">&quot;devtools&quot;</span>, <span class="st">&quot;glue&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;magrittr&quot;</span>, <span class="st">&quot;rmarkdown&quot;</span>, <span class="st">&quot;stats&quot;</span>, <span class="st">&quot;stringr&quot;</span>, <span class="st">&quot;testthat&quot;</span>, <span class="st">&quot;utils&quot;</span>)
 <span class="cf">for</span> (i <span class="cf">in</span> to_install) {
   <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;looking for &quot;</span>, i))
   <span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(i)) {
     <span class="kw">message</span>(<span class="kw">paste</span>(<span class="st">&quot;     installing&quot;</span>, i))
     <span class="kw">install.packages</span>(i)
   }
-
 }</code></pre></div>
+</div>
+<div id="other-possibilities" class="section level2">
+<h2>Other possibilities</h2>
+<p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code>att_from_rscripts</code> or Rmd files using <code>att_from_rmds</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dummypackage &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;dummypackage&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;attachment&quot;</span>)
+
+<span class="kw">att_from_rscripts</span>(<span class="dt">path =</span> dummypackage)
+<span class="kw">att_from_rmds</span>(<span class="dt">path =</span> <span class="kw">file.path</span>(dummypackage,<span class="st">&quot;vignettes&quot;</span>))</code></pre></div>
 </div>
 
 
