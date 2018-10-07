@@ -6,13 +6,11 @@
 #' @importFrom stringr str_extract
 #'
 #' @examples
-#' \dontrun{
 #'
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #' # browseURL(dummypackage)
 #' att_from_rmd(path = file.path(dummypackage,"vignettes/demo.Rmd"))
 #'
-#' }
 #' @export
 att_from_rmd <- function(path, temp_dir = tempdir()) {
   file <- knitr::purl(path, output = paste0(tempfile(tmpdir = temp_dir), ".R"),
@@ -30,13 +28,12 @@ att_from_rmd <- function(path, temp_dir = tempdir()) {
 #'  if the directory contains "vignettes" in the path
 #'
 #' @examples
-#' \dontrun{
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #' # browseURL(dummypackage)
 #' att_from_rmds(path = file.path(dummypackage,"vignettes"))
-#' }
+
 #' @export
-att_from_rmds <- function(path = "vignettes",recursive = TRUE) {
+att_from_rmds <- function(path = "vignettes", recursive = TRUE) {
 
   if (isTRUE(all(dir.exists(path)))) {
     all_f <- list.files(path, full.names = TRUE, pattern = "*.Rmd$|*.rmd$",recursive = recursive)

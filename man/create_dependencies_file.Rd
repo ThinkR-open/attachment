@@ -20,10 +20,10 @@ create_dependencies_file(path = "DESCRIPTION", field = c("Depends",
 Create a dependencies.R in the `inst` folder
 }
 \examples{
-\dontrun{
 dummypackage <- system.file("dummypackage",package = "attachment")
 # browseURL(dummypackage)
 
-create_dependencies_file(file.path(dummypackage,"DESCRIPTION"))
-}
+create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+to = file.path(dummypackage, "inst/dependencies.R"),
+open_file = FALSE)
 }

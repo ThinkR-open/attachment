@@ -20,9 +20,7 @@ Character vector of packages called with library or require.
 Get all packages called in vignettes folder
 }
 \examples{
-\dontrun{
 dummypackage <- system.file("dummypackage",package = "attachment")
 # browseURL(dummypackage)
 att_from_rmds(path = file.path(dummypackage,"vignettes"))
-}
 }

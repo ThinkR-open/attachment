@@ -21,11 +21,9 @@ A character vector with packages names
 Return all package dependencies from current package
 }
 \examples{
-\dontrun{
 
 dummypackage <- system.file("dummypackage",package = "attachment")
 # browseURL(dummypackage)
 att_from_description(path = file.path(dummypackage,"DESCRIPTION"))
 
-}
 }

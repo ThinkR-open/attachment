@@ -7,13 +7,12 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{
 #'
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #' # browseURL(dummypackage)
 #'
 #' install_from_description(path = file.path(dummypackage,"DESCRIPTION"))
-#' }
+
 install_from_description <- function(path = "DESCRIPTION", field = c("Depends", "Imports", "Suggests"),...) {
 
   to_be_installed <- att_from_description(path = path,field = field)
@@ -28,13 +27,11 @@ install_from_description <- function(path = "DESCRIPTION", field = c("Depends", 
 #' @export
 #' @examples
 #' \dontrun{
-#' install_if_missing(c("dplyr","ggplot2","rusk"))
+#' install_if_missing(c("dplyr","fcuk","rusk"))
 #' }
 #'
 install_if_missing <- function(to_be_installed,...){
-  suppressWarnings(
-  already_installed <- basename(find.package(to_be_installed))
-  )
+  already_installed <- basename(try(find.package(to_be_installed), silent = TRUE))
   will_be_installed <- setdiff(to_be_installed, already_installed)
 
   if ( length(will_be_installed) == 0 ){
