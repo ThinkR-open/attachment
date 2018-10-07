@@ -2,10 +2,11 @@
 
 # attachment 0.0.5
 
-* `create_dependencies_file` deals with github Remotes
 * `att_to_description` deals with Remote dependencies
+* `att_to_description` deals with Depends dependencies
 * `att_to_description` keeps versions of packages previously added
-* `att_to_description` removes automatic add of pkg version number
+* `att_to_description` removes option for automatic pkg version
+* `create_dependencies_file` deals with github Remotes
 * `att_from_rmds` now accept a vector of Rmd filenames
 
 # attachment 0.0.4

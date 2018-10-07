@@ -52,7 +52,10 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
   # Get previous dependencies in Description in case version is set
-  deps_orig <- desc$get_deps()
+  deps_desc <- desc$get_deps()
+  deps_orig <- deps_desc[deps_desc$type != "Depends",]
+  deps_depends_orig <- deps_desc[deps_desc$type == "Depends",]
+
   remotes_orig <- desc$get_remotes()
   if (length(remotes_orig) != 0) {
     remotes_orig_pkg <- gsub("^.*/", "", remotes_orig)
@@ -102,25 +105,38 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   deps_new <- data.frame(type = "Imports", package = depends, stringsAsFactors = FALSE) %>%
     rbind(data.frame(type = "Suggests", package = unique(c(suggests, suggests_keep, extra.suggests)),
                      stringsAsFactors = FALSE)) %>%
-    # deps_new <- deps_new[order(deps_new$type, deps_new$package), , drop = FALSE]
-    merge(deps_orig, by = c("type", "package"), sort = TRUE, all.x = TRUE, all.y = FALSE)
+    merge(deps_orig[,c("package", "version")],
+          by = "package", sort = TRUE, all.x = TRUE, all.y = FALSE) %>%
+    .[,c("type", "package", "version")] %>%
+    .[order(.$type, .$package), , drop = FALSE]
+
+
+  # Test if package had Depends category
+  if (length(deps_depends_orig) != 0) {
+    # _Keep depends to specific R version (added below to be first)
+    R_depends <- deps_depends_orig[deps_depends_orig$package == "R",]
+
+    # _Test if other Depends still in dependencies
+    Other_depends <- deps_depends_orig[deps_depends_orig$package != "R",] %>%
+      .[order(.$package),]
+    if (length(Other_depends) != 0) {
+      Other_depends_keep <- Other_depends[Other_depends$package %in% deps_new$package, ]
+      if (length(Other_depends_keep) != 0) {
+        message("Package(s) ",
+                Other_depends_keep$package,
+                " is(are) in category Depends. Check your Description file",
+                " to be sure it is really what you want."
+        )
+        deps_new <- rbind(Other_depends_keep, deps_new)
+      }
+    }
+
+    if (length(R_depends) != 0) {
+      deps_new <- rbind(R_depends, deps_new)
+    }
+  }
 
   deps_new$version[is.na(deps_new$version)] <- "*"
-  # deps_new <- deps_new[order(deps_new$type, deps_new$package),]
-
-
-  # desc$del("Imports")
-  # desc$del("Suggests")
-  # desc$write(file = path.d)
-  # tmp <- lapply(depends, function(x) devtools::use_package(x, type = "Imports",pkg = dirname(path.d)))
-  # tmp <- lapply(unique(c(suggests, suggests_keep, extra.suggests)), function(x) devtools::use_package(x, type = "Suggests",pkg = dirname(path.d)))
-
-  # Deal with remotes
-  # desc <- description$new(path.d)
-  # desc
-  # deps <- desc$get_deps()
-  # deps <- deps[order(deps$type, deps$package), , drop = FALSE]
-  # deps_orig
 
   # Remove previous deps
   desc$del_deps()
