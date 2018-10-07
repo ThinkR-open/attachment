@@ -1,6 +1,16 @@
-# attachment 0.0.4.9000
+# attachment 0.0.5.9000
 
+# attachment 0.0.5
+
+* `create_dependencies_file` deals with github Remotes
+* `att_to_description` deals with Remote dependencies
+* `att_to_description` keeps versions of packages previously added
+* `att_to_description` removes automatic add of pkg version number
 * `att_from_rmds` now accept a vector of Rmd filenames
+
+# attachment 0.0.4
+
+* Add examples in functions
 
 # attachment 0.0.3
 

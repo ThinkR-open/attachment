@@ -5,14 +5,16 @@
 \title{Create a dependencies.R in the `inst` folder}
 \usage{
 create_dependencies_file(path = "DESCRIPTION", field = c("Depends",
-  "Imports"), to = "inst/dependencies.R")
+  "Imports"), to = "inst/dependencies.R", open_file = TRUE)
 }
 \arguments{
 \item{path}{path to the DESCRIPTION file}
 
 \item{field}{DESCRIPTION fied to parse, "Import" and "Depends" by default. Can add "Suggests"}
 
-\item{to}{path to dependencies.R "inst/dependencies.R" by default}
+\item{to}{path to dependencies.R. "inst/dependencies.R" by default}
+
+\item{open_file}{Logical. Open the file created in an editor.}
 }
 \description{
 Create a dependencies.R in the `inst` folder

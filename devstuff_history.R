@@ -25,14 +25,22 @@ fill_desc_generic <- function(
   my_desc$del("Maintainer")
   my_desc$set_version(version)
   my_desc$set(Title = Title)
-  my_desc$set(Description = Description)
+  my_desc$set(Description = paste(Description))
   my_desc$set("URL", glue("https://github.com/{github_user}/{repo}"))
   my_desc$set("BugReports", glue("https://github.com/{github_user}/{repo}/issues"))
   my_desc$write(file = "DESCRIPTION")
 }
-fill_desc_generic(name = "attachment",
-                  Description = "Tools to help to manage dependencies during package developement.",
-                  Title = "Deal with dependencies")
+fill_desc_generic(
+  name = "attachment",
+  Description = c(
+    "This package contains tools to help manage dependencies during package",
+    "development. This can retrieve all dependencies that are used in R files",
+    "in the \"R\" directory, in Rmd files in \"vignettes\" directory and in roxygen2",
+    "documentation of functions. There is a function to update the Description file",
+    "of your package and a function to create a file with the R commands to install",
+    "all dependencies of your package. All functions to retrieve dependencies of R",
+    "scripts and Rmd files can be used independently of a package development."),
+  Title = "Deal with dependencies")
 
 usethis::use_pipe()
 # usethis::use_package("stringr")
@@ -44,7 +52,8 @@ usethis::use_test("attachment")
 usethis::use_coverage()
 usethis::use_appveyor()
 
-attachment::att_to_description(pkg_ignore = "i", add_version = TRUE)
+attachment::att_to_description(pkg_ignore = c("i", "remotes"))
+attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
 
 usethis::use_vignette("fill-pkg-description")
 
