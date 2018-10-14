@@ -112,7 +112,7 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
 
 
   # Test if package had Depends category
-  if (length(deps_depends_orig) != 0) {
+  if (nrow(deps_depends_orig) != 0) {
     # _Keep depends to specific R version (added below to be first)
     R_depends <- deps_depends_orig[deps_depends_orig$package == "R",]
 
