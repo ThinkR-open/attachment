@@ -51,6 +51,9 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
 
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
+  # Remove pkg name from depends
+  depends <- depends[depends != pkg_name]
+
   # Get previous dependencies in Description in case version is set
   deps_desc <- desc$get_deps()
   deps_orig <- deps_desc[deps_desc$type != "Depends",]
