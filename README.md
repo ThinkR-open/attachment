@@ -4,7 +4,7 @@
 [![Travis build
 status](https://travis-ci.org/ThinkR-open/attachment.svg?branch=master)](https://travis-ci.org/ThinkR-open/attachment)
 [![Build
-status](https://ci.appveyor.com/api/projects/status/yruhid3h5yfx0amp/branch/master?svg=true)](https://ci.appveyor.com/project/statnmap/attachment-vlbll/branch/master)
+status](https://ci.appveyor.com/api/projects/status/4iwtrbg3hggr49d2/branch/master?svg=true)](https://ci.appveyor.com/project/statnmap/attachment-jb75k/branch/master)
 
 <img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex-thinkr.png" width=250px>
 
