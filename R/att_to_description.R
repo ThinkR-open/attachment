@@ -64,7 +64,7 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   }
 
   # Get suggests in vignettes and remove if already in depends
-  if (dir.v != "") {
+  if (!grepl("^$|^\\s+$$", dir.v)) {
     vg <- att_from_rmds(dir.v)
     suggests <- vg[!vg %in% c(depends, pkg_name)]
   } else {
@@ -73,13 +73,16 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
 
   # Add suggests for tests and covr
   suggests_orig <- desc$get("Suggests")
+  if (is.na(suggests_orig)) {
+    suggests_orig <- NULL
+  }
   suggests_keep <- NULL
-  if (dir.exists("tests") | grepl("testthat", suggests_orig)) {
+  if (dir.exists("tests") | isTRUE(grepl("testthat", suggests_orig))) {
     suggests_keep <- c(suggests_keep, "testthat")
   } else {
     suggests_keep <- c(suggests_keep, NULL)
   }
-  if (file.exists("codecov.yml") | grepl("covr", suggests_orig)) {
+  if (file.exists("codecov.yml") | isTRUE(grepl("covr", suggests_orig))) {
     suggests_keep <- c(suggests_keep, "covr")
   } else {
     suggests_keep <- c(suggests_keep, NULL)
@@ -102,14 +105,14 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   }
 
   # Create new deps dataframe
-  deps_new <- data.frame(type = "Imports", package = depends, stringsAsFactors = FALSE) %>%
-    rbind(data.frame(type = "Suggests", package = unique(c(suggests, suggests_keep, extra.suggests)),
-                     stringsAsFactors = FALSE)) %>%
+  all_suggests <- c(suggests, suggests_keep, extra.suggests)
+  deps_new <- data.frame(
+    type = c(rep("Imports", length(depends)), rep("Suggests", length(all_suggests))),
+    package = c(depends, all_suggests), stringsAsFactors = FALSE) %>%
     merge(deps_orig[,c("package", "version")],
           by = "package", sort = TRUE, all.x = TRUE, all.y = FALSE) %>%
     .[,c("type", "package", "version")] %>%
     .[order(.$type, .$package), , drop = FALSE]
-
 
   # Test if package had Depends category
   if (nrow(deps_depends_orig) != 0) {
@@ -119,7 +122,7 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
     # _Test if other Depends still in dependencies
     Other_depends <- deps_depends_orig[deps_depends_orig$package != "R",] %>%
       .[order(.$package),]
-    if (length(Other_depends) != 0) {
+    if (nrow(Other_depends) != 0) {
       Other_depends_keep <- Other_depends[Other_depends$package %in% deps_new$package, ]
       if (length(Other_depends_keep) != 0) {
         message("Package(s) ",
@@ -133,7 +136,7 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
       }
     }
 
-    if (length(R_depends) != 0) {
+    if (nrow(R_depends) != 0) {
       deps_new <- rbind(R_depends, deps_new)
     }
   }
