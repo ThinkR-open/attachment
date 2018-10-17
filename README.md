@@ -1,37 +1,50 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis build status](https://travis-ci.org/ThinkR-open/attachment.svg?branch=master)](https://travis-ci.org/ThinkR-open/attachment)
+
+[![Travis build
+status](https://travis-ci.org/ThinkR-open/attachment.svg?branch=master)](https://travis-ci.org/ThinkR-open/attachment)
+[![Build
+status](https://ci.appveyor.com/api/projects/status/yruhid3h5yfx0amp/branch/master?svg=true)](https://ci.appveyor.com/project/statnmap/attachment-vlbll/branch/master)
 
 <img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex-thinkr.png" width=250px>
 
-attachment
-==========
+# attachment
 
-The goal of attachment is to help to deal with package dependencies during package development. It also gives usefull tools to install or list missing packages used inside Rscripts or Rmds.
+The goal of attachment is to help to deal with package dependencies
+during package development. It also gives usefull tools to install or
+list missing packages used inside Rscripts or Rmds.
 
-When building a package, we have to add `@importFrom` in our documentation or `pkg::fun` in the R code. The most important is not to forget to add the list of dependencies in the "Imports" or "Suggests" package lists in the DESCRIPTION file.
+When building a package, we have to add `@importFrom` in our
+documentation or `pkg::fun` in the R code. The most important is not to
+forget to add the list of dependencies in the “Imports” or “Suggests”
+package lists in the DESCRIPTION file.
 
-Why do you have to repeat twice the same thing ?
-And what happens when you remove a dependency for one of your functions ? Do you really want to run a "Find in files" to verify that you do not need this package anymore ?
+Why do you have to repeat twice the same thing ?  
+And what happens when you remove a dependency for one of your functions
+? Do you really want to run a “Find in files” to verify that you do not
+need this package anymore ?
 
-Let {attachment} help you ! This reads your NAMESPACE, your functions in R directory and your vignettes, then update the DESCRIPTION file accordingly. Are you ready to be lazy ?
+Let {attachment} help you \! This reads your NAMESPACE, your functions
+in R directory and your vignettes, then update the DESCRIPTION file
+accordingly. Are you ready to be lazy ?
 
-Installation
-------------
+## Installation
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("ThinkR-open/attachment")
 ```
 
-Use package {attachment}
-------------------------
+## Use package {attachment}
 
 ``` r
 library(attachment)
 ```
 
-What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only the following function will really be called. Use and abuse during the development of your package !
+What you really want is to fill and update your description file along
+with the modifications of your documentation. Indeed, only the following
+function will really be called. Use and abuse during the development of
+your package \!
 
 ``` r
 attachment::att_to_description()
@@ -43,7 +56,9 @@ To quickly install missing packages from a DESCRIPTION file, use:
 attachment::install_from_description()
 ```
 
-To quickly install missing packages needed to compile Rmd files or run Rscripts, use:
+To quickly install missing packages needed to compile Rmd files or run
+Rscripts,
+use:
 
 ``` r
 attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
@@ -51,7 +66,9 @@ attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
 attachment::att_from_rscripts(path = ".") %>% attachment::install_if_missing()
 ```
 
-Function `attachment::create_dependencies_file()` will create a `dependencies.R` file in `inst/` directory. This R script contains the procedure to quickly install missing dependencies:
+Function `attachment::create_dependencies_file()` will create a
+`dependencies.R` file in `inst/` directory. This R script contains the
+procedure to quickly install missing dependencies:
 
 ``` r
 # No Remotes ----
@@ -67,7 +84,9 @@ for (i in to_install) {
 }
 ```
 
-Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
+Of course, you can also use {attachment} out of a package to list all
+package dependencies of R scripts using `att_from_rscripts` or Rmd files
+using `att_from_rmds`.
 
 ``` r
 dummypackage <- system.file("dummypackage", package = "attachment")
@@ -76,17 +95,24 @@ att_from_rscripts(path = dummypackage)
 att_from_rmds(path = file.path(dummypackage,"vignettes"))
 ```
 
-Vignette
---------
+## Vignette
 
-Package {attachment} has a vignette to present the different functions available. There is also a recommandation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at [devstuff\_history.R](https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R) in the present package*)
+Package {attachment} has a vignette to present the different functions
+available. There is also a recommandation to have a `devstuff_history.R`
+in the root directory of your package. (*Have a look at
+[devstuff\_history.R](https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R)
+in the present package*)
 
 ``` r
 vignette("fill-pkg-description", package = "attachment")
 ```
 
-The vignette is available on the {pkgdown} page: <https://thinkr-open.github.io/attachment/articles/fill-pkg-description.html>
+The vignette is available on the {pkgdown} page:
+<https://thinkr-open.github.io/attachment/articles/fill-pkg-description.html>
 
-See full documentation realized using {pkgdown} at <https://thinkr-open.github.io/attachment/>
+See full documentation realized using {pkgdown} at
+<https://thinkr-open.github.io/attachment/>
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+Please note that this project is released with a [Contributor Code of
+Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
+to abide by its terms.
