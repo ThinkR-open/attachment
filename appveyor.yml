@@ -40,3 +40,14 @@ artifacts:
 
   - path: '\*_*.zip'
     name: Bits
+
+# check suggested packges
+environment:
+    global:
+      WARNINGS_ARE_ERRORS: true
+      _R_CHECK_FORCE_SUGGESTS_: true
+      R_COMPILE_AND_INSTALL_PACKAGES: always
+      R_ARCH: x64
+      USE_RTOOLS: true
+    matrix:
+      - R_VERSION: release
