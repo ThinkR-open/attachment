@@ -2,6 +2,8 @@
 #'
 #' @param path path to R script file
 #'
+#' @importFrom stringr str_extract_all str_replace_all
+#'
 #' @return a vector
 #' @export
 #'
@@ -17,28 +19,26 @@
 
 att_from_rscript <- function(path) {
 
-  # tmp <- tempfile(fileext = '.R')
-  # writeLines(as.character(parse(path)), tmp)
+  file <- as.character(parse(path))
 
-  f <- as.character(parse(path))
+  pkg_points <- file %>%
+    .[grep("^#", ., invert = TRUE)] %>%
+    str_extract_all("[[:alnum:]\\.]+(?=::)") %>%
+    unlist()
 
-  pkg_points <- f %>%
-           .[grep("^#", ., invert = TRUE)] %>%
-      stringr::str_extract_all("[[:alnum:]\\.]+(?=::)") %>%
-      unlist()
-
-  w.lib <- grep("library|require", f)
+  w.lib <- grep("library|require", file)
   if (length(w.lib) != 0) {
-    pkg_lib <- f[w.lib] %>%
-      str_extract("(?<=library\\()[[:alnum:]\\.\\\"]+(?=\\))|(?<=require\\()[[:alnum:]\\.\\\"]+(?=\\))|(?<=requireNamespace\\()[[:alnum:]\\.\\\"]+(?=\\))")%>%
+    pkg_lib <- file[w.lib] %>%
+      str_extract_all("(?<=library\\()[[:alnum:]\\.\\\"]+(?=\\))|(?<=require\\()[[:alnum:]\\.\\\"]+(?=\\))|(?<=requireNamespace\\()[[:alnum:]\\.\\\"]+(?=\\))") %>%
+      unlist() %>%
       str_replace_all("\\\"$|^\\\"","")
   } else {
     pkg_lib <- NA
   }
   pkg_lib
- out <- c(pkg_lib, pkg_points) %>% unique() %>% na.omit()
- attributes(out)<-NULL
- out
+  out <- c(pkg_lib, pkg_points) %>% unique() %>% na.omit()
+  attributes(out) <- NULL
+  out
 }
 
 
@@ -55,7 +55,7 @@ att_from_rscript <- function(path) {
 #'
 #' att_from_rscripts(path = dummypackage)
 
-att_from_rscripts <- function(path = "R",pattern = "*.(r|R)$",recursive=TRUE) {
+att_from_rscripts <- function(path = "R", pattern = "*.(r|R)$", recursive = TRUE) {
   all_f <- list.files(path, full.names = TRUE,pattern = pattern,recursive = recursive)
   lapply(all_f, att_from_rscript) %>%
     unlist() %>%
