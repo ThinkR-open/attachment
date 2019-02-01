@@ -104,7 +104,6 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
     depends <- depends[!depends %in% pkg_ignore]
     suggests <- suggests[!suggests %in% pkg_ignore]
     suggests_keep <- suggests_keep[!suggests_keep %in% pkg_ignore]
-    extra.suggests <- extra.suggests[!extra.suggests %in% pkg_ignore]
   }
 
   # Create new deps dataframe
