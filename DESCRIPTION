@@ -1,15 +1,19 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.0.5
+Version: 0.0.6
 Authors@R:
     c(person(given = "Vincent",
              family = "Guyader",
              role = c("cre", "aut"),
-             email = "vincent@thinkr.fr"),
+             email = "vincent@thinkr.fr",
+             comment = c(ORCID = "0000-0003-0671-9270")
+             ),
       person(given = "Sébastien",
              family = "Rochette",
              role = "aut",
-             email = "sebastien@thinkr.fr"),
+             email = "sebastien@thinkr.fr",
+             comment = c(ORCID = "0000-0002-1565-9313")
+             ),
       person(given = "ThinkR",
              role = c("cph", "fnd")))
 Description: This package contains tools to help manage
@@ -32,14 +36,15 @@ Imports:
     magrittr (>= 1.5),
     stats,
     stringr (>= 1.3.1),
-    utils
+    utils,
+    available
 Suggests: 
     covr (>= 3.1.0),
-    pkgdown,
+    pkgdown (>= 1.3.0),
     rmarkdown (>= 1.10),
     testthat (>= 2.0.0)
 VignetteBuilder:
     knitr
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
