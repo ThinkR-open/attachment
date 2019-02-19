@@ -13,6 +13,7 @@
 #'
 #' @export
 att_from_rmd <- function(path, temp_dir = tempdir()) {
+  if (missing(path)){stop("argument 'path' is missing, with no default")}
   file <- knitr::purl(path, output = paste0(tempfile(tmpdir = temp_dir), ".R"),
                       documentation = 0, quiet = TRUE)
   att_from_rscript(file)

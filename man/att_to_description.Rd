@@ -6,7 +6,7 @@
 \usage{
 att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
   dir.r = "R", dir.v = "vignettes", extra.suggests = NULL,
-  pkg_ignore = NULL, document = TRUE)
+  pkg_ignore = NULL, document = TRUE, only_valid = TRUE)
 }
 \arguments{
 \item{path}{path to namespace file.}
@@ -22,6 +22,8 @@ att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
 \item{pkg_ignore}{vector of packages to ignore.}
 
 \item{document}{Run function document of devtools package}
+
+\item{only_valid}{booleen only write valid package name (TRUE is default)}
 }
 \description{
 Add packages to description

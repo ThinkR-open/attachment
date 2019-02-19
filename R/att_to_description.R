@@ -10,7 +10,7 @@
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
 # @param add_version Logical. Do you want to add version number of packages to description
-#'
+#' @param only_valid booleen only write valid package name (TRUE is default)
 #'
 #' @export
 #' @examples
@@ -25,11 +25,14 @@
 #' )
 #' }
 
-att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
-                               dir.r = "R", dir.v = "vignettes",
+att_to_description <- function(path = "NAMESPACE",
+                               path.d = "DESCRIPTION",
+                               dir.r = "R",
+                               dir.v = "vignettes",
                                extra.suggests = NULL,
                                pkg_ignore = NULL,
-                               document = TRUE
+                               document = TRUE,
+                               only_valid = TRUE
 ) {
   if (!file.exists(path)) {
     stop(paste("There is no file named path=", path, "in the current directory"))
@@ -40,15 +43,21 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   if (!dir.exists(dir.r)) {
     stop(paste("There is no directory named dir.r=", dir.r, "in the current directory"))
   }
-  if (dir.v != "" & !dir.exists(dir.v)) {
+
+  if (!dir.exists(dir.v)){dir.v<-""}
+
+  if (
+     dir.v != "" &
+      !dir.exists(dir.v)) {
     stop(paste("There is no directory named dir.v=", dir.v, "in the current directory"))
   }
 
   # Find dependencies in namespace and scripts
   depends <- unique(c(att_from_namespace(path, document = document),
                       att_from_rscripts(dir.r)))
-
-
+  if (only_valid){
+  depends <- only_valid_package_name(depends)
+}
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
   # Remove pkg name from depends
@@ -68,8 +77,13 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
 
   # Get suggests in vignettes and remove if already in depends
   if (!grepl("^$|^\\s+$$", dir.v)) {
-    vg <- att_from_rmds(dir.v)
+    vg <- only_valid_package_name(att_from_rmds(dir.v))
     suggests <- vg[!vg %in% c(depends, pkg_name)]
+
+    if (only_valid){
+      suggests <- only_valid_package_name(suggests)
+    }
+
   } else {
     suggests <- NULL
   }
@@ -107,7 +121,7 @@ att_to_description <- function(path = "NAMESPACE", path.d = "DESCRIPTION",
   }
 
   # Create new deps dataframe
-  all_suggests <- c(suggests, suggests_keep, extra.suggests)
+  all_suggests <- only_valid_package_name(c(suggests, suggests_keep, extra.suggests))
   deps_new <- data.frame(
     type = c(rep("Imports", length(depends)), rep("Suggests", length(all_suggests))),
     package = c(depends, all_suggests), stringsAsFactors = FALSE) %>%
