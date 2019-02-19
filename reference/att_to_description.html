@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
       </span>
     </div>
 
@@ -127,7 +127,7 @@
 
     <pre class="usage"><span class='fu'>att_to_description</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"NAMESPACE"</span>, <span class='kw'>path.d</span> <span class='kw'>=</span> <span class='st'>"DESCRIPTION"</span>,
   <span class='kw'>dir.r</span> <span class='kw'>=</span> <span class='st'>"R"</span>, <span class='kw'>dir.v</span> <span class='kw'>=</span> <span class='st'>"vignettes"</span>, <span class='kw'>extra.suggests</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pkg_ignore</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>document</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>pkg_ignore</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>document</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>only_valid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,6 +159,10 @@
     <tr>
       <th>document</th>
       <td><p>Run function document of devtools package</p></td>
+    </tr>
+    <tr>
+      <th>only_valid</th>
+      <td><p>booleen only write valid package name (TRUE is default)</p></td>
     </tr>
     </table>
     
