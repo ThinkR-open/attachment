@@ -16,7 +16,7 @@ Authors@R:
              ),
       person(given = "ThinkR",
              role = c("cph", "fnd")))
-Description: This package contains tools to help manage
+Description: Tools to help manage
     dependencies during package development. This can retrieve all
     dependencies that are used in R files in the "R" directory, in Rmd
     files in "vignettes" directory and in roxygen2 documentation of
