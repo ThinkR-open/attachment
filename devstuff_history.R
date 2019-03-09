@@ -63,4 +63,5 @@ attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests")
 usethis::use_vignette("fill-pkg-description")
 
 devtools::build_vignettes()
+devtools::check()
 # devtools::load_all(".")

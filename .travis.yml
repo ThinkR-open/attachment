@@ -25,7 +25,8 @@ matrix:
         branch: master
       skip_cleanup: true
   - r: oldrel
-  - r: 3.2
+  - r: 3.3
+  - r: 3.4
 
 after_success:
   - Rscript -e 'covr::codecov()'
