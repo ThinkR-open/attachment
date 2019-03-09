@@ -121,7 +121,7 @@ att_to_description <- function(path = "NAMESPACE",
   }
 
   # Create new deps dataframe
-  all_suggests <- only_valid_package_name(c(suggests, suggests_keep, extra.suggests))
+  all_suggests <- unique(only_valid_package_name(c(suggests, suggests_keep, extra.suggests)))
   deps_new <- data.frame(
     type = c(rep("Imports", length(depends)), rep("Suggests", length(all_suggests))),
     package = c(depends, all_suggests), stringsAsFactors = FALSE) %>%
