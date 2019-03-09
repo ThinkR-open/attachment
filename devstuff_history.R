@@ -3,6 +3,7 @@ usethis::use_readme_rmd()
 usethis::use_git()
 usethis::use_travis()
 usethis::use_news_md()
+usethis::use_pkgdown()
 
 usethis::use_code_of_conduct()
 
@@ -51,6 +52,9 @@ usethis::use_tidy_description()
 usethis::use_test("attachment")
 usethis::use_coverage()
 usethis::use_appveyor()
+
+usethis::use_build_ignore("_pkgdown.yml")
+pkgdown::build_site()
 
 attachment::att_to_description(pkg_ignore = c("i", "remotes"),
                                extra.suggests = "pkgdown")
