@@ -2,6 +2,7 @@
 
 * `att_to_description` accept parameter `path` for package not being the current project
 * `att_to_description` no error if NAMESPACE is empty
+* `create_dependencies_file` filters base packages that cannot be installed
 
 # attachment 0.0.6
 

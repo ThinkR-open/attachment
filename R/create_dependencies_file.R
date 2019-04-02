@@ -3,11 +3,13 @@
 #' @param path path to the DESCRIPTION file
 #' @param field DESCRIPTION fied to parse, "Import" and "Depends" by default. Can add "Suggests"
 #' @param to path to dependencies.R. "inst/dependencies.R" by default
-#' @param open_file Logical. Open the file created in an editor.
+#' @param open_file Logical. Open the file created in an editor
+#' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed
 #'
 #' @export
 #' @importFrom glue glue glue_collapse
 #' @importFrom desc description
+#' @importFrom utils installed.packages
 #'
 #' @examples
 #' tmpdir <- tempdir()
@@ -23,7 +25,8 @@
 create_dependencies_file <- function(path = "DESCRIPTION",
                                      field = c("Depends", "Imports"),
                                      to = "inst/dependencies.R",
-                                     open_file = TRUE) {
+                                     open_file = TRUE,
+                                     ignore_base = TRUE) {
 
   if (!dir.exists(dirname(to))) {
     dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
@@ -35,6 +38,10 @@ create_dependencies_file <- function(path = "DESCRIPTION",
   # get all packages
   ll <- att_from_description(path = path, field = field)
   # get pkg in remotes
+  if (isTRUE(ignore_base)) {
+    base_pkg <- rownames(installed.packages(priority = "base"))
+    ll <- ll[!ll %in% base_pkg]
+  }
 
   desc <- description$new(path)
   # Get previous dependencies in Description in case version is set
@@ -63,8 +70,10 @@ create_dependencies_file <- function(path = "DESCRIPTION",
     remotes_content <- "# No Remotes ----"
   }
 
-  content <- glue::glue(
-'*{remotes_content}*
+  if (length(ll) != 0) {
+
+    content <- glue::glue(
+      '*{remotes_content}*
 # Attachments ----
 to_install <- c("*{glue::glue_collapse(as.character(ll), sep="\\", \\"")}*")
   for (i in to_install) {
@@ -75,6 +84,12 @@ to_install <- c("*{glue::glue_collapse(as.character(ll), sep="\\", \\"")}*")
     }
 
   }', .open = "*{", .close = "}*")
+  } else {
+    content <- glue::glue(
+      '*{remotes_content}*
+# No attachments ----
+      ', .open = "*{", .close = "}*")
+  }
 
   # file <- normalizePath(to, mustWork = FALSE)
   file <- file.path(dir_to, basename(to))

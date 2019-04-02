@@ -5,7 +5,8 @@
 \title{Create a dependencies.R in the `inst` folder}
 \usage{
 create_dependencies_file(path = "DESCRIPTION", field = c("Depends",
-  "Imports"), to = "inst/dependencies.R", open_file = TRUE)
+  "Imports"), to = "inst/dependencies.R", open_file = TRUE,
+  ignore_base = TRUE)
 }
 \arguments{
 \item{path}{path to the DESCRIPTION file}
@@ -14,7 +15,9 @@ create_dependencies_file(path = "DESCRIPTION", field = c("Depends",
 
 \item{to}{path to dependencies.R. "inst/dependencies.R" by default}
 
-\item{open_file}{Logical. Open the file created in an editor.}
+\item{open_file}{Logical. Open the file created in an editor}
+
+\item{ignore_base}{Logical. Whether to ignore package coming with base, as they cannot be installed}
 }
 \description{
 Create a dependencies.R in the `inst` folder

@@ -28,6 +28,9 @@ matrix:
   - r: 3.3
   - r: 3.4
 
+before_install:
+  - Rscript -e 'update.packages(ask = FALSE)'
+
 after_success:
   - Rscript -e 'covr::codecov()'
   - Rscript -e 'pkgdown::build_site()'
