@@ -48,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@
       <h1>Extract scripts dependencies and generate your Description file</h1>
                         <h4 class="author">Sébastien Rochette</h4>
             
-            <h4 class="date">2019-03-09</h4>
+            <h4 class="date">2019-04-02</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/master/vignettes/fill-pkg-description.Rmd"><code>vignettes/fill-pkg-description.Rmd</code></a></small>
       <div class="hidden name"><code>fill-pkg-description.Rmd</code></div>
@@ -180,8 +180,10 @@ Run <code><a href="../reference/att_to_description.html">attachment::att_to_desc
 <p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code>att_from_rscripts</code> or Rmd files using <code>att_from_rmds</code>.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">dummypackage &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"dummypackage"</span>, <span class="dt">package =</span> <span class="st">"attachment"</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span>(<span class="dt">path =</span> dummypackage)</a>
-<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(dummypackage,<span class="st">"vignettes"</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(dummypackage, <span class="st">"R"</span>))</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; [1] "stats"</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="kw"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span>(<span class="dt">path =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/file.path">file.path</a></span>(dummypackage, <span class="st">"vignettes"</span>))</a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; [1] "knitr"     "rmarkdown" "ggplot2"</span></a></code></pre></div>
 </div>
   </div>
 

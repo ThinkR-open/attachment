@@ -84,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
       </span>
     </div>
 
@@ -150,7 +150,8 @@
     </div>
 
     <pre class="usage"><span class='fu'>create_dependencies_file</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"DESCRIPTION"</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"Depends"</span>,
-  <span class='st'>"Imports"</span>), <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"inst/dependencies.R"</span>, <span class='kw'>open_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='st'>"Imports"</span>), <span class='kw'>to</span> <span class='kw'>=</span> <span class='st'>"inst/dependencies.R"</span>, <span class='kw'>open_file</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>ignore_base</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -169,13 +170,19 @@
     </tr>
     <tr>
       <th>open_file</th>
-      <td><p>Logical. Open the file created in an editor.</p></td>
+      <td><p>Logical. Open the file created in an editor</p></td>
+    </tr>
+    <tr>
+      <th>ignore_base</th>
+      <td><p>Logical. Whether to ignore package coming with base, as they cannot be installed</p></td>
     </tr>
     </table>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>dummypackage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"dummypackage"</span>,<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"attachment"</span>)
+    <pre class="examples"><div class='input'><span class='no'>tmpdir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>()
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/files'>file.copy</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"dummypackage"</span>,<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"attachment"</span>), <span class='no'>tmpdir</span>,
+ <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>dummypackage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='no'>tmpdir</span>, <span class='st'>"dummypackage"</span>)
 <span class='co'># browseURL(dummypackage)</span>
 
 <span class='fu'>create_dependencies_file</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='no'>dummypackage</span>,<span class='st'>"DESCRIPTION"</span>),
