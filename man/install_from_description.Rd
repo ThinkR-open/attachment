@@ -10,7 +10,7 @@ install_from_description(path = "DESCRIPTION", field = c("Depends",
 \arguments{
 \item{path}{path to the DESCRIPTION file}
 
-\item{field}{DESCRIPTION fied to parse, Import and Depends by default}
+\item{field}{DESCRIPTION fields to parse, "Depends", "Imports", "Suggests" by default}
 
 \item{...}{Arguments to be passed to \code{\link[utils]{install.packages}}}
 }
@@ -18,9 +18,10 @@ install_from_description(path = "DESCRIPTION", field = c("Depends",
 Install missing package from DESCRIPTION
 }
 \examples{
-
-dummypackage <- system.file("dummypackage",package = "attachment")
+\dontrun{
+dummypackage <- system.file("dummypackage", package = "attachment")
 # browseURL(dummypackage)
 
 install_from_description(path = file.path(dummypackage,"DESCRIPTION"))
+}
 }

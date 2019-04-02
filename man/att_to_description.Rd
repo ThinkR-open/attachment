@@ -4,12 +4,15 @@
 \alias{att_to_description}
 \title{Add packages to description}
 \usage{
-att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
-  dir.r = "R", dir.v = "vignettes", extra.suggests = NULL,
-  pkg_ignore = NULL, document = TRUE, only_valid = TRUE)
+att_to_description(path = ".", path.n = "NAMESPACE",
+  path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
+  extra.suggests = NULL, pkg_ignore = NULL, document = TRUE,
+  only_valid = TRUE)
 }
 \arguments{
-\item{path}{path to namespace file.}
+\item{path}{path to the root of the package directory. Default to current directory.}
+
+\item{path.n}{path to namespace file.}
 
 \item{path.d}{path to description file.}
 
@@ -29,14 +32,10 @@ att_to_description(path = "NAMESPACE", path.d = "DESCRIPTION",
 Add packages to description
 }
 \examples{
-
-\dontrun{
-dummypackage <- system.file("dummypackage",package = "attachment")
+tmpdir <- tempdir()
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+ recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
-att_to_description(path = file.path(dummypackage,"NAMESPACE"),
-path.d = file.path(dummypackage,"DESCRIPTION"),
-dir.r = file.path(dummypackage,"R"),
-dir.v = file.path(dummypackage,"vignettes")
-)
-}
+att_to_description(path = dummypackage)
 }

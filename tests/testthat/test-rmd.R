@@ -2,7 +2,7 @@ context("test-rmd.R")
 
 test_that("rmd well parsed", {
 
-  res  <-sort(attachment::att_from_rmds(path = "."))
+  res <- sort(attachment::att_from_rmds(path = "."))
 
 
   expect_equal(sort(res),

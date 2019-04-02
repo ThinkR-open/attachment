@@ -20,7 +20,10 @@ create_dependencies_file(path = "DESCRIPTION", field = c("Depends",
 Create a dependencies.R in the `inst` folder
 }
 \examples{
-dummypackage <- system.file("dummypackage",package = "attachment")
+tmpdir <- tempdir()
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+ recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 
 create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),

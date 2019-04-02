@@ -6,30 +6,29 @@ Authors@R:
              family = "Guyader",
              role = c("cre", "aut"),
              email = "vincent@thinkr.fr",
-             comment = c(ORCID = "0000-0003-0671-9270")
-             ),
+             comment = c(ORCID = "0000-0003-0671-9270")),
       person(given = "Sébastien",
              family = "Rochette",
              role = "aut",
              email = "sebastien@thinkr.fr",
-             comment = c(ORCID = "0000-0002-1565-9313")
-             ),
+             comment = c(ORCID = "0000-0002-1565-9313")),
       person(given = "ThinkR",
              role = c("cph", "fnd")))
-Description: Tools to help manage
-    dependencies during package development. This can retrieve all
-    dependencies that are used in R files in the "R" directory, in Rmd
-    files in "vignettes" directory and in roxygen2 documentation of
-    functions. There is a function to update the Description file of your
-    package and a function to create a file with the R commands to install
-    all dependencies of your package. All functions to retrieve
-    dependencies of R scripts and Rmd files can be used independently of a
-    package development.
+Description: Tools to help manage dependencies during package
+    development. This can retrieve all dependencies that are used in R
+    files in the "R" directory, in Rmd files in "vignettes" directory and
+    in roxygen2 documentation of functions. There is a function to update
+    the Description file of your package and a function to create a file
+    with the R commands to install all dependencies of your package. All
+    functions to retrieve dependencies of R scripts and Rmd files can be
+    used independently of a package development.
 License: GPL-3
 URL: https://github.com/Thinkr-open/attachment
 BugReports: https://github.com/Thinkr-open/attachment/issues
-Depends: R (>= 3.3)
+Depends: 
+    R (>= 3.3)
 Imports: 
+    available,
     desc (>= 1.2.0),
     devtools (>= 1.13.6),
     glue (>= 1.3.0),
@@ -37,8 +36,7 @@ Imports:
     magrittr (>= 1.5),
     stats,
     stringr (>= 1.3.1),
-    utils,
-    available
+    utils
 Suggests: 
     covr,
     pkgdown (>= 1.3.0),

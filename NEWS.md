@@ -1,4 +1,11 @@
-# attachment 0.0.5.9000
+# attachment 0.0.7
+
+* `att_to_description` accept parameter `path` for package not being the current project
+* `att_to_description` no error if NAMESPACE is empty
+
+# attachment 0.0.6
+
+* Prepare examples for CRAN
 
 # attachment 0.0.5
 

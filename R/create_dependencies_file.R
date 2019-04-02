@@ -10,7 +10,10 @@
 #' @importFrom desc description
 #'
 #' @examples
-#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' tmpdir <- tempdir()
+#' file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+#'  recursive = TRUE)
+#' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # browseURL(dummypackage)
 #'
 #' create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
@@ -30,7 +33,7 @@ create_dependencies_file <- function(path = "DESCRIPTION",
   }
 
   # get all packages
-  ll <- att_from_description(path=path, field = field)
+  ll <- att_from_description(path = path, field = field)
   # get pkg in remotes
 
   desc <- description$new(path)

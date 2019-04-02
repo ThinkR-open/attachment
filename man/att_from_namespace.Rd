@@ -18,9 +18,10 @@ a vector
 return package dependencies from NAMESPACE file
 }
 \examples{
-\dontrun{
-dummypackage <- system.file("dummypackage",package = "attachment")
+tmpdir <- tempdir()
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+ recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_from_namespace(path = file.path(dummypackage,"NAMESPACE"))
-}
 }

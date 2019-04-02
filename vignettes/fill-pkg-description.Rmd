@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include = FALSE}
+```{r setuprmd, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -88,10 +88,11 @@ for (i in to_install) {
 
 Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 dummypackage <- system.file("dummypackage", package = "attachment")
 
-att_from_rscripts(path = dummypackage)
-att_from_rmds(path = file.path(dummypackage,"vignettes"))
+att_from_rscripts(path = file.path(dummypackage, "R"))
+att_from_rmds(path = file.path(dummypackage, "vignettes"))
 ```
+
 

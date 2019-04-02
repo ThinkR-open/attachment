@@ -8,24 +8,28 @@
 #' @importFrom stringr str_match
 #' @importFrom stats setNames na.omit
 #' @importFrom utils read.table
+#'
 #' @examples
-#' \dontrun{
-#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' tmpdir <- tempdir()
+#' file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+#'  recursive = TRUE)
+#' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # browseURL(dummypackage)
 #' att_from_namespace(path = file.path(dummypackage,"NAMESPACE"))
-#' }
 
 att_from_namespace <- function(path = "NAMESPACE", document = TRUE) {
   if (isTRUE(document)) {
     devtools::document(dirname(path))
   }
-  base <- read.table(path)[["V1"]]
-
-
-
-  out <- na.omit(unique(c(
-    unique(str_match(base, "importFrom\\(([[:alnum:]\\.]+),.*")[, 2]),
-    unique(str_match(base, "import\\(([[:alnum:]\\.]+).*")[, 2])
+  readLines(path)
+  base <- try(read.table(path)[["V1"]], silent = TRUE)
+  if (!isTRUE(inherits(base, "try-error"))) {
+    out <- na.omit(unique(c(
+      unique(str_match(base, "importFrom\\(([[:alnum:]\\.]+),.*")[, 2]),
+      unique(str_match(base, "import\\(([[:alnum:]\\.]+).*")[, 2])
   )))
-  c(out,NULL)
+  } else {
+    out <- NULL
+  }
+  c(out, NULL)
 }

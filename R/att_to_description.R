@@ -1,6 +1,7 @@
 #' Add packages to description
 #'
-#' @param path path to namespace file.
+#' @param path path to the root of the package directory. Default to current directory.
+#' @param path.n path to namespace file.
 #' @param path.d path to description file.
 #' @param dir.r path to directory with R scripts.
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
@@ -14,18 +15,15 @@
 #'
 #' @export
 #' @examples
-#'
-#' \dontrun{
-#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' tmpdir <- tempdir()
+#' file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+#'  recursive = TRUE)
+#' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # browseURL(dummypackage)
-#' att_to_description(path = file.path(dummypackage,"NAMESPACE"),
-#' path.d = file.path(dummypackage,"DESCRIPTION"),
-#' dir.r = file.path(dummypackage,"R"),
-#' dir.v = file.path(dummypackage,"vignettes")
-#' )
-#' }
+#' att_to_description(path = dummypackage)
 
-att_to_description <- function(path = "NAMESPACE",
+att_to_description <- function(path = ".",
+                               path.n = "NAMESPACE",
                                path.d = "DESCRIPTION",
                                dir.r = "R",
                                dir.v = "vignettes",
@@ -34,8 +32,13 @@ att_to_description <- function(path = "NAMESPACE",
                                document = TRUE,
                                only_valid = TRUE
 ) {
-  if (!file.exists(path)) {
-    stop(paste("There is no file named path=", path, "in the current directory"))
+
+  if (path != ".") {
+    old <- setwd(normalizePath(path))
+    on.exit(setwd(old))
+  }
+  if (!file.exists(path.n)) {
+    stop(paste("There is no file named path=", path.n, "in the current directory"))
   }
   if (!file.exists(path.d)) {
     stop(paste("There is no file named path.d =", path.d, "in the current directory"))
@@ -44,20 +47,20 @@ att_to_description <- function(path = "NAMESPACE",
     stop(paste("There is no directory named dir.r=", dir.r, "in the current directory"))
   }
 
-  if (!dir.exists(dir.v)){dir.v<-""}
+  if (dir.v == "vignettes" && !dir.exists(dir.v)) {
+    dir.v <- ""
+  }
 
-  if (
-     dir.v != "" &
-      !dir.exists(dir.v)) {
+  if (dir.v != "" & !dir.exists(dir.v)) {
     stop(paste("There is no directory named dir.v=", dir.v, "in the current directory"))
   }
 
   # Find dependencies in namespace and scripts
-  depends <- unique(c(att_from_namespace(path, document = document),
+  depends <- unique(c(att_from_namespace(path.n, document = document),
                       att_from_rscripts(dir.r)))
-  if (only_valid){
-  depends <- only_valid_package_name(depends)
-}
+  if (only_valid) {
+    depends <- only_valid_package_name(depends)
+  }
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
   # Remove pkg name from depends
@@ -122,13 +125,17 @@ att_to_description <- function(path = "NAMESPACE",
 
   # Create new deps dataframe
   all_suggests <- unique(only_valid_package_name(c(suggests, suggests_keep, extra.suggests)))
+  all_packages <- c(depends, all_suggests)
+  if (is.null(all_packages)) {all_packages <- character()}
+
   deps_new <- data.frame(
     type = c(rep("Imports", length(depends)), rep("Suggests", length(all_suggests))),
-    package = c(depends, all_suggests), stringsAsFactors = FALSE) %>%
+    package = all_packages, stringsAsFactors = FALSE) %>%
     merge(deps_orig[,c("package", "version")],
           by = "package", sort = TRUE, all.x = TRUE, all.y = FALSE) %>%
     .[,c("type", "package", "version")] %>%
-    .[order(.$type, .$package), , drop = FALSE]
+    .[order(.$type, .$package), , drop = FALSE] %>%
+    .[!duplicated(.$package),]
 
   # Test if package had Depends category
   if (nrow(deps_depends_orig) != 0) {

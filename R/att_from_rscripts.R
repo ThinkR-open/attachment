@@ -11,7 +11,6 @@
 #' Calls from pkg::fun in roxygen skeleton and comments are ignored
 #'
 #' @examples
-#'
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #' # browseURL(dummypackage)
 #'

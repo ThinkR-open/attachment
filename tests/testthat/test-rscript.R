@@ -2,7 +2,7 @@ context("test-rscript.R")
 
 test_that("rscript well parsed", {
 
-  res  <-sort(attachment::att_from_rscript(path = "f2.R"))
+  res <- sort(attachment::att_from_rscript(path = "f2.R"))
 
 
   expect_equal(sort(res),
