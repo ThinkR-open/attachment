@@ -1,3 +1,8 @@
+# attachment 0.0.8
+
+* `att_from_rmd` now reads yaml header
+* `att_from_rmd` use `purl` to extract R code in an other R session using `system("Rscript -e ''")`
+
 # attachment 0.0.7
 
 * `att_to_description` accept parameter `path` for package not being the current project

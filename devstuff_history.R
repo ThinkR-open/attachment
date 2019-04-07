@@ -56,7 +56,7 @@ usethis::use_appveyor()
 usethis::use_build_ignore("_pkgdown.yml")
 pkgdown::build_site()
 
-attachment::att_to_description(pkg_ignore = c("i", "remotes"),
+attachment::att_to_description(pkg_ignore = c("remotes"), #i
                                extra.suggests = "pkgdown")
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
 

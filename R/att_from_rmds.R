@@ -14,9 +14,18 @@
 #' @export
 att_from_rmd <- function(path, temp_dir = tempdir()) {
   if (missing(path)) {stop("argument 'path' is missing, with no default")}
-  file <- knitr::purl(path, output = tempfile(tmpdir = temp_dir, fileext = ".R"),
-                      documentation = 0, quiet = TRUE)
-  att_from_rscript(file)
+  r_file <- file.path(temp_dir, basename(gsub(".Rmd$", ".R", path)))
+
+  # Purl in a new environment to avoid knit inside knit if function is inside Rmd file
+  system(
+    paste0(Sys.getenv("R_HOME"), '/bin/Rscript -e \'invisible(knitr::purl("', path, '", output = "', r_file,
+           '",documentation = 0, quiet = TRUE))\'')
+  )
+
+  # Add yaml to the file
+  yaml <- c("\n# yaml to parse \n", rmarkdown::yaml_front_matter(path)$output)
+  cat(yaml, file = r_file, append = TRUE)
+  att_from_rscript(r_file)
 }
 
 #' Get all packages called in vignettes folder

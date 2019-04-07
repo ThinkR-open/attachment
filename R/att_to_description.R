@@ -58,7 +58,7 @@ att_to_description <- function(path = ".",
   # Find dependencies in namespace and scripts
   depends <- unique(c(att_from_namespace(path.n, document = document),
                       att_from_rscripts(dir.r)))
-  if (only_valid) {
+  if (isTRUE(only_valid)) {
     depends <- only_valid_package_name(depends)
   }
   desc <- description$new(path.d)
@@ -83,7 +83,7 @@ att_to_description <- function(path = ".",
     vg <- only_valid_package_name(att_from_rmds(dir.v))
     suggests <- vg[!vg %in% c(depends, pkg_name)]
 
-    if (only_valid){
+    if (length(suggests) != 0 && isTRUE(only_valid)) {
       suggests <- only_valid_package_name(suggests)
     }
 
