@@ -48,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.8</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@
       <h1>Extract scripts dependencies and generate your Description file</h1>
                         <h4 class="author">Sébastien Rochette</h4>
             
-            <h4 class="date">2019-04-02</h4>
+            <h4 class="date">2019-04-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/master/vignettes/fill-pkg-description.Rmd"><code>vignettes/fill-pkg-description.Rmd</code></a></small>
       <div class="hidden name"><code>fill-pkg-description.Rmd</code></div>
@@ -128,7 +128,7 @@
 <a href="#use-devstuff_history-r" class="anchor"></a>Use “devstuff_history.R”</h2>
 <p>When building your package, create a file called “devstuff_history.R” in the root directory. You will store all “manual” calls to <code>devtools::xxx</code> and <code>usethis::xxx</code> in this script.<br>
 Its first line should be :</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/usethis/topics/use_build_ignore">use_build_ignore</a></span>(<span class="st">"devstuff_history.R"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_build_ignore.html">use_build_ignore</a></span>(<span class="st">"devstuff_history.R"</span>)</a></code></pre></div>
 <p>You can then call {attachment} in this file to help you build your description file.</p>
 </div>
 <div id="fill-your-description-file" class="section level2">
