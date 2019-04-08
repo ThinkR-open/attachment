@@ -70,6 +70,7 @@ att_to_description <- function(path = ".",
   deps_desc <- desc$get_deps()
   deps_orig <- deps_desc[deps_desc$type != "Depends",]
   deps_depends_orig <- deps_desc[deps_desc$type == "Depends",]
+  deps_linkingto_orig <- deps_desc[deps_desc$type == "LinkingTo",]
 
   remotes_orig <- desc$get_remotes()
   if (length(remotes_orig) != 0) {
@@ -150,7 +151,7 @@ att_to_description <- function(path = ".",
       if (length(Other_depends_keep) != 0) {
         message("Package(s) ",
                 Other_depends_keep$package,
-                " is(are) in category Depends. Check your Description file",
+                " is(are) in category 'Depends'. Check your Description file",
                 " to be sure it is really what you want."
         )
         # If in Depends, not in Imports
@@ -162,6 +163,16 @@ att_to_description <- function(path = ".",
     if (nrow(R_depends) != 0) {
       deps_new <- rbind(R_depends, deps_new)
     }
+  }
+
+  if (nrow(deps_linkingto_orig) != 0) {
+    deps_linkingto <- deps_linkingto_orig
+    message("Package(s) ",
+            deps_linkingto$package,
+            " is(are) in category 'LinkingTo'. Check your Description file",
+            " to be sure it is really what you want."
+    )
+    deps_new <- rbind(deps_new, deps_linkingto)
   }
 
   deps_new$version[is.na(deps_new$version)] <- "*"

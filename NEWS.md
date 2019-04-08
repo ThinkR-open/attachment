@@ -1,7 +1,9 @@
 # attachment 0.0.8
 
+* `att_to_description` allows for 'LinkingTo' field in DESCRIPTION with a message
 * `att_from_rmd` now reads yaml header
 * `att_from_rmd` use `purl` to extract R code in an other R session using `system("Rscript -e ''")`
+* `att_from_rmd`: add `warn` option to allow hide messages from `purl()`
 
 # attachment 0.0.7
 
