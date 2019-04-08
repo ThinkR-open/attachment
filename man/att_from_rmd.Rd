@@ -4,12 +4,14 @@
 \alias{att_from_rmd}
 \title{Get all dependencies from a Rmd file}
 \usage{
-att_from_rmd(path, temp_dir = tempdir())
+att_from_rmd(path, temp_dir = tempdir(), warn = -1)
 }
 \arguments{
 \item{path}{Path to a Rmd file}
 
 \item{temp_dir}{Path to temporary script from purl vignette}
+
+\item{warn}{-1 for quiet warnings with purl, 0 to see warnings}
 }
 \description{
 Get all dependencies from a Rmd file

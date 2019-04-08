@@ -4,12 +4,14 @@
 \alias{att_from_rmds}
 \title{Get all packages called in vignettes folder}
 \usage{
-att_from_rmds(path = "vignettes", recursive = TRUE)
+att_from_rmds(path = "vignettes", recursive = TRUE, warn = -1)
 }
 \arguments{
 \item{path}{path to directory with Rmds or vector of Rmd files}
 
 \item{recursive}{logical. Should the listing recurse into directories?}
+
+\item{warn}{-1 for quiet warnings with purl, 0 to see warnings}
 }
 \value{
 Character vector of packages called with library or require.
