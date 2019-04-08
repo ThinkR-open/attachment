@@ -5,6 +5,7 @@
 #' @param warn -1 for quiet warnings with purl, 0 to see warnings
 #'
 #' @importFrom stringr str_extract
+#' @importFrom knitr purl
 #'
 #' @examples
 #'
