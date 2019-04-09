@@ -26,7 +26,7 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1) {
   )
 
   # Add yaml to the file
-  yaml <- c("\n# yaml to parse \n", paste(unlist(rmarkdown::yaml_front_matter(path)$output), collapse = "\n"))
+  yaml <- c("\n# yaml to parse \n", paste(unlist(rmarkdown::yaml_front_matter(path)$output), "\n", collapse = "\n"))
   cat(yaml, file = r_file, append = TRUE)
   att_from_rscript(r_file)
 }
