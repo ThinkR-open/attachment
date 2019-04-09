@@ -59,7 +59,7 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1) {
 att_from_rmds <- function(path = "vignettes", recursive = TRUE, warn = -1) {
 
   if (isTRUE(all(dir.exists(path)))) {
-    all_f <- list.files(path, full.names = TRUE, pattern = "*.Rmd$|*.rmd$",recursive = recursive)
+    all_f <- list.files(path, full.names = TRUE, pattern = "*.Rmd$|*.rmd$", recursive = recursive)
   } else if (isTRUE(all(file.exists(path)))) {
     all_f <- normalizePath(path[grepl("*.Rmd$|*.rmd$", path)])
   } else {

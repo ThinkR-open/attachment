@@ -11,7 +11,7 @@
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
 # @param add_version Logical. Do you want to add version number of packages to description
-#' @param only_valid booleen only write valid package name (TRUE is default)
+#' @param only_valid boolean only write valid package name (TRUE is default)
 #'
 #' @export
 #' @examples

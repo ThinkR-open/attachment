@@ -1,7 +1,7 @@
 #' Create a dependencies.R in the `inst` folder
 #'
 #' @param path path to the DESCRIPTION file
-#' @param field DESCRIPTION fied to parse, "Import" and "Depends" by default. Can add "Suggests"
+#' @param field DESCRIPTION field to parse, "Import" and "Depends" by default. Can add "Suggests"
 #' @param to path to dependencies.R. "inst/dependencies.R" by default
 #' @param open_file Logical. Open the file created in an editor
 #' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed

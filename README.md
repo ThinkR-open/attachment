@@ -12,7 +12,7 @@ status](https://codecov.io/gh/ThinkR-open/attachment/branch/master/graph/badge.s
 # attachment
 
 The goal of attachment is to help to deal with package dependencies
-during package development. It also gives usefull tools to install or
+during package development. It also gives useful tools to install or
 list missing packages used inside Rscripts or Rmds.
 
 When building a package, we have to add `@importFrom` in our

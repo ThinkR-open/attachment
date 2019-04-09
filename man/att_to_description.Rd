@@ -26,7 +26,7 @@ att_to_description(path = ".", path.n = "NAMESPACE",
 
 \item{document}{Run function document of devtools package}
 
-\item{only_valid}{booleen only write valid package name (TRUE is default)}
+\item{only_valid}{boolean only write valid package name (TRUE is default)}
 }
 \description{
 Add packages to description
