@@ -39,8 +39,11 @@ create_dependencies_file <- function(path = "DESCRIPTION",
   ll <- att_from_description(path = path, field = field)
   # get pkg in remotes
   if (isTRUE(ignore_base)) {
-    base_pkg <- rownames(installed.packages(priority = "base"))
-    ll <- ll[!ll %in% base_pkg]
+    to_remove<- which(lapply(ll,packageDescription,field="Priority")=="base")
+    if (length(to_remove)>0){
+     ll<- ll[-to_remove]
+    }
+
   }
 
   desc <- description$new(path)
