@@ -16,13 +16,22 @@
 #' @export
 att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1) {
   if (missing(path)) {stop("argument 'path' is missing, with no default")}
-  r_file <- file.path(temp_dir, basename(gsub(".Rmd$", ".R", path)))
+
+  r_file <- normalizePath(file.path(temp_dir, basename(gsub(".Rmd$", ".R", path))), mustWork = FALSE, winslash = "\\")
+  path <- normalizePath(path, winslash = "\\")
+
+  # Need an external script to run on windows because of \\ path
+  runR <- tempfile(fileext = "run.R")
+  cat(
+    paste0('options(warn=', warn,
+           ');invisible(knitr::purl("', gsub("\\", "\\\\", path, fixed = TRUE), '", output = "',
+           gsub("\\", "\\\\", r_file, fixed = TRUE), '"',
+           ',documentation = 0, quiet = TRUE))')
+    , file = runR)
 
   # Purl in a new environment to avoid knit inside knit if function is inside Rmd file
-  system(
-    paste0(Sys.getenv("R_HOME"), '/bin/Rscript -e \'options(warn=', warn,
-           ');invisible(knitr::purl("', path, '", output = "', r_file,
-           '",documentation = 0, quiet = TRUE))\'')
+  file <- system(
+    paste(normalizePath(file.path(Sys.getenv("R_HOME"), "bin", "Rscript"), mustWork = FALSE), runR)
   )
 
   # Add yaml to the file
@@ -57,7 +66,7 @@ att_from_rmds <- function(path = "vignettes", recursive = TRUE, warn = -1) {
     stop("Some file/directory do not exists")
   }
 
-res <- lapply(all_f, function(x) att_from_rmd(x, , warn = warn)) %>%
+  res <- lapply(all_f, function(x) att_from_rmd(x, , warn = warn)) %>%
     unlist() %>%
     unique() %>%
     na.omit()
