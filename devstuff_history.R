@@ -64,4 +64,7 @@ usethis::use_vignette("fill-pkg-description")
 
 devtools::build_vignettes()
 devtools::check()
+
+devtools::check_rhub()
+devtools::release()
 # devtools::load_all(".")

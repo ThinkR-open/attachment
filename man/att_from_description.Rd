@@ -12,7 +12,7 @@ att_from_description(path = "DESCRIPTION", dput = FALSE,
 
 \item{dput}{if FALSE return a vector instead of dput output}
 
-\item{field}{DESCRIPTION fied to parse, Import and Depends by default}
+\item{field}{DESCRIPTION field to parse, Import and Depends by default}
 }
 \value{
 A character vector with packages names
