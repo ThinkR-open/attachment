@@ -9,7 +9,7 @@
 #' @export
 #' @importFrom glue glue glue_collapse
 #' @importFrom desc description
-#' @importFrom utils installed.packages
+#' @importFrom utils packageDescription
 #'
 #' @examples
 #' tmpdir <- tempdir()
