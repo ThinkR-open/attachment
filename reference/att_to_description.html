@@ -151,8 +151,8 @@
 
     <pre class="usage"><span class='fu'>att_to_description</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='kw'>path.n</span> <span class='kw'>=</span> <span class='st'>"NAMESPACE"</span>,
   <span class='kw'>path.d</span> <span class='kw'>=</span> <span class='st'>"DESCRIPTION"</span>, <span class='kw'>dir.r</span> <span class='kw'>=</span> <span class='st'>"R"</span>, <span class='kw'>dir.v</span> <span class='kw'>=</span> <span class='st'>"vignettes"</span>,
-  <span class='kw'>extra.suggests</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pkg_ignore</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>document</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>only_valid</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>dir.t</span> <span class='kw'>=</span> <span class='st'>"tests"</span>, <span class='kw'>extra.suggests</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>pkg_ignore</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>document</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -178,20 +178,20 @@
       <td><p>path to vignettes directory. Set to empty (dir.v = "") to ignore.</p></td>
     </tr>
     <tr>
+      <th>dir.t</th>
+      <td><p>path to tests directory. Set to empty (dir.t = "") to ignore.</p></td>
+    </tr>
+    <tr>
       <th>extra.suggests</th>
-      <td><p>vector of other packages that should be added in Suggests (pkgdown for instance)</p></td>
+      <td><p>vector of other packages that should be added in Suggests (pkgdown, covr for instance)</p></td>
     </tr>
     <tr>
       <th>pkg_ignore</th>
-      <td><p>vector of packages to ignore.</p></td>
+      <td><p>vector of packages names to ignore.</p></td>
     </tr>
     <tr>
       <th>document</th>
       <td><p>Run function document of devtools package</p></td>
-    </tr>
-    <tr>
-      <th>only_valid</th>
-      <td><p>boolean only write valid package name (TRUE is default)</p></td>
     </tr>
     </table>
     
@@ -201,8 +201,8 @@
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/files'>file.copy</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"dummypackage"</span>,<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"attachment"</span>), <span class='no'>tmpdir</span>,
  <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>dummypackage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='no'>tmpdir</span>, <span class='st'>"dummypackage"</span>)
 <span class='co'># browseURL(dummypackage)</span>
-<span class='fu'>att_to_description</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>dummypackage</span>)</div><div class='output co'>#&gt; <span class='message'>Updating dummypackage documentation</span></div><div class='output co'>#&gt; <span class='message'>Updating roxygen version in /tmp/RtmpqoWxqM/dummypackage/DESCRIPTION</span></div><div class='output co'>#&gt; Writing NAMESPACE</div><div class='output co'>#&gt; <span class='message'>Loading dummypackage</span></div><div class='output co'>#&gt; Writing NAMESPACE
-#&gt; Writing my_mean.Rd</div></pre>
+<span class='fu'>att_to_description</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>dummypackage</span>)</div><div class='output co'>#&gt; <span class='message'>Updating dummypackage documentation</span></div><div class='output co'>#&gt; <span class='message'>Updating roxygen version in /tmp/RtmpJ3YRAg/dummypackage/DESCRIPTION</span></div><div class='output co'>#&gt; Writing NAMESPACE</div><div class='output co'>#&gt; <span class='message'>Loading dummypackage</span></div><div class='output co'>#&gt; Writing NAMESPACE
+#&gt; Writing my_mean.Rd</div><div class='output co'>#&gt; <span class='message'>[-] 1 package(s) removed: utils.</span></div><div class='output co'>#&gt; <span class='message'>[+] 2 package(s) added: stats, ggplot2.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
