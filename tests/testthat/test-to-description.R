@@ -29,9 +29,12 @@ test_that("to-description updates description", {
   expect_equal(desc_file[16], "Suggests: ")
   expect_equal(desc_file[17], "    ggplot2,")
   expect_equal(desc_file[18], "    knitr,")
-  expect_equal(desc_file[19], "    rmarkdown")
+  expect_equal(desc_file[19], "    rmarkdown,")
+  expect_equal(desc_file[20], "    testthat")
+  expect_equal(desc_file[21], "LinkingTo:" )
+  expect_equal(desc_file[22], "    Rcpp")
 })
 
 test_that("create-dependencies-file works", {
-  expect_equal(dep_file[3], "to_install <- c(\"ggplot2\", \"knitr\", \"magrittr\", \"rmarkdown\")")
+  expect_equal(dep_file[3], "to_install <- c(\"ggplot2\", \"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
 })
