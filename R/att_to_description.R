@@ -11,7 +11,6 @@
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
 # @param add_version Logical. Do you want to add version number of packages to description
-#' @param only_valid boolean only write valid package name (TRUE is default)
 #'
 #' @export
 #' @examples
@@ -29,8 +28,7 @@ att_to_description <- function(path = ".",
                                dir.v = "vignettes",
                                extra.suggests = NULL,
                                pkg_ignore = NULL,
-                               document = TRUE,
-                               only_valid = TRUE
+                               document = TRUE
 ) {
 
   if (path != ".") {
@@ -58,9 +56,6 @@ att_to_description <- function(path = ".",
   # Find dependencies in namespace and scripts
   depends <- unique(c(att_from_namespace(path.n, document = document),
                       att_from_rscripts(dir.r)))
-  if (isTRUE(only_valid)) {
-    depends <- only_valid_package_name(depends)
-  }
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
   # Remove pkg name from depends
@@ -81,13 +76,8 @@ att_to_description <- function(path = ".",
 
   # Get suggests in vignettes and remove if already in depends
   if (!grepl("^$|^\\s+$$", dir.v)) {
-    vg <- only_valid_package_name(att_from_rmds(dir.v))
+    vg <- att_from_rmds(dir.v)
     suggests <- vg[!vg %in% c(depends, pkg_name)]
-
-    if (length(suggests) != 0 && isTRUE(only_valid)) {
-      suggests <- only_valid_package_name(suggests)
-    }
-
   } else {
     suggests <- NULL
   }
@@ -125,7 +115,7 @@ att_to_description <- function(path = ".",
   }
 
   # Create new deps dataframe
-  all_suggests <- unique(only_valid_package_name(c(suggests, suggests_keep, extra.suggests)))
+  all_suggests <- unique(c(suggests, suggests_keep, extra.suggests))
   all_packages <- c(depends, all_suggests)
   if (is.null(all_packages)) {all_packages <- character()}
 

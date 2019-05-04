@@ -6,8 +6,7 @@
 \usage{
 att_to_description(path = ".", path.n = "NAMESPACE",
   path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
-  extra.suggests = NULL, pkg_ignore = NULL, document = TRUE,
-  only_valid = TRUE)
+  extra.suggests = NULL, pkg_ignore = NULL, document = TRUE)
 }
 \arguments{
 \item{path}{path to the root of the package directory. Default to current directory.}
@@ -25,8 +24,6 @@ att_to_description(path = ".", path.n = "NAMESPACE",
 \item{pkg_ignore}{vector of packages to ignore.}
 
 \item{document}{Run function document of devtools package}
-
-\item{only_valid}{boolean only write valid package name (TRUE is default)}
 }
 \description{
 Add packages to description
