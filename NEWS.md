@@ -1,7 +1,8 @@
 # attachment 0.0.9
 
+* `att_from_rmd` adds a temporary encoding parameter as `knitr::purl` will only deal with UTF-8 in the future. Parameter not added in `att_from_rmds`.
 * `att_to_description` if {covr} is needed, should be added in parameter `extra.suggests`
-* `att_to_description` has a parameter 'dir.t' to extract suggests dependencies from test directory
+* `att_to_description` has a parameter 'dir.t' to extract suggests dependencies from test directory *Available by default*
 
 # attachment 0.0.8
 

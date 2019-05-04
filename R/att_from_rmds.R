@@ -3,6 +3,7 @@
 #' @param path Path to a Rmd file
 #' @param temp_dir Path to temporary script from purl vignette
 #' @param warn -1 for quiet warnings with purl, 0 to see warnings
+#' @inheritParams knitr::purl
 #'
 #' @importFrom stringr str_extract
 #' @importFrom knitr purl
@@ -14,7 +15,7 @@
 #' att_from_rmd(path = file.path(dummypackage,"vignettes/demo.Rmd"))
 #'
 #' @export
-att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1) {
+att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1, encoding = getOption("encoding")) {
   if (missing(path)) {stop("argument 'path' is missing, with no default")}
 
   r_file <- normalizePath(file.path(temp_dir, basename(gsub(".Rmd$", ".R", path))), mustWork = FALSE, winslash = "\\")
@@ -24,9 +25,10 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1) {
   runR <- tempfile(fileext = "run.R")
   cat(
     paste0('options(warn=', warn,
-           ');invisible(knitr::purl("', gsub("\\", "\\\\", path, fixed = TRUE), '", output = "',
-           gsub("\\", "\\\\", r_file, fixed = TRUE), '"',
-           ',documentation = 0, quiet = TRUE))')
+           ');invisible(knitr::purl("', gsub("\\", "\\\\", path, fixed = TRUE), '"',
+           ', output = "', gsub("\\", "\\\\", r_file, fixed = TRUE), '"',
+           ', encoding = "', encoding, '"',
+           ', documentation = 0, quiet = TRUE))')
     , file = runR)
 
   # Purl in a new environment to avoid knit inside knit if function is inside Rmd file
