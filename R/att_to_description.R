@@ -5,9 +5,10 @@
 #' @param path.d path to description file.
 #' @param dir.r path to directory with R scripts.
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
-#' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown for instance)
+#' @param dir.t path to tests directory. Set to empty (dir.t = "") to ignore.
+#' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown, covr for instance)
+#' @param pkg_ignore vector of packages names to ignore.
 #'
-#' @param pkg_ignore vector of packages to ignore.
 #' @inheritParams att_from_namespace
 #' @importFrom desc description
 # @param add_version Logical. Do you want to add version number of packages to description
@@ -26,6 +27,7 @@ att_to_description <- function(path = ".",
                                path.d = "DESCRIPTION",
                                dir.r = "R",
                                dir.v = "vignettes",
+                               dir.t = "tests",
                                extra.suggests = NULL,
                                pkg_ignore = NULL,
                                document = TRUE
@@ -41,16 +43,34 @@ att_to_description <- function(path = ".",
   if (!file.exists(path.d)) {
     stop(paste("There is no file named path.d =", path.d, "in the current directory"))
   }
-  if (!dir.exists(dir.r)) {
-    stop(paste("There is no directory named dir.r=", dir.r, "in the current directory"))
+  if (!all(dir.exists(dir.r))) {
+    stop("One of directories in dir.r=", paste(dir.r, collapse = ", "), "does not exists in the current directory")
   }
 
-  if (dir.v == "vignettes" && !dir.exists(dir.v)) {
+  # Remove non-existing directories for Suggests
+  dir.v.test <- dir.exists(dir.v)
+  if (any(dir.v.test)) {
+    if (any(!dir.v.test)) {
+      message("There is no directory named: ",
+              paste(dir.v[!dir.v.test], collapse = ", "),
+              ". This is removed from the Suggests exploration")
+    }
+    dir.v <- dir.v[dir.v.test]
+  } else {
     dir.v <- ""
   }
 
-  if (dir.v != "" & !dir.exists(dir.v)) {
-    stop(paste("There is no directory named dir.v=", dir.v, "in the current directory"))
+  # Remove non-existing directories for Suggests
+  dir.t.test <- dir.exists(dir.t)
+  if (any(dir.t.test)) {
+    if (any(!dir.t.test)) {
+      message("There is no directory named: ",
+              paste(dir.t[!dir.t.test], collapse = ", "),
+              ". This is removed from the Suggests exploration")
+    }
+    dir.t <- dir.t[dir.t.test]
+  } else {
+    dir.t <- ""
   }
 
   # Find dependencies in namespace and scripts
@@ -74,34 +94,34 @@ att_to_description <- function(path = ".",
     remotes_orig_pkg <- NULL
   }
 
+  suggests <- NULL
   # Get suggests in vignettes and remove if already in depends
   if (!grepl("^$|^\\s+$$", dir.v)) {
     vg <- att_from_rmds(dir.v)
-    suggests <- vg[!vg %in% c(depends, pkg_name)]
-  } else {
-    suggests <- NULL
+    suggests <- c(suggests, vg[!vg %in% c(depends, pkg_name)])
+  }
+
+  # Get suggests in tests and remove if already in depends
+  if (!grepl("^$|^\\s+$$", dir.t)) {
+    tt <- att_from_rscripts(dir.t)
+    suggests <- c(suggests, tt[!tt %in% c(depends, pkg_name)])
   }
 
   # Add suggests for tests and covr
-  suggests_orig <- desc$get("Suggests")
-  if (is.na(suggests_orig)) {
-    suggests_orig <- NULL
-  }
-  suggests_keep <- NULL
-  if (dir.exists("tests") | isTRUE(grepl("testthat", suggests_orig))) {
-    suggests_keep <- c(suggests_keep, "testthat")
-  } else {
-    suggests_keep <- c(suggests_keep, NULL)
-  }
-  if (file.exists("codecov.yml") | isTRUE(grepl("covr", suggests_orig))) {
-    suggests_keep <- c(suggests_keep, "covr")
-  } else {
-    suggests_keep <- c(suggests_keep, NULL)
-  }
+  # suggests_orig <- desc$get("Suggests")
+  # if (is.na(suggests_orig)) {
+  #   suggests_orig <- NULL
+  # }
+  # suggests_keep <- NULL
+  # if (file.exists("codecov.yml") | isTRUE(grepl("covr", suggests_orig))) {
+  #   suggests_keep <- c(suggests_keep, "covr")
+  # } else {
+  #   suggests_keep <- c(suggests_keep, NULL)
+  # }
 
   # If remotes: remove orig remotes not anymore in depends or suggests
   if (!is.null(remotes_orig_pkg)) {
-    remotes_keep_pkg <- remotes_orig_pkg[remotes_orig_pkg %in% c(depends, suggests, suggests_keep, extra.suggests)]
+    remotes_keep_pkg <- remotes_orig_pkg[remotes_orig_pkg %in% c(depends, suggests, extra.suggests)] #suggests_keep
     remotes_keep <- remotes_orig[remotes_orig_pkg %in% remotes_keep_pkg]
   } else {
     remotes_keep_pkg <- remotes_keep <- NULL
@@ -111,11 +131,11 @@ att_to_description <- function(path = ".",
   if (!is.null(pkg_ignore)) {
     depends <- depends[!depends %in% pkg_ignore]
     suggests <- suggests[!suggests %in% pkg_ignore]
-    suggests_keep <- suggests_keep[!suggests_keep %in% pkg_ignore]
+    # suggests_keep <- suggests_keep[!suggests_keep %in% pkg_ignore]
   }
 
   # Create new deps dataframe
-  all_suggests <- unique(c(suggests, suggests_keep, extra.suggests))
+  all_suggests <- unique(c(suggests, extra.suggests)) #suggests_keep
   all_packages <- c(depends, all_suggests)
   if (is.null(all_packages)) {all_packages <- character()}
 
@@ -166,6 +186,18 @@ att_to_description <- function(path = ".",
   }
 
   deps_new$version[is.na(deps_new$version)] <- "*"
+
+  # Compare old and new
+  removed <- deps_desc$package[!deps_desc$package %in% deps_new$package]
+  if (length(removed) > 0) {
+    message("[-] ", length(removed), " package(s) removed: ",
+            paste(removed, collapse = ", "), ".")
+  }
+  added <- deps_new$package[!deps_new$package %in% deps_desc$package]
+  if (length(added) > 0) {
+    message("[+] ", length(added), " package(s) added: ",
+            paste(added, collapse = ", "), ".")
+  }
 
   # Remove previous deps
   desc$del_deps()

@@ -47,6 +47,12 @@ What you really want is to fill and update your description file along with the 
 attachment::att_to_description()
 ```
 
+As {pkgdown} and {covr} are not listed in any script in your package, a common call for your development packages would be:
+```{r, eval=FALSE}
+attachment::att_to_description(extra.suggests = c("pkgdown", "covr"))
+```
+
+
 To quickly install missing packages from a DESCRIPTION file, use:
 
 ```{r, eval=FALSE}

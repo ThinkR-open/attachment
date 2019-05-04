@@ -3,7 +3,6 @@
 #' @param x a vector
 #'
 #' @export
-#' @importFrom stats na.omit
 #' @importFrom magrittr %>%
 my_mean <- function(x){
   x <- x %>% stats::na.omit()

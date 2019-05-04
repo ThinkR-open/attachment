@@ -51,6 +51,18 @@ your package \!
 attachment::att_to_description()
 ```
 
+As {pkgdown} and {covr} are not listed in any script in your package, a
+common call for your development packages would be:
+
+``` r
+attachment::att_to_description(extra.suggests = c("pkgdown", "covr"))
+#> Updating attachment documentation
+#> Writing NAMESPACE
+#> Loading attachment
+#> Writing NAMESPACE
+#> Writing att_to_description.Rd
+```
+
 To quickly install missing packages from a DESCRIPTION file, use:
 
 ``` r

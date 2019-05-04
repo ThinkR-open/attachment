@@ -6,7 +6,8 @@
 \usage{
 att_to_description(path = ".", path.n = "NAMESPACE",
   path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
-  extra.suggests = NULL, pkg_ignore = NULL, document = TRUE)
+  dir.t = "tests", extra.suggests = NULL, pkg_ignore = NULL,
+  document = TRUE)
 }
 \arguments{
 \item{path}{path to the root of the package directory. Default to current directory.}
@@ -19,9 +20,11 @@ att_to_description(path = ".", path.n = "NAMESPACE",
 
 \item{dir.v}{path to vignettes directory. Set to empty (dir.v = "") to ignore.}
 
-\item{extra.suggests}{vector of other packages that should be added in Suggests (pkgdown for instance)}
+\item{dir.t}{path to tests directory. Set to empty (dir.t = "") to ignore.}
 
-\item{pkg_ignore}{vector of packages to ignore.}
+\item{extra.suggests}{vector of other packages that should be added in Suggests (pkgdown, covr for instance)}
+
+\item{pkg_ignore}{vector of packages names to ignore.}
 
 \item{document}{Run function document of devtools package}
 }

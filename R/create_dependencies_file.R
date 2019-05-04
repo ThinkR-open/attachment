@@ -85,13 +85,12 @@ to_install <- c("*{glue::glue_collapse(as.character(ll), sep="\\", \\"")}*")
       message(paste("     installing", i))
       install.packages(i)
     }
-
-  }', .open = "*{", .close = "}*")
+  }\n\n', .open = "*{", .close = "}*")
   } else {
     content <- glue::glue(
       '*{remotes_content}*
 # No attachments ----
-      ', .open = "*{", .close = "}*")
+      \n\n', .open = "*{", .close = "}*")
   }
 
   # file <- normalizePath(to, mustWork = FALSE)

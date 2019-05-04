@@ -1,3 +1,8 @@
+# attachment 0.0.9
+
+* `att_to_description` if {covr} is needed, should be added in parameter `extra.suggests`
+* `att_to_description` has a parameter 'dir.t' to extract suggests dependencies from test directory
+
 # attachment 0.0.8
 
 * `att_to_description` allows for 'LinkingTo' field in DESCRIPTION with a message

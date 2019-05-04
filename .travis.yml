@@ -32,6 +32,7 @@ before_install:
   - Rscript -e 'update.packages(ask = FALSE)'
 
 after_success:
+  - Rscript -e 'devtools::test()'
   - Rscript -e 'covr::codecov()'
   - Rscript -e 'pkgdown::build_site()'
 

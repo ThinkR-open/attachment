@@ -56,8 +56,12 @@ usethis::use_appveyor()
 usethis::use_build_ignore("_pkgdown.yml")
 pkgdown::build_site()
 
-attachment::att_to_description(pkg_ignore = c("remotes"), #i
-                               extra.suggests = "pkgdown")
+# Do not parse dir.t because of tests
+attachment::att_from_rscripts("tests")
+attachment::att_to_description(pkg_ignore = c("remotes", "i"), #i
+                               extra.suggests = c("pkgdown", "covr", "testthat"),
+                               dir.t = "")
+
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
 
 usethis::use_vignette("fill-pkg-description")
