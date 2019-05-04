@@ -149,7 +149,8 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>att_from_rmd</span>(<span class='no'>path</span>, <span class='kw'>temp_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='kw'>warn</span> <span class='kw'>=</span> -<span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>att_from_rmd</span>(<span class='no'>path</span>, <span class='kw'>temp_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='kw'>warn</span> <span class='kw'>=</span> -<span class='fl'>1</span>,
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/options'>getOption</a></span>(<span class='st'>"encoding"</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,6 +166,10 @@
     <tr>
       <th>warn</th>
       <td><p>-1 for quiet warnings with purl, 0 to see warnings</p></td>
+    </tr>
+    <tr>
+      <th>encoding</th>
+      <td><p>Encoding of the input file; see <code><a href='https://www.rdocumentation.org/packages/base/topics/connections'>file</a></code>.</p></td>
     </tr>
     </table>
     
