@@ -1,11 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- badges: start -->
+
 [![Travis build
 status](https://travis-ci.org/ThinkR-open/attachment.svg?branch=master)](https://travis-ci.org/ThinkR-open/attachment)
 [![Build
 status](https://ci.appveyor.com/api/projects/status/4iwtrbg3hggr49d2/branch/master?svg=true)](https://ci.appveyor.com/project/statnmap/attachment-jb75k/branch/master)[![Coverage
-status](https://codecov.io/gh/ThinkR-open/attachment/branch/master/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=master)
+status](https://codecov.io/gh/ThinkR-open/attachment/branch/master/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=master)[![CRAN
+status](https://www.r-pkg.org/badges/version/attachment)](https://cran.r-project.org/package=attachment)
+<!-- badges: end -->
 
 <img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex-thinkr.png" width=250px>
 
@@ -56,11 +60,6 @@ common call for your development packages would be:
 
 ``` r
 attachment::att_to_description(extra.suggests = c("pkgdown", "covr"))
-#> Updating attachment documentation
-#> Writing NAMESPACE
-#> Loading attachment
-#> Writing NAMESPACE
-#> Writing att_to_description.Rd
 ```
 
 To quickly install missing packages from a DESCRIPTION file, use:
