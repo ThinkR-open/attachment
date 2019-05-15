@@ -2,12 +2,20 @@
 % Please edit documentation in R/attachment-package.R
 \docType{package}
 \name{attachment-package}
-\alias{attachment-package}
-\alias{_PACKAGE}
 \alias{attachment}
-\title{Tools to deal with package dependencies}
+\alias{attachment-package}
+\title{attachment: Deal with Dependencies}
 \description{
-The goal of attachment is to help to deal with package dependencies during package development. It also give useful tools to install or list missing packages used inside Rscripts or Rmds.
+\if{html}{\figure{logo.png}{options: align='right'}}
+
+Tools to help manage dependencies during package
+    development.  This can retrieve all dependencies that are used in R
+    files in the "R" directory, in Rmd files in "vignettes" directory and
+    in 'roxygen2' documentation of functions. There is a function to
+    update the Description file of your package and a function to create a
+    file with the R commands to install all dependencies of your package.
+    All functions to retrieve dependencies of R scripts and Rmd files can
+    be used independently of a package development.
 }
 \seealso{
 Useful links:
@@ -18,8 +26,17 @@ Useful links:
 
 }
 \author{
-Vincent Guyader <vincent@thinkr.fr>
+\strong{Maintainer}: Vincent Guyader \email{vincent@thinkr.fr} (0000-0003-0671-9270)
 
-Sébastien Rochette <sebastien@thinkr.fr>
+Authors:
+\itemize{
+  \item Sébastien Rochette \email{sebastien@thinkr.fr} (0000-0002-1565-9313)
+}
+
+Other contributors:
+\itemize{
+  \item ThinkR [copyright holder, funder]
+}
+
 }
 \keyword{internal}
