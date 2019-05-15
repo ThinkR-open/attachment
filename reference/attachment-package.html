@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Tools to deal with package dependencies — attachment-package • attachment</title>
+<title>attachment: Deal with Dependencies — attachment-package • attachment</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -29,9 +29,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 
-<meta property="og:title" content="Tools to deal with package dependencies — attachment-package" />
+<meta property="og:title" content="attachment: Deal with Dependencies — attachment-package" />
 
-<meta property="og:description" content="The goal of attachment is to help to deal with package dependencies during package development. It also give useful tools to install or list missing packages used inside Rscripts or Rmds." />
+<meta property="og:description" content="
+Tools to help manage dependencies during package
+    development.  This can retrieve all dependencies that are used in R
+    files in the &quot;R&quot; directory, in Rmd files in &quot;vignettes&quot; directory and
+    in 'roxygen2' documentation of functions. There is a function to
+    update the Description file of your package and a function to create a
+    file with the R commands to install all dependencies of your package.
+    All functions to retrieve dependencies of R scripts and Rmd files can
+    be used independently of a package development." />
 
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -138,14 +146,22 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Tools to deal with package dependencies</h1>
+    <h1>attachment: Deal with Dependencies</h1>
     <small class="dont-index">Source: <a href='https://github.com/Thinkr-open/attachment/blob/master/R/attachment-package.R'><code>R/attachment-package.R</code></a></small>
     <div class="hidden name"><code>attachment-package.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>The goal of attachment is to help to deal with package dependencies during package development. It also give useful tools to install or list missing packages used inside Rscripts or Rmds.</p>
+    <p><img src='figures/logo.png' align='right' /></p>
+<p>Tools to help manage dependencies during package
+    development.  This can retrieve all dependencies that are used in R
+    files in the "R" directory, in Rmd files in "vignettes" directory and
+    in 'roxygen2' documentation of functions. There is a function to
+    update the Description file of your package and a function to create a
+    file with the R commands to install all dependencies of your package.
+    All functions to retrieve dependencies of R scripts and Rmd files can
+    be used independently of a package development.</p>
     
     </div>
 
@@ -167,8 +183,16 @@
           </ul>
 
     <h2>Author</h2>
-    <p>Vincent Guyader &lt;vincent@thinkr.fr&gt;</p>
-<p>Sébastien Rochette &lt;sebastien@thinkr.fr&gt;</p>
+    <p><strong>Maintainer</strong>: Vincent Guyader <a href='mailto:vincent@thinkr.fr'>vincent@thinkr.fr</a> (0000-0003-0671-9270)</p>
+<p>Authors:</p><ul>
+<li><p>Sébastien Rochette <a href='mailto:sebastien@thinkr.fr'>sebastien@thinkr.fr</a> (0000-0002-1565-9313)</p></li>
+</ul>
+
+<p>Other contributors:</p><ul>
+<li><p>ThinkR [copyright holder, funder]</p></li>
+</ul>
+
+
   </div>
 </div>
 
