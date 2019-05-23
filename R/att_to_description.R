@@ -160,7 +160,7 @@ att_to_description <- function(path = ".",
       Other_depends_keep <- Other_depends[Other_depends$package %in% deps_new$package, ]
       if (length(Other_depends_keep) != 0) {
         message("Package(s) ",
-                Other_depends_keep$package,
+                paste(Other_depends_keep$package, collapse = ", "),
                 " is(are) in category 'Depends'. Check your Description file",
                 " to be sure it is really what you want."
         )
