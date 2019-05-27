@@ -37,10 +37,10 @@ install_if_missing <- function(to_be_installed, ...) {
   will_be_installed <- setdiff(to_be_installed, already_installed)
 
   if ( length(will_be_installed) == 0 ) {
-    cat("All required packages are installed")
+    cat("All required packages are installed\n")
     return(invisible(NULL))
   }
-  cat("Installation of: ", will_be_installed)
+  cat("Installation of: ", will_be_installed, "\n")
 
   install.packages(will_be_installed, ...)
 }
