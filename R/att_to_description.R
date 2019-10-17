@@ -1,4 +1,4 @@
-#' Add packages to description
+#' Amend DESCRIPTION with dependencies read from package code parsing
 #'
 #' @param path path to the root of the package directory. Default to current directory.
 #' @param path.n path to namespace file.
@@ -10,8 +10,9 @@
 #' @param pkg_ignore vector of packages names to ignore.
 #'
 #' @inheritParams att_from_namespace
-#' @importFrom desc description
-# @param add_version Logical. Do you want to add version number of packages to description
+#'
+#' @return Update DESCRIPTION file.
+#' att_to_desc_from_pkg(), att_amend_desc() are aliases
 #'
 #' @export
 #' @examples
@@ -20,7 +21,7 @@
 #'  recursive = TRUE)
 #' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # browseURL(dummypackage)
-#' att_to_description(path = dummypackage)
+#' att_amend_desc(path = dummypackage)
 
 att_to_description <- function(path = ".",
                                path.n = "NAMESPACE",
@@ -37,16 +38,41 @@ att_to_description <- function(path = ".",
     old <- setwd(normalizePath(path))
     on.exit(setwd(old))
   }
-  if (!file.exists(path.n)) {
-    stop(paste("There is no file named path=", path.n, "in the current directory"))
-  }
+  # if (!file.exists(path.n)) {
+  #   stop(paste("There is no file named path=", path.n, "in the current directory"))
+  # }
   if (!file.exists(path.d)) {
     stop(paste("There is no file named path.d =", path.d, "in the current directory"))
   }
-  if (!all(dir.exists(dir.r))) {
-    stop("One of directories in dir.r=", paste(dir.r, collapse = ", "), "does not exists in the current directory")
+  # if (!is.null(dir.r) & !all(dir.exists(dir.r))) {
+  #   stop("One of directories in dir.r=", paste(dir.r, collapse = ", "), "does not exists in the current directory")
+  # }
+
+  # Remove non-existing directories in dir.r for Imports
+  dir.r.test <- dir.exists(dir.r)
+  if (any(dir.r.test)) {
+    if (any(!dir.r.test)) {
+      message("There is no directory named: ",
+              paste(dir.r[!dir.r.test], collapse = ", "),
+              ". This is removed from the Imports exploration")
+    }
+    dir.r <- dir.r[dir.r.test]
+  } else {
+    dir.r <- ""
   }
 
+  # Remove non-existing directories in path.n for Imports
+  path.n.test <- file.exists(path.n)
+  if (any(path.n.test)) {
+    if (any(!path.n.test)) {
+      message("There is no directory named: ",
+              paste(path.n[!path.n.test], collapse = ", "),
+              ". This is removed from the Imports exploration")
+    }
+    path.n <- path.n[path.n.test]
+  } else {
+    path.n <- ""
+  }
   # Remove non-existing directories for Suggests
   dir.v.test <- dir.exists(dir.v)
   if (any(dir.v.test)) {
@@ -73,13 +99,92 @@ att_to_description <- function(path = ".",
     dir.t <- ""
   }
 
+  # Imports ----
   # Find dependencies in namespace and scripts
-  depends <- unique(c(att_from_namespace(path.n, document = document),
-                      att_from_rscripts(dir.r)))
+  imports <- NULL
+  if (path.n != "") {
+    imports <- unique(c(imports, att_from_namespace(path.n, document = document)))
+  }
+  if (dir.r != "") {
+    # Look for R scripts
+    imports <- unique(c(imports, att_from_rscripts(dir.r)))
+    # Look for Rmd, in case in a bookdown
+    # imports <- unique(c(imports, att_from_rmds(dir.r)))
+  }
+
+  # Suggests ----
+  suggests <- NULL
+  # Get suggests in vignettes and remove if already in imports
+  if (!grepl("^$|^\\s+$$", dir.v)) {
+    vg <- att_from_rmds(dir.v)
+    suggests <- c(suggests, vg[!vg %in% imports])
+  }
+
+  # Get suggests in tests and remove if already in imports
+  if (!grepl("^$|^\\s+$$", dir.t)) {
+    tt <- att_from_rscripts(dir.t)
+    suggests <- c(suggests, tt[!tt %in% imports])
+  }
+
+  # Ignore packages ----
+  if (!is.null(pkg_ignore)) {
+    imports <- imports[!imports %in% pkg_ignore]
+    suggests <- suggests[!suggests %in% pkg_ignore]
+    # suggests_keep <- suggests_keep[!suggests_keep %in% pkg_ignore]
+  }
+  if (!is.null(extra.suggests)) {
+    suggests <- unique(c(suggests, extra.suggests))
+  }
+
+  # Build DESCRIPTION ----
+  att_to_desc_from_is(path.d, imports, suggests)
+}
+
+#' @rdname att_to_description
+#' @export
+att_to_desc_from_pkg <- att_to_description
+
+#' @rdname att_to_description
+#' @export
+att_amend_desc <- att_to_description
+
+#' Amend DESCRIPTION with dependencies from imports and suggests package list
+#'
+#' @param path.d path to description file.
+#' @param imports character vector of package names to add in Imports section
+#' @param suggests character vector of package names to add in Suggests section
+#'
+#' @importFrom desc description
+#'
+#' @export
+#'
+#' @return Fill in Description file
+#'
+#' @examples
+#' tmpdir <- tempdir()
+#' file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+#'  recursive = TRUE)
+#' dummypackage <- file.path(tmpdir, "dummypackage")
+#' # browseURL(dummypackage)
+#' att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
+#' imports = c("fcuk", "attachment"), suggests = c("knitr"))
+#' # In combination with other functions
+#' att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
+#' imports = att_from_rscripts(file.path(dummypackage, ".R")),
+#' suggests = att_from_rmds(file.path(dummypackage, "vignettes")))
+
+att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL, suggests = NULL) {
+
+  if (!file.exists(path.d)) {
+    stop(paste("There is no file named path.d =", path.d, "in the current directory"))
+  }
+
   desc <- description$new(path.d)
   pkg_name <- desc$get("Package")
-  # Remove pkg name from depends
-  depends <- depends[depends != pkg_name]
+  # Remove pkg name from imports
+  imports <- imports[imports != pkg_name]
+  # Remove pkg name from suggests
+  suggests <- suggests[suggests != pkg_name]
 
   # Get previous dependencies in Description in case version is set
   deps_desc <- desc$get_deps()
@@ -94,53 +199,20 @@ att_to_description <- function(path = ".",
     remotes_orig_pkg <- NULL
   }
 
-  suggests <- NULL
-  # Get suggests in vignettes and remove if already in depends
-  if (!grepl("^$|^\\s+$$", dir.v)) {
-    vg <- att_from_rmds(dir.v)
-    suggests <- c(suggests, vg[!vg %in% c(depends, pkg_name)])
-  }
-
-  # Get suggests in tests and remove if already in depends
-  if (!grepl("^$|^\\s+$$", dir.t)) {
-    tt <- att_from_rscripts(dir.t)
-    suggests <- c(suggests, tt[!tt %in% c(depends, pkg_name)])
-  }
-
-  # Add suggests for tests and covr
-  # suggests_orig <- desc$get("Suggests")
-  # if (is.na(suggests_orig)) {
-  #   suggests_orig <- NULL
-  # }
-  # suggests_keep <- NULL
-  # if (file.exists("codecov.yml") | isTRUE(grepl("covr", suggests_orig))) {
-  #   suggests_keep <- c(suggests_keep, "covr")
-  # } else {
-  #   suggests_keep <- c(suggests_keep, NULL)
-  # }
-
-  # If remotes: remove orig remotes not anymore in depends or suggests
+  # If remotes: remove orig remotes not anymore in imports or suggests
   if (!is.null(remotes_orig_pkg)) {
-    remotes_keep_pkg <- remotes_orig_pkg[remotes_orig_pkg %in% c(depends, suggests, extra.suggests)] #suggests_keep
+    remotes_keep_pkg <- remotes_orig_pkg[remotes_orig_pkg %in% c(imports, suggests)] #suggests_keep
     remotes_keep <- remotes_orig[remotes_orig_pkg %in% remotes_keep_pkg]
   } else {
     remotes_keep_pkg <- remotes_keep <- NULL
   }
 
-  # Ignore packages
-  if (!is.null(pkg_ignore)) {
-    depends <- depends[!depends %in% pkg_ignore]
-    suggests <- suggests[!suggests %in% pkg_ignore]
-    # suggests_keep <- suggests_keep[!suggests_keep %in% pkg_ignore]
-  }
-
   # Create new deps dataframe
-  all_suggests <- unique(c(suggests, extra.suggests)) #suggests_keep
-  all_packages <- c(depends, all_suggests)
+  all_packages <- c(imports, suggests)
   if (is.null(all_packages)) {all_packages <- character()}
 
   deps_new <- data.frame(
-    type = c(rep("Imports", length(depends)), rep("Suggests", length(all_suggests))),
+    type = c(rep("Imports", length(imports)), rep("Suggests", length(suggests))),
     package = all_packages, stringsAsFactors = FALSE) %>%
     merge(deps_orig[,c("package", "version")],
           by = "package", sort = TRUE, all.x = TRUE, all.y = FALSE) %>%

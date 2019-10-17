@@ -2,7 +2,7 @@
 #'
 #' @param path path to the DESCRIPTION file
 #' @param dput if FALSE return a vector instead of dput output
-#' @param field DESCRIPTION field to parse, Import and Depends by default
+#' @param field DESCRIPTION field to parse, Import, Suggests and Depends by default
 #'
 #' @return A character vector with packages names
 #'

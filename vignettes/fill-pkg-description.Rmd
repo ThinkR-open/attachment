@@ -33,11 +33,22 @@ usethis::use_build_ignore("devstuff_history.R")
 You can then call {attachment} in this file to help you build your description file.
 
 ## Fill your DESCRIPTION file
+### For packages
 What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your "devstuff_history.R".  
-Run `attachment::att_to_description()` each time before `devtools::check()`, this will save you some warnings and errors !
+Run `attachment::att_amend_desc()` each time before `devtools::check()`, this will save you some warnings and errors !
 
 ```{r, eval=FALSE}
-att_to_description()
+att_amend_desc()
+```
+
+### For bookdown
+You can use a similar approch for a {bookdown} description file using `attachment::att_to_desc_from_is()`
+
+```{r, eval=FALSE}
+# bookdown Imports are in Rmds
+imports <- c("bookdown", attachment::att_from_rmds("."))
+attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
+                                imports = imports, suggests = NULL)
 ```
 
 ## Get all packages listed in "namespace"

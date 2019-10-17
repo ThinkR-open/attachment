@@ -9,7 +9,7 @@ att_from_namespace(path = "NAMESPACE", document = TRUE)
 \arguments{
 \item{path}{path to NAMESPACE file}
 
-\item{document}{Run function document of devtools package}
+\item{document}{Run function roxygenise of roxygen2 package}
 }
 \value{
 a vector
@@ -23,5 +23,5 @@ file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
  recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
-att_from_namespace(path = file.path(dummypackage,"NAMESPACE"))
+att_from_namespace(path = file.path(dummypackage, "NAMESPACE"))
 }

@@ -30,8 +30,9 @@ And what happens when you remove a dependency for one of your functions ? Do you
 
 Let {attachment} help you ! This reads your NAMESPACE, your functions in R directory and your vignettes, then update the DESCRIPTION file accordingly. Are you ready to be lazy ?
 
-## Installation
+See full documentation realized using {pkgdown} at <https://thinkr-open.github.io/attachment/>  
 
+## Installation
 
 ``` r
 # install.packages("devtools")
@@ -39,6 +40,7 @@ devtools::install_github("ThinkR-open/attachment")
 ```
 
 ## Use package {attachment}
+### During package development
 ```{r}
 library(attachment)
 ```
@@ -46,18 +48,32 @@ library(attachment)
 What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only the following function will really be called. Use and abuse during the development of your package !
 
 ```{r, eval=FALSE}
-attachment::att_to_description()
+attachment::att_amend_desc()
 ```
 
 As {pkgdown} and {covr} are not listed in any script in your package, a common call for your development packages would be:
 ```{r, eval=FALSE}
-attachment::att_to_description(extra.suggests = c("pkgdown", "covr"))
+attachment::att_amend_desc(extra.suggests = c("pkgdown", "covr"))
+```
+
+_Note: `attachment::att_to_description()` still exists as an alias._
+
+#### Example on a fake package
+
+```{r}
+# Copy package in a temporary directory
+tmpdir <- tempdir()
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+# browseURL(dummypackage)
+att_amend_desc(path = dummypackage)
 ```
 
 
+### For installation
 To quickly install missing packages from a DESCRIPTION file, use:
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 attachment::install_from_description()
 ```
 
@@ -68,7 +84,6 @@ attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
 
 attachment::att_from_rscripts(path = ".") %>% attachment::install_if_missing()
 ```
-
 
 Function `attachment::create_dependencies_file()` will create a `dependencies.R` file in `inst/` directory. This R script contains the procedure to quickly install missing dependencies:
 
@@ -86,10 +101,22 @@ for (i in to_install) {
 }
 ```
 
+### For bookdown
 
-Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
+If you write a {bookdown} and want to publish it on Github using Travis for instance, you will need a DESCRIPTION file with list of dependencies just like for a package. In this case, you can use the function to description from import/suggest: `att_to_desc_from_is()`.
 
 ```{r, eval=FALSE}
+# bookdown Imports are in Rmds
+imports <- c("bookdown", attachment::att_from_rmds("."))
+attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
+                                imports = imports, suggests = NULL)
+```
+
+
+### To list information
+Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
+
+```{r, eval=TRUE}
 dummypackage <- system.file("dummypackage", package = "attachment")
 
 att_from_rscripts(path = dummypackage)

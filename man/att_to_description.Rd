@@ -2,9 +2,21 @@
 % Please edit documentation in R/att_to_description.R
 \name{att_to_description}
 \alias{att_to_description}
-\title{Add packages to description}
+\alias{att_to_desc_from_pkg}
+\alias{att_amend_desc}
+\title{Amend DESCRIPTION with dependencies read from package code parsing}
 \usage{
 att_to_description(path = ".", path.n = "NAMESPACE",
+  path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
+  dir.t = "tests", extra.suggests = NULL, pkg_ignore = NULL,
+  document = TRUE)
+
+att_to_desc_from_pkg(path = ".", path.n = "NAMESPACE",
+  path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
+  dir.t = "tests", extra.suggests = NULL, pkg_ignore = NULL,
+  document = TRUE)
+
+att_amend_desc(path = ".", path.n = "NAMESPACE",
   path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
   dir.t = "tests", extra.suggests = NULL, pkg_ignore = NULL,
   document = TRUE)
@@ -26,10 +38,14 @@ att_to_description(path = ".", path.n = "NAMESPACE",
 
 \item{pkg_ignore}{vector of packages names to ignore.}
 
-\item{document}{Run function document of devtools package}
+\item{document}{Run function roxygenise of roxygen2 package}
+}
+\value{
+Update DESCRIPTION file.
+att_to_desc_from_pkg(), att_amend_desc() are aliases
 }
 \description{
-Add packages to description
+Amend DESCRIPTION with dependencies read from package code parsing
 }
 \examples{
 tmpdir <- tempdir()
@@ -37,5 +53,5 @@ file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
  recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
-att_to_description(path = dummypackage)
+att_amend_desc(path = dummypackage)
 }
