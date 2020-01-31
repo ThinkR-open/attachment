@@ -30,3 +30,4 @@ rsconnect/
 .Rproj.user
 # Doc for pkgdown
 docs/*
+inst/doc

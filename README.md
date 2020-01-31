@@ -9,12 +9,9 @@ status](https://travis-ci.org/ThinkR-open/attachment.svg?branch=master)](https:/
 status](https://ci.appveyor.com/api/projects/status/4iwtrbg3hggr49d2/branch/master?svg=true)](https://ci.appveyor.com/project/statnmap/attachment-jb75k/branch/master)[![Coverage
 status](https://codecov.io/gh/ThinkR-open/attachment/branch/master/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=master)[![CRAN
 status](https://www.r-pkg.org/badges/version/attachment)](https://cran.r-project.org/package=attachment)
-![downloads](http://cranlogs.r-pkg.org/badges/attachment)
 <!-- badges: end -->
 
-<img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex-thinkr.png" width=250px>
-
-# attachment
+# attachment <img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex-thinkr.png" align="right" alt="" width="120" />
 
 The goal of attachment is to help to deal with package dependencies
 during package development. It also gives useful tools to install or
@@ -81,7 +78,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_amend_desc(path = dummypackage)
 #> Updating dummypackage documentation
-#> Updating roxygen version in /tmp/RtmpTf4nIx/dummypackage/DESCRIPTION
+#> Updating roxygen version in /tmp/RtmpfSx1Ld/dummypackage/DESCRIPTION
 #> Writing NAMESPACE
 #> Loading dummypackage
 #> Writing NAMESPACE
@@ -101,8 +98,7 @@ attachment::install_from_description()
 ```
 
 To quickly install missing packages needed to compile Rmd files or run
-Rscripts,
-use:
+Rscripts, use:
 
 ``` r
 attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
