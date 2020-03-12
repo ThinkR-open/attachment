@@ -18,7 +18,7 @@
 att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1, encoding = getOption("encoding")) {
   if (missing(path)) {stop("argument 'path' is missing, with no default")}
 
-  r_file <- normalizePath(file.path(temp_dir, basename(gsub(".(Rmd|rmd)$", ".R", path))), mustWork = FALSE, winslash = "\\")
+  r_file <- normalizePath(file.path(temp_dir, basename(gsub("[.](Rmd|rmd)$", ".R", path))), mustWork = FALSE, winslash = "\\")
   path <- normalizePath(path, winslash = "\\")
 
   # Need an external script to run on windows because of \\ path
@@ -59,7 +59,7 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1, encoding = getOp
 #' att_from_rmds(path = file.path(dummypackage,"vignettes"))
 
 #' @export
-att_from_rmds <- function(path = "vignettes", pattern = "*.(Rmd|rmd)$", recursive = TRUE, warn = -1) {
+att_from_rmds <- function(path = "vignettes", pattern = "*.[.](Rmd|rmd)$", recursive = TRUE, warn = -1) {
 
   if (isTRUE(all(dir.exists(path)))) {
     all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
