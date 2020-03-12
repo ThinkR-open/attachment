@@ -6,7 +6,7 @@
 \alias{attachment-package}
 \title{attachment: Deal with Dependencies}
 \description{
-\if{html}{\figure{logo.png}{options: align='right'}}
+\if{html}{\figure{logo.png}{options: align='right' alt='logo' width='120'}}
 
 Tools to help manage dependencies during package
     development.  This can retrieve all dependencies that are used in R
@@ -26,11 +26,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Vincent Guyader \email{vincent@thinkr.fr} (0000-0003-0671-9270)
+\strong{Maintainer}: Vincent Guyader \email{vincent@thinkr.fr} (\href{https://orcid.org/0000-0003-0671-9270}{ORCID})
 
 Authors:
 \itemize{
-  \item Sébastien Rochette \email{sebastien@thinkr.fr} (0000-0002-1565-9313)
+  \item Sébastien Rochette \email{sebastien@thinkr.fr} (\href{https://orcid.org/0000-0002-1565-9313}{ORCID})
 }
 
 Other contributors:

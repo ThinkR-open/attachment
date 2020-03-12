@@ -4,8 +4,11 @@
 \alias{att_from_description}
 \title{Return all package dependencies from current package}
 \usage{
-att_from_description(path = "DESCRIPTION", dput = FALSE,
-  field = c("Depends", "Imports", "Suggests"))
+att_from_description(
+  path = "DESCRIPTION",
+  dput = FALSE,
+  field = c("Depends", "Imports", "Suggests")
+)
 }
 \arguments{
 \item{path}{path to the DESCRIPTION file}

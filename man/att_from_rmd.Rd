@@ -4,8 +4,12 @@
 \alias{att_from_rmd}
 \title{Get all dependencies from a Rmd file}
 \usage{
-att_from_rmd(path, temp_dir = tempdir(), warn = -1,
-  encoding = getOption("encoding"))
+att_from_rmd(
+  path,
+  temp_dir = tempdir(),
+  warn = -1,
+  encoding = getOption("encoding")
+)
 }
 \arguments{
 \item{path}{Path to a Rmd file}
@@ -14,7 +18,8 @@ att_from_rmd(path, temp_dir = tempdir(), warn = -1,
 
 \item{warn}{-1 for quiet warnings with purl, 0 to see warnings}
 
-\item{encoding}{Encoding of the input file; see \code{\link{file}}.}
+\item{encoding}{Encoding of the input file; always assumed to be UTF-8 (i.e.,
+this argument is effectively ignored).}
 }
 \description{
 Get all dependencies from a Rmd file

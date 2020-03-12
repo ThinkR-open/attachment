@@ -4,10 +4,17 @@
 \alias{att_to_description}
 \title{Add packages to description}
 \usage{
-att_to_description(path = ".", path.n = "NAMESPACE",
-  path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
-  dir.t = "tests", extra.suggests = NULL, pkg_ignore = NULL,
-  document = TRUE)
+att_to_description(
+  path = ".",
+  path.n = "NAMESPACE",
+  path.d = "DESCRIPTION",
+  dir.r = "R",
+  dir.v = "vignettes",
+  dir.t = "tests",
+  extra.suggests = NULL,
+  pkg_ignore = NULL,
+  document = TRUE
+)
 }
 \arguments{
 \item{path}{path to the root of the package directory. Default to current directory.}

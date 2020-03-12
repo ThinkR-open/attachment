@@ -4,7 +4,7 @@
 \alias{att_from_rscripts}
 \title{Look for functions called with `::` and library/requires in folder of scripts}
 \usage{
-att_from_rscripts(path = "R", pattern = "*.(r|R)$", recursive = TRUE)
+att_from_rscripts(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE)
 }
 \arguments{
 \item{path}{directory with R scripts inside}
