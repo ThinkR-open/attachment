@@ -1,12 +1,12 @@
 # attachment 0.1
 
-* `att_amend_desc()` is an alias for `att_to_description()`
-* `att_desc_from_is()` amends DESCRIPTION file from imports/suggests vector of packages
-* `att_to_desc_from_pkg()` is an alias for `att_to_description()`
-* Removed dependency to {devtools}, replace by {roxygen}
-* `att_to_description()` shows packages added/removed from DESCRIPTION
-* `att_to_description()` deals with dependencies in tests/ directory
-* `att_from_rmds()` allows user defined regex to detect Rmd files
+* `att_amend_desc()` is an alias for `att_to_description()`  
+* `att_desc_from_is()` amends DESCRIPTION file from imports/suggests vector of packages  
+* `att_to_desc_from_pkg()` is an alias for `att_to_description()`  
+* Removed dependency to {devtools}, replace by {roxygen}  
+* `att_to_description()` shows packages added/removed from DESCRIPTION  
+* `att_to_description()` deals with dependencies in tests/ directory  
+* `att_from_rmds()` allows user defined regex to detect Rmd files  
 
 # attachment 0.0.9
 

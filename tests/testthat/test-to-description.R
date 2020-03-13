@@ -16,7 +16,6 @@ create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
 dep_file <- readLines(file.path(tmpdir, "dummypackage", "inst/dependencies.R"))
 
 test_that("to-descritpion updates namespace", {
-  # importFrom(utils,na.omit) should be removed
   expect_length(namespace_file, 4)
 })
 
