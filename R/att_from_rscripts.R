@@ -54,7 +54,7 @@ att_from_rscript <- function(path) {
 #'
 #' att_from_rscripts(path = dummypackage)
 
-att_from_rscripts <- function(path = "R", pattern = "*.(r|R)$", recursive = TRUE) {
+att_from_rscripts <- function(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE) {
   all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
   lapply(all_f, att_from_rscript) %>%
     unlist() %>%

@@ -2,4 +2,4 @@
 
 export(my_mean)
 importFrom(magrittr,"%>%")
-importFrom(utils,na.omit)
+importFrom(stats,na.omit)

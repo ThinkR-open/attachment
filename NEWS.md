@@ -1,3 +1,13 @@
+# attachment 0.1
+
+* `att_amend_desc()` is an alias for `att_to_description()`  
+* `att_desc_from_is()` amends DESCRIPTION file from imports/suggests vector of packages  
+* `att_to_desc_from_pkg()` is an alias for `att_to_description()`  
+* Removed dependency to {devtools}, replace by {roxygen}  
+* `att_to_description()` shows packages added/removed from DESCRIPTION  
+* `att_to_description()` deals with dependencies in tests/ directory  
+* `att_from_rmds()` allows user defined regex to detect Rmd files  
+
 # attachment 0.0.9
 
 * `att_from_rmd` adds a temporary encoding parameter as `knitr::purl` will only deal with UTF-8 in the future. Parameter not added in `att_from_rmds`.

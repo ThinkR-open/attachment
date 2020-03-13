@@ -4,8 +4,11 @@
 \alias{install_from_description}
 \title{Install missing package from DESCRIPTION}
 \usage{
-install_from_description(path = "DESCRIPTION", field = c("Depends",
-  "Imports", "Suggests"), ...)
+install_from_description(
+  path = "DESCRIPTION",
+  field = c("Depends", "Imports", "Suggests"),
+  ...
+)
 }
 \arguments{
 \item{path}{path to the DESCRIPTION file}

@@ -1,0 +1,87 @@
+---
+title: "Untitled"
+author: "Vincent"
+date: "11 août 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+require(dontfind)
+
+```{r}
+library(dontfind.me)
+require(dontfindme1)
+require(   dontfindme2   )
+library(dontfindme3)
+library(   dontfindme4   )
+requireNamespace(dontfindme5)
+requireNamespace(     dontfindme6      )
+```
+
+
+```{r}
+require("findme1a")
+require(   "findme2a"   )
+library("findme3a")
+library(   "findme4a"   )
+requireNamespace("findme5a")
+requireNamespace(     "findme6a"      )
+
+# require(dontfindme1)
+# require(   dontfindme2   )
+# library(dontfindme3)
+# library(   dontfindme4   )
+# requireNamespace(dontfindme5)
+# requireNamespace(     dontfindme6      )
+#
+#
+# require("dontfindme1a")
+# require(   "dontfindme2a"   )
+# library("dontfindme3a")
+# library(   "dontfindme4a"   )
+# requireNamespace("dontfindme5a")
+# requireNamespace(     "dontfindme6a"      )
+
+
+1+1# require(dontfindme1)
+1+1# require(   dontfindme2   )
+1+1# library(dontfindme3)
+1+1# library(   dontfindme4   )
+1+1# requireNamespace(dontfindme5)
+1+1# requireNamespace(     dontfindme6      )
+1+1#
+1+1#
+1+1# require("dontfindme1a")
+1+1# require(   "dontfindme2a"   )
+1+1# library("dontfindme3a")
+1+1# library(   "dontfindme4a"   )
+1+1# requireNamespace("dontfindme5a")
+1+1# requireNamespace(     "dontfindme6a"      )
+
+```
+
+
+

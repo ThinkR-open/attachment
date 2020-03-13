@@ -6,20 +6,41 @@
 \alias{att_amend_desc}
 \title{Amend DESCRIPTION with dependencies read from package code parsing}
 \usage{
-att_to_description(path = ".", path.n = "NAMESPACE",
-  path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
-  dir.t = "tests", extra.suggests = NULL, pkg_ignore = NULL,
-  document = TRUE)
+att_to_description(
+  path = ".",
+  path.n = "NAMESPACE",
+  path.d = "DESCRIPTION",
+  dir.r = "R",
+  dir.v = "vignettes",
+  dir.t = "tests",
+  extra.suggests = NULL,
+  pkg_ignore = NULL,
+  document = TRUE
+)
 
-att_to_desc_from_pkg(path = ".", path.n = "NAMESPACE",
-  path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
-  dir.t = "tests", extra.suggests = NULL, pkg_ignore = NULL,
-  document = TRUE)
+att_to_desc_from_pkg(
+  path = ".",
+  path.n = "NAMESPACE",
+  path.d = "DESCRIPTION",
+  dir.r = "R",
+  dir.v = "vignettes",
+  dir.t = "tests",
+  extra.suggests = NULL,
+  pkg_ignore = NULL,
+  document = TRUE
+)
 
-att_amend_desc(path = ".", path.n = "NAMESPACE",
-  path.d = "DESCRIPTION", dir.r = "R", dir.v = "vignettes",
-  dir.t = "tests", extra.suggests = NULL, pkg_ignore = NULL,
-  document = TRUE)
+att_amend_desc(
+  path = ".",
+  path.n = "NAMESPACE",
+  path.d = "DESCRIPTION",
+  dir.r = "R",
+  dir.v = "vignettes",
+  dir.t = "tests",
+  extra.suggests = NULL,
+  pkg_ignore = NULL,
+  document = TRUE
+)
 }
 \arguments{
 \item{path}{path to the root of the package directory. Default to current directory.}
