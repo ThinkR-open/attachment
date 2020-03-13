@@ -148,8 +148,12 @@
     <p>Get all packages called in vignettes folder</p>
     </div>
 
-    <pre class="usage"><span class='fu'>att_from_rmds</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"vignettes"</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*.(Rmd|rmd)$"</span>,
-  <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>warn</span> <span class='kw'>=</span> -<span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>att_from_rmds</span>(
+  <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"vignettes"</span>,
+  <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*.[.](Rmd|rmd)$"</span>,
+  <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>warn</span> <span class='kw'>=</span> -<span class='fl'>1</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
