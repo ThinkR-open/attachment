@@ -4,9 +4,13 @@
 \alias{create_dependencies_file}
 \title{Create a dependencies.R in the `inst` folder}
 \usage{
-create_dependencies_file(path = "DESCRIPTION", field = c("Depends",
-  "Imports"), to = "inst/dependencies.R", open_file = TRUE,
-  ignore_base = TRUE)
+create_dependencies_file(
+  path = "DESCRIPTION",
+  field = c("Depends", "Imports"),
+  to = "inst/dependencies.R",
+  open_file = TRUE,
+  ignore_base = TRUE
+)
 }
 \arguments{
 \item{path}{path to the DESCRIPTION file}

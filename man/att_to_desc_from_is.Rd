@@ -4,8 +4,7 @@
 \alias{att_to_desc_from_is}
 \title{Amend DESCRIPTION with dependencies from imports and suggests package list}
 \usage{
-att_to_desc_from_is(path.d = "DESCRIPTION", imports = NULL,
-  suggests = NULL)
+att_to_desc_from_is(path.d = "DESCRIPTION", imports = NULL, suggests = NULL)
 }
 \arguments{
 \item{path.d}{path to description file.}

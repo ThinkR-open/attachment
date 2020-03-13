@@ -4,8 +4,12 @@
 \alias{att_from_rmds}
 \title{Get all packages called in vignettes folder}
 \usage{
-att_from_rmds(path = "vignettes", pattern = "*.(Rmd|rmd)$",
-  recursive = TRUE, warn = -1)
+att_from_rmds(
+  path = "vignettes",
+  pattern = "*.[.](Rmd|rmd)$",
+  recursive = TRUE,
+  warn = -1
+)
 }
 \arguments{
 \item{path}{path to directory with Rmds or vector of Rmd files}

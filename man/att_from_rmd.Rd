@@ -4,8 +4,12 @@
 \alias{att_from_rmd}
 \title{Get all dependencies from a Rmd file}
 \usage{
-att_from_rmd(path, temp_dir = tempdir(), warn = -1,
-  encoding = getOption("encoding"))
+att_from_rmd(
+  path,
+  temp_dir = tempdir(),
+  warn = -1,
+  encoding = getOption("encoding")
+)
 }
 \arguments{
 \item{path}{Path to a Rmd file}
