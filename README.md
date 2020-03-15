@@ -81,7 +81,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_amend_desc(path = dummypackage)
 #> Updating dummypackage documentation
-#> Updating roxygen version in /tmp/Rtmp0IG6Oj/dummypackage/DESCRIPTION
+#> Updating roxygen version in /tmp/RtmpJZXTJy/dummypackage/DESCRIPTION
 #> Writing NAMESPACE
 #> Loading dummypackage
 #> Writing NAMESPACE
@@ -175,5 +175,5 @@ See full documentation realized using {pkgdown} at
 <https://thinkr-open.github.io/attachment/>
 
 Please note that this project is released with a [Contributor Code of
-Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree
-to abide by its terms.
+Conduct](https://github.com/ThinkR-open/attachment/blob/master/CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.
