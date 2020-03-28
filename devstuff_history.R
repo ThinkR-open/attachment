@@ -50,6 +50,7 @@ options(usethis.full_name = "Vincent Guyader")
 usethis::use_gpl3_license()
 usethis::use_tidy_description()
 usethis::use_test("attachment")
+usethis::use_test("att_from_namespace")
 usethis::use_coverage()
 usethis::use_appveyor()
 

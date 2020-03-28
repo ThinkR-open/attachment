@@ -23,14 +23,17 @@ att_from_namespace <- function(path = "NAMESPACE", document = TRUE) {
     # devtools::document(dirname(path))
     roxygen2::roxygenise(dirname(normalizePath(path)), roclets = NULL)
   }
-  readLines(path)
-  base <- try(read.table(path)[["V1"]], silent = TRUE)
+  base <- try(readLines(path), silent = TRUE)
+  base <- try(base[!grepl("^#|^$", base)], silent = TRUE)
+  # base <- try(read.table(path)[["V1"]], silent = TRUE)
   if (!isTRUE(inherits(base, "try-error"))) {
     out <- na.omit(unique(c(
       unique(str_match(base, "importFrom\\(([[:alnum:]\\.]+),.*")[, 2]),
       unique(str_match(base, "import\\(([[:alnum:]\\.]+).*")[, 2])
   )))
   } else {
+    message("att_from_namespace() failed,",
+    " package were not retrieved from NAMESPACE")
     out <- NULL
   }
   c(out, NULL)
