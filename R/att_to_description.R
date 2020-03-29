@@ -2,7 +2,6 @@
 #'
 #' @param path path to the root of the package directory. Default to current directory.
 #' @param path.n path to namespace file.
-#' @param path.d path to description file.
 #' @param dir.r path to directory with R scripts.
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
 #' @param dir.t path to tests directory. Set to empty (dir.t = "") to ignore.
@@ -10,6 +9,7 @@
 #' @param pkg_ignore vector of packages names to ignore.
 #'
 #' @inheritParams att_from_namespace
+#' @inheritParams att_to_desc_from_is
 #'
 #' @return Update DESCRIPTION file.
 #' att_to_desc_from_pkg(), att_amend_desc() are aliases
@@ -31,7 +31,8 @@ att_to_description <- function(path = ".",
                                dir.t = "tests",
                                extra.suggests = NULL,
                                pkg_ignore = NULL,
-                               document = TRUE
+                               document = TRUE,
+                               normalize = TRUE
 ) {
 
   if (path != ".") {
@@ -137,7 +138,7 @@ att_to_description <- function(path = ".",
   }
 
   # Build DESCRIPTION ----
-  att_to_desc_from_is(path.d, imports, suggests)
+  att_to_desc_from_is(path.d, imports, suggests, normalize)
 }
 
 #' @rdname att_to_description
@@ -153,6 +154,7 @@ att_amend_desc <- att_to_description
 #' @param path.d path to description file.
 #' @param imports character vector of package names to add in Imports section
 #' @param suggests character vector of package names to add in Suggests section
+#' @param normalize Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}
 #'
 #' @importFrom desc description
 #'
@@ -173,7 +175,7 @@ att_amend_desc <- att_to_description
 #' imports = att_from_rscripts(file.path(dummypackage, ".R")),
 #' suggests = att_from_rmds(file.path(dummypackage, "vignettes")))
 
-att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL, suggests = NULL) {
+att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL, suggests = NULL, normalize = TRUE) {
 
   if (!file.exists(path.d)) {
     stop(paste("There is no file named path.d =", path.d, "in the current directory"))
@@ -281,7 +283,9 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL, suggests
     desc$set_remotes(sort(remotes_keep))
   }
   # Reorder sections
-  desc$normalize()
+  if (isTRUE(normalize)) {
+    desc$normalize()
+  }
   # Write Description file
   desc$write(file = path.d)
 

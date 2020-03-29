@@ -61,7 +61,8 @@ pkgdown::build_site()
 attachment::att_from_rscripts("tests")
 attachment::att_to_description(pkg_ignore = c("remotes", "i"), #i
                                extra.suggests = c("pkgdown", "covr", "testthat"),
-                               dir.t = "")
+                               dir.t = "",
+                               normalize = FALSE)
 
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
 
@@ -70,6 +71,6 @@ usethis::use_vignette("fill-pkg-description")
 devtools::build_vignettes()
 devtools::check()
 
-devtools::check_rhub()
+devtools::check_rhub(email = "")
 devtools::release()
 # devtools::load_all(".")

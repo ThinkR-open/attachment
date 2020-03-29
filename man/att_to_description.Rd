@@ -15,7 +15,8 @@ att_to_description(
   dir.t = "tests",
   extra.suggests = NULL,
   pkg_ignore = NULL,
-  document = TRUE
+  document = TRUE,
+  normalize = TRUE
 )
 
 att_to_desc_from_pkg(
@@ -27,7 +28,8 @@ att_to_desc_from_pkg(
   dir.t = "tests",
   extra.suggests = NULL,
   pkg_ignore = NULL,
-  document = TRUE
+  document = TRUE,
+  normalize = TRUE
 )
 
 att_amend_desc(
@@ -39,7 +41,8 @@ att_amend_desc(
   dir.t = "tests",
   extra.suggests = NULL,
   pkg_ignore = NULL,
-  document = TRUE
+  document = TRUE,
+  normalize = TRUE
 )
 }
 \arguments{
@@ -60,6 +63,8 @@ att_amend_desc(
 \item{pkg_ignore}{vector of packages names to ignore.}
 
 \item{document}{Run function roxygenise of roxygen2 package}
+
+\item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}}
 }
 \value{
 Update DESCRIPTION file.

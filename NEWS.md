@@ -1,3 +1,7 @@
+# attachment 0.1.0.9000
+
+* `att_to_desc_from_is()` add parameter `normalize` to avoid problem with {desc}. (See https://github.com/r-lib/desc/issues/80)
+
 # attachment 0.1
 
 * `att_amend_desc()` is an alias for `att_to_description()`  
