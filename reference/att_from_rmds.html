@@ -164,7 +164,8 @@
   <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"vignettes"</span>,
   <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*.[.](Rmd|rmd)$"</span>,
   <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>warn</span> <span class='kw'>=</span> -<span class='fl'>1</span>
+  <span class='kw'>warn</span> <span class='kw'>=</span> -<span class='fl'>1</span>,
+  <span class='kw'>inside_rmd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -185,6 +186,11 @@
     <tr>
       <th>warn</th>
       <td><p>-1 for quiet warnings with purl, 0 to see warnings</p></td>
+    </tr>
+    <tr>
+      <th>inside_rmd</th>
+      <td><p>Logical. Whether function is run inside a Rmd,
+in case this must be executed in an external R session</p></td>
     </tr>
     </table>
 

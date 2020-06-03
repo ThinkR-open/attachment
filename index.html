@@ -160,13 +160,12 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <span class="co">#&gt; [1] TRUE</span>
 <span class="no">dummypackage</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">tmpdir</span>, <span class="st">"dummypackage"</span>)
 <span class="co"># browseURL(dummypackage)</span>
-<span class="fu"><a href="reference/att_to_description.html">att_amend_desc</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">dummypackage</span>)
+<span class="fu"><a href="reference/att_to_description.html">att_amend_desc</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">dummypackage</span>, <span class="kw">inside_rmd</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; Updating dummypackage documentation</span>
-<span class="co">#&gt; Updating roxygen version in /tmp/RtmpJZXTJy/dummypackage/DESCRIPTION</span>
-<span class="co">#&gt; Writing NAMESPACE</span>
+<span class="co">#&gt; Updating roxygen version in /tmp/RtmpHX9c2L/dummypackage/DESCRIPTION</span>
 <span class="co">#&gt; Loading dummypackage</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
-<span class="co">#&gt; Writing my_mean.Rd</span>
+<span class="co">#&gt; Writing NAMESPACE</span>
 <span class="co">#&gt; Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
 <span class="co">#&gt; [-] 1 package(s) removed: utils.</span>
 <span class="co">#&gt; [+] 2 package(s) added: stats, ggplot2.</span></pre></div>
@@ -207,12 +206,13 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <div id="to-list-information" class="section level3">
 <h3 class="hasAnchor">
 <a href="#to-list-information" class="anchor"></a>To list information</h3>
-<p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code>att_from_rscripts</code> or Rmd files using <code>att_from_rmds</code>.</p>
+<p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code><a href="reference/att_from_rscripts.html">att_from_rscripts()</a></code> or Rmd files using <code><a href="reference/att_from_rmds.html">att_from_rmds()</a></code>.<br>
+If you are running this inside a Rmd, you may need parameter <code>inside_rmd = TRUE</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="r"><span class="no">dummypackage</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"dummypackage"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"attachment"</span>)
 
 <span class="fu"><a href="reference/att_from_rscripts.html">att_from_rscripts</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">dummypackage</span>)
 <span class="co">#&gt; [1] "stats"        "testthat"     "dummypackage"</span>
-<span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">dummypackage</span>,<span class="st">"vignettes"</span>))
+<span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">dummypackage</span>, <span class="st">"vignettes"</span>), <span class="kw">inside_rmd</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; [1] "knitr"     "rmarkdown" "ggplot2"</span></pre></div>
 </div>
 </div>

@@ -153,12 +153,32 @@ Its first line should be :</p>
 <p>What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your “devstuff_history.R”.<br>
 Run <code><a href="../reference/att_to_description.html">attachment::att_amend_desc()</a></code> each time before <code>devtools::check()</code>, this will save you some warnings and errors !</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/att_to_description.html">att_amend_desc</a></span>()</pre></body></html></div>
+<div id="example-on-a-fake-package" class="section level4">
+<h4 class="hasAnchor">
+<a href="#example-on-a-fake-package" class="anchor"></a>Example on a fake package</h4>
+<p>If you are running this inside a Rmd like here, you may need parameter <code>inside_rmd = TRUE</code>.</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># Copy package in a temporary directory</span>
+<span class="no">tmpdir</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span>()
+<span class="fu"><a href="https://rdrr.io/r/base/files.html">file.copy</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"dummypackage"</span>,<span class="kw">package</span> <span class="kw">=</span> <span class="st">"attachment"</span>), <span class="no">tmpdir</span>, <span class="kw">recursive</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="no">dummypackage</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">tmpdir</span>, <span class="st">"dummypackage"</span>)
+<span class="co"># browseURL(dummypackage)</span>
+<span class="fu"><a href="../reference/att_to_description.html">att_amend_desc</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="no">dummypackage</span>, <span class="kw">inside_rmd</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
+<span class="co">#&gt; Updating dummypackage documentation</span>
+<span class="co">#&gt; Updating roxygen version in /tmp/Rtmp4A15tx/dummypackage/DESCRIPTION</span>
+<span class="co">#&gt; Loading dummypackage</span>
+<span class="co">#&gt; Writing NAMESPACE</span>
+<span class="co">#&gt; Writing NAMESPACE</span>
+<span class="co">#&gt; Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
+<span class="co">#&gt; [-] 1 package(s) removed: utils.</span>
+<span class="co">#&gt; [+] 2 package(s) added: stats, ggplot2.</span></pre></body></html></div>
+</div>
 </div>
 <div id="for-bookdown" class="section level3">
 <h3 class="hasAnchor">
 <a href="#for-bookdown" class="anchor"></a>For bookdown</h3>
 <p>You can use a similar approch for a {bookdown} description file using <code><a href="../reference/att_to_desc_from_is.html">attachment::att_to_desc_from_is()</a></code></p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="co"># bookdown Imports are in Rmds</span>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="co"># bookdown Imports are in Rmds</span>
 <span class="no">imports</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"bookdown"</span>, <span class="kw pkg">attachment</span><span class="kw ns">::</span><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span>(<span class="st">"."</span>))
 <span class="kw pkg">attachment</span><span class="kw ns">::</span><span class="fu"><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span>(<span class="kw">path.d</span> <span class="kw">=</span> <span class="st">"DESCRIPTION"</span>,
                                 <span class="kw">imports</span> <span class="kw">=</span> <span class="no">imports</span>, <span class="kw">suggests</span> <span class="kw">=</span> <span class="kw">NULL</span>)</pre></body></html></div>
@@ -168,27 +188,27 @@ Run <code><a href="../reference/att_to_description.html">attachment::att_amend_d
 <h2 class="hasAnchor">
 <a href="#get-all-packages-listed-in-namespace" class="anchor"></a>Get all packages listed in “namespace”</h2>
 <p>You can get the list of packages in your package with <code><a href="../reference/att_from_namespace.html">att_from_namespace()</a></code></p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="../reference/att_from_namespace.html">att_from_namespace</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/att_from_namespace.html">att_from_namespace</a></span>()</pre></body></html></div>
 </div>
 <div id="get-all-packages-added-using-pkgfunction-or-libraryrequire" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-all-packages-added-using-pkgfunction-or-libraryrequire" class="anchor"></a>Get all packages added using <code>pkg::function</code> or library/require</h2>
 <p>This reads all files in directories of R scripts (default to <code>R</code> directory of a package)</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span>()</pre></body></html></div>
 </div>
 <div id="get-all-packages-called-in-your-rmd" class="section level2">
 <h2 class="hasAnchor">
 <a href="#get-all-packages-called-in-your-rmd" class="anchor"></a>Get all packages called in your Rmd</h2>
 <p>If you have vignette, you may want to list extra libraries, not listed in your “Depends” list. This function applies to any Rmd file, of course.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span>()</pre></body></html></div>
 </div>
 <div id="create-a-file-for-package-installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#create-a-file-for-package-installation" class="anchor"></a>Create a file for package installation</h2>
 <p>Once your package is finished. Well, is a package ever finished ? Let’s say, once you want to release a version of your package, you may want to deliver the list of dependencies your users will have to install. A little script like <code>install.packages(c(...all dep...))</code> would be so nice :</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/create_dependencies_file.html">create_dependencies_file</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="../reference/create_dependencies_file.html">create_dependencies_file</a></span>()</pre></body></html></div>
 <p>This file will be placed in <code>inst/dependencies.R</code> and contains :</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># No Remotes ----</span>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="co"># No Remotes ----</span>
 <span class="co"># remotes::install_github("ThinkR-open/fcuk")</span>
 <span class="co"># Attachments ----</span>
 <span class="no">to_install</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"covr"</span>, <span class="st">"desc"</span>, <span class="st">"devtools"</span>, <span class="st">"glue"</span>, <span class="st">"knitr"</span>, <span class="st">"magrittr"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"stats"</span>, <span class="st">"stringr"</span>, <span class="st">"testthat"</span>, <span class="st">"utils"</span>)
@@ -203,12 +223,12 @@ Run <code><a href="../reference/att_to_description.html">attachment::att_amend_d
 <div id="other-possibilities" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-possibilities" class="anchor"></a>Other possibilities</h2>
-<p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code>att_from_rscripts</code> or Rmd files using <code>att_from_rmds</code>.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">dummypackage</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"dummypackage"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"attachment"</span>)
+<p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code> or Rmd files using <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code>.</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">dummypackage</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"dummypackage"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"attachment"</span>)
 
 <span class="fu"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">dummypackage</span>, <span class="st">"R"</span>))
 <span class="co">#&gt; [1] "stats"</span>
-<span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">dummypackage</span>, <span class="st">"vignettes"</span>))
+<span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span>(<span class="kw">path</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">dummypackage</span>, <span class="st">"vignettes"</span>), <span class="kw">inside_rmd</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 <span class="co">#&gt; [1] "knitr"     "rmarkdown" "ggplot2"</span></pre></body></html></div>
 </div>
   </div>

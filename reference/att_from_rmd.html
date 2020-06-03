@@ -164,7 +164,8 @@
   <span class='no'>path</span>,
   <span class='kw'>temp_dir</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
   <span class='kw'>warn</span> <span class='kw'>=</span> -<span class='fl'>1</span>,
-  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"encoding"</span>)
+  <span class='kw'>encoding</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"encoding"</span>),
+  <span class='kw'>inside_rmd</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -186,6 +187,11 @@
       <th>encoding</th>
       <td><p>Encoding of the input file; always assumed to be UTF-8 (i.e.,
 this argument is effectively ignored).</p></td>
+    </tr>
+    <tr>
+      <th>inside_rmd</th>
+      <td><p>Logical. Whether function is run inside a Rmd,
+in case this must be executed in an external R session</p></td>
     </tr>
     </table>
 
