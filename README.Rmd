@@ -68,7 +68,7 @@ tmpdir <- tempdir()
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
-att_amend_desc(path = dummypackage)
+att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 ```
 
 
@@ -116,13 +116,14 @@ attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
 
 
 ### To list information
-Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts` or Rmd files using `att_from_rmds`.
+Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts()` or Rmd files using `att_from_rmds()`.  
+If you are running this inside a Rmd, you may need parameter `inside_rmd = TRUE`.  
 
 ```{r, eval=TRUE}
 dummypackage <- system.file("dummypackage", package = "attachment")
 
 att_from_rscripts(path = dummypackage)
-att_from_rmds(path = file.path(dummypackage,"vignettes"))
+att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 ```
 
 ## Vignette

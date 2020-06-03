@@ -16,7 +16,8 @@ att_to_description(
   extra.suggests = NULL,
   pkg_ignore = NULL,
   document = TRUE,
-  normalize = TRUE
+  normalize = TRUE,
+  inside_rmd = FALSE
 )
 
 att_to_desc_from_pkg(
@@ -29,7 +30,8 @@ att_to_desc_from_pkg(
   extra.suggests = NULL,
   pkg_ignore = NULL,
   document = TRUE,
-  normalize = TRUE
+  normalize = TRUE,
+  inside_rmd = FALSE
 )
 
 att_amend_desc(
@@ -42,7 +44,8 @@ att_amend_desc(
   extra.suggests = NULL,
   pkg_ignore = NULL,
   document = TRUE,
-  normalize = TRUE
+  normalize = TRUE,
+  inside_rmd = FALSE
 )
 }
 \arguments{
@@ -65,6 +68,9 @@ att_amend_desc(
 \item{document}{Run function roxygenise of roxygen2 package}
 
 \item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}}
+
+\item{inside_rmd}{Logical. Whether function is run inside a Rmd,
+in case this must be executed in an external R session}
 }
 \value{
 Update DESCRIPTION file.

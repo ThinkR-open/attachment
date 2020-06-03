@@ -3,6 +3,8 @@
 #' @param path Path to a Rmd file
 #' @param temp_dir Path to temporary script from purl vignette
 #' @param warn -1 for quiet warnings with purl, 0 to see warnings
+#' @param inside_rmd Logical. Whether function is run inside a Rmd,
+#'  in case this must be executed in an external R session
 #' @inheritParams knitr::purl
 #'
 #' @importFrom stringr str_extract
@@ -16,7 +18,8 @@
 #'
 #' @export
 att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
-                         encoding = getOption("encoding")) {
+                         encoding = getOption("encoding"),
+                         inside_rmd = FALSE) {
   if (missing(path)) {stop("argument 'path' is missing, with no default")}
 
   r_file <- normalizePath(file.path(temp_dir, basename(gsub("[.]([[:alnum:]])*$", ".R", path))), mustWork = FALSE, winslash = "\\")
@@ -32,10 +35,14 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
            ', documentation = 0, quiet = TRUE))')
     , file = runR)
 
-  # Purl in a new environment to avoid knit inside knit if function is inside Rmd file
-  file <- system(
-    paste(normalizePath(file.path(Sys.getenv("R_HOME"), "bin", "Rscript"), mustWork = FALSE), runR)
-  )
+  if (isTRUE(inside_rmd)) {
+    # Purl in a new environment to avoid knit inside knit if function is inside Rmd file
+    file <- system(
+      paste(normalizePath(file.path(Sys.getenv("R_HOME"), "bin", "Rscript"), mustWork = FALSE), runR)
+    )
+  } else {
+    source(runR)
+  }
 
   # Add yaml to the file
   yaml <- c("\n# yaml to parse \n", paste(unlist(rmarkdown::yaml_front_matter(path)$output), "\n", collapse = "\n"))
@@ -60,7 +67,10 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 #' att_from_rmds(path = file.path(dummypackage,"vignettes"))
 
 #' @export
-att_from_rmds <- function(path = "vignettes", pattern = "*.[.](Rmd|rmd)$", recursive = TRUE, warn = -1) {
+att_from_rmds <- function(path = "vignettes",
+                          pattern = "*.[.](Rmd|rmd)$",
+                          recursive = TRUE, warn = -1,
+                          inside_rmd = FALSE) {
 
   if (isTRUE(all(dir.exists(path)))) {
     all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
@@ -70,7 +80,7 @@ att_from_rmds <- function(path = "vignettes", pattern = "*.[.](Rmd|rmd)$", recur
     stop("Some file/directory do not exists")
   }
 
-  res <- lapply(all_f, function(x) att_from_rmd(x, warn = warn)) %>%
+  res <- lapply(all_f, function(x) att_from_rmd(x, warn = warn, inside_rmd = inside_rmd)) %>%
     unlist() %>%
     unique() %>%
     na.omit()
