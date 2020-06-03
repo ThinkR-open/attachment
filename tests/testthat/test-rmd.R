@@ -1,12 +1,8 @@
 context("test-rmd.R")
 
 test_that("rmd well parsed", {
-
   res <- sort(attachment::att_from_rmds(path = "."))
-
-
   expect_equal(sort(res),
-
                sort(
                  c("find.me",
                    # "attachment",
@@ -24,8 +20,13 @@ test_that("rmd well parsed", {
                    "findme5a",
                    "findme6a"
                  )
-
                ))
+})
 
+success_file <- rmarkdown::render("insidermd.Rmd")
+test_that("test inside rmd works", {
+  expect_equal(basename(success_file), "insidermd.html")
+})
+# clean
+file.remove(success_file)
 
-  })

@@ -10,6 +10,7 @@
 #'
 #' @inheritParams att_from_namespace
 #' @inheritParams att_to_desc_from_is
+#' @inheritParams att_from_rmds
 #'
 #' @return Update DESCRIPTION file.
 #' att_to_desc_from_pkg(), att_amend_desc() are aliases
@@ -32,7 +33,8 @@ att_to_description <- function(path = ".",
                                extra.suggests = NULL,
                                pkg_ignore = NULL,
                                document = TRUE,
-                               normalize = TRUE
+                               normalize = TRUE,
+                               inside_rmd = FALSE
 ) {
 
   if (path != ".") {
@@ -110,14 +112,14 @@ att_to_description <- function(path = ".",
     # Look for R scripts
     imports <- unique(c(imports, att_from_rscripts(dir.r)))
     # Look for Rmd, in case in a bookdown
-    # imports <- unique(c(imports, att_from_rmds(dir.r)))
+    # imports <- unique(c(imports, att_from_rmds(dir.r, inside_rmd = inside_rmd)))
   }
 
   # Suggests ----
   suggests <- NULL
   # Get suggests in vignettes and remove if already in imports
   if (!grepl("^$|^\\s+$$", dir.v)) {
-    vg <- att_from_rmds(dir.v)
+    vg <- att_from_rmds(dir.v, inside_rmd = inside_rmd)
     suggests <- c(suggests, vg[!vg %in% imports])
   }
 

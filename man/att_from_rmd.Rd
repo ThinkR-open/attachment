@@ -8,7 +8,8 @@ att_from_rmd(
   path,
   temp_dir = tempdir(),
   warn = -1,
-  encoding = getOption("encoding")
+  encoding = getOption("encoding"),
+  inside_rmd = FALSE
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ att_from_rmd(
 
 \item{encoding}{Encoding of the input file; always assumed to be UTF-8 (i.e.,
 this argument is effectively ignored).}
+
+\item{inside_rmd}{Logical. Whether function is run inside a Rmd,
+in case this must be executed in an external R session}
 }
 \description{
 Get all dependencies from a Rmd file

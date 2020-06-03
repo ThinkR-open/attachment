@@ -79,13 +79,12 @@ file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive 
 #> [1] TRUE
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
-att_amend_desc(path = dummypackage)
+att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Updating dummypackage documentation
-#> Updating roxygen version in /tmp/RtmpJZXTJy/dummypackage/DESCRIPTION
-#> Writing NAMESPACE
+#> Updating roxygen version in /tmp/RtmpHX9c2L/dummypackage/DESCRIPTION
 #> Loading dummypackage
 #> Writing NAMESPACE
-#> Writing my_mean.Rd
+#> Writing NAMESPACE
 #> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
 #> [-] 1 package(s) removed: utils.
 #> [+] 2 package(s) added: stats, ggplot2.
@@ -144,15 +143,17 @@ attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
 ### To list information
 
 Of course, you can also use {attachment} out of a package to list all
-package dependencies of R scripts using `att_from_rscripts` or Rmd files
-using `att_from_rmds`.
+package dependencies of R scripts using `att_from_rscripts()` or Rmd
+files using `att_from_rmds()`.  
+If you are running this inside a Rmd, you may need parameter `inside_rmd
+= TRUE`.
 
 ``` r
 dummypackage <- system.file("dummypackage", package = "attachment")
 
 att_from_rscripts(path = dummypackage)
 #> [1] "stats"        "testthat"     "dummypackage"
-att_from_rmds(path = file.path(dummypackage,"vignettes"))
+att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 #> [1] "knitr"     "rmarkdown" "ggplot2"
 ```
 

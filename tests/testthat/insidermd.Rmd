@@ -1,0 +1,22 @@
+---
+title: "A Rmd that runs the function"
+author: "Sébastien Rochette"
+date: "03/06/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### To list information
+Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts()` or Rmd files using `att_from_rmds()`.  
+If you are running this inside a Rmd, you may need parameter `inside_rmd = TRUE`.  
+
+```{r, eval=TRUE}
+dummypackage <- system.file("dummypackage", package = "attachment")
+
+att_from_rscripts(path = dummypackage)
+att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
+```
+
