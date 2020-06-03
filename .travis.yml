@@ -25,7 +25,6 @@ matrix:
         branch: master
       skip_cleanup: true
   - r: oldrel
-  - r: 3.4
 
 before_install:
   - Rscript -e 'update.packages(ask = FALSE)'
