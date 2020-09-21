@@ -3,10 +3,8 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/ThinkR-open/attachment.svg?branch=master)](https://travis-ci.org/ThinkR-open/attachment)
-[![Build
-status](https://ci.appveyor.com/api/projects/status/4iwtrbg3hggr49d2/branch/master?svg=true)](https://ci.appveyor.com/project/statnmap/attachment-jb75k/branch/master)
+[![R build
+status](https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/attachment/actions)
 [![Coverage
 status](https://codecov.io/gh/ThinkR-open/attachment/branch/master/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=master)
 [![CRAN
@@ -81,7 +79,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Updating dummypackage documentation
-#> Updating roxygen version in /tmp/RtmpHX9c2L/dummypackage/DESCRIPTION
+#> Updating roxygen version in /tmp/RtmpxQ8YBj/dummypackage/DESCRIPTION
 #> Loading dummypackage
 #> Writing NAMESPACE
 #> Writing NAMESPACE
