@@ -63,7 +63,7 @@ pkgdown::build_site()
 # Do not parse dir.t because of tests
 attachment::att_from_rscripts("tests")
 attachment::att_to_description(pkg_ignore = c("remotes", "i"), #i
-                               extra.suggests = c("pkgdown", "covr", "testthat"),
+                               extra.suggests = c("testthat"), #"pkgdown", "covr",
                                dir.t = "",
                                normalize = FALSE)
 
