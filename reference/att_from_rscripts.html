@@ -44,7 +44,7 @@
 
 <meta property="og:title" content="Look for functions called with `::` and library/requires in folder of scripts — att_from_rscripts" />
 <meta property="og:description" content="Look for functions called with `::` and library/requires in folder of scripts" />
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://thinkr-open.github.io/attachment/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -83,7 +83,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -160,7 +160,7 @@
     <p>Look for functions called with `::` and library/requires in folder of scripts</p>
     </div>
 
-    <pre class="usage"><span class='fu'>att_from_rscripts</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"R"</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*.[.](r|R)$"</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>att_from_rscripts</span>(path = <span class='st'>"R"</span>, pattern = <span class='st'>"*.[.](r|R)$"</span>, recursive = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -181,10 +181,11 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>dummypackage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"dummypackage"</span>,<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"attachment"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"dummypackage"</span>,package = <span class='st'>"attachment"</span>)
 <span class='co'># browseURL(dummypackage)</span>
 
-<span class='fu'>att_from_rscripts</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='no'>dummypackage</span>)</div><div class='output co'>#&gt; [1] "stats"        "testthat"     "dummypackage"</div></pre>
+<span class='fu'>att_from_rscripts</span>(path = <span class='kw'>dummypackage</span>)
+</div><div class='output co'>#&gt; [1] "stats"        "testthat"     "dummypackage"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -44,7 +44,7 @@
 
 <meta property="og:title" content="return package dependencies from NAMESPACE file — att_from_namespace" />
 <meta property="og:description" content="return package dependencies from NAMESPACE file" />
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://thinkr-open.github.io/attachment/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -83,7 +83,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -160,7 +160,7 @@
     <p>return package dependencies from NAMESPACE file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>att_from_namespace</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"NAMESPACE"</span>, <span class='kw'>document</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>att_from_namespace</span>(path = <span class='st'>"NAMESPACE"</span>, document = <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,11 +180,13 @@
     <p>a vector</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>tmpdir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.copy</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"dummypackage"</span>,<span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"attachment"</span>), <span class='no'>tmpdir</span>,
- <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>dummypackage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>tmpdir</span>, <span class='st'>"dummypackage"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>tmpdir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
+<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.copy</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"dummypackage"</span>,package = <span class='st'>"attachment"</span>), <span class='kw'>tmpdir</span>,
+ recursive = <span class='fl'>TRUE</span>)
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>tmpdir</span>, <span class='st'>"dummypackage"</span>)
 <span class='co'># browseURL(dummypackage)</span>
-<span class='fu'>att_from_namespace</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>dummypackage</span>, <span class='st'>"NAMESPACE"</span>))</div><div class='output co'>#&gt; <span class='message'>Updating dummypackage documentation</span></div><div class='output co'>#&gt; <span class='message'>Updating roxygen version in /tmp/RtmpsDmD3j/dummypackage/DESCRIPTION</span></div><div class='output co'>#&gt; <span class='message'>Loading dummypackage</span></div><div class='output co'>#&gt; Writing NAMESPACE
+<span class='fu'>att_from_namespace</span>(path = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>dummypackage</span>, <span class='st'>"NAMESPACE"</span>))
+</div><div class='output co'>#&gt; <span class='message'>Updating dummypackage documentation</span></div><div class='output co'>#&gt; <span class='message'>Updating roxygen version in /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpD7hb00/dummypackage/DESCRIPTION</span></div><div class='output co'>#&gt; <span class='message'>Loading dummypackage</span></div><div class='output co'>#&gt; Writing NAMESPACE
 #&gt; Writing NAMESPACE</div><div class='output co'>#&gt; [1] "magrittr"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -44,7 +44,7 @@
 
 <meta property="og:title" content="Install missing package from DESCRIPTION — install_from_description" />
 <meta property="og:description" content="Install missing package from DESCRIPTION" />
-<meta property="og:image" content="/logo.png" />
+<meta property="og:image" content="https://thinkr-open.github.io/attachment/logo.png" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -83,7 +83,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -161,9 +161,9 @@
     </div>
 
     <pre class="usage"><span class='fu'>install_from_description</span>(
-  <span class='kw'>path</span> <span class='kw'>=</span> <span class='st'>"DESCRIPTION"</span>,
-  <span class='kw'>field</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"Suggests"</span>),
-  <span class='no'>...</span>
+  path = <span class='st'>"DESCRIPTION"</span>,
+  field = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Depends"</span>, <span class='st'>"Imports"</span>, <span class='st'>"Suggests"</span>),
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -185,12 +185,13 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>dummypackage</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"dummypackage"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"attachment"</span>)
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"dummypackage"</span>, package = <span class='st'>"attachment"</span>)
 <span class='co'># browseURL(dummypackage)</span>
 
-<span class='fu'>install_from_description</span>(<span class='kw'>path</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>dummypackage</span>,<span class='st'>"DESCRIPTION"</span>))
-}</div></pre>
+<span class='fu'>install_from_description</span>(path = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>dummypackage</span>,<span class='st'>"DESCRIPTION"</span>))
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
