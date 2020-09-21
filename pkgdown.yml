@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   fill-pkg-description: fill-pkg-description.html
-last_built: 2020-09-21T13:20Z
+last_built: 2020-09-21T13:26Z
 urls:
   reference: https://thinkr-open.github.io/attachment//reference
   article: https://thinkr-open.github.io/attachment//articles
