@@ -20,6 +20,7 @@ Tools to help manage dependencies during package
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://thinkr-open.github.io/attachment/}
   \item \url{https://github.com/Thinkr-open/attachment}
   \item Report bugs at \url{https://github.com/Thinkr-open/attachment/issues}
 }
