@@ -160,13 +160,13 @@
     <p>Get all dependencies from a Rmd file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>att_from_rmd</span>(
-  <span class='kw'>path</span>,
-  temp_dir = <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(),
-  warn = <span class='op'>-</span><span class='fl'>1</span>,
-  encoding = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"encoding"</span>),
-  inside_rmd = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>att_from_rmd</span><span class='op'>(</span>
+  <span class='va'>path</span>,
+  temp_dir <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>,
+  warn <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>,
+  encoding <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"encoding"</span><span class='op'>)</span>,
+  inside_rmd <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -198,9 +198,9 @@ in case this must be executed in an external R session</p></td>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='kw'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"dummypackage"</span>,package = <span class='st'>"attachment"</span>)
+<span class='va'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"dummypackage"</span>,package <span class='op'>=</span> <span class='st'>"attachment"</span><span class='op'>)</span>
 <span class='co'># browseURL(dummypackage)</span>
-<span class='fu'>att_from_rmd</span>(path = <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>dummypackage</span>,<span class='st'>"vignettes/demo.Rmd"</span>))
+<span class='fu'>att_from_rmd</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>dummypackage</span>,<span class='st'>"vignettes/demo.Rmd"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "ggplot2"   "knitr"     "rmarkdown"</div><div class='input'>
 </div></pre>
   </div>

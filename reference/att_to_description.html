@@ -160,47 +160,47 @@
     <p>Amend DESCRIPTION with dependencies read from package code parsing</p>
     </div>
 
-    <pre class="usage"><span class='fu'>att_to_description</span>(
-  path = <span class='st'>"."</span>,
-  path.n = <span class='st'>"NAMESPACE"</span>,
-  path.d = <span class='st'>"DESCRIPTION"</span>,
-  dir.r = <span class='st'>"R"</span>,
-  dir.v = <span class='st'>"vignettes"</span>,
-  dir.t = <span class='st'>"tests"</span>,
-  extra.suggests = <span class='kw'>NULL</span>,
-  pkg_ignore = <span class='kw'>NULL</span>,
-  document = <span class='fl'>TRUE</span>,
-  normalize = <span class='fl'>TRUE</span>,
-  inside_rmd = <span class='fl'>FALSE</span>
-)
+    <pre class="usage"><span class='fu'>att_to_description</span><span class='op'>(</span>
+  path <span class='op'>=</span> <span class='st'>"."</span>,
+  path.n <span class='op'>=</span> <span class='st'>"NAMESPACE"</span>,
+  path.d <span class='op'>=</span> <span class='st'>"DESCRIPTION"</span>,
+  dir.r <span class='op'>=</span> <span class='st'>"R"</span>,
+  dir.v <span class='op'>=</span> <span class='st'>"vignettes"</span>,
+  dir.t <span class='op'>=</span> <span class='st'>"tests"</span>,
+  extra.suggests <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pkg_ignore <span class='op'>=</span> <span class='cn'>NULL</span>,
+  document <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  normalize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  inside_rmd <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>att_to_desc_from_pkg</span>(
-  path = <span class='st'>"."</span>,
-  path.n = <span class='st'>"NAMESPACE"</span>,
-  path.d = <span class='st'>"DESCRIPTION"</span>,
-  dir.r = <span class='st'>"R"</span>,
-  dir.v = <span class='st'>"vignettes"</span>,
-  dir.t = <span class='st'>"tests"</span>,
-  extra.suggests = <span class='kw'>NULL</span>,
-  pkg_ignore = <span class='kw'>NULL</span>,
-  document = <span class='fl'>TRUE</span>,
-  normalize = <span class='fl'>TRUE</span>,
-  inside_rmd = <span class='fl'>FALSE</span>
-)
+<span class='fu'>att_to_desc_from_pkg</span><span class='op'>(</span>
+  path <span class='op'>=</span> <span class='st'>"."</span>,
+  path.n <span class='op'>=</span> <span class='st'>"NAMESPACE"</span>,
+  path.d <span class='op'>=</span> <span class='st'>"DESCRIPTION"</span>,
+  dir.r <span class='op'>=</span> <span class='st'>"R"</span>,
+  dir.v <span class='op'>=</span> <span class='st'>"vignettes"</span>,
+  dir.t <span class='op'>=</span> <span class='st'>"tests"</span>,
+  extra.suggests <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pkg_ignore <span class='op'>=</span> <span class='cn'>NULL</span>,
+  document <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  normalize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  inside_rmd <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
 
-<span class='fu'>att_amend_desc</span>(
-  path = <span class='st'>"."</span>,
-  path.n = <span class='st'>"NAMESPACE"</span>,
-  path.d = <span class='st'>"DESCRIPTION"</span>,
-  dir.r = <span class='st'>"R"</span>,
-  dir.v = <span class='st'>"vignettes"</span>,
-  dir.t = <span class='st'>"tests"</span>,
-  extra.suggests = <span class='kw'>NULL</span>,
-  pkg_ignore = <span class='kw'>NULL</span>,
-  document = <span class='fl'>TRUE</span>,
-  normalize = <span class='fl'>TRUE</span>,
-  inside_rmd = <span class='fl'>FALSE</span>
-)</pre>
+<span class='fu'>att_amend_desc</span><span class='op'>(</span>
+  path <span class='op'>=</span> <span class='st'>"."</span>,
+  path.n <span class='op'>=</span> <span class='st'>"NAMESPACE"</span>,
+  path.d <span class='op'>=</span> <span class='st'>"DESCRIPTION"</span>,
+  dir.r <span class='op'>=</span> <span class='st'>"R"</span>,
+  dir.v <span class='op'>=</span> <span class='st'>"vignettes"</span>,
+  dir.t <span class='op'>=</span> <span class='st'>"tests"</span>,
+  extra.suggests <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pkg_ignore <span class='op'>=</span> <span class='cn'>NULL</span>,
+  document <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  normalize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  inside_rmd <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -258,13 +258,13 @@ in case this must be executed in an external R session</p></td>
 att_to_desc_from_pkg(), att_amend_desc() are aliases</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>tmpdir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.copy</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"dummypackage"</span>,package = <span class='st'>"attachment"</span>), <span class='kw'>tmpdir</span>,
- recursive = <span class='fl'>TRUE</span>)
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>tmpdir</span>, <span class='st'>"dummypackage"</span>)
+    <pre class="examples"><div class='input'><span class='va'>tmpdir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.copy</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"dummypackage"</span>,package <span class='op'>=</span> <span class='st'>"attachment"</span><span class='op'>)</span>, <span class='va'>tmpdir</span>,
+ recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>tmpdir</span>, <span class='st'>"dummypackage"</span><span class='op'>)</span>
 <span class='co'># browseURL(dummypackage)</span>
-<span class='fu'>att_amend_desc</span>(path = <span class='kw'>dummypackage</span>)
-</div><div class='output co'>#&gt; <span class='message'>Updating dummypackage documentation</span></div><div class='output co'>#&gt; <span class='message'>Updating roxygen version in /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpDkgNzx/dummypackage/DESCRIPTION</span></div><div class='output co'>#&gt; <span class='message'>Loading dummypackage</span></div><div class='output co'>#&gt; Writing NAMESPACE
+<span class='fu'>att_amend_desc</span><span class='op'>(</span>path <span class='op'>=</span> <span class='va'>dummypackage</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Updating dummypackage documentation</span></div><div class='output co'>#&gt; <span class='message'>Updating roxygen version in /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp9DAI62/dummypackage/DESCRIPTION</span></div><div class='output co'>#&gt; <span class='message'>Loading dummypackage</span></div><div class='output co'>#&gt; Writing NAMESPACE
 #&gt; Writing NAMESPACE</div><div class='output co'>#&gt; <span class='message'>Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span></div><div class='output co'>#&gt; <span class='message'>[-] 1 package(s) removed: utils.</span></div><div class='output co'>#&gt; <span class='message'>[+] 2 package(s) added: stats, ggplot2.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
