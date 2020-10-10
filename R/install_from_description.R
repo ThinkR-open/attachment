@@ -40,7 +40,7 @@ install_if_missing <- function(to_be_installed, ...) {
     message("All required packages are installed")
     return(invisible(NULL))
   }
-  message("Installation of: ", will_be_installed)
+  message("Installation of: ", paste0(will_be_installed, collapse = ", "))
 
   install.packages(will_be_installed, ...)
 }
