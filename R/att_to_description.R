@@ -139,6 +139,10 @@ att_to_description <- function(path = ".",
     suggests <- unique(c(suggests, extra.suggests))
   }
 
+  # Ignore `base` from imports and suggests
+  imports <- imports[imports != "base"]
+  suggests <- suggests[suggests != "base"]
+
   # Build DESCRIPTION ----
   att_to_desc_from_is(path.d, imports, suggests, normalize)
 }

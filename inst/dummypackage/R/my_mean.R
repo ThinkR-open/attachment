@@ -7,5 +7,5 @@
 my_mean <- function(x){
   x <- x %>% stats::na.omit()
   1+1
-  sum(x)/length(x)
+  sum(x)/base::length(x)
 }
