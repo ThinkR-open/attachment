@@ -3,7 +3,7 @@ dummypackage <- system.file("dummypackage", package = "attachment")
 # Copy to tmpdir
 pkg_dir <- tempdir()
 file.copy(dummypackage, pkg_dir, recursive = TRUE)
-browseURL(file.path(pkg_dir, "dummypackage"))
+# browseURL(file.path(pkg_dir, "dummypackage"))
 # install_from_description(path = file.path(dummypackage,"DESCRIPTION"), field = c("Imports", "Depends"))
 
 # This test need "magrittr" to be correctly tested
@@ -18,9 +18,21 @@ test_that("install_from_description works", {
     'All required packages are installed'
   )
   lines <- readLines(file.path(pkg_dir, "dummypackage","DESCRIPTION"))
-  lines[14] <- c("    magrittr,\n    toto, ")
+  lines[14] <- c("    magrittr,\n    toto,\n    tata, ")
   writeLines(lines, file.path(pkg_dir, "dummypackage","DESCRIPTION"))
   # Add dummy package name to try to install
+  # test message
+  # There is a warning to capture because tata and toto do not exist
+  expect_message(
+    capture_warning(
+      install_from_description(
+        path = file.path(pkg_dir, "dummypackage","DESCRIPTION"), field = c("Imports", "Depends"),
+        repos = "https://cloud.r-project.org")
+    ),
+    "Installation of: tata, toto"
+  )
+  # There is a warning because tata and toto do not exist
+  # This is expected warning from install.package()
   expect_warning(
     install_from_description(
       path = file.path(pkg_dir, "dummypackage","DESCRIPTION"), field = c("Imports", "Depends"),

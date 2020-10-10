@@ -32,6 +32,8 @@ test_that("to-description updates description", {
   expect_equal(desc_file[20], "    testthat")
   expect_equal(desc_file[21], "LinkingTo:" )
   expect_equal(desc_file[22], "    Rcpp")
+  # base does not appear
+  expect_false(all(grepl("base", desc_file)))
 })
 
 # Copy package in a temporary directory

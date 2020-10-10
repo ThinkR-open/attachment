@@ -60,6 +60,10 @@ usethis::use_github_action("test-coverage")
 usethis::use_build_ignore("_pkgdown.yml")
 pkgdown::build_site()
 
+# PR
+usethis::pr_fetch(28)
+usethis::pr_push()
+
 # Do not parse dir.t because of tests
 attachment::att_from_rscripts("tests")
 attachment::att_to_description(pkg_ignore = c("remotes", "i"), #i
