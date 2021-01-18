@@ -34,10 +34,9 @@ att_from_rscript <- function(path) {
   } else {
     pkg_lib <- NA
   }
-  pkg_lib
   out <- c(pkg_lib, pkg_points) %>% unique() %>% na.omit()
   attributes(out) <- NULL
-  out
+  out[out != "base"]
 }
 
 

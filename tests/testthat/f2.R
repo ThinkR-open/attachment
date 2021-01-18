@@ -46,3 +46,6 @@ requireNamespace(     "findme6a"      )
 1+1# library(   "dontfindme4a"   )
 1+1# requireNamespace("dontfindme5a")
 1+1# requireNamespace(     "dontfindme6a"      )
+
+# Do not find base
+base::length(1)

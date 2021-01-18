@@ -27,5 +27,8 @@ test_that("rscript well parsed", {
 
                ))
 
+  # {base} not listed
+  expect_false("base" %in% res)
 
 })
+

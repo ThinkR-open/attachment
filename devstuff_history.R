@@ -84,6 +84,7 @@ devtools::check()
 devtools::check_rhub(email = "")
 rhub::local_check_linux_images()
 rhub::local_check_linux(image = "rhub/debian-gcc-release")
-rhub::check_for_cran(email = "sebastien@thinkr.fr")
+aa <- rhub::check_for_cran(email = "sebastien@thinkr.fr")
+aa
 devtools::release()
 # devtools::load_all(".")

@@ -33,7 +33,7 @@ test_that("rmd well parsed", {
 })
 
 # Test inside ----
-success_file <- rmarkdown::render("insidermd.Rmd")
+success_file <- rmarkdown::render("insidermd.Rmd", quiet = TRUE)
 test_that("test inside rmd works", {
   expect_equal(basename(success_file), "insidermd.html")
 })
