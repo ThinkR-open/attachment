@@ -1,7 +1,8 @@
-# attachment 0.1.0.9000
+# attachment 0.2.0
 
 Breaking changes
 * `att_from_rmd()` and `att_from_rmds()` are not anymore executed in separate R session by default. You must set `inside_rmd = TRUE` to do so.
+* `att_from_rmd()` gets parameter `inline = TRUE` by default to explore calls for packages in inline R code.
 
 Minor
 * `att_to_desc_from_is()` add parameter `normalize` to avoid problem with {desc}. (See https://github.com/r-lib/desc/issues/80)

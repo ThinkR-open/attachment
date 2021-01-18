@@ -5,6 +5,7 @@
 #' @param warn -1 for quiet warnings with purl, 0 to see warnings
 #' @param inside_rmd Logical. Whether function is run inside a Rmd,
 #'  in case this must be executed in an external R session
+#' @param inline Logical. Default TRUE. Whether to explore inline code for dependencies.
 #' @inheritParams knitr::purl
 #'
 #' @importFrom stringr str_extract
@@ -19,8 +20,11 @@
 #' @export
 att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
                          encoding = getOption("encoding"),
-                         inside_rmd = FALSE) {
+                         inside_rmd = FALSE, inline = TRUE) {
   if (missing(path)) {stop("argument 'path' is missing, with no default")}
+
+  op <- options(knitr.purl.inline = inline)
+  on.exit(options(op))
 
   r_file <- normalizePath(file.path(temp_dir, basename(gsub("[.]([[:alnum:]])*$", ".R", path))), mustWork = FALSE, winslash = "\\")
   path <- normalizePath(path, winslash = "\\")
@@ -70,7 +74,7 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 att_from_rmds <- function(path = "vignettes",
                           pattern = "*.[.](Rmd|rmd)$",
                           recursive = TRUE, warn = -1,
-                          inside_rmd = FALSE) {
+                          inside_rmd = FALSE, inline = TRUE) {
 
   if (isTRUE(all(dir.exists(path)))) {
     all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
@@ -80,7 +84,11 @@ att_from_rmds <- function(path = "vignettes",
     stop("Some file/directory do not exists")
   }
 
-  res <- lapply(all_f, function(x) att_from_rmd(x, warn = warn, inside_rmd = inside_rmd)) %>%
+  res <- lapply(all_f,
+                function(x) att_from_rmd(
+                  x, warn = warn,
+                  inside_rmd = inside_rmd, inline = inline)
+  ) %>%
     unlist() %>%
     unique() %>%
     na.omit()

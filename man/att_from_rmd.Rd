@@ -9,7 +9,8 @@ att_from_rmd(
   temp_dir = tempdir(),
   warn = -1,
   encoding = getOption("encoding"),
-  inside_rmd = FALSE
+  inside_rmd = FALSE,
+  inline = TRUE
 )
 }
 \arguments{
@@ -24,6 +25,8 @@ this argument is effectively ignored).}
 
 \item{inside_rmd}{Logical. Whether function is run inside a Rmd,
 in case this must be executed in an external R session}
+
+\item{inline}{Logical. Default TRUE. Whether to explore inline code for dependencies.}
 }
 \description{
 Get all dependencies from a Rmd file

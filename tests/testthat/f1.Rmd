@@ -83,5 +83,6 @@ requireNamespace(     "findme6a"      )
 
 ```
 
+## Inline code 
 
-
+`r find.inline::fun()`
