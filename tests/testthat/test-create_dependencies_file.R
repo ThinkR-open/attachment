@@ -13,5 +13,6 @@ create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
 dep_file <- readLines(file.path(tmpdir, "dummypackage", "inst/dependencies.R"))
 
 test_that("create-dependencies-file works", {
+  expect_equal(dep_file[1], "# No Remotes ----")
   expect_equal(dep_file[3], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
 })

@@ -155,34 +155,6 @@ att_amend_desc <- function(path = ".",
 #' @export
 att_to_desc_from_pkg <- att_amend_desc
 
-#' @rdname att_amend_desc
-#' @export
-#' @usage NULL
-att_to_description <- function(path = ".",
-                               path.n = "NAMESPACE",
-                               path.d = "DESCRIPTION",
-                               dir.r = "R",
-                               dir.v = "vignettes",
-                               dir.t = "tests",
-                               extra.suggests = NULL,
-                               pkg_ignore = NULL,
-                               document = TRUE,
-                               normalize = TRUE,
-                               inside_rmd = FALSE) {
-  .Deprecated("att_amend_desc")
-  att_amend_desc(path = path,
-                 path.n = path.n,
-                 path.d = path.d,
-                 dir.r = dir.r,
-                 dir.v = dir.v,
-                 dir.t = dir.t,
-                 extra.suggests = extra.suggests,
-                 pkg_ignore = pkg_ignore,
-                 document = document,
-                 normalize = normalize,
-                 inside_rmd = inside_rmd)
-}
-
 #' Amend DESCRIPTION with dependencies from imports and suggests package list
 #'
 #' @param path.d path to description file.
