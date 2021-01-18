@@ -106,6 +106,6 @@ test_that("extract_pkg_info extracts code", {
   ) %>% setNames("fakenull")
 
   expect_true(is.na(extract_pkg_info(fake_desc_local)$fakenull))
-  expect_equal(names(attachment:::extract_pkg_info(fake_desc_local)$fakenull), "local maybe ?")
+  expect_equal(names(extract_pkg_info(fake_desc_local)$fakenull), "local maybe ?")
 })
 

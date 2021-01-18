@@ -64,9 +64,12 @@ pkgdown::build_site()
 usethis::pr_fetch(28)
 usethis::pr_push()
 
+# Deprecation
+# usethis::
+
 # Do not parse dir.t because of tests
 attachment::att_from_rscripts("tests")
-attachment::att_to_description(pkg_ignore = c("remotes", "i"), #i
+attachment::att_amend_desc(pkg_ignore = c("remotes", "i"), #i
                                extra.suggests = c("testthat"), #"pkgdown", "covr",
                                dir.t = "",
                                normalize = FALSE)
@@ -79,5 +82,8 @@ devtools::build_vignettes()
 devtools::check()
 
 devtools::check_rhub(email = "")
+rhub::local_check_linux_images()
+rhub::local_check_linux(image = "rhub/debian-gcc-release")
+rhub::check_for_cran(email = "sebastien@thinkr.fr")
 devtools::release()
 # devtools::load_all(".")

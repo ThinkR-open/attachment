@@ -1,5 +1,10 @@
 #' Amend DESCRIPTION with dependencies read from package code parsing
 #'
+#' Amend package DESCRIPTION file with the list of dependencies extracted from
+#' R, tests, vignettes files.
+#' att_to_desc_from_pkg() is an alias of att_amend_desc(),
+#' for the correspondence with \code{\link{att_to_desc_from_is}}.
+#'
 #' @param path path to the root of the package directory. Default to current directory.
 #' @param path.n path to namespace file.
 #' @param dir.r path to directory with R scripts.
@@ -13,7 +18,6 @@
 #' @inheritParams att_from_rmds
 #'
 #' @return Update DESCRIPTION file.
-#' att_to_desc_from_pkg(), att_amend_desc() are aliases
 #'
 #' @export
 #' @examples
@@ -24,7 +28,7 @@
 #' # browseURL(dummypackage)
 #' att_amend_desc(path = dummypackage)
 
-att_to_description <- function(path = ".",
+att_amend_desc <- function(path = ".",
                                path.n = "NAMESPACE",
                                path.d = "DESCRIPTION",
                                dir.r = "R",
@@ -147,13 +151,37 @@ att_to_description <- function(path = ".",
   att_to_desc_from_is(path.d, imports, suggests, normalize)
 }
 
-#' @rdname att_to_description
+#' @rdname att_amend_desc
 #' @export
-att_to_desc_from_pkg <- att_to_description
+att_to_desc_from_pkg <- att_amend_desc
 
-#' @rdname att_to_description
+#' @rdname att_amend_desc
 #' @export
-att_amend_desc <- att_to_description
+#' @usage NULL
+att_to_description <- function(path = ".",
+                               path.n = "NAMESPACE",
+                               path.d = "DESCRIPTION",
+                               dir.r = "R",
+                               dir.v = "vignettes",
+                               dir.t = "tests",
+                               extra.suggests = NULL,
+                               pkg_ignore = NULL,
+                               document = TRUE,
+                               normalize = TRUE,
+                               inside_rmd = FALSE) {
+  .Deprecated("att_amend_desc")
+  att_amend_desc(path = path,
+                 path.n = path.n,
+                 path.d = path.d,
+                 dir.r = dir.r,
+                 dir.v = dir.v,
+                 dir.t = dir.t,
+                 extra.suggests = extra.suggests,
+                 pkg_ignore = pkg_ignore,
+                 document = document,
+                 normalize = normalize,
+                 inside_rmd = inside_rmd)
+}
 
 #' Amend DESCRIPTION with dependencies from imports and suggests package list
 #'
@@ -329,10 +357,10 @@ find_remotes <- function(pkg) {
 #' Internal. Core of find_remotes separated for unit tests
 #' @param pkgdesc Named list of PackageDescriptions
 extract_pkg_info <- function(pkgdesc) {
-  is_cran <- sapply(pkgdesc, function(x) {
+  is_cran <- lapply(pkgdesc, function(x) {
     !is.null(x[["Repository"]]) |
       (!is.null(x[["Priority"]]) && x[["Priority"]] == "base")
-  })
+  }) %>% unlist()
 
   pkg_not_cran <- names(is_cran[!is_cran])
   # cran_pkg <- names(cran_or_not[!cran_or_not])

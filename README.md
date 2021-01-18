@@ -66,7 +66,7 @@ common call for your development packages would be:
 attachment::att_amend_desc(extra.suggests = c("pkgdown", "covr"))
 ```
 
-*Note: `attachment::att_to_description()` still exists as an alias.*
+*Note: `attachment::att_to_description()` is Deprecated.*
 
 #### Example on a fake package
 
@@ -79,7 +79,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Updating dummypackage documentation
-#> Updating roxygen version in /tmp/RtmpxQ8YBj/dummypackage/DESCRIPTION
+#> Updating roxygen version in /tmp/Rtmp5nZ3yb/dummypackage/DESCRIPTION
 #> Loading dummypackage
 #> Writing NAMESPACE
 #> Writing NAMESPACE
@@ -150,7 +150,7 @@ If you are running this inside a Rmd, you may need parameter `inside_rmd
 dummypackage <- system.file("dummypackage", package = "attachment")
 
 att_from_rscripts(path = dummypackage)
-#> [1] "stats"        "testthat"     "dummypackage"
+#> [1] "stats"        "base"         "testthat"     "dummypackage"
 att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 #> [1] "knitr"     "rmarkdown" "ggplot2"
 ```
@@ -158,7 +158,7 @@ att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 ## Vignette
 
 Package {attachment} has a vignette to present the different functions
-available. There is also a recommandation to have a `devstuff_history.R`
+available. There is also a recommendation to have a `devstuff_history.R`
 in the root directory of your package. (*Have a look at
 [devstuff\_history.R](https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R)
 in the present package*)

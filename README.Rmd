@@ -57,7 +57,7 @@ As {pkgdown} and {covr} are not listed in any script in your package, a common c
 attachment::att_amend_desc(extra.suggests = c("pkgdown", "covr"))
 ```
 
-_Note: `attachment::att_to_description()` still exists as an alias._
+_Note: `attachment::att_to_description()` is Deprecated._
 
 #### Example on a fake package
 
@@ -127,7 +127,7 @@ att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 
 ## Vignette
 
-Package {attachment} has a vignette to present the different functions available. There is also a recommandation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at [devstuff_history.R](https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R) in the present package*)
+Package {attachment} has a vignette to present the different functions available. There is also a recommendation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at [devstuff_history.R](https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R) in the present package*)
 
 ```{r, eval=FALSE}
 vignette("fill-pkg-description", package = "attachment")

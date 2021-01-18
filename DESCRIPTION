@@ -23,7 +23,8 @@ Description: Tools to help manage dependencies during package
     All functions to retrieve dependencies of R scripts and Rmd files can
     be used independently of a package development.
 License: GPL-3
-URL: https://thinkr-open.github.io/attachment/, https://github.com/Thinkr-open/attachment
+URL: https://thinkr-open.github.io/attachment/,
+    https://github.com/Thinkr-open/attachment
 BugReports: https://github.com/Thinkr-open/attachment/issues
 VignetteBuilder:
     knitr

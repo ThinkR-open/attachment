@@ -61,7 +61,7 @@ att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 ```
 
 ### For bookdown
-You can use a similar approch for a {bookdown} description file using `attachment::att_to_desc_from_is()`
+You can use a similar approach for a {bookdown} description file using `attachment::att_to_desc_from_is()`
 
 ```{r, eval=FALSE}
 # bookdown Imports are in Rmds
