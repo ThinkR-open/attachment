@@ -70,6 +70,21 @@ attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
                                 imports = imports, suggests = NULL)
 ```
 
+### Propose content for "Remotes" field
+
+`find_remotes()` checks if packages were installed from other source than CRAN. 
+If so, it returns the content you can add to `Remotes:` field in DESCRIPTION.
+For instance:
+
+- For GitHub : `Remotes: thinkr-open/attachment`
+- For GitLab : `Remotes: gitlab::jimhester/covr`
+
+You probably want to combine it to `att_from_description()`
+```{r, eval=FALSE}
+att_from_description() %>% find_remotes()
+```
+
+
 ## Get all packages listed in "namespace"
 You can get the list of packages in your package with `att_from_namespace()`
 

@@ -8,7 +8,8 @@ att_to_desc_from_is(
   path.d = "DESCRIPTION",
   imports = NULL,
   suggests = NULL,
-  normalize = TRUE
+  normalize = TRUE,
+  add_remotes = FALSE
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ att_to_desc_from_is(
 \item{suggests}{character vector of package names to add in Suggests section}
 
 \item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}}
+
+\item{add_remotes}{Logical. Whether to add Remotes in DESCRIPTION when packages installed are from non-CRAN.}
 }
 \value{
 Fill in Description file

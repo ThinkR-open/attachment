@@ -161,6 +161,7 @@ att_amend_desc <- att_to_description
 #' @param imports character vector of package names to add in Imports section
 #' @param suggests character vector of package names to add in Suggests section
 #' @param normalize Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}
+#' @param add_remotes Logical. Whether to add Remotes in DESCRIPTION when packages installed are from non-CRAN.
 #'
 #' @importFrom desc description
 #'
@@ -181,7 +182,9 @@ att_amend_desc <- att_to_description
 #' imports = att_from_rscripts(file.path(dummypackage, ".R")),
 #' suggests = att_from_rmds(file.path(dummypackage, "vignettes")))
 
-att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL, suggests = NULL, normalize = TRUE) {
+att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
+                                suggests = NULL, normalize = TRUE,
+                                add_remotes = FALSE) {
 
   if (!file.exists(path.d)) {
     stop(paste("There is no file named path.d =", path.d, "in the current directory"))
@@ -296,4 +299,61 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL, suggests
   desc$write(file = path.d)
 
 }
+
+
+#' Proposes values for Remotes field for DESCRIPTION file based on your installation
+#'
+#' @param pkg Character. Packages to test for potential non-CRAN installation
+#'
+#' @return
+#' List of non-CRAN packages and code to add in Remotes field in DESCRIPTION
+#' @export
+#'
+#' @examples
+#' head(find_remotes(installed.packages()[,1]))
+#' \dontrun{
+#' find_remotes(pkg = c("attachment", "desc", "golem"))
+#' # Find from Description
+#' att_from_description() %>% find_remotes()
+#' }
+find_remotes <- function(pkg) {
+
+  pkgdesc <- lapply(pkg, function(x) {
+    packageDescription(x)
+  }) %>%
+    setNames(pkg)
+
+  extract_pkg_info(pkgdesc)
+}
+
+#' Internal. Core of find_remotes separated for unit tests
+#' @param pkgdesc Named list of PackageDescriptions
+extract_pkg_info <- function(pkgdesc) {
+  is_cran <- sapply(pkgdesc, function(x) {
+    !is.null(x[["Repository"]]) |
+      (!is.null(x[["Priority"]]) && x[["Priority"]] == "base")
+  })
+
+  pkg_not_cran <- names(is_cran[!is_cran])
+  # cran_pkg <- names(cran_or_not[!cran_or_not])
+
+  guess_repo <- lapply(pkg_not_cran, function(x) {
+    desc <- pkgdesc[[x]]
+    if (!is.null(desc$RemoteType) && desc$RemoteType == "github") {
+      tolower(paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))
+    } else if (!is.null(desc$RemoteType) && desc$RemoteType %in% c("gitlab", "bitbucket")) {
+      tolower(paste0(desc$RemoteType, "::",
+                     paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")))
+    } else if (!is.null(desc$RemoteType) && is.null(desc$RemoteHost)) {
+      c("Maybe ?" = tolower(paste0(desc$RemoteType, "::", desc$RemoteHost, ":",
+                                   paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))))
+    } else {
+      c("local maybe ?" = NA)
+    }
+  }) %>%
+    setNames(pkg_not_cran)
+
+  guess_repo
+}
+
 

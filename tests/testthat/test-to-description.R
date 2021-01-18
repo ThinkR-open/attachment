@@ -57,3 +57,55 @@ test_that("att_to_desc_from_is updates description", {
   expect_equal(desc_file[18], "LinkingTo:" )
   expect_equal(desc_file[19], "    Rcpp")
 })
+
+# Test extract Remotes ----
+test_that("find_remotes works with no error", {
+  # Cannot verify directly if this works because it depends on user installation
+  # From CRAN or Github. At least there should be no error.
+  expect_true(length(find_remotes("desc")) == 0 |
+                          length(find_remotes("desc") == 1))
+  # base package avoided
+  expect_true(length(find_remotes("stats")) == 0)
+})
+
+# Test core of find_remotes
+test_that("extract_pkg_info extracts code", {
+  # Github
+  fake_desc_github <- list(
+    list(
+      RemoteType = "github",
+      RemoteHost = "api.github.com",
+      RemoteRepo = "golem",
+      RemoteUsername = "ThinkR-open"
+    )
+  ) %>% setNames("golem")
+  expect_equal(extract_pkg_info(fake_desc_github)$golem, "thinkr-open/golem")
+
+  # GitLab
+  # Sys.setenv(GITLAB_PAT = "xxxxxxxxxxxxxxxx")
+  # remotes::gitlab_pat(FALSE)
+  # remotes::install_gitlab("statnmap/fakepkg")
+  fake_desc_gitlab <- list(
+    list(
+      RemoteType = "gitlab",
+      RemoteHost = "gitlab.com",
+      RemoteRepo = "fakepkg",
+      RemoteUsername = "statnmap"
+    )
+  ) %>% setNames("fakepkg")
+  expect_equal(extract_pkg_info(fake_desc_gitlab)$fakepkg, "gitlab::statnmap/fakepkg")
+
+  # Other installations
+  fake_desc_local <- list(
+    list(
+      RemoteType = NULL,
+      RemoteHost = NULL,
+      RemoteRepo = NULL,
+      RemoteUsername = NULL
+    )
+  ) %>% setNames("fakenull")
+
+  expect_true(is.na(extract_pkg_info(fake_desc_local)$fakenull))
+  expect_equal(names(attachment:::extract_pkg_info(fake_desc_local)$fakenull), "local maybe ?")
+})
+
