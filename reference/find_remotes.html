@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>install  packages if missing — install_if_missing • attachment</title>
+<title>Proposes values for Remotes field for DESCRIPTION file based on your installation — find_remotes • attachment</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,8 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 
-<meta property="og:title" content="install  packages if missing — install_if_missing" />
-<meta property="og:description" content="install  packages if missing" />
+<meta property="og:title" content="Proposes values for Remotes field for DESCRIPTION file based on your installation — find_remotes" />
+<meta property="og:description" content="Proposes values for Remotes field for DESCRIPTION file based on your installation" />
 <meta property="og:image" content="https://thinkr-open.github.io/attachment/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -151,36 +151,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>install  packages if missing</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Thinkr-open/attachment/blob/master/R/install_from_description.R'><code>R/install_from_description.R</code></a></small>
-    <div class="hidden name"><code>install_if_missing.Rd</code></div>
+    <h1>Proposes values for Remotes field for DESCRIPTION file based on your installation</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Thinkr-open/attachment/blob/master/R/att_to_description.R'><code>R/att_to_description.R</code></a></small>
+    <div class="hidden name"><code>find_remotes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>install  packages if missing</p>
+    <p>Proposes values for Remotes field for DESCRIPTION file based on your installation</p>
     </div>
 
-    <pre class="usage"><span class='fu'>install_if_missing</span><span class='op'>(</span><span class='va'>to_be_installed</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>find_remotes</span><span class='op'>(</span><span class='va'>pkg</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>to_be_installed</th>
-      <td><p>a character vector containing required packages names</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Arguments to be passed to <code><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></code></p></td>
+      <th>pkg</th>
+      <td><p>Character. Packages to test for potential non-CRAN installation</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>List of non-CRAN packages and code to add in Remotes field in DESCRIPTION</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>install_if_missing</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dplyr"</span>,<span class='st'>"fcuk"</span>,<span class='st'>"rusk"</span><span class='op'>)</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'>find_remotes</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/installed.packages.html'>installed.packages</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $attachment
+#&gt; local maybe ? 
+#&gt;            NA 
+#&gt; 
+#&gt; $thinkrtemplate
+#&gt; [1] "thinkr-open/thinkrtemplate"
+#&gt; </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>find_remotes</span><span class='op'>(</span>pkg <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"attachment"</span>, <span class='st'>"desc"</span>, <span class='st'>"golem"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='co'># Find from Description</span>
+<span class='fu'><a href='att_from_description.html'>att_from_description</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'>find_remotes</span><span class='op'>(</span><span class='op'>)</span>
 <span class='op'>}</span>
-
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

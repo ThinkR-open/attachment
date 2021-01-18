@@ -97,7 +97,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -134,7 +134,7 @@
         </li>
         <li>
   <a href="https://github.com/Thinkr-open/attachment/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -165,7 +165,8 @@
   pattern <span class='op'>=</span> <span class='st'>"*.[.](Rmd|rmd)$"</span>,
   recursive <span class='op'>=</span> <span class='cn'>TRUE</span>,
   warn <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>,
-  inside_rmd <span class='op'>=</span> <span class='cn'>FALSE</span>
+  inside_rmd <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  inline <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -191,6 +192,10 @@
       <th>inside_rmd</th>
       <td><p>Logical. Whether function is run inside a Rmd,
 in case this must be executed in an external R session</p></td>
+    </tr>
+    <tr>
+      <th>inline</th>
+      <td><p>Logical. Default TRUE. Whether to explore inline code for dependencies.</p></td>
     </tr>
     </table>
 

@@ -96,7 +96,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -104,7 +104,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -133,7 +133,7 @@
         </li>
         <li>
   <a href="https://github.com/Thinkr-open/attachment/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -154,17 +154,22 @@
       <small>Source: <a href='https://github.com/Thinkr-open/attachment/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="attachment-0109000" class="section level1">
-<h1 class="page-header" data-toc-text="0.1.0.9000">
-<a href="#attachment-0109000" class="anchor"></a>attachment 0.1.0.9000<small> Unreleased </small>
+    <div id="attachment-020" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.0">
+<a href="#attachment-020" class="anchor"></a>attachment 0.2.0<small> Unreleased </small>
 </h1>
 <p>Breaking changes</p>
 <ul>
+<li>
+<code><a href="../reference/attachment-deprecated.html">att_to_description()</a></code> deprecated in favor of <code>att_amend_desc</code> to be first in autocompletion list, as this is the most used function of this package.</li>
+<li>
+<code><a href="../reference/att_from_rmd.html">att_from_rmd()</a></code> gets parameter <code>inline = TRUE</code> by default to explore calls for packages in inline R code.</li>
 <li>
 <code><a href="../reference/att_from_rmd.html">att_from_rmd()</a></code> and <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> are not anymore executed in separate R session by default. You must set <code>inside_rmd = TRUE</code> to do so.</li>
 </ul>
 <p>Minor</p>
 <ul>
+<li>Add <code><a href="../reference/find_remotes.html">find_remotes()</a></code> to help fill Remotes field in DESCRIPTION</li>
 <li>
 <code><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is()</a></code> add parameter <code>normalize</code> to avoid problem with {desc}. (See <a href="https://github.com/r-lib/desc/issues/80" class="uri">https://github.com/r-lib/desc/issues/80</a>)</li>
 </ul>
@@ -175,21 +180,21 @@
 </h1>
 <ul>
 <li>
-<code><a href="../reference/att_to_description.html">att_amend_desc()</a></code> is an alias for <code><a href="../reference/att_to_description.html">att_to_description()</a></code><br>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> is an alias for <code><a href="../reference/attachment-deprecated.html">att_to_description()</a></code><br>
 </li>
 <li>
 <code>att_desc_from_is()</code> amends DESCRIPTION file from imports/suggests vector of packages<br>
 </li>
 <li>
-<code><a href="../reference/att_to_description.html">att_to_desc_from_pkg()</a></code> is an alias for <code><a href="../reference/att_to_description.html">att_to_description()</a></code><br>
+<code><a href="../reference/att_amend_desc.html">att_to_desc_from_pkg()</a></code> is an alias for <code><a href="../reference/attachment-deprecated.html">att_to_description()</a></code><br>
 </li>
 <li>Removed dependency to {devtools}, replace by {roxygen}<br>
 </li>
 <li>
-<code><a href="../reference/att_to_description.html">att_to_description()</a></code> shows packages added/removed from DESCRIPTION<br>
+<code><a href="../reference/attachment-deprecated.html">att_to_description()</a></code> shows packages added/removed from DESCRIPTION<br>
 </li>
 <li>
-<code><a href="../reference/att_to_description.html">att_to_description()</a></code> deals with dependencies in tests/ directory<br>
+<code><a href="../reference/attachment-deprecated.html">att_to_description()</a></code> deals with dependencies in tests/ directory<br>
 </li>
 <li>
 <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> allows user defined regex to detect Rmd files</li>
@@ -281,9 +286,9 @@
 </h1>
 <ul>
 <li>
-<code><a href="../reference/att_to_description.html">att_to_description(add_version = TRUE)</a></code> adds version of package in DESCRIPTION</li>
+<code><a href="../reference/attachment-deprecated.html">att_to_description(add_version = TRUE)</a></code> adds version of package in DESCRIPTION</li>
 <li>
-<code><a href="../reference/att_to_description.html">att_to_description(pkg_ignore)</a></code> adds possibility to ignore some packages</li>
+<code><a href="../reference/attachment-deprecated.html">att_to_description(pkg_ignore)</a></code> adds possibility to ignore some packages</li>
 </ul>
 </div>
     <div id="attachment-003-1" class="section level1">

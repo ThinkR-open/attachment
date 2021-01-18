@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>install  packages if missing — install_if_missing • attachment</title>
+<title>Amend DESCRIPTION with dependencies read from package code parsing — att_amend_desc • attachment</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,11 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 
-<meta property="og:title" content="install  packages if missing — install_if_missing" />
-<meta property="og:description" content="install  packages if missing" />
+<meta property="og:title" content="Amend DESCRIPTION with dependencies read from package code parsing — att_amend_desc" />
+<meta property="og:description" content="Amend package DESCRIPTION file with the list of dependencies extracted from
+R, tests, vignettes files.
+att_to_desc_from_pkg() is an alias of att_amend_desc(),
+for the correspondence with att_to_desc_from_is." />
 <meta property="og:image" content="https://thinkr-open.github.io/attachment/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -151,37 +154,109 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>install  packages if missing</h1>
-    <small class="dont-index">Source: <a href='https://github.com/Thinkr-open/attachment/blob/master/R/install_from_description.R'><code>R/install_from_description.R</code></a></small>
-    <div class="hidden name"><code>install_if_missing.Rd</code></div>
+    <h1>Amend DESCRIPTION with dependencies read from package code parsing</h1>
+    <small class="dont-index">Source: <a href='https://github.com/Thinkr-open/attachment/blob/master/R/att_to_description.R'><code>R/att_to_description.R</code></a></small>
+    <div class="hidden name"><code>att_amend_desc.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>install  packages if missing</p>
+    <p>Amend package DESCRIPTION file with the list of dependencies extracted from
+R, tests, vignettes files.
+att_to_desc_from_pkg() is an alias of att_amend_desc(),
+for the correspondence with <code><a href='att_to_desc_from_is.html'>att_to_desc_from_is</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>install_if_missing</span><span class='op'>(</span><span class='va'>to_be_installed</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>att_amend_desc</span><span class='op'>(</span>
+  path <span class='op'>=</span> <span class='st'>"."</span>,
+  path.n <span class='op'>=</span> <span class='st'>"NAMESPACE"</span>,
+  path.d <span class='op'>=</span> <span class='st'>"DESCRIPTION"</span>,
+  dir.r <span class='op'>=</span> <span class='st'>"R"</span>,
+  dir.v <span class='op'>=</span> <span class='st'>"vignettes"</span>,
+  dir.t <span class='op'>=</span> <span class='st'>"tests"</span>,
+  extra.suggests <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pkg_ignore <span class='op'>=</span> <span class='cn'>NULL</span>,
+  document <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  normalize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  inside_rmd <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span>
+
+<span class='fu'>att_to_desc_from_pkg</span><span class='op'>(</span>
+  path <span class='op'>=</span> <span class='st'>"."</span>,
+  path.n <span class='op'>=</span> <span class='st'>"NAMESPACE"</span>,
+  path.d <span class='op'>=</span> <span class='st'>"DESCRIPTION"</span>,
+  dir.r <span class='op'>=</span> <span class='st'>"R"</span>,
+  dir.v <span class='op'>=</span> <span class='st'>"vignettes"</span>,
+  dir.t <span class='op'>=</span> <span class='st'>"tests"</span>,
+  extra.suggests <span class='op'>=</span> <span class='cn'>NULL</span>,
+  pkg_ignore <span class='op'>=</span> <span class='cn'>NULL</span>,
+  document <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  normalize <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  inside_rmd <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>to_be_installed</th>
-      <td><p>a character vector containing required packages names</p></td>
+      <th>path</th>
+      <td><p>path to the root of the package directory. Default to current directory.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Arguments to be passed to <code><a href='https://rdrr.io/r/utils/install.packages.html'>install.packages</a></code></p></td>
+      <th>path.n</th>
+      <td><p>path to namespace file.</p></td>
+    </tr>
+    <tr>
+      <th>path.d</th>
+      <td><p>path to description file.</p></td>
+    </tr>
+    <tr>
+      <th>dir.r</th>
+      <td><p>path to directory with R scripts.</p></td>
+    </tr>
+    <tr>
+      <th>dir.v</th>
+      <td><p>path to vignettes directory. Set to empty (dir.v = "") to ignore.</p></td>
+    </tr>
+    <tr>
+      <th>dir.t</th>
+      <td><p>path to tests directory. Set to empty (dir.t = "") to ignore.</p></td>
+    </tr>
+    <tr>
+      <th>extra.suggests</th>
+      <td><p>vector of other packages that should be added in Suggests (pkgdown, covr for instance)</p></td>
+    </tr>
+    <tr>
+      <th>pkg_ignore</th>
+      <td><p>vector of packages names to ignore.</p></td>
+    </tr>
+    <tr>
+      <th>document</th>
+      <td><p>Run function roxygenise of roxygen2 package</p></td>
+    </tr>
+    <tr>
+      <th>normalize</th>
+      <td><p>Logical. Whether to normalize the DESCRIPTION file. See <code><a href='https://rdrr.io/pkg/desc/man/desc_normalize.html'>desc_normalize</a></code></p></td>
+    </tr>
+    <tr>
+      <th>inside_rmd</th>
+      <td><p>Logical. Whether function is run inside a Rmd,
+in case this must be executed in an external R session</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Update DESCRIPTION file.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>install_if_missing</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"dplyr"</span>,<span class='st'>"fcuk"</span>,<span class='st'>"rusk"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>tmpdir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/files.html'>file.copy</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"dummypackage"</span>,package <span class='op'>=</span> <span class='st'>"attachment"</span><span class='op'>)</span>, <span class='va'>tmpdir</span>,
+ recursive <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>tmpdir</span>, <span class='st'>"dummypackage"</span><span class='op'>)</span>
+<span class='co'># browseURL(dummypackage)</span>
+<span class='fu'>att_amend_desc</span><span class='op'>(</span>path <span class='op'>=</span> <span class='va'>dummypackage</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Updating dummypackage documentation</span></div><div class='output co'>#&gt; <span class='message'>Updating roxygen version in /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpXJIJd1/dummypackage/DESCRIPTION</span></div><div class='output co'>#&gt; <span class='message'>Loading dummypackage</span></div><div class='output co'>#&gt; Writing NAMESPACE
+#&gt; Writing NAMESPACE</div><div class='output co'>#&gt; <span class='message'>Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span></div><div class='output co'>#&gt; <span class='message'>[-] 1 package(s) removed: utils.</span></div><div class='output co'>#&gt; <span class='message'>[+] 2 package(s) added: stats, ggplot2.</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
