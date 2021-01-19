@@ -31,3 +31,4 @@ rsconnect/
 # Doc for pkgdown
 docs/*
 inst/doc
+cran-comments.md

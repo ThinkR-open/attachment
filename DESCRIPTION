@@ -2,17 +2,18 @@ Package: attachment
 Title: Deal with Dependencies
 Version: 0.2.0
 Authors@R:
-    c(person(given = "Vincent",
-             family = "Guyader",
-             role = c("cre", "aut"),
-             email = "vincent@thinkr.fr",
-             comment = c(ORCID = "0000-0003-0671-9270")),
-      person(given = "Sébastien",
+    c(person(given = "Sébastien",
              family = "Rochette",
-             role = "aut",
+             role = c("cre", "aut"),
              email = "sebastien@thinkr.fr",
              comment = c(ORCID = "0000-0002-1565-9313")),
-      person(given = "ThinkR",
+     person(given = "Vincent",
+             family = "Guyader",
+             role = c("aut"),
+             email = "vincent@thinkr.fr",
+             comment = c(ORCID = "0000-0003-0671-9270",
+             "previous maintainer")),
+     person(given = "ThinkR",
              role = c("cph", "fnd")))
 Description: Tools to help manage dependencies during package
     development.  This can retrieve all dependencies that are used in R

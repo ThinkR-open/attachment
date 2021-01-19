@@ -1,4 +1,6 @@
 usethis::use_build_ignore("devstuff_history.R")
+usethis::use_build_ignore("cran-comments.md")
+usethis::use_git_ignore("cran-comments.md")
 usethis::use_readme_rmd()
 usethis::use_git()
 usethis::use_travis()
