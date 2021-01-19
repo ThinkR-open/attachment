@@ -35,6 +35,12 @@ See full documentation realized using {pkgdown} at <https://thinkr-open.github.i
 
 ## Installation
 
+CRAN version
+```r
+install.packages("attachment")
+```
+
+Development version
 ``` r
 # install.packages("devtools")
 devtools::install_github("ThinkR-open/attachment")

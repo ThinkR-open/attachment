@@ -37,6 +37,14 @@ See full documentation realized using {pkgdown} at
 
 ## Installation
 
+CRAN version
+
+``` r
+install.packages("attachment")
+```
+
+Development version
+
 ``` r
 # install.packages("devtools")
 devtools::install_github("ThinkR-open/attachment")
@@ -79,7 +87,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Updating dummypackage documentation
-#> Updating roxygen version in /tmp/Rtmp5nZ3yb/dummypackage/DESCRIPTION
+#> Updating roxygen version in /tmp/Rtmpl1G8Z3/dummypackage/DESCRIPTION
 #> Loading dummypackage
 #> Writing NAMESPACE
 #> Writing NAMESPACE
