@@ -1,3 +1,11 @@
+# attachment 0.2.1
+
+# attachment 0.3.0
+
+# attachment 0.2.1
+
+* Check for older pandoc version in tests
+
 # attachment 0.2.0
 
 Breaking changes

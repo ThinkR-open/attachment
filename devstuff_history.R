@@ -80,13 +80,20 @@ attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests")
 
 usethis::use_vignette("fill-pkg-description")
 
+# Checks
 devtools::build_vignettes()
 devtools::check()
 
+# Checks for release
+usethis::use_version("minor")
+usethis::use_version("patch")
 devtools::check_rhub(email = "")
 rhub::local_check_linux_images()
 rhub::local_check_linux(image = "rhub/debian-gcc-release")
-aa <- rhub::check_for_cran(email = "sebastien@thinkr.fr")
+
+rhub::check(platform = "windows-x86_64-devel", show_status = FALSE)
+rhub::check_on_solaris(show_status = FALSE)
+aa <- rhub::check_for_cran(show_status = FALSE)
 aa
 devtools::release()
 # devtools::load_all(".")

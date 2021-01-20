@@ -33,10 +33,15 @@ test_that("rmd well parsed", {
 })
 
 # Test inside ----
-success_file <- rmarkdown::render("insidermd.Rmd", quiet = TRUE)
 test_that("test inside rmd works", {
-  expect_equal(basename(success_file), "insidermd.html")
+  if (isTRUE(rmarkdown::pandoc_available("1.12.3"))) {
+    success_file <- rmarkdown::render("insidermd.Rmd", quiet = TRUE)
+    expect_equal(basename(success_file), "insidermd.html")
+    # clean
+    file.remove(success_file)
+  } else {
+    expect_error(rmarkdown::render("insidermd.Rmd", quiet = TRUE))
+  }
 })
-# clean
-file.remove(success_file)
+
 
