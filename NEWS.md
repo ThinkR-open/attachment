@@ -1,3 +1,7 @@
+# attachment 0.2.2
+
+* Fix detection of multiple render outputs in Rmd
+
 # attachment 0.2.1
 
 * Check for older pandoc version in tests

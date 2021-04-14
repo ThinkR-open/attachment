@@ -2,7 +2,7 @@
 title: "Untitled"
 author: "Vincent"
 date: "11 août 2018"
-output: html_document
+output: bookdown::html_document2
 ---
 
 ```{r setup, include=FALSE}

@@ -1,5 +1,3 @@
-context("test-rmd.R")
-
 # All code including inline code ----
 # Rmd packages listed to be found
 all_to_be_found <- c(
@@ -17,10 +15,25 @@ all_to_be_found <- c(
   "findme4a",
   "findme5a",
   "findme6a",
-  "find.inline"
+  "find.inline",
+  "bookdown",
+  "rmarkdown",
+  "emo"
 )
 
+# One Rmd with YAML ---
 test_that("rmd well parsed", {
+  # Multiple outputs
+  res <- sort(attachment::att_from_rmd(path = "yaml_rmd.Rmd"))
+  expect_equal(sort(res), sort(c( "emo", "bookdown", "rmarkdown", "knitr")))
+
+  # One output
+  res <- sort(attachment::att_from_rmd(path = "f1.Rmd"))
+  expect_equal(sort(res), sort(sort(setdiff(all_to_be_found, c("emo", "rmarkdown")))))
+})
+
+# A directory ----
+test_that("rmds well parsed", {
   res <- sort(attachment::att_from_rmds(path = "."))
   expect_equal(sort(res), sort(all_to_be_found))
 })
@@ -29,7 +42,7 @@ test_that("rmd well parsed", {
 test_that("rmd well parsed", {
   res <- sort(attachment::att_from_rmds(path = ".", inline = FALSE))
   # attachment::att_from_rmd("f1.Rmd")
-  expect_equal(sort(res), sort(setdiff(all_to_be_found, "find.inline")))
+  expect_equal(sort(res), sort(setdiff(all_to_be_found, c("find.inline", "emo"))))
 })
 
 # Test inside ----
