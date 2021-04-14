@@ -160,7 +160,7 @@
     <p>return package dependencies from NAMESPACE file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>att_from_namespace</span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"NAMESPACE"</span>, document <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>att_from_namespace</span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"NAMESPACE"</span>, document <span class='op'>=</span> <span class='cn'>TRUE</span>, clean <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,6 +172,10 @@
     <tr>
       <th>document</th>
       <td><p>Run function roxygenise of roxygen2 package</p></td>
+    </tr>
+    <tr>
+      <th>clean</th>
+      <td><p>Logical. Whether to remove the original NAMESPACE before updating</p></td>
     </tr>
     </table>
 
@@ -186,8 +190,8 @@
 </div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>tmpdir</span>, <span class='st'>"dummypackage"</span><span class='op'>)</span>
 <span class='co'># browseURL(dummypackage)</span>
 <span class='fu'>att_from_namespace</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>dummypackage</span>, <span class='st'>"NAMESPACE"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Updating dummypackage documentation</span></div><div class='output co'>#&gt; <span class='message'>Updating roxygen version in /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpVH08Co/dummypackage/DESCRIPTION</span></div><div class='output co'>#&gt; <span class='message'>Loading dummypackage</span></div><div class='output co'>#&gt; Writing NAMESPACE
-#&gt; Writing NAMESPACE</div><div class='output co'>#&gt; [1] "magrittr"</div></pre>
+</div><div class='output co'>#&gt; <span class='message'>Updating dummypackage documentation</span></div><div class='output co'>#&gt; <span class='message'>Updating roxygen version in /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpFHgkqL/dummypackage/DESCRIPTION</span></div><div class='output co'>#&gt; <span class='message'><span style='color: #00BBBB;'>ℹ</span><span> Loading </span><span style='color: #0000BB;'>dummypackage</span><span></span></div><div class='output co'>#&gt; Writing NAMESPACE
+#&gt; Writing NAMESPACE</div><div class='output co'>#&gt; [1] "magrittr"</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
