@@ -2,6 +2,7 @@
 #'
 #' @param path path to NAMESPACE file
 #' @param document Run function roxygenise of roxygen2 package
+#' @param clean Logical. Whether to remove the original NAMESPACE before updating
 #'
 #' @return a vector
 #' @export
@@ -17,11 +18,15 @@
 #' # browseURL(dummypackage)
 #' att_from_namespace(path = file.path(dummypackage, "NAMESPACE"))
 
-att_from_namespace <- function(path = "NAMESPACE", document = TRUE) {
+att_from_namespace <- function(path = "NAMESPACE", document = TRUE, clean = TRUE) {
+  path <- normalizePath(path)
   if (isTRUE(document)) {
-    message("Updating ", basename(dirname(normalizePath(path))), " documentation")
+    message("Updating ", basename(dirname(path)), " documentation")
     # devtools::document(dirname(path))
-    roxygen2::roxygenise(dirname(normalizePath(path)), roclets = NULL)
+    if (isTRUE(clean)) {
+        file.remove(path)
+    }
+    roxygen2::roxygenise(dirname(path), roclets = NULL)
   }
   base <- try(readLines(path), silent = TRUE)
   base <- try(base[!grepl("^#|^$", base)], silent = TRUE)

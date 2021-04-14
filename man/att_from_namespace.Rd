@@ -4,12 +4,14 @@
 \alias{att_from_namespace}
 \title{return package dependencies from NAMESPACE file}
 \usage{
-att_from_namespace(path = "NAMESPACE", document = TRUE)
+att_from_namespace(path = "NAMESPACE", document = TRUE, clean = TRUE)
 }
 \arguments{
 \item{path}{path to NAMESPACE file}
 
 \item{document}{Run function roxygenise of roxygen2 package}
+
+\item{clean}{Logical. Whether to remove the original NAMESPACE before updating}
 }
 \value{
 a vector
