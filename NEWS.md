@@ -1,6 +1,8 @@
 # attachment 0.2.2
 
-* Fix detection of multiple render outputs in Rmd
+* Default to remove NAMESPACE before updating it in `att_from_namespace()`
+* Fix detection of multiple render outputs in Rmd with `att_from_rmd()`
+* Allow vector of R files in `att_from_rscripts()`
 
 # attachment 0.2.1
 

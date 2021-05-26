@@ -42,7 +42,7 @@ att_from_rscript <- function(path) {
 
 #' Look for functions called with `::` and library/requires in folder of scripts
 #'
-#' @param path directory with R scripts inside
+#' @param path directory with R scripts inside or vector of R scripts
 #' @param pattern pattern to detect R script files
 #' @param recursive logical. Should the listing recurse into directories?
 #'
@@ -51,10 +51,19 @@ att_from_rscript <- function(path) {
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #' # browseURL(dummypackage)
 #'
-#' att_from_rscripts(path = dummypackage)
+#' att_from_rscripts(path = file.path(dummypackage, "R"))
+#' att_from_rscripts(path = list.files(file.path(dummypackage, "R"), full.names = TRUE))
 
 att_from_rscripts <- function(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE) {
-  all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
+
+  if (isTRUE(all(dir.exists(path)))) {
+    all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
+  } else if (isTRUE(all(file.exists(path)))) {
+    all_f <- normalizePath(path[grepl(pattern, path)])
+  } else {
+    stop("Some files/directories do not exist")
+  }
+
   lapply(all_f, att_from_rscript) %>%
     unlist() %>%
     unique() %>%

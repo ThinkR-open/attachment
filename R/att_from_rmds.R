@@ -88,7 +88,7 @@ att_from_rmds <- function(path = "vignettes",
   } else if (isTRUE(all(file.exists(path)))) {
     all_f <- normalizePath(path[grepl(pattern, path)])
   } else {
-    stop("Some file/directory do not exists")
+    stop("Some files/directories do not exist")
   }
 
   res <- lapply(all_f,

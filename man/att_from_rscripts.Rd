@@ -7,7 +7,7 @@
 att_from_rscripts(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE)
 }
 \arguments{
-\item{path}{directory with R scripts inside}
+\item{path}{directory with R scripts inside or vector of R scripts}
 
 \item{pattern}{pattern to detect R script files}
 
@@ -20,5 +20,6 @@ Look for functions called with `::` and library/requires in folder of scripts
 dummypackage <- system.file("dummypackage",package = "attachment")
 # browseURL(dummypackage)
 
-att_from_rscripts(path = dummypackage)
+att_from_rscripts(path = file.path(dummypackage, "R"))
+att_from_rscripts(path = list.files(file.path(dummypackage, "R"), full.names = TRUE))
 }
