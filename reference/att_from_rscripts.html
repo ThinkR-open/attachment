@@ -167,7 +167,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>path</th>
-      <td><p>directory with R scripts inside</p></td>
+      <td><p>directory with R scripts inside or vector of R scripts</p></td>
     </tr>
     <tr>
       <th>pattern</th>
@@ -184,8 +184,9 @@
     <pre class="examples"><div class='input'><span class='va'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"dummypackage"</span>,package <span class='op'>=</span> <span class='st'>"attachment"</span><span class='op'>)</span>
 <span class='co'># browseURL(dummypackage)</span>
 
-<span class='fu'>att_from_rscripts</span><span class='op'>(</span>path <span class='op'>=</span> <span class='va'>dummypackage</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "stats"        "testthat"     "dummypackage"</div></pre>
+<span class='fu'>att_from_rscripts</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>dummypackage</span>, <span class='st'>"R"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "stats"</div><div class='input'><span class='fu'>att_from_rscripts</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>dummypackage</span>, <span class='st'>"R"</span><span class='op'>)</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "stats"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
