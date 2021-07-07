@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
 [![R build
@@ -12,7 +11,7 @@ status](https://www.r-pkg.org/badges/version/attachment)](https://cran.r-project
 ![downloads](http://cranlogs.r-pkg.org/badges/attachment)
 <!-- badges: end -->
 
-# attachment <img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex-thinkr.png" align="right" alt="" width="120" />
+# attachment <img src="man/figures/logo.png" align="right" alt="" width="120" />
 
 The goal of attachment is to help to deal with package dependencies
 during package development. It also gives useful tools to install or
@@ -28,8 +27,8 @@ And what happens when you remove a dependency for one of your functions
 ? Do you really want to run a “Find in files” to verify that you do not
 need this package anymore ?
 
-Let {attachment} help you \! This reads your NAMESPACE, your functions
-in R directory and your vignettes, then update the DESCRIPTION file
+Let {attachment} help you ! This reads your NAMESPACE, your functions in
+R directory and your vignettes, then update the DESCRIPTION file
 accordingly. Are you ready to be lazy ?
 
 See full documentation realized using {pkgdown} at
@@ -61,7 +60,7 @@ library(attachment)
 What you really want is to fill and update your description file along
 with the modifications of your documentation. Indeed, only the following
 function will really be called. Use and abuse during the development of
-your package \!
+your package !
 
 ``` r
 attachment::att_amend_desc()
@@ -87,8 +86,8 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Updating dummypackage documentation
-#> Updating roxygen version in /tmp/Rtmpl1G8Z3/dummypackage/DESCRIPTION
-#> Loading dummypackage
+#> Updating roxygen version in /tmp/Rtmp1SMVGo/dummypackage/DESCRIPTION
+#> ℹ Loading dummypackage
 #> Writing NAMESPACE
 #> Writing NAMESPACE
 #> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
@@ -151,14 +150,14 @@ attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
 Of course, you can also use {attachment} out of a package to list all
 package dependencies of R scripts using `att_from_rscripts()` or Rmd
 files using `att_from_rmds()`.  
-If you are running this inside a Rmd, you may need parameter `inside_rmd
-= TRUE`.
+If you are running this inside a Rmd, you may need parameter
+`inside_rmd = TRUE`.
 
 ``` r
 dummypackage <- system.file("dummypackage", package = "attachment")
 
 att_from_rscripts(path = dummypackage)
-#> [1] "stats"        "base"         "testthat"     "dummypackage"
+#> [1] "stats"        "testthat"     "dummypackage"
 att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 #> [1] "knitr"     "rmarkdown" "ggplot2"
 ```

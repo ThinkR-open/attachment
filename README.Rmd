@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 ![downloads](http://cranlogs.r-pkg.org/badges/attachment)
 <!-- badges: end -->
 
-# attachment <img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex-thinkr.png" align="right" alt="" width="120" />
+# attachment <img src="man/figures/logo.png" align="right" alt="" width="120" />
 
 The goal of attachment is to help to deal with package dependencies during package development. It also gives useful tools to install or list missing packages used inside Rscripts or Rmds.
   
