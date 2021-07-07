@@ -56,7 +56,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2.9000</span>
       </span>
     </div>
 
@@ -118,7 +118,7 @@
       <h1 data-toc-skip>Extract scripts dependencies and generate your Description file</h1>
                         <h4 class="author">Sébastien Rochette</h4>
             
-            <h4 class="date">2021-05-26</h4>
+            <h4 class="date">2021-07-07</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/master/vignettes/fill-pkg-description.Rmd"><code>vignettes/fill-pkg-description.Rmd</code></a></small>
       <div class="hidden name"><code>fill-pkg-description.Rmd</code></div>
@@ -137,13 +137,13 @@ $(document).ready(function () {
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://thinkr-open.github.io/attachment/">attachment</a></span><span class="op">)</span></code></pre></div>
 </div>
-<div id="use-devstuff_history-r" class="section level2">
+<div id="use-devdev_history-r" class="section level2">
 <h2 class="hasAnchor">
-<a href="#use-devstuff_history-r" class="anchor"></a>Use “devstuff_history.R”</h2>
-<p>When building your package, create a file called “devstuff_history.R” in the root directory. You will store all “manual” calls to <code>devtools::xxx</code> and <code>usethis::xxx</code> in this script.<br>
+<a href="#use-devdev_history-r" class="anchor"></a>Use “dev/dev_history.R”</h2>
+<p>When building your package, create a file called “dev_history.R” in a “dev/” directory. You will store all “manual” calls to <code>devtools::xxx</code> and <code>usethis::xxx</code> in this script.<br>
 Its first line should be :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_build_ignore</span><span class="op">(</span><span class="st">"devstuff_history.R"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_build_ignore</span><span class="op">(</span><span class="st">"dev"</span><span class="op">)</span></code></pre></div>
 <p>You can then call {attachment} in this file to help you build your description file.</p>
 </div>
 <div id="fill-your-description-file" class="section level2">
@@ -169,7 +169,7 @@ Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc(
 <span class="co"># browseURL(dummypackage)</span>
 <span class="fu"><a href="../reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Updating dummypackage documentation</span>
-<span class="co">#&gt; Updating roxygen version in /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/Rtmp0zJNT8/dummypackage/DESCRIPTION</span>
+<span class="co">#&gt; Updating roxygen version in /private/var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/RtmpuRpwBS/dummypackage/DESCRIPTION</span>
 <span class="co">#&gt; ℹ Loading dummypackage</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
