@@ -125,7 +125,7 @@
 
 <div id="attachment-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#attachment-" class="anchor"></a>attachment <img src="https://raw.githubusercontent.com/ThinkR-open/attachment/master/img/attachment-hex-thinkr.png" align="right" alt="" width="120">
+<a href="#attachment-" class="anchor"></a>attachment <img src="reference/figures/logo.png" align="right" alt="" width="120">
 </h1></div>
 <p>The goal of attachment is to help to deal with package dependencies during package development. It also gives useful tools to install or list missing packages used inside Rscripts or Rmds.</p>
 <p>When building a package, we have to add <code>@importFrom</code> in our documentation or <code>pkg::fun</code> in the R code. The most important is not to forget to add the list of dependencies in the “Imports” or “Suggests” package lists in the DESCRIPTION file.</p>
@@ -171,8 +171,8 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <span class="co"># browseURL(dummypackage)</span>
 <span class="fu"><a href="reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Updating dummypackage documentation</span>
-<span class="co">#&gt; Updating roxygen version in /tmp/Rtmpl1G8Z3/dummypackage/DESCRIPTION</span>
-<span class="co">#&gt; Loading dummypackage</span>
+<span class="co">#&gt; Updating roxygen version in /tmp/Rtmp1SMVGo/dummypackage/DESCRIPTION</span>
+<span class="co">#&gt; ℹ Loading dummypackage</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
 <span class="co">#&gt; Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
@@ -225,7 +225,7 @@ If you are running this inside a Rmd, you may need parameter <code>inside_rmd = 
 <code class="sourceCode R"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span><span class="op">)</span>
-<span class="co">#&gt; [1] "stats"        "base"         "testthat"     "dummypackage"</span>
+<span class="co">#&gt; [1] "stats"        "testthat"     "dummypackage"</span>
 <span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; [1] "knitr"     "rmarkdown" "ggplot2"</span></code></pre></div>
 </div>
