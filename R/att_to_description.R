@@ -17,6 +17,8 @@
 #' @inheritParams att_to_desc_from_is
 #' @inheritParams att_from_rmds
 #'
+#' @importFrom desc description
+#'
 #' @return Update DESCRIPTION file.
 #'
 #' @export
@@ -45,15 +47,31 @@ att_amend_desc <- function(path = ".",
     old <- setwd(normalizePath(path))
     on.exit(setwd(old))
   }
-  # if (!file.exists(path.n)) {
-  #   stop(paste("There is no file named path=", path.n, "in the current directory"))
-  # }
+
+  path <- normalizePath(path)
+
   if (!file.exists(path.d)) {
-    stop(paste("There is no file named path.d =", path.d, "in the current directory"))
+    x3 <- description$new("!new")
+    x3$set("Package", basename(path))
+    x3$write("DESCRIPTION")
+    message("An new path.d =", path.d, " was added to the directory. ",
+            "Please fill it. ",
+            "\nNext time, you may want to use 'usethis::use_description()'")
   }
-  # if (!is.null(dir.r) & !all(dir.exists(dir.r))) {
-  #   stop("One of directories in dir.r=", paste(dir.r, collapse = ", "), "does not exists in the current directory")
-  # }
+
+  # Remove non-existing directories in path.n for Imports
+  if (!file.exists(path.n)) {
+    if (isTRUE(document)) {
+      roxygen2::roxygenise(path, roclets = NULL)
+      path.n <- file.path(path, "NAMESPACE")
+      message("A new path.n =", path.n, " was added to the directory. ")
+    } else {
+      message("There is no directory named: ",
+              path.n,
+              ". This is removed from the Imports exploration")
+      path.n <- ""
+    }
+  }
 
   # Remove non-existing directories in dir.r for Imports
   dir.r.test <- dir.exists(dir.r)
@@ -68,18 +86,6 @@ att_amend_desc <- function(path = ".",
     dir.r <- ""
   }
 
-  # Remove non-existing directories in path.n for Imports
-  path.n.test <- file.exists(path.n)
-  if (any(path.n.test)) {
-    if (any(!path.n.test)) {
-      message("There is no directory named: ",
-              paste(path.n[!path.n.test], collapse = ", "),
-              ". This is removed from the Imports exploration")
-    }
-    path.n <- path.n[path.n.test]
-  } else {
-    path.n <- ""
-  }
   # Remove non-existing directories for Suggests
   dir.v.test <- dir.exists(dir.v)
   if (any(dir.v.test)) {
@@ -187,7 +193,13 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
                                 add_remotes = FALSE) {
 
   if (!file.exists(path.d)) {
-    stop(paste("There is no file named path.d =", path.d, "in the current directory"))
+    x3 <- description$new("!new")
+    if (path.d == "DESCRIPTION") {path.d <- file.path(normalizePath("."), path.d)}
+    x3$set("Package", basename(dirname(path.d)))
+    x3$write(path.d)
+    message("An new path.d =", path.d, " was added to the directory. ",
+            "Please fill it. ",
+            "\nNext time, you may want to use 'usethis::use_description()'")
   }
 
   desc <- description$new(path.d)

@@ -1,6 +1,6 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.2.1
+Version: 0.2.2.9000
 Authors@R:
     c(person(given = "Sébastien",
              family = "Rochette",

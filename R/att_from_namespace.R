@@ -19,6 +19,10 @@
 #' att_from_namespace(path = file.path(dummypackage, "NAMESPACE"))
 
 att_from_namespace <- function(path = "NAMESPACE", document = TRUE, clean = TRUE) {
+  if (!file.exists(path)) {
+    stop(path, " does not exists. ",
+         "You may want to use 'attachment::att_amend_desc()' or 'roxygen2::roxygenise()' first.")}
+
   path <- normalizePath(path)
   if (isTRUE(document)) {
     message("Updating ", basename(dirname(path)), " documentation")

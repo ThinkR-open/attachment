@@ -1,6 +1,7 @@
 # att_amend_desc ----
 # Copy package in a temporary directory
-tmpdir <- tempdir()
+tmpdir <- tempfile("dummy")
+dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
@@ -122,3 +123,49 @@ test_that("extract_pkg_info extracts code", {
   expect_equal(names(extract_pkg_info(fake_desc_local)$fakenull), "local maybe ?")
 })
 
+# Test missing DESCRIPTION works ----
+# Copy package in a temporary directory
+tmpdir <- tempfile("dummy")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+# browseURL(dummypackage)
+file.remove(file.path(dummypackage, "DESCRIPTION"))
+test_that("Works with missing DESCRIPTION", {
+  expect_false(file.exists(file.path(dummypackage, "DESCRIPTION")))
+  expect_message(att_amend_desc(path = dummypackage), "use_description")
+  expect_true(file.exists(file.path(dummypackage, "DESCRIPTION")))
+  desc_file <- readLines(file.path(tmpdir, "dummypackage", "DESCRIPTION"))
+  expect_true(grepl("dummypackage", desc_file[1]))
+  expect_false(any(grepl("dummypackage", desc_file[-1])))
+
+  file.remove(file.path(dummypackage, "DESCRIPTION"))
+  expect_false(file.exists(file.path(dummypackage, "DESCRIPTION")))
+  expect_message(att_to_desc_from_is(path = file.path(dummypackage, "DESCRIPTION"),
+                                     imports = c("magrittr")), "use_description")
+  expect_true(file.exists(file.path(dummypackage, "DESCRIPTION")))
+  desc_file <- readLines(file.path(tmpdir, "dummypackage", "DESCRIPTION"))
+  expect_true(grepl("dummypackage", desc_file[1]))
+  expect_false(any(grepl("dummypackage", desc_file[-1])))
+})
+
+# Test missing NAMESPACE works ----
+# Copy package in a temporary directory
+tmpdir <- tempfile("dummy")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+# browseURL(dummypackage)
+file.remove(file.path(dummypackage, "NAMESPACE"))
+test_that("Works with missing DESCRIPTION", {
+  expect_false(file.exists(file.path(dummypackage, "NAMESPACE")))
+  expect_error(att_from_namespace(file.path(dummypackage, "NAMESPACE")), "attachment::att_amend_desc()")
+
+  expect_message(att_amend_desc(path = dummypackage, document = FALSE),
+                 "no directory named: NAMESPACE")
+  expect_false(file.exists(file.path(dummypackage, "NAMESPACE")))
+
+  expect_message(att_amend_desc(path = dummypackage), "new path.n")
+  expect_true(file.exists(file.path(dummypackage, "NAMESPACE")))
+
+})

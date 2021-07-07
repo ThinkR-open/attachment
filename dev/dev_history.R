@@ -1,4 +1,5 @@
 usethis::use_build_ignore("devstuff_history.R")
+usethis::use_build_ignore("dev/")
 usethis::use_build_ignore("cran-comments.md")
 usethis::use_git_ignore("cran-comments.md")
 usethis::use_readme_rmd()
@@ -71,7 +72,7 @@ usethis::pr_push()
 
 # Do not parse dir.t because of tests
 attachment::att_from_rscripts("tests")
-attachment::att_amend_desc(pkg_ignore = c("remotes", "i"), #i
+attachment::att_amend_desc(pkg_ignore = c("remotes", "i", "usethis"), #i
                                extra.suggests = c("testthat"), #"pkgdown", "covr",
                                dir.t = "",
                                normalize = FALSE)
