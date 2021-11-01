@@ -170,6 +170,7 @@ att_to_desc_from_pkg <- att_amend_desc
 #' @param add_remotes Logical. Whether to add Remotes in DESCRIPTION when packages installed are from non-CRAN.
 #'
 #' @importFrom desc description
+#' @importFrom glue glue glue_collapse
 #'
 #' @export
 #'
@@ -208,6 +209,31 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   imports <- imports[imports != pkg_name]
   # Remove pkg name from suggests
   suggests <- suggests[suggests != pkg_name]
+  # check that packages are installed
+
+  # rlang::check_installed("pkg")
+  # imports
+suppressWarnings(
+res <-  sapply(imports,requireNamespace,quietly = TRUE))
+missing_packages <- names(res[!res])
+
+if (length(missing_packages) > 0) {
+  if (length(missing_packages) == 1) {
+    msg <-
+      glue::glue(
+        "The package {missing_packages} is missing or more probably misspelled.
+             Please correct your typo or install it"
+      )
+  } else {
+    msg <-
+      glue::glue(
+        "The packages {pkgs} are missing or more probably misspelled.
+             Please correct your typos or make the proper installations",
+        pkgs = glue::glue_collapse(missing_packages, sep = ", ", last = " & ")
+      )
+  }
+  stop(msg)
+}
 
   # Get previous dependencies in Description in case version is set
   deps_desc <- desc$get_deps()
