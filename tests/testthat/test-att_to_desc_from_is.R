@@ -1,5 +1,5 @@
 test_that("missing pkg is not installed", {
-
+  library(usethis)
   pkg_path <- tempfile(pattern = "pkg.")
   dir.create(pkg_path)
   usethis::create_package(pkg_path, open = FALSE)
