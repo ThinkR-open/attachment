@@ -183,7 +183,7 @@ att_to_desc_from_pkg <- att_amend_desc
 #' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # browseURL(dummypackage)
 #' att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
-#' imports = c("fcuk", "attachment"), suggests = c("knitr"))
+#' imports = c("magrittr", "attachment"), suggests = c("knitr"))
 #' # In combination with other functions
 #' att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
 #' imports = att_from_rscripts(file.path(dummypackage, "R")),
