@@ -214,7 +214,7 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   # rlang::check_installed("pkg")
   # imports
 suppressWarnings(
-res <-  sapply(imports,requireNamespace,quietly = TRUE))
+res <-  vapply(imports,FUN = requireNamespace,FUN.VALUE = logical(1),quietly = TRUE))
 missing_packages <- names(res[!res])
 
 if (length(missing_packages) > 0) {
