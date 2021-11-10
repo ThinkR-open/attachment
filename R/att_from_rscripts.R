@@ -46,6 +46,8 @@ att_from_rscript <- function(path) {
 #' @param pattern pattern to detect R script files
 #' @param recursive logical. Should the listing recurse into directories?
 #'
+#' @return vector of character of packages names found in the R script
+#'
 #' @export
 #' @examples
 #' dummypackage <- system.file("dummypackage",package = "attachment")

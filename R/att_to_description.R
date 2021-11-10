@@ -340,6 +340,7 @@ find_remotes <- function(pkg) {
 
 #' Internal. Core of find_remotes separated for unit tests
 #' @param pkgdesc Named list of PackageDescriptions
+#' @noRd
 extract_pkg_info <- function(pkgdesc) {
   is_cran <- lapply(pkgdesc, function(x) {
     !is.null(x[["Repository"]]) |

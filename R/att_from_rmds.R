@@ -11,6 +11,8 @@
 #' @importFrom stringr str_extract
 #' @importFrom knitr purl
 #'
+#' @return vector of character of packages names found in the Rmd
+#'
 #' @examples
 #'
 #' dummypackage <- system.file("dummypackage",package = "attachment")

@@ -14,8 +14,8 @@ knitr::opts_chunk$set(
 ```
 
 <!-- badges: start -->
-[![R build status](https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/attachment/actions)
-[![Coverage status](https://codecov.io/gh/ThinkR-open/attachment/branch/master/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=master)
+[![R-CMD-check](https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/attachment/actions)
+[![Coverage status](https://codecov.io/gh/ThinkR-open/attachment/branch/main/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=main)
 [![CRAN status](https://www.r-pkg.org/badges/version/attachment)](https://cran.r-project.org/package=attachment)
 ![downloads](http://cranlogs.r-pkg.org/badges/attachment)
 <!-- badges: end -->
@@ -133,7 +133,7 @@ att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 
 ## Vignette
 
-Package {attachment} has a vignette to present the different functions available. There is also a recommendation to have a `devstuff_history.R` in the root directory of your package. (*Have a look at [devstuff_history.R](https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R) in the present package*)
+Package {attachment} has a vignette to present the different functions available. There is also a recommendation to have a `dev_history.R` in the root directory of your package. (*Have a look at [dev_history.R](https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R) in the present package*)
 
 ```{r, eval=FALSE}
 vignette("fill-pkg-description", package = "attachment")
@@ -143,5 +143,6 @@ The vignette is available on the {pkgdown} page: <https://thinkr-open.github.io/
 
 See full documentation realized using {pkgdown} at <https://thinkr-open.github.io/attachment/>  
   
-Please note that this project is released with a [Contributor Code of Conduct](https://github.com/ThinkR-open/attachment/blob/master/CODE_OF_CONDUCT.md).
-  By participating in this project you agree to abide by its terms.
+## Code of Conduct
+
+Please note that the attachment project is released with a [Contributor Code of Conduct](https://thinkr-open.github.io/attachment/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms

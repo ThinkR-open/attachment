@@ -2,10 +2,9 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/attachment/actions)
+[![R-CMD-check](https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/attachment/actions)
 [![Coverage
-status](https://codecov.io/gh/ThinkR-open/attachment/branch/master/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=master)
+status](https://codecov.io/gh/ThinkR-open/attachment/branch/main/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/attachment)](https://cran.r-project.org/package=attachment)
 ![downloads](http://cranlogs.r-pkg.org/badges/attachment)
@@ -86,7 +85,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Updating dummypackage documentation
-#> Updating roxygen version in /tmp/Rtmp1SMVGo/dummypackage/DESCRIPTION
+#> Updating roxygen version in /tmp/RtmpdAJaCu/dummypackage/DESCRIPTION
 #> ℹ Loading dummypackage
 #> Writing NAMESPACE
 #> Writing NAMESPACE
@@ -165,9 +164,9 @@ att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 ## Vignette
 
 Package {attachment} has a vignette to present the different functions
-available. There is also a recommendation to have a `devstuff_history.R`
-in the root directory of your package. (*Have a look at
-[devstuff\_history.R](https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R)
+available. There is also a recommendation to have a `dev_history.R` in
+the root directory of your package. (*Have a look at
+[dev\_history.R](https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R)
 in the present package*)
 
 ``` r
@@ -180,6 +179,9 @@ The vignette is available on the {pkgdown} page:
 See full documentation realized using {pkgdown} at
 <https://thinkr-open.github.io/attachment/>
 
-Please note that this project is released with a [Contributor Code of
-Conduct](https://github.com/ThinkR-open/attachment/blob/master/CODE_OF_CONDUCT.md).
-By participating in this project you agree to abide by its terms.
+## Code of Conduct
+
+Please note that the attachment project is released with a [Contributor
+Code of
+Conduct](https://thinkr-open.github.io/attachment/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms

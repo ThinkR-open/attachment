@@ -8,7 +8,7 @@ usethis::use_travis()
 usethis::use_news_md()
 usethis::use_pkgdown()
 
-usethis::use_code_of_conduct()
+usethis::use_code_of_conduct(contact = "sebastien@thinkr.fr")
 
 library(desc)
 library(glue)
@@ -85,16 +85,47 @@ usethis::use_vignette("fill-pkg-description")
 devtools::build_vignettes()
 devtools::check()
 
-# Checks for release
-usethis::use_version("minor")
-usethis::use_version("patch")
+# Checks for CRAN release ----
+# Check package as CRAN
+rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
+
+# Check content
+# remotes::install_github("ThinkR-open/checkhelper")
+checkhelper::find_missing_tags()
+
+# Check spelling
+# usethis::use_spell_check()
+spelling::spell_check_package()
+
+# Check URL are correct
+# remotes::install_github("r-lib/urlchecker")
+urlchecker::url_check()
+urlchecker::url_update()
+
+# check on other distributions
+# _rhub
 devtools::check_rhub(email = "")
 rhub::local_check_linux_images()
 rhub::local_check_linux(image = "rhub/debian-gcc-release")
+rhub::local_check_linux(image = "rhub/debian-clang-devel")
 
 rhub::check(platform = "windows-x86_64-devel", show_status = FALSE)
 rhub::check_on_solaris(show_status = FALSE)
 aa <- rhub::check_for_cran(show_status = FALSE)
 aa
+
+# _win devel
+devtools::check_win_devel()
+devtools::check_win_release()
+
+# Update NEWS
+# Bump version manually and add list of changes
+
+# Add comments for CRAN
+usethis::use_cran_comments(open = rlang::is_interactive())
+
+# Upgrade version number
+usethis::use_version(which = c("patch", "minor", "major", "dev")[1])
+
+# Verify you're ready for release, and release
 devtools::release()
-# devtools::load_all(".")

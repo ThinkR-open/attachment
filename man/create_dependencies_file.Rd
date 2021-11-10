@@ -23,6 +23,10 @@ create_dependencies_file(
 
 \item{ignore_base}{Logical. Whether to ignore package coming with base, as they cannot be installed}
 }
+\value{
+Used for side effect. Shows a message with installation instructions and
+creates a R file containing these instructions.
+}
 \description{
 Create a dependencies.R in the `inst` folder
 }

@@ -28,6 +28,9 @@ in case this must be executed in an external R session}
 
 \item{inline}{Logical. Default TRUE. Whether to explore inline code for dependencies.}
 }
+\value{
+vector of character of packages names found in the Rmd
+}
 \description{
 Get all dependencies from a Rmd file
 }

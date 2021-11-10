@@ -4,7 +4,7 @@
 #' @param field DESCRIPTION fields to parse, "Depends", "Imports", "Suggests" by default
 #' @param ...  Arguments to be passed to \code{\link[utils]{install.packages}}
 #' @export
-#'
+#' @return Used for side effect. Installs R packages from DESCRIPTION file if missing.
 #' @examples
 #' \dontrun{
 #' dummypackage <- system.file("dummypackage", package = "attachment")
@@ -27,6 +27,7 @@ install_from_description <- function(path = "DESCRIPTION", field = c("Depends", 
 #' @importFrom utils install.packages
 #'
 #' @export
+#' @return Used for side effect. Install missing packages from the character vector input.
 #' @examples
 #' \dontrun{
 #' install_if_missing(c("dplyr","fcuk","rusk"))

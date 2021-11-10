@@ -7,6 +7,8 @@
 #' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed
 #'
 #' @export
+#' @return Used for side effect. Shows a message with installation instructions and
+#' creates a R file containing these instructions.
 #' @importFrom glue glue glue_collapse
 #' @importFrom desc description
 #' @importFrom utils packageDescription

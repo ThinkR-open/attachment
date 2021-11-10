@@ -11,6 +11,9 @@ install_if_missing(to_be_installed, ...)
 
 \item{...}{Arguments to be passed to \code{\link[utils]{install.packages}}}
 }
+\value{
+Used for side effect. Install missing packages from the character vector input.
+}
 \description{
 install  packages if missing
 }

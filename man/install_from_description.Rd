@@ -17,6 +17,9 @@ install_from_description(
 
 \item{...}{Arguments to be passed to \code{\link[utils]{install.packages}}}
 }
+\value{
+Used for side effect. Installs R packages from DESCRIPTION file if missing.
+}
 \description{
 Install missing package from DESCRIPTION
 }

@@ -1,5 +1,6 @@
 # attachment 0.2.2.9000
 
+* Move git from master to main
 * Add NAMESPACE if missing with `att_amend_desc(document = TRUE)`
 * Add DESCRIPTION with empty skeleton if missing with `att_amend_desc()`
 * Default to remove NAMESPACE before updating it in `att_from_namespace()`

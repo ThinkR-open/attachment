@@ -13,6 +13,9 @@ att_from_rscripts(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE)
 
 \item{recursive}{logical. Should the listing recurse into directories?}
 }
+\value{
+vector of character of packages names found in the R script
+}
 \description{
 Look for functions called with `::` and library/requires in folder of scripts
 }
