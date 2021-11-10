@@ -168,15 +168,15 @@ test_that("extract_pkg_info extracts code", {
   unlink(dummypackage, recursive = TRUE)
 })
 
-# test add_remotes_to_desc ----
+# test set_remotes_to_desc ----
 tmpdir <- tempdir()
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 
-test_that("add_remotes_to_desc return nothing if local installs", {
+test_that("set_remotes_to_desc return nothing if local installs", {
   expect_message(
     att_amend_desc(dummypackage) %>%
-      add_remotes_to_desc(),
+      set_remotes_to_desc(),
     "no remote packages installed"
   )
 })

@@ -391,13 +391,13 @@ find_remotes <- function(pkg) {
 #' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # Add remotes field if there are Remotes locally
 #' att_amend_desc(dummypackage) %>%
-#'   add_remotes_to_desc()
+#'   set_remotes_to_desc()
 #' \dontrun{
 #' # For your current package
 #' att_amend_desc() %>%
-#'   add_remotes_to_desc()
+#'   set_remotes_to_desc()
 #' }
-add_remotes_to_desc <- function(path.d = "DESCRIPTION", stop_local = FALSE) {
+set_remotes_to_desc <- function(path.d = "DESCRIPTION", stop_local = FALSE) {
   pkgs <- att_from_description(path.d)
   remotes <- find_remotes(pkgs)
   if (is.null(remotes)) {

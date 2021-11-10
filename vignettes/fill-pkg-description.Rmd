@@ -72,7 +72,7 @@ attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
 
 ### Propose content for "Remotes" field
 
-`add_remotes_to_desc()` adds packages that were installed from other source than CRAN to `Remotes:` field in DESCRIPTION.  
+`set_remotes_to_desc()` adds packages that were installed from other source than CRAN to `Remotes:` field in DESCRIPTION.  
 
 For instance:
 
@@ -83,7 +83,7 @@ You may want to run it after `att_amend_desc()`.
 
 ```{r eval=FALSE}
 att_amend_desc(dummypackage) %>%
-  add_remotes_to_desc()
+  set_remotes_to_desc()
 ```
 
 If you only want to find if packages were installed from other source than CRAN, without amending DESCRIPTION, you can use `find_remotes()`.

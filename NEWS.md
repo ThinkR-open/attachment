@@ -2,7 +2,7 @@
 
 ## Major changes
 
-* Allow to add Remotes field to DESCRIPTION with `add_remotes_to_desc()`
+* Allow to add Remotes field to DESCRIPTION with `set_remotes_to_desc()`
 
 ## Minor changes
 
