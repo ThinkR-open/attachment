@@ -169,7 +169,7 @@ Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc(
 <span class="co"># browseURL(dummypackage)</span>
 <span class="fu"><a href="../reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Updating dummypackage documentation</span>
-<span class="co">#&gt; Updating roxygen version in /tmp/RtmpkpjaQw/dummypackage/DESCRIPTION</span>
+<span class="co">#&gt; Updating roxygen version in /tmp/RtmpGkyBup/dummypackage/DESCRIPTION</span>
 <span class="co">#&gt; ℹ Loading dummypackage</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
@@ -191,7 +191,7 @@ Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc(
 <div id="propose-content-for-remotes-field" class="section level3">
 <h3 class="hasAnchor">
 <a href="#propose-content-for-remotes-field" class="anchor"></a>Propose content for “Remotes” field</h3>
-<p><code><a href="../reference/add_remotes_to_desc.html">add_remotes_to_desc()</a></code> adds packages that were installed from other source than CRAN to <code>Remotes:</code> field in DESCRIPTION.</p>
+<p><code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc()</a></code> adds packages that were installed from other source than CRAN to <code>Remotes:</code> field in DESCRIPTION.</p>
 <p>For instance:</p>
 <ul>
 <li>For GitHub : <code>Remotes: thinkr-open/attachment</code>
@@ -202,7 +202,7 @@ Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc(
 <p>You may want to run it after <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="va">dummypackage</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/add_remotes_to_desc.html">add_remotes_to_desc</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>If you only want to find if packages were installed from other source than CRAN, without amending DESCRIPTION, you can use <code><a href="../reference/find_remotes.html">find_remotes()</a></code>.</p>
 <p>You can use it on a vector of packages names</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">

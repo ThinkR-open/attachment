@@ -4,9 +4,6 @@
     <loc>https://thinkr-open.github.io/attachment//index.html</loc>
   </url>
   <url>
-    <loc>https://thinkr-open.github.io/attachment//reference/add_remotes_to_desc.html</loc>
-  </url>
-  <url>
     <loc>https://thinkr-open.github.io/attachment//reference/att_amend_desc.html</loc>
   </url>
   <url>
@@ -50,6 +47,9 @@
   </url>
   <url>
     <loc>https://thinkr-open.github.io/attachment//reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>https://thinkr-open.github.io/attachment//reference/set_remotes_to_desc.html</loc>
   </url>
   <url>
     <loc>https://thinkr-open.github.io/attachment//articles/fill-pkg-description.html</loc>
