@@ -72,16 +72,31 @@ attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
 
 ### Propose content for "Remotes" field
 
-`find_remotes()` checks if packages were installed from other source than CRAN. 
-If so, it returns the content you can add to `Remotes:` field in DESCRIPTION.
+`add_remotes_to_desc()` adds packages that were installed from other source than CRAN to `Remotes:` field in DESCRIPTION.  
+
 For instance:
 
 - For GitHub : `Remotes: thinkr-open/attachment`
 - For GitLab : `Remotes: gitlab::jimhester/covr`
 
-You probably want to combine it to `att_from_description()`
+You may want to run it after `att_amend_desc()`.
+
+```{r eval=FALSE}
+att_amend_desc(dummypackage) %>%
+  add_remotes_to_desc()
+```
+
+If you only want to find if packages were installed from other source than CRAN, without amending DESCRIPTION, you can use `find_remotes()`.
+
+You can use it on a vector of packages names 
+```{r eval=TRUE}
+find_remotes(pkg = c("attachment", "desc", "glue"))
+```
+
+You may also want to combine it to `att_from_description()`
 ```{r, eval=FALSE}
-att_from_description() %>% find_remotes()
+att_from_description() %>%
+  find_remotes()
 ```
 
 

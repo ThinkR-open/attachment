@@ -54,6 +54,7 @@ usethis::use_gpl3_license()
 usethis::use_tidy_description()
 usethis::use_test("attachment")
 usethis::use_test("att_from_namespace")
+usethis::use_test("att_to_desc_from_is")
 usethis::use_coverage()
 usethis::use_appveyor()
 usethis::use_github_action_check_standard()
@@ -72,6 +73,7 @@ usethis::pr_push()
 
 # Do not parse dir.t because of tests
 attachment::att_from_rscripts("tests")
+roxygen2::roxygenise()
 attachment::att_amend_desc(pkg_ignore = c("remotes", "i", "usethis"), #i
                                extra.suggests = c("testthat"), #"pkgdown", "covr",
                                dir.t = "",

@@ -1,11 +1,22 @@
 # attachment 0.2.2.9000
 
+## Major changes
+
+* Allow to add Remotes field to DESCRIPTION with `add_remotes_to_desc()`
+
+## Minor changes
+
+* Check for packages names misspelled before filling DESCRIPTION.
+* Allow vector of R files in `att_from_rscripts()`
 * Move git from master to main
+
+## Bug fixes 
+
 * Add NAMESPACE if missing with `att_amend_desc(document = TRUE)`
 * Add DESCRIPTION with empty skeleton if missing with `att_amend_desc()`
 * Default to remove NAMESPACE before updating it in `att_from_namespace()`
 * Fix detection of multiple render outputs in Rmd with `att_from_rmd()`
-* Allow vector of R files in `att_from_rscripts()`
+
 
 # attachment 0.2.1
 
