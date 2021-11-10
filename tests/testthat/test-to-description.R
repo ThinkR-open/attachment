@@ -174,11 +174,37 @@ file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive 
 dummypackage <- file.path(tmpdir, "dummypackage")
 
 test_that("set_remotes_to_desc return nothing if local installs", {
-  expect_message(
-    att_amend_desc(dummypackage) %>%
-      set_remotes_to_desc(),
-    "no remote packages installed"
-  )
+
+    pkgs <- att_amend_desc(dummypackage) %>%
+      att_from_description()
+    remotes <- find_remotes(pkgs)
+
+    desc_file <- file.path(dummypackage, "DESCRIPTION")
+
+    if (is.null(remotes)) {
+      # Do not test if some are compiled locally
+      expect_message(
+        set_remotes_to_desc(desc_file),
+        "no remote packages installed"
+      )
+    } else {
+      pkgnames <- glue::glue_collapse(names(remotes), sep = ", ", last = " & ")
+      nona <- unlist(lapply(remotes, is.na))
+      expect_message(
+        set_remotes_to_desc(desc_file),
+        paste("Remotes for", pkgnames[nona])
+      )
+    }
+
+    # Add attachment in DESCRIPTION as should be local installed
+    desc_lines <- readLines(desc_file)
+    desc_lines[desc_lines == "Suggests: "] <- "Suggests: \n    attachment,"
+    writeLines(desc_lines, con = desc_file)
+
+    expect_message(
+      set_remotes_to_desc(desc_file),
+      "Package attachment was probably installed from source locally"
+    )
 })
 
 # Test missing DESCRIPTION works ----

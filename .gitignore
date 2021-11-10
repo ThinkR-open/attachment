@@ -33,3 +33,4 @@ docs/*
 inst/doc
 cran-comments.md
 revdep/
+CRAN-RELEASE

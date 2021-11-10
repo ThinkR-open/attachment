@@ -87,6 +87,18 @@ usethis::use_vignette("fill-pkg-description")
 devtools::build_vignettes()
 devtools::check()
 
+# Check for remotes
+packageDescription("glue")[["Repository"]]
+remotes::install_github("tidyverse/glue")
+# restart session
+rstudioapi::restartSession()
+devtools::test()
+# install back from CRAN
+install.packages("glue")
+# restart session
+rstudioapi::restartSession()
+devtools::test()
+
 # Checks for CRAN release ----
 # Check package as CRAN
 rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
