@@ -353,8 +353,6 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
 #' @export
 #'
 #' @examples
-#' # Find from all installed packages
-#' head(find_remotes(installed.packages()[,1]))
 #' # Find from vector of packages
 #' find_remotes(pkg = c("attachment", "desc", "glue"))
 #' # Find from Description file
@@ -365,6 +363,8 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
 #' \dontrun{
 #' # For your current directory
 #' att_from_description() %>% find_remotes()
+#' # Find from all installed packages
+#' head(find_remotes(installed.packages()[,1]))
 #' }
 find_remotes <- function(pkg) {
 

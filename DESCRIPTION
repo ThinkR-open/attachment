@@ -1,6 +1,6 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.2.2.9000
+Version: 0.2.2
 Authors@R:
     c(person(given = "Sébastien",
              family = "Rochette",
@@ -30,7 +30,6 @@ BugReports: https://github.com/Thinkr-open/attachment/issues
 VignetteBuilder:
     knitr
 Encoding: UTF-8
-LazyData: true
 RoxygenNote: 7.1.2
 Config/testthat/edition: 3
 Depends: 

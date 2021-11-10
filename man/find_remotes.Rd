@@ -16,8 +16,6 @@ List of non-CRAN packages and code to add in Remotes field in DESCRIPTION
 Proposes values for Remotes field for DESCRIPTION file based on your installation
 }
 \examples{
-# Find from all installed packages
-head(find_remotes(installed.packages()[,1]))
 # Find from vector of packages
 find_remotes(pkg = c("attachment", "desc", "glue"))
 # Find from Description file
@@ -28,5 +26,7 @@ find_remotes()
 \dontrun{
 # For your current directory
 att_from_description() \%>\% find_remotes()
+# Find from all installed packages
+head(find_remotes(installed.packages()[,1]))
 }
 }

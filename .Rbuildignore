@@ -16,3 +16,4 @@ img
 ^cran-comments\.md$
 ^CRAN-RELEASE$
 ^dev$
+^revdep$

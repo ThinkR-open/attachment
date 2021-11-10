@@ -1,4 +1,4 @@
-# attachment 0.2.2.9000
+# attachment 0.2.2
 
 ## Major changes
 
@@ -8,14 +8,14 @@
 
 * Check for packages names misspelled before filling DESCRIPTION.
 * Allow vector of R files in `att_from_rscripts()`
-* Move git from master to main
+* Move default git branch from master to main
 
 ## Bug fixes 
 
 * Add NAMESPACE if missing with `att_amend_desc(document = TRUE)`
 * Add DESCRIPTION with empty skeleton if missing with `att_amend_desc()`
-* Default to remove NAMESPACE before updating it in `att_from_namespace()`
-* Fix detection of multiple render outputs in Rmd with `att_from_rmd()`
+* Default to remove NAMESPACE before updating to get rid of corrupted ones in `att_from_namespace()`
+* Fix detection of multiple render outputs in Rmd YAML with `att_from_rmd()`
 
 
 # attachment 0.2.1

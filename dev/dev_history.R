@@ -106,7 +106,7 @@ urlchecker::url_update()
 
 # check on other distributions
 # _rhub
-devtools::check_rhub(email = "")
+devtools::check_rhub()
 rhub::local_check_linux_images()
 rhub::local_check_linux(image = "rhub/debian-gcc-release")
 rhub::local_check_linux(image = "rhub/debian-clang-devel")
@@ -119,6 +119,23 @@ aa
 # _win devel
 devtools::check_win_devel()
 devtools::check_win_release()
+
+# Check reverse dependencies
+# remotes::install_github("r-lib/revdepcheck")
+usethis::use_git_ignore("revdep/")
+usethis::use_build_ignore("revdep/")
+
+devtools::revdep()
+library(revdepcheck)
+# In another session
+id <- rstudioapi::terminalExecute("Rscript -e 'revdepcheck::revdep_check(num_workers = 4)'")
+rstudioapi::terminalKill(id)
+# See outputs
+revdep_details(revdep = "pkg")
+revdep_summary()                 # table of results by package
+revdep_report() # in revdep/
+# Clean up when on CRAN
+revdep_reset()
 
 # Update NEWS
 # Bump version manually and add list of changes
