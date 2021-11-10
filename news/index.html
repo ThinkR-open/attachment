@@ -158,8 +158,29 @@
 <h1 class="page-header" data-toc-text="0.2.2.9000">
 <a href="#attachment-0229000" class="anchor"></a>attachment 0.2.2.9000<small> Unreleased </small>
 </h1>
+<div id="major-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#major-changes" class="anchor"></a>Major changes</h2>
 <ul>
-<li>Add NAMESPACE if missing with <code><a href="../reference/att_amend_desc.html">att_amend_desc(document = TRUE)</a></code>
+<li>Allow to add Remotes field to DESCRIPTION with <code><a href="../reference/add_remotes_to_desc.html">add_remotes_to_desc()</a></code>
+</li>
+</ul>
+</div>
+<div id="minor-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>Minor changes</h2>
+<ul>
+<li>Check for packages names misspelled before filling DESCRIPTION.</li>
+<li>Allow vector of R files in <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code>
+</li>
+<li>Move git from master to main</li>
+</ul>
+</div>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
+<ul>
+<li>Add NAMESPACE if missing with <code>att_amend_desc(document = TRUE)</code>
 </li>
 <li>Add DESCRIPTION with empty skeleton if missing with <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code>
 </li>
@@ -167,9 +188,8 @@
 </li>
 <li>Fix detection of multiple render outputs in Rmd with <code><a href="../reference/att_from_rmd.html">att_from_rmd()</a></code>
 </li>
-<li>Allow vector of R files in <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code>
-</li>
 </ul>
+</div>
 </div>
     <div id="attachment-021" class="section level1">
 <h1 class="page-header" data-toc-text="0.2.1">
@@ -250,7 +270,7 @@
 <li>
 <code>att_from_rmd</code> now reads yaml header</li>
 <li>
-<code>att_from_rmd</code> use <code>purl</code> to extract R code in an other R session using <code><a href="https://rdrr.io/r/base/system.html">system("Rscript -e ''")</a></code>
+<code>att_from_rmd</code> use <code>purl</code> to extract R code in an other R session using <code>system("Rscript -e ''")</code>
 </li>
 <li>
 <code>att_from_rmd</code>: add <code>warn</code> option to allow hide messages from <code>purl()</code>
@@ -311,9 +331,9 @@
 </h1>
 <ul>
 <li>
-<code><a href="../reference/attachment-deprecated.html">att_to_description(add_version = TRUE)</a></code> adds version of package in DESCRIPTION</li>
+<code>att_to_description(add_version = TRUE)</code> adds version of package in DESCRIPTION</li>
 <li>
-<code><a href="../reference/attachment-deprecated.html">att_to_description(pkg_ignore)</a></code> adds possibility to ignore some packages</li>
+<code>att_to_description(pkg_ignore)</code> adds possibility to ignore some packages</li>
 </ul>
 </div>
     <div id="attachment-003-1" class="section level1">

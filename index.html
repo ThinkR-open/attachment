@@ -171,7 +171,7 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <span class="co"># browseURL(dummypackage)</span>
 <span class="fu"><a href="reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Updating dummypackage documentation</span>
-<span class="co">#&gt; Updating roxygen version in /tmp/Rtmp1SMVGo/dummypackage/DESCRIPTION</span>
+<span class="co">#&gt; Updating roxygen version in /tmp/RtmpdAJaCu/dummypackage/DESCRIPTION</span>
 <span class="co">#&gt; ℹ Loading dummypackage</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
@@ -189,9 +189,9 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <span class="co">#&gt; All required packages are installed</span></code></pre></div>
 <p>To quickly install missing packages needed to compile Rmd files or run Rscripts, use:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_if_missing.html">install_if_missing</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span> <span class="op"><a href="reference/%&gt;%.html">%&gt;%</a></span> <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_if_missing.html">install_if_missing</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_if_missing.html">install_if_missing</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span> <span class="op"><a href="reference/%&gt;%.html">%&gt;%</a></span> <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_if_missing.html">install_if_missing</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Function <code><a href="reference/create_dependencies_file.html">attachment::create_dependencies_file()</a></code> will create a <code>dependencies.R</code> file in <code>inst/</code> directory. This R script contains the procedure to quickly install missing dependencies:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># No Remotes ----</span>
@@ -233,12 +233,16 @@ If you are running this inside a Rmd, you may need parameter <code>inside_rmd = 
 <div id="vignette" class="section level2">
 <h2 class="hasAnchor">
 <a href="#vignette" class="anchor"></a>Vignette</h2>
-<p>Package {attachment} has a vignette to present the different functions available. There is also a recommendation to have a <code>devstuff_history.R</code> in the root directory of your package. (<em>Have a look at <a href="https://github.com/ThinkR-open/attachment/blob/master/devstuff_history.R">devstuff_history.R</a> in the present package</em>)</p>
+<p>Package {attachment} has a vignette to present the different functions available. There is also a recommendation to have a <code>dev_history.R</code> in the root directory of your package. (<em>Have a look at <a href="https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R">dev_history.R</a> in the present package</em>)</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">"fill-pkg-description"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></code></pre></div>
 <p>The vignette is available on the {pkgdown} page: <a href="https://thinkr-open.github.io/attachment/articles/fill-pkg-description.html" class="uri">https://thinkr-open.github.io/attachment/articles/fill-pkg-description.html</a></p>
 <p>See full documentation realized using {pkgdown} at <a href="https://thinkr-open.github.io/attachment/" class="uri">https://thinkr-open.github.io/attachment/</a></p>
-<p>Please note that this project is released with a <a href="https://github.com/ThinkR-open/attachment/blob/master/CODE_OF_CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+</div>
+<div id="code-of-conduct" class="section level2">
+<h2 class="hasAnchor">
+<a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
+<p>Please note that the attachment project is released with a <a href="https://thinkr-open.github.io/attachment/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms</p>
 </div>
 </div>
 
@@ -282,8 +286,8 @@ If you are running this inside a Rmd, you may need parameter <code>inside_rmd = 
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/ThinkR-open/attachment/actions"><img src="https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg" alt="R build status"></a></li>
-<li><a href="https://codecov.io/github/ThinkR-open/attachment?branch=master"><img src="https://codecov.io/gh/ThinkR-open/attachment/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://github.com/ThinkR-open/attachment/actions"><img src="https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/github/ThinkR-open/attachment?branch=main"><img src="https://codecov.io/gh/ThinkR-open/attachment/branch/main/graph/badge.svg" alt="Coverage status"></a></li>
 <li><a href="https://cran.r-project.org/package=attachment"><img src="https://www.r-pkg.org/badges/version/attachment" alt="CRAN status"></a></li>
 </ul>
 </div>

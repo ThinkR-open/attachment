@@ -4,6 +4,9 @@
     <loc>https://thinkr-open.github.io/attachment//index.html</loc>
   </url>
   <url>
+    <loc>https://thinkr-open.github.io/attachment//reference/add_remotes_to_desc.html</loc>
+  </url>
+  <url>
     <loc>https://thinkr-open.github.io/attachment//reference/att_amend_desc.html</loc>
   </url>
   <url>
@@ -35,9 +38,6 @@
   </url>
   <url>
     <loc>https://thinkr-open.github.io/attachment//reference/create_dependencies_file.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment//reference/extract_pkg_info.html</loc>
   </url>
   <url>
     <loc>https://thinkr-open.github.io/attachment//reference/find_remotes.html</loc>

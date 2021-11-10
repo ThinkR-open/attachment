@@ -200,14 +200,18 @@ in case this must be executed in an external R session</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>vector of character of packages names found in the Rmd</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='va'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"dummypackage"</span>,package <span class='op'>=</span> <span class='st'>"attachment"</span><span class='op'>)</span>
-<span class='co'># browseURL(dummypackage)</span>
-<span class='fu'>att_from_rmd</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>dummypackage</span>,<span class='st'>"vignettes/demo.Rmd"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "ggplot2"   "knitr"     "rmarkdown"</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='va'>dummypackage</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"dummypackage"</span>,package <span class='op'>=</span> <span class='st'>"attachment"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='co'># browseURL(dummypackage)</span></span>
+<span class='r-in'><span class='fu'>att_from_rmd</span><span class='op'>(</span>path <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span><span class='va'>dummypackage</span>,<span class='st'>"vignettes/demo.Rmd"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "glue"      "knitr"     "rmarkdown"</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
