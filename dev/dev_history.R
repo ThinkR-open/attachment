@@ -73,6 +73,7 @@ usethis::pr_push()
 
 # Do not parse dir.t because of tests
 attachment::att_from_rscripts("tests")
+roxygen2::roxygenise()
 attachment::att_amend_desc(pkg_ignore = c("remotes", "i", "usethis"), #i
                                extra.suggests = c("testthat"), #"pkgdown", "covr",
                                dir.t = "",

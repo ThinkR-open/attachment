@@ -11,9 +11,9 @@
 #'
 #' @examples
 #'
-#' dummypackage <- system.file("dummypackage",package = "attachment")
+#' dummypackage <- system.file("dummypackage", package = "attachment")
 #' # browseURL(dummypackage)
-#' att_from_description(path = file.path(dummypackage,"DESCRIPTION"))
+#' att_from_description(path = file.path(dummypackage, "DESCRIPTION"))
 #'
 att_from_description <- function(path = "DESCRIPTION", dput = FALSE,
                              field = c("Depends", "Imports", "Suggests")) {
