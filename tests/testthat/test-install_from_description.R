@@ -1,4 +1,3 @@
-context("install_from_description")
 dummypackage <- system.file("dummypackage", package = "attachment")
 # Copy to tmpdir
 pkg_dir <- tempdir()
@@ -11,6 +10,7 @@ if (length(find.package("magrittr", quiet = TRUE)) == 0) {
   install.packages("magrittr", repos = "https://cloud.r-project.org")
 }
 
+# install_from_description ----
 test_that("install_from_description works", {
   expect_message(
     install_from_description(
@@ -18,7 +18,8 @@ test_that("install_from_description works", {
     'All required packages are installed'
   )
   lines <- readLines(file.path(pkg_dir, "dummypackage","DESCRIPTION"))
-  lines[14] <- c("    magrittr,\n    toto,\n    tata, ")
+  w.magrittr <- grep("magrittr", lines)
+  lines[w.magrittr] <- c("    magrittr,\n    toto,\n    tata, ")
   writeLines(lines, file.path(pkg_dir, "dummypackage","DESCRIPTION"))
   # Add dummy package name to try to install
   # test message

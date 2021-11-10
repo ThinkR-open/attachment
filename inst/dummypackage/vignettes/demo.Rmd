@@ -65,9 +65,7 @@ Also a quote using `>`:
 ([via](https://twitter.com/hadleywickham/status/504368538874703872))
 
 ```{r}
-library(ggplot2)
-ggplot(iris) +
-  aes(x=Sepal.Length,y = Petal.Length)+
-  geom_point()
+library(glue)
+glue("This is an example for library call")
 ```
 

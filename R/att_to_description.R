@@ -31,16 +31,16 @@
 #' att_amend_desc(path = dummypackage)
 
 att_amend_desc <- function(path = ".",
-                               path.n = "NAMESPACE",
-                               path.d = "DESCRIPTION",
-                               dir.r = "R",
-                               dir.v = "vignettes",
-                               dir.t = "tests",
-                               extra.suggests = NULL,
-                               pkg_ignore = NULL,
-                               document = TRUE,
-                               normalize = TRUE,
-                               inside_rmd = FALSE
+                           path.n = "NAMESPACE",
+                           path.d = "DESCRIPTION",
+                           dir.r = "R",
+                           dir.v = "vignettes",
+                           dir.t = "tests",
+                           extra.suggests = NULL,
+                           pkg_ignore = NULL,
+                           document = TRUE,
+                           normalize = TRUE,
+                           inside_rmd = FALSE
 ) {
 
   if (path != ".") {
@@ -213,27 +213,30 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
 
   # rlang::check_installed("pkg")
   # imports
-suppressWarnings(
-res <-  vapply(imports,FUN = requireNamespace,FUN.VALUE = logical(1),quietly = TRUE))
-missing_packages <- names(res[!res])
+  suppressWarnings(
+    res <- vapply(
+      c(imports, suggests), FUN = requireNamespace,
+      FUN.VALUE = logical(1), quietly = TRUE)
+  )
+  missing_packages <- names(res[!res])
 
-if (length(missing_packages) > 0) {
-  if (length(missing_packages) == 1) {
-    msg <-
-      glue::glue(
-        "The package {missing_packages} is missing or more probably misspelled.
-             Please correct your typo or install it"
-      )
-  } else {
-    msg <-
-      glue::glue(
-        "The packages {pkgs} are missing or more probably misspelled.
-             Please correct your typos or make the proper installations",
-        pkgs = glue::glue_collapse(missing_packages, sep = ", ", last = " & ")
-      )
+  if (length(missing_packages) > 0) {
+    if (length(missing_packages) == 1) {
+      msg <-
+        glue::glue(
+          "The package {missing_packages} is missing or more probably misspelled.
+             Please correct your typo or install it."
+        )
+    } else {
+      msg <-
+        glue::glue(
+          "Packages {pkgs} are missing or more probably misspelled.
+             Please correct your typos or do the proper installations.",
+          pkgs = glue::glue_collapse(missing_packages, sep = ", ", last = " & ")
+        )
+    }
+    stop(msg)
   }
-  stop(msg)
-}
 
   # Get previous dependencies in Description in case version is set
   deps_desc <- desc$get_deps()

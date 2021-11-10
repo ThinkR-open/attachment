@@ -2,10 +2,7 @@ Package: dummypackage
 Title: What the Package Does (one line, title case)
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com")
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph).
 License: What license is it under?
 Depends: 
