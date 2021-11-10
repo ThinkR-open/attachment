@@ -175,6 +175,9 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 
 test_that("set_remotes_to_desc return nothing if local installs", {
 
+  skip_on_cran()
+  # We do not know whether some packages are installed manually from source on CRAN
+
     pkgs <- att_amend_desc(dummypackage) %>%
       att_from_description()
     remotes <- find_remotes(pkgs)
