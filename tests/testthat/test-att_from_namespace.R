@@ -13,7 +13,56 @@ test_that("att_from_namespace works", {
 
 unlink(dummypackage, recursive = TRUE)
 
-# File that failed in the past
+# Do not work when NAMESPACE does not exists
+tmpdir <- tempfile(pattern = "pkg")
+dir.create(tmpdir)
+file.copy(
+  system.file("dummypackage", package = "attachment"), tmpdir,
+  recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+file.remove(file.path(dummypackage, "NAMESPACE"))
+
+test_that("att_from_namespace works", {
+  expect_error(
+    att_from_namespace(path = file.path(dummypackage, "NAMESPACE")),
+    regexp = "does not exists"
+  )
+
+  expect_true(setequal(deps, c("magrittr")))
+})
+
+unlink(dummypackage, recursive = TRUE)
+
+# Works when used twice
+tmpdir <- tempfile(pattern = "pkg")
+dir.create(tmpdir)
+file.copy(
+  system.file("dummypackage", package = "attachment"), tmpdir,
+  recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+
+test_that("att_from_namespace works", {
+  deps <- expect_error(
+    att_from_namespace(path = file.path(dummypackage, "NAMESPACE")),
+    regexp = NA
+  )
+  expect_true(setequal(deps, c("magrittr")))
+
+  deps <- expect_error(
+    att_from_namespace(path = file.path(dummypackage, "NAMESPACE")),
+    regexp = NA
+  )
+  expect_true(setequal(deps, c("magrittr")))
+
+  deps <- expect_error(
+    att_from_namespace(path = file.path(dummypackage, "NAMESPACE")),
+    regexp = NA
+  )
+  expect_true(setequal(deps, c("magrittr")))
+})
+
+
+# File that failed in the past ----
 deps <- att_from_namespace("fake_namespace", document = FALSE)
 
 test_that("att_from_namespace works", {
