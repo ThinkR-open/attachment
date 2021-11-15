@@ -71,6 +71,7 @@ usethis::pr_push()
 # Deprecation
 # usethis::
 
+# Document ----
 # Do not parse dir.t because of tests
 attachment::att_from_rscripts("tests")
 roxygen2::roxygenise()
@@ -87,7 +88,7 @@ usethis::use_vignette("fill-pkg-description")
 devtools::build_vignettes()
 devtools::check()
 
-# Check for remotes
+# Check for remotes ----
 packageDescription("glue")[["Repository"]]
 remotes::install_github("tidyverse/glue")
 # restart session

@@ -9,7 +9,7 @@ att_to_desc_from_is(
   imports = NULL,
   suggests = NULL,
   normalize = TRUE,
-  add_remotes = FALSE
+  must.exist = TRUE
 )
 }
 \arguments{
@@ -21,13 +21,21 @@ att_to_desc_from_is(
 
 \item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}}
 
-\item{add_remotes}{Logical. Whether to add Remotes in DESCRIPTION when packages installed are from non-CRAN.}
+\item{must.exist}{Logical. If TRUE then an error is given if packages do not exist
+within installed packages. If NA, a warning.}
 }
 \value{
 Fill in Description file
 }
 \description{
 Amend DESCRIPTION with dependencies from imports and suggests package list
+}
+\details{
+`must.exist` is better set to `TRUE` during package development.
+This stops the process when a package does not exists on your system.
+This avoids check errors with typos in package names in DESCRIPTION.
+When used in CI to discover dependencies, for a bookdown for instance,
+you may want to set to `FALSE` (no message at all) or `NA` (warning for not installed).
 }
 \examples{
 tmpdir <- tempdir()

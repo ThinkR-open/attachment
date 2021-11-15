@@ -1,3 +1,19 @@
+# attachment 0.2.3.9000
+
+## Breaking changes
+
+* (broken in 0.2.3) - `att_to_desc_from_is()` can now run with `must.exist = FALSE` to be used to fill
+DESCRIPTION file during bookdown CI process. CI YAML files must be updated with this parameter.
+
+## Major changes
+
+- Split vignette in two: package development and other dependencies management
+
+## Minor changes
+
+- Allow to clean remotes list before updating with `set_remotes_to_desc(clean = TRUE)`
+
+
 # attachment 0.2.3
 
 ## Major changes

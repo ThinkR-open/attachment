@@ -40,7 +40,8 @@ att_amend_desc <- function(path = ".",
                            pkg_ignore = NULL,
                            document = TRUE,
                            normalize = TRUE,
-                           inside_rmd = FALSE
+                           inside_rmd = FALSE,
+                           must.exist = TRUE
 ) {
 
   if (path != ".") {
@@ -155,7 +156,7 @@ att_amend_desc <- function(path = ".",
   suggests <- suggests[suggests != "base"]
 
   # Build DESCRIPTION ----
-  att_to_desc_from_is(path.d, imports, suggests, normalize)
+  att_to_desc_from_is(path.d, imports, suggests, normalize, must.exist)
 }
 
 #' @rdname att_amend_desc
@@ -168,7 +169,8 @@ att_to_desc_from_pkg <- att_amend_desc
 #' @param imports character vector of package names to add in Imports section
 #' @param suggests character vector of package names to add in Suggests section
 #' @param normalize Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}
-#' @param add_remotes Logical. Whether to add Remotes in DESCRIPTION when packages installed are from non-CRAN.
+#' @param must.exist Logical. If TRUE then an error is given if packages do not exist
+#' within installed packages. If NA, a warning.
 #'
 #' @importFrom desc description
 #' @importFrom glue glue glue_collapse
@@ -176,6 +178,13 @@ att_to_desc_from_pkg <- att_amend_desc
 #' @export
 #'
 #' @return Fill in Description file
+#'
+#' @details
+#' `must.exist` is better set to `TRUE` during package development.
+#' This stops the process when a package does not exists on your system.
+#' This avoids check errors with typos in package names in DESCRIPTION.
+#' When used in CI to discover dependencies, for a bookdown for instance,
+#' you may want to set to `FALSE` (no message at all) or `NA` (warning for not installed).
 #'
 #' @examples
 #' tmpdir <- tempdir()
@@ -192,7 +201,7 @@ att_to_desc_from_pkg <- att_amend_desc
 
 att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
                                 suggests = NULL, normalize = TRUE,
-                                add_remotes = FALSE) {
+                                must.exist = TRUE) {
 
   if (!file.exists(path.d)) {
     x3 <- description$new("!new")
@@ -225,18 +234,22 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
     if (length(missing_packages) == 1) {
       msg <-
         glue::glue(
-          "The package {missing_packages} is missing or more probably misspelled.
+          "The package {missing_packages} is missing or misspelled.
              Please correct your typo or install it."
         )
     } else {
       msg <-
         glue::glue(
-          "Packages {pkgs} are missing or more probably misspelled.
+          "Packages {pkgs} are missing or misspelled.
              Please correct your typos or do the proper installations.",
           pkgs = glue::glue_collapse(missing_packages, sep = ", ", last = " & ")
         )
     }
-    stop(msg)
+    if (isTRUE(must.exist)) {
+      stop(msg)
+    } else if (is.na(must.exist)) {
+      warning(msg)
+    }
   }
 
   # Get previous dependencies in Description in case version is set
@@ -342,156 +355,4 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
 
   return(invisible(path.d))
 }
-
-
-#' Proposes values for Remotes field for DESCRIPTION file based on your installation
-#'
-#' @param pkg Character. Packages to test for potential non-CRAN installation
-#'
-#' @return
-#' List of non-CRAN packages and code to add in Remotes field in DESCRIPTION
-#' @export
-#'
-#' @examples
-#' # Find from vector of packages
-#' find_remotes(pkg = c("attachment", "desc", "glue"))
-#' # Find from Description file
-#' dummypackage <- system.file("dummypackage", package = "attachment")
-#' att_from_description(
-#' path = file.path(dummypackage, "DESCRIPTION")) %>%
-#' find_remotes()
-#' \dontrun{
-#' # For your current directory
-#' att_from_description() %>% find_remotes()
-#' # Find from all installed packages
-#' head(find_remotes(installed.packages()[,1]))
-#' }
-find_remotes <- function(pkg) {
-
-  pkgdesc <- lapply(pkg, function(x) {
-    packageDescription(x)
-  }) %>%
-    setNames(pkg)
-
-  extract_pkg_info(pkgdesc)
-}
-
-#' Add Remotes field to DESCRIPTION based on your local installation
-#'
-#' @param stop_local Logical. Whether to stop if package was installed from local source.
-#' Message otherwise.
-#' @inheritParams att_to_desc_from_is
-#'
-#' @return Used for side effect. Adds Remotes field in DESCRIPTION file.
-#' @export
-#' @examples
-#' tmpdir <- tempdir()
-#' file.copy(system.file("dummypackage", package = "attachment"), tmpdir,
-#'  recursive = TRUE)
-#' dummypackage <- file.path(tmpdir, "dummypackage")
-#' # Add remotes field if there are Remotes locally
-#' att_amend_desc(dummypackage) %>%
-#'   set_remotes_to_desc()
-#' \dontrun{
-#' # For your current package
-#' att_amend_desc() %>%
-#'   set_remotes_to_desc()
-#' }
-set_remotes_to_desc <- function(path.d = "DESCRIPTION", stop_local = FALSE) {
-  pkgs <- att_from_description(path.d)
-  remotes <- find_remotes(pkgs)
-  if (is.null(remotes)) {
-    message("There are no remote packages installed on your computer to add to description")
-    return(NULL)
-  } else {
-    internal_remotes_to_desc(remotes, path.d, stop_local)
-  }
-}
-
-#' (internal) Add Remotes field to DESCRIPTION based on your local installation
-#'
-#' @inheritParams att_from_description
-#'
-#' @importFrom desc description
-#' @noRd
-internal_remotes_to_desc <- function(remotes, path.d = "DESCRIPTION", stop_local = FALSE) {
-  desc <- description$new(path.d)
-
-  remotes_orig <- desc$get_remotes()
-  names(remotes_orig) <- basename(gsub("^.*/|[.]git", "", remotes_orig))
-  new_remotes <- c(
-    remotes_orig,
-    remotes
-  )
-  are.na <- which(unlist(lapply(new_remotes, is.na)))
-  pkgs_names <- names(new_remotes[are.na])
-
-  if (length(pkgs_names) != 0) {
-    plural <- ifelse(length(pkgs_names) > 1, TRUE, FALSE)
-    msg <-
-      glue::glue(
-        "Package{ifelse(plural, 's', '')} {pkgs} {ifelse(plural, 'were', 'was')} probably installed from source locally.
-             Please re-install {ifelse(plural, 'them', 'it')} from CRAN or remote repository if Remotes field is needed.",
-        pkgs = glue::glue_collapse(pkgs_names, sep = ", ", last = " & ")
-      )
-
-    if (isTRUE(stop_local)) {
-      stop(msg)
-    } else {
-      message(msg)
-    }
-    new_remotes <- new_remotes[-are.na]
-  }
-
-  w.unique <- !duplicated(names(new_remotes))
-  new_remotes <- unlist(new_remotes)[w.unique]
-
-  if (length(new_remotes) != 0) {
-    desc$set_remotes(new_remotes)
-    # Write Description file
-    desc$write(file = path.d)
-    # Message
-    message(
-      glue::glue(
-        "Remotes for {pkgs} were added to DESCRIPTION.",
-        pkgs = glue::glue_collapse(names(new_remotes), sep = ", ", last = " & ")
-      )
-    )
-  }
-}
-
-#' Internal. Core of find_remotes separated for unit tests
-#' @param pkgdesc Named list of PackageDescriptions
-#' @noRd
-extract_pkg_info <- function(pkgdesc) {
-  is_cran <- lapply(pkgdesc, function(x) {
-    !is.null(x[["Repository"]]) |
-      (!is.null(x[["Priority"]]) && x[["Priority"]] == "base")
-  }) %>% unlist()
-
-  pkg_not_cran <- names(is_cran[!is_cran])
-  # cran_pkg <- names(cran_or_not[!cran_or_not])
-
-  if (length(pkg_not_cran) == 0) {
-    return(NULL)
-  } else {
-    guess_repo <- lapply(pkg_not_cran, function(x) {
-      desc <- pkgdesc[[x]]
-      if (!is.null(desc$RemoteType) && desc$RemoteType == "github") {
-        tolower(paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))
-      } else if (!is.null(desc$RemoteType) && desc$RemoteType %in% c("gitlab", "bitbucket")) {
-        tolower(paste0(desc$RemoteType, "::",
-                       paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")))
-      } else if (!is.null(desc$RemoteType) && is.null(desc$RemoteHost)) {
-        c("Maybe ?" = tolower(paste0(desc$RemoteType, "::", desc$RemoteHost, ":",
-                                     paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))))
-      } else {
-        c("local maybe ?" = NA)
-      }
-    }) %>%
-      setNames(pkg_not_cran)
-  }
-  guess_repo
-}
-
 

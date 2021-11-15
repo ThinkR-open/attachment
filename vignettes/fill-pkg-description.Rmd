@@ -1,10 +1,10 @@
 ---
-title: "Extract scripts dependencies and generate your Description file"
+title: "a - Help during package development"
 author: "Sébastien Rochette"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Extract scripts dependencies and generate your Description file}
+  %\VignetteIndexEntry{a - Help during package development}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -39,7 +39,7 @@ usethis::use_build_ignore("dev")
 You can then call {attachment} in this file to help you build your description file.
 
 ## Fill your DESCRIPTION file
-### For packages
+
 What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your "dev/dev_history.R".  
 Run `attachment::att_amend_desc()` each time before `devtools::check()`, this will save you some warnings and errors !
 
@@ -60,17 +60,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 ```
 
-### For bookdown
-You can use a similar approach for a {bookdown} description file using `attachment::att_to_desc_from_is()`
-
-```{r, eval=FALSE}
-# bookdown Imports are in Rmds
-imports <- c("bookdown", attachment::att_from_rmds("."))
-attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
-                                imports = imports, suggests = NULL)
-```
-
-### Propose content for "Remotes" field
+## Propose content for "Remotes" field
 
 `set_remotes_to_desc()` adds packages that were installed from other source than CRAN to `Remotes:` field in DESCRIPTION.  
 
@@ -97,28 +87,6 @@ You may also want to combine it to `att_from_description()`
 ```{r, eval=FALSE}
 att_from_description() %>%
   find_remotes()
-```
-
-
-## Get all packages listed in "namespace"
-You can get the list of packages in your package with `att_from_namespace()`
-
-```{r, eval=FALSE}
-att_from_namespace()
-```
-
-## Get all packages added using `pkg::function` or library/require
-This reads all files in directories of R scripts (default to `R` directory of a package)
-
-```{r, eval=FALSE}
-att_from_rscripts()
-```
-
-## Get all packages called in your Rmd
-If you have vignette, you may want to list extra libraries, not listed in your "Depends" list. This function applies to any Rmd file, of course.
-
-```{r, eval=FALSE}
-att_from_rmds()
 ```
 
 ## Create a file for package installation

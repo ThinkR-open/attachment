@@ -16,7 +16,8 @@ att_amend_desc(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = FALSE
+  inside_rmd = FALSE,
+  must.exist = TRUE
 )
 
 att_to_desc_from_pkg(
@@ -30,7 +31,8 @@ att_to_desc_from_pkg(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = FALSE
+  inside_rmd = FALSE,
+  must.exist = TRUE
 )
 }
 \arguments{
@@ -56,6 +58,9 @@ att_to_desc_from_pkg(
 
 \item{inside_rmd}{Logical. Whether function is run inside a Rmd,
 in case this must be executed in an external R session}
+
+\item{must.exist}{Logical. If TRUE then an error is given if packages do not exist
+within installed packages. If NA, a warning.}
 }
 \value{
 Update DESCRIPTION file.

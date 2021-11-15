@@ -1,0 +1,111 @@
+---
+title: "b - bookdown and other scripts dependencies"
+author: "Sébastien Rochette"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{b - bookdown and other scripts dependencies}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+<script type="text/javascript">
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+```{r setuprmd, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Load package {attachment}
+```{r}
+library(attachment)
+```
+
+## Use "dev/dev_history.R"
+
+When building your package, create a file called "dev_history.R" in a "dev/" directory. You will store all "manual" calls to `devtools::xxx` and `usethis::xxx` in this script.  
+Its first line should be :
+
+```r
+usethis::use_build_ignore("dev")
+```
+
+You can then call {attachment} in this file to help you build your description file.
+
+## Fill a bookdown DESCRIPTION file
+
+You can use a similar approach for a {bookdown} description file using `attachment::att_to_desc_from_is()`.
+Indeed, you can use it in your CI to automatically build your HTML pages while parsing dependencies required. Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set `att_to_desc_from_is(must.exist = FALSE)`.
+
+```{r, eval=FALSE}
+# bookdown Imports are in Rmds
+imports <- c("bookdown", attachment::att_from_rmds("."))
+
+attachment::att_to_desc_from_is(
+  path.d = "DESCRIPTION",
+  imports = imports, suggests = NULL, 
+  must.exist = FALSE
+)
+```
+
+Then, you can install dependencies from the DESCRIPTION file
+```{r, eval=FALSE}
+remotes::install_local()
+```
+
+### Propose content for "Remotes" field
+
+`set_remotes_to_desc()` adds packages that were installed from other source than CRAN to `Remotes:` field in DESCRIPTION.  
+
+You can run it after `att_to_desc_from_is()`.
+
+```{r eval=FALSE}
+attachment::att_to_desc_from_is(
+  path.d = "DESCRIPTION",
+  imports = imports, suggests = NULL, 
+  must.exist = FALSE
+) %>%
+  set_remotes_to_desc()
+```
+
+
+## Get all packages listed in "namespace"
+You can get the list of packages in your package with `att_from_namespace()`
+
+```{r, eval=FALSE}
+att_from_namespace()
+```
+
+## Get all packages added using `pkg::function` or library/require
+This reads all files in directories of R scripts (default to `R` directory of a package)
+
+```{r, eval=FALSE}
+att_from_rscripts()
+```
+
+## Get all packages called in your Rmd
+If you have vignette, you may want to list extra libraries, not listed in your "Depends" list. This function applies to any Rmd file, of course.
+
+```{r, eval=FALSE}
+att_from_rmds()
+```
+
+
+## Get all packages called in your Rmd and show them in this same Rmd
+
+Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts()` or Rmd files using `att_from_rmds()`.  
+If you want to run `att_from_rmds()` inside a Rmd as for this vignette, you will need to set `att_from_rmds(inside_rmd = TRUE)`
+
+```{r, eval=TRUE}
+dummypackage <- system.file("dummypackage", package = "attachment")
+
+att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
+```
+
+
