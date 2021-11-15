@@ -97,15 +97,30 @@ test_that("fails if dir.t do not exists", {
                      dir.r = c("R", "rara")),
       regexp = "There is no directory named: rara")
 
+  expect_error(
+    att_amend_desc(path = dummypackage,
+                   dir.r = "rara"), # do not exist, nothing fails
+    regexp = NA)
+
   expect_message(
     att_amend_desc(path = dummypackage,
                    dir.v = c("vignettes", "vava")),
     regexp = "There is no directory named: vava")
 
+  expect_error(
+    att_amend_desc(path = dummypackage,
+                   dir.v = "vava"), # do not exist, nothing fails
+    regexp = NA)
+
   expect_message(
     att_amend_desc(path = dummypackage,
-                   dir.v = c("tests", "tata")),
+                   dir.t = c("tests", "tata")),
     regexp = "There is no directory named: tata")
+
+  expect_error(
+    att_amend_desc(path = dummypackage,
+                   dir.t = "tata"), # do not exist, nothing fails
+    regexp = NA)
 })
 unlink(dummypackage, recursive = TRUE)
 
