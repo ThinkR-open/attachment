@@ -100,6 +100,7 @@ install.packages("glue")
 rstudioapi::restartSession()
 devtools::test()
 
+
 # Checks for CRAN release ----
 # Check package as CRAN
 rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))

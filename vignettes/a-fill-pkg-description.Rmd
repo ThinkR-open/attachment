@@ -1,10 +1,10 @@
 ---
-title: "a - Help during package development"
+title: "a-Help during package development"
 author: "Sébastien Rochette"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{a - Help during package development}
+  %\VignetteIndexEntry{a-Help during package development}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

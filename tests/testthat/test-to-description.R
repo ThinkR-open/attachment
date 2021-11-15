@@ -35,6 +35,80 @@ test_that("att_amend_desc updates description", {
 })
 unlink(dummypackage, recursive = TRUE)
 
+# Remotes stays here if exists ----
+tmpdir <- tempfile("dummy")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+path.d <- file.path(dummypackage, "DESCRIPTION")
+cat(
+"Remotes:
+    thinkr-open/fusen,
+    tidyverse/magrittr,
+    rstudio/rmarkdown
+", append = TRUE,
+    file = path.d)
+
+test_that("Remotes stays here if exists and package in imports/suggests", {
+  suppressMessages(
+    expect_error(att_amend_desc(path = dummypackage), regexp = NA))
+  desc_file <- readLines(file.path(dummypackage, "DESCRIPTION"))
+
+  expect_false(any(grepl("thinkr-open/fusen", desc_file))) # not in deps
+  w.remotes <- grep('Remotes:', desc_file)
+  expect_length(w.remotes, 1)
+  expect_equal(desc_file[w.remotes + 1], "    rstudio/rmarkdown,") #suggest
+  expect_equal(desc_file[w.remotes + 2], "    tidyverse/magrittr") #imports
+})
+unlink(dummypackage, recursive = TRUE)
+
+# pkg_ignore and extra.suggests are used ----
+tmpdir <- tempfile("dummy")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage", package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+
+test_that("pkg_ignore and extra.suggests are used", {
+  suppressMessages(
+    expect_error(
+      att_amend_desc(path = dummypackage,
+                     pkg_ignore = "glue",
+                     extra.suggests = "roxygen2"),
+      regexp = NA)
+  )
+  desc_file <- readLines(file.path(dummypackage, "DESCRIPTION"))
+
+  expect_false(any(grepl("glue", desc_file))) # ignored totally
+  w.suggests <- grep('Suggests:', desc_file)
+  expect_length(w.suggests, 1)
+  expect_equal(desc_file[w.suggests + 3], "    roxygen2,") #suggest
+})
+unlink(dummypackage, recursive = TRUE)
+
+# Test fails if dir.t do not exists
+tmpdir <- tempfile("dummy")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+
+test_that("fails if dir.t do not exists", {
+    expect_message(
+      att_amend_desc(path = dummypackage,
+                     dir.r = c("R", "rara")),
+      regexp = "There is no directory named: rara")
+
+  expect_message(
+    att_amend_desc(path = dummypackage,
+                   dir.v = c("vignettes", "vava")),
+    regexp = "There is no directory named: vava")
+
+  expect_message(
+    att_amend_desc(path = dummypackage,
+                   dir.v = c("tests", "tata")),
+    regexp = "There is no directory named: tata")
+})
+unlink(dummypackage, recursive = TRUE)
+
 # Test Deprecated att_to_description ----
 # suppressWarnings()
 # Copy package in a temporary directory

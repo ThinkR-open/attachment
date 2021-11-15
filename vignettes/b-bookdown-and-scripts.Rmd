@@ -1,10 +1,10 @@
 ---
-title: "b - bookdown and other scripts dependencies"
+title: "b-bookdown and other scripts dependencies"
 author: "Sébastien Rochette"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{b - bookdown and other scripts dependencies}
+  %\VignetteIndexEntry{b-bookdown and other scripts dependencies}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -54,14 +54,16 @@ attachment::att_to_desc_from_is(
 )
 ```
 
-Then, you can install dependencies from the DESCRIPTION file
+Then, you can install dependencies from the DESCRIPTION file.
+
 ```{r, eval=FALSE}
 remotes::install_local()
 ```
 
 ### Propose content for "Remotes" field
 
-`set_remotes_to_desc()` adds packages that were installed from other source than CRAN to `Remotes:` field in DESCRIPTION.  
+An interest of using DESCRIPTION to list your bookdown dependencies is to use packages from other sources than CRAN and list them in the 'Remotes' field.  
+Here comes `set_remotes_to_desc()`, which adds packages that were installed from other source than CRAN to `Remotes:` field in DESCRIPTION.  
 
 You can run it after `att_to_desc_from_is()`.
 
