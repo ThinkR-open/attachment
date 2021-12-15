@@ -1,3 +1,10 @@
+# attachment 0.2.x
+
+## Minor changes
+
+- `att_amend_desc` now save file before processing
+
+
 # attachment 0.2.4
 
 ## Breaking changes
