@@ -44,6 +44,9 @@ att_amend_desc <- function(path = ".",
                            must.exist = TRUE
 ) {
 
+
+  save_all()
+
   if (path != ".") {
     old <- setwd(normalizePath(path))
     on.exit(setwd(old))
