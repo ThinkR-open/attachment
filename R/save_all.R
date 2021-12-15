@@ -8,7 +8,7 @@
 #' `rstudioapi::documentSaveAll()` methods.
 #' @return NULL
 save_all <- function() {
-  if (rstudioapi::hasFun("documentSaveAll")) {
+  if (requireNamespace("rstudioapi") && rstudioapi::hasFun("documentSaveAll")) {
     rstudioapi::documentSaveAll()
   }
 }
