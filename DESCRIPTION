@@ -35,10 +35,12 @@ Config/testthat/edition: 3
 Depends: 
     R (>= 3.4)
 Imports: 
+    cli,
     desc (>= 1.2.0),
     glue (>= 1.3.0),
     knitr (>= 1.20),
     magrittr (>= 1.5),
+    renv,
     rmarkdown (>= 1.10),
     roxygen2,
     stats,
