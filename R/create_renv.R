@@ -51,7 +51,6 @@ create_renv_for_dev <- function(path=".",
     from_r_script,from_rmd,
     dev_pkg
   )
-  pkg_list
 
   if (install_if_missing) {
     attachment::install_if_missing(pkg_list)
@@ -63,14 +62,21 @@ create_renv_for_dev <- function(path=".",
     bullet_col = "green"
   )
 
+print(pkg_list)
+# browser()
 
-  renv::snapshot(packages = pkg_list,lockfile = output,prompt = FALSE)
 
+# debugonce(renv::snapshot)
+  renv::snapshot(packages = pkg_list,lockfile = output,prompt = FALSE,type="packages")
+# renv:::renv_activate_prompt("snapshot", library=NULL, prompt =FALSE, project=NULL)
+#   renv:::renv_lockfile_create(packages = pkg_list,type="packages", project=NULL)
+#   alt <- new <- renv_lockfile_create(project, libpaths, type,
+#                                      packages)
   output
 
 }
 
-
+#' @export
 #' @rdname create_renv_for_dev
 create_renv_for_prod <-function(path=".",output = "renv.lock.prod"){
   create_renv_for_dev(path = path,dev_pkg = "remotes",folder_to_include=NULL,output = output)
