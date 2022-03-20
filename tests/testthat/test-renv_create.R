@@ -5,9 +5,6 @@ file.copy(
   system.file("dummypackage", package = "attachment"), tmpdir,
   recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
-print("ici")
-print(dummypackage)
-# Sys.sleep(525)
 my_renv_golem <- create_renv_for_dev(path = dummypackage,install_if_missing = FALSE,dev_pkg = "golem",output = "for_golem.lock")
 my_renv_ <- create_renv_for_dev(path = dummypackage,install_if_missing = FALSE,output = "blank.lock")
 

@@ -61,17 +61,14 @@ create_renv_for_dev <- function(path=".",
     bullet = "tick",
     bullet_col = "green"
   )
-
-print(pkg_list)
-# browser()
-
-
-# debugonce(renv::snapshot)
   renv::snapshot(packages = pkg_list,lockfile = output,prompt = FALSE,type="packages")
-# renv:::renv_activate_prompt("snapshot", library=NULL, prompt =FALSE, project=NULL)
-#   renv:::renv_lockfile_create(packages = pkg_list,type="packages", project=NULL)
-#   alt <- new <- renv_lockfile_create(project, libpaths, type,
-#                                      packages)
+
+
+  if (!file.exists(output)){
+    stop("error during renv.lock creation")
+
+  }
+
   output
 
 }
