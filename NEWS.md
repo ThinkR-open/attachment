@@ -1,3 +1,9 @@
+# attachment 0.2.4.9000
+
+## Minor changes
+
+- `att_amend_desc()` now saves file before processing
+
 # attachment 0.2.4
 
 ## Breaking changes
