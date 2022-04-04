@@ -7,6 +7,7 @@
 #' other IDE implementations of their equivalent
 #' `rstudioapi::documentSaveAll()` methods.
 #' @return NULL
+#' @noRd
 save_all <- function() {
   if (requireNamespace("rstudioapi") && rstudioapi::hasFun("documentSaveAll")) {
     rstudioapi::documentSaveAll()
