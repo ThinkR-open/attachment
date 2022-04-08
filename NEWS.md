@@ -1,3 +1,16 @@
+# attachment 0.2.4.9001
+## Breaking changes
+
+* 
+
+## Major changes
+
+* 
+
+## Minor changes
+
+* add `create_renv_for_dev()` and `create_renv_for_prod()` function to create `renv.lock` file based on developpement project.
+
 # attachment 0.2.4
 
 ## Breaking changes
