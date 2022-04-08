@@ -2,3 +2,6 @@ template:
   package: thinkrtemplate
 
 url: https://thinkr-open.github.io/attachment/
+
+development:
+  mode: auto
