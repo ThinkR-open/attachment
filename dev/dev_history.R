@@ -61,10 +61,11 @@ usethis::use_github_action_check_standard()
 usethis::use_github_action("pkgdown")
 usethis::use_github_action("test-coverage")
 
+usethis::use_vignette("use_renv")
 usethis::use_build_ignore("_pkgdown.yml")
 pkgdown::build_site()
 
-# PR
+# PR ----
 usethis::pr_fetch(28)
 usethis::pr_push()
 

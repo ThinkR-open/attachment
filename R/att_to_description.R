@@ -62,7 +62,7 @@ att_amend_desc <- function(path = ".",
             "Please fill it. ",
             "\nNext time, you may want to use 'usethis::use_description()'")
   }
-  if (path.d == "DESCRIPTION") {path.d <- file.path(normalizePath("."), path.d)}
+  if (path.d == "DESCRIPTION") {path.d <- file.path(normalizePath(path), path.d)}
 
   # Remove non-existing directories in path.n for Imports
   if (!file.exists(path.n)) {

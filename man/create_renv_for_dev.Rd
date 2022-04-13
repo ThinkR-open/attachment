@@ -11,7 +11,8 @@ create_renv_for_dev(
     "remotes", "covr", "attachment", "pak", "dockerfiler"),
   folder_to_include = c("dev/", "data-raw/"),
   output = "renv.lock",
-  install_if_missing = TRUE
+  install_if_missing = TRUE,
+  document = TRUE
 )
 
 create_renv_for_prod(path = ".", output = "renv.lock.prod")
@@ -25,7 +26,10 @@ create_renv_for_prod(path = ".", output = "renv.lock.prod")
 
 \item{output}{path and name of the file created, default is `./renv.lock`}
 
-\item{install_if_missing}{boolean install missing packages. `TRUE` by default}
+\item{install_if_missing}{Logical. Install missing packages. `TRUE` by default}
+
+\item{document}{Logical. Whether to run `[att_amend_desc()]` before
+detecting packages in DESCRIPTION.}
 }
 \value{
 a renv.lock file
@@ -40,5 +44,6 @@ they are not necessary in your package/application.
 \dontrun{
 create_renv_for_dev()
 create_renv_for_dev(dev_pkg = "attachment")
+create_renv_for_prod()
 }
 }

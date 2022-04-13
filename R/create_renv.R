@@ -10,7 +10,9 @@
 #' @param dev_pkg package developpement toolbox you need
 #' @param folder_to_include folder to scan to detect developpment package
 #' @param output path and name of the file created, default is `./renv.lock`
-#' @param install_if_missing boolean install missing packages. `TRUE` by default
+#' @param install_if_missing Logical. Install missing packages. `TRUE` by default
+#' @param document Logical. Whether to run `[att_amend_desc()]` before
+#' detecting packages in DESCRIPTION.
 #'
 #' @return a renv.lock file
 #' @export
@@ -20,72 +22,101 @@
 #' \dontrun{
 #' create_renv_for_dev()
 #' create_renv_for_dev(dev_pkg = "attachment")
+#' create_renv_for_prod()
 #' }
-create_renv_for_dev <- function(path=".",
-                                dev_pkg = c("renv","devtools", "roxygen2", "usethis", "pkgload",
-                                            "testthat","remotes", "covr", "attachment","pak","dockerfiler"),
-                                folder_to_include = c("dev/","data-raw/"),
+create_renv_for_dev <- function(path = ".",
+                                dev_pkg = c(
+                                  "renv",
+                                  "devtools",
+                                  "roxygen2",
+                                  "usethis",
+                                  "pkgload",
+                                  "testthat",
+                                  "remotes",
+                                  "covr",
+                                  "attachment",
+                                  "pak",
+                                  "dockerfiler"
+                                ),
+                                folder_to_include = c("dev/", "data-raw/"),
                                 output = "renv.lock",
-                                install_if_missing = TRUE
-){
+                                install_if_missing = TRUE,
+                                document = TRUE) {
+  path <- normalizePath(path)
 
+  if (isTRUE(document)) {
+    att_amend_desc(path)
+  }
 
-  folder_to_include <- folder_to_include[dir.exists(file.path(path, folder_to_include))]
+  pkg_list <-
+    c(
+      att_from_description(path = file.path(path, "DESCRIPTION")),
+      dev_pkg
+    )
 
+  # Extra folders
+  folder_to_include <- file.path(path, folder_to_include)
+  folder_exists <- dir.exists(folder_to_include)
 
-  from_r_script <-
-    unlist(lapply(
-      file.path(path, folder_to_include),
-      attachment::att_from_rscripts
-    ))
+  if (any(!folder_exists)) {
+    message(
+      "There is no directory named: ",
+      paste(folder_to_include[!folder_exists], collapse = ", "),
+      ". This is removed from the exploration"
+    )
+  }
 
+  if (any(folder_exists)) {
+    folder_to_include <- folder_to_include[folder_exists]
 
-  from_rmd <-
-    unlist(lapply(
-      file.path(path, folder_to_include),
-      attachment::att_from_rmds
-    ))
+    # folder_to_include <- folder_to_include[dir.exists(file.path(path, folder_to_include))]
 
-  pkg_list <- c(
-    attachment::att_from_description(path = file.path(path,"DESCRIPTION")),
-    from_r_script,from_rmd,
-    dev_pkg
-  )
+    from_r_script <- att_from_rscripts(folder_to_include)
+    from_rmd <- att_from_rmds(folder_to_include)
 
+    pkg_list <- unique(c(pkg_list, from_r_script, from_rmd))
+  }
+
+  # Install
   if (install_if_missing) {
-    attachment::install_if_missing(pkg_list)
+    install_if_missing(pkg_list)
   }
 
   cli::cat_bullet(
-    sprintf("create renv.lock at %s",output),
+    sprintf("create renv.lock at %s", output),
     bullet = "tick",
     bullet_col = "green"
   )
-  renv::snapshot(packages = pkg_list,lockfile = output,prompt = FALSE,type="packages")
+
+  renv::snapshot(
+    packages = pkg_list,
+    lockfile = output,
+    prompt = FALSE # ,
+    # type = "packages"
+  )
 
 
-  if (!file.exists(output)){
+  if (!file.exists(output)) {
     stop("error during renv.lock creation")
-
   }
 
   output
-
 }
 
 #' @export
 #' @rdname create_renv_for_dev
-create_renv_for_prod <-function(path=".",output = "renv.lock.prod"){
-  create_renv_for_dev(path = path,dev_pkg = "remotes",folder_to_include=NULL,output = output)
+create_renv_for_prod <- function(path = ".", output = "renv.lock.prod") {
+  create_renv_for_dev(
+    path = path,
+    dev_pkg = "remotes",
+    folder_to_include = NULL,
+    output = output
+  )
 }
 
-
-
-
 cat_green_tick <- function(...) {
-  cat_bullet(
-    ...,
-    bullet = "tick",
-    bullet_col = "green"
+  cat_bullet(...,
+             bullet = "tick",
+             bullet_col = "green"
   )
 }

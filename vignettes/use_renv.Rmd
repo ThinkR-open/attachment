@@ -1,0 +1,37 @@
+---
+title: "use_renv"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{use_renv}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(attachment)
+```
+
+`create_renv_for_dev()` and `create_renv_for_prod()` function create `renv.lock` file based on developpement project.
+
+# Create reproducible environments for your R projects with {renv}
+
+Tool to create and maintain "renv.lock" files.
+The idea is to have 2 distinct files, one for development and the other for deployment.
+Indeed, although package like {attachment} or {pkgload} must be installed to develop, they are not necessary in your package/application.
+
+```{r, eval=FALSE}
+create_renv_for_dev()
+create_renv_for_dev(dev_pkg = "attachment")
+```
+
+```{r, eval=FALSE}
+create_renv_for_prod
+```
+
