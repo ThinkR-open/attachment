@@ -103,7 +103,9 @@ devtools::test()
 
 # Checks for CRAN release ----
 # Check package as CRAN
+remotes::install_github("r-lib/roxygen2")
 rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
+install.packages("roxygen2")
 
 # Check content
 # remotes::install_github("ThinkR-open/checkhelper")
