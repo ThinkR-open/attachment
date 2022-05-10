@@ -28,7 +28,7 @@ unlink(file.path(extrapackage, "tests"), recursive = TRUE)
 # document
 att_amend_desc(extrapackage)
 # Install package to make it available to {renv}
-install.packages(extrapackage, repos = NULL)
+install.packages(extrapackage, repos = NULL, type = "source")
 
 # Add a development package not required in DESCRIPTION: dummy.extra ----
 lock_includes_extra <- file.path(tmpdir, "for_extra.lock")
