@@ -4,7 +4,7 @@
 #'
 #' @section Details:
 #' \tabular{rl}{
-#'    \code{att_to_description} \tab is now called \code{att_amend_desc}
+#'    `att_to_description` \tab is now called `att_amend_desc`
 #'    so that it is the first function proposed when using auto-completion\cr
 #' }
 NULL

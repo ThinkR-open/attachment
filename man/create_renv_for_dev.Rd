@@ -3,7 +3,7 @@
 \name{create_renv_for_dev}
 \alias{create_renv_for_dev}
 \alias{create_renv_for_prod}
-\title{create reproducible environments for your R projects with {renv}}
+\title{Create reproducible environments for your R projects with {renv}}
 \usage{
 create_renv_for_dev(
   path = ".",
@@ -12,33 +12,38 @@ create_renv_for_dev(
   folder_to_include = c("dev/", "data-raw/"),
   output = "renv.lock",
   install_if_missing = TRUE,
-  document = TRUE
+  document = TRUE,
+  ...
 )
 
-create_renv_for_prod(path = ".", output = "renv.lock.prod")
+create_renv_for_prod(path = ".", output = "renv.lock.prod", ...)
 }
 \arguments{
-\item{path}{path to your current package source folder}
+\item{path}{Path to your current package source folder}
 
-\item{dev_pkg}{package developpement toolbox you need}
+\item{dev_pkg}{Package development toolbox you need}
 
-\item{folder_to_include}{folder to scan to detect developpment package}
+\item{folder_to_include}{Folder to scan to detect development packages}
 
-\item{output}{path and name of the file created, default is `./renv.lock`}
+\item{output}{Path and name of the file created, default is \code{./renv.lock}}
 
-\item{install_if_missing}{Logical. Install missing packages. `TRUE` by default}
+\item{install_if_missing}{Logical. Install missing packages. \code{TRUE} by default}
 
-\item{document}{Logical. Whether to run `[att_amend_desc()]` before
+\item{document}{Logical. Whether to run \code{\link[=att_amend_desc]{att_amend_desc()}} before
 detecting packages in DESCRIPTION.}
+
+\item{...}{Other arguments to pass to \code{\link[renv:snapshot]{renv::snapshot()}}}
 }
 \value{
 a renv.lock file
 }
 \description{
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
+
 Tool to create and maintain renv.lock files.
 The idea is to have 2 distinct files, one for development and the other for deployment.
-Indeed, although package like {attachment} or {pkgload} must be installed to develop,
-they are not necessary in your package/application.
+Indeed, although packages like {attachment} or {pkgload} must be installed to develop,
+they are not necessary in your project, package or Shiny application.
 }
 \examples{
 \dontrun{

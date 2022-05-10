@@ -54,7 +54,7 @@ att_to_desc_from_pkg(
 
 \item{document}{Run function roxygenise of roxygen2 package}
 
-\item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}}
+\item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc:desc_normalize]{desc::desc_normalize()}}}
 
 \item{inside_rmd}{Logical. Whether function is run inside a Rmd,
 in case this must be executed in an external R session}
@@ -69,7 +69,7 @@ Update DESCRIPTION file.
 Amend package DESCRIPTION file with the list of dependencies extracted from
 R, tests, vignettes files.
 att_to_desc_from_pkg() is an alias of att_amend_desc(),
-for the correspondence with \code{\link{att_to_desc_from_is}}.
+for the correspondence with \code{\link[=att_to_desc_from_is]{att_to_desc_from_is()}}.
 }
 \examples{
 tmpdir <- tempdir()

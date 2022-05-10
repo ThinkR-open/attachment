@@ -2,7 +2,7 @@
 % Please edit documentation in R/att_from_rscripts.R
 \name{att_from_rscript}
 \alias{att_from_rscript}
-\title{Look for functions called with `::` and library/requires in one script}
+\title{Look for functions called with \code{::} and library/requires in one script}
 \usage{
 att_from_rscript(path)
 }
@@ -13,7 +13,7 @@ att_from_rscript(path)
 a vector
 }
 \description{
-Look for functions called with `::` and library/requires in one script
+Look for functions called with \code{::} and library/requires in one script
 }
 \details{
 Calls from pkg::fun in roxygen skeleton and comments are ignored

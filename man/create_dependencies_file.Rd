@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_dependencies_file.R
 \name{create_dependencies_file}
 \alias{create_dependencies_file}
-\title{Create a dependencies.R in the `inst` folder}
+\title{Create a dependencies.R in the \code{inst} folder}
 \usage{
 create_dependencies_file(
   path = "DESCRIPTION",
@@ -28,7 +28,7 @@ Used for side effect. Shows a message with installation instructions and
 creates a R file containing these instructions.
 }
 \description{
-Create a dependencies.R in the `inst` folder
+Create a dependencies.R in the \code{inst} folder
 }
 \examples{
 tmpdir <- tempdir()

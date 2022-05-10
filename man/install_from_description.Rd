@@ -15,7 +15,7 @@ install_from_description(
 
 \item{field}{DESCRIPTION fields to parse, "Depends", "Imports", "Suggests" by default}
 
-\item{...}{Arguments to be passed to \code{\link[utils]{install.packages}}}
+\item{...}{Arguments to be passed to \code{\link[utils:install.packages]{utils::install.packages()}}}
 }
 \value{
 Used for side effect. Installs R packages from DESCRIPTION file if missing.

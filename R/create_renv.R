@@ -1,23 +1,28 @@
-#' create reproducible environments for your R projects with {renv}
+#' Create reproducible environments for your R projects with {renv}
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
 #'
 #' Tool to create and maintain renv.lock files.
 #' The idea is to have 2 distinct files, one for development and the other for deployment.
-#' Indeed, although package like {attachment} or {pkgload} must be installed to develop,
-#' they are not necessary in your package/application.
+#' Indeed, although packages like {attachment} or {pkgload} must be installed to develop,
+#' they are not necessary in your project, package or Shiny application.
 #'
 #'
-#' @param path path to your current package source folder
-#' @param dev_pkg package developpement toolbox you need
-#' @param folder_to_include folder to scan to detect developpment package
-#' @param output path and name of the file created, default is `./renv.lock`
+#' @param path Path to your current package source folder
+#' @param dev_pkg Package development toolbox you need
+#' @param folder_to_include Folder to scan to detect development packages
+#' @param output Path and name of the file created, default is `./renv.lock`
 #' @param install_if_missing Logical. Install missing packages. `TRUE` by default
-#' @param document Logical. Whether to run `[att_amend_desc()]` before
+#' @param document Logical. Whether to run [att_amend_desc()] before
 #' detecting packages in DESCRIPTION.
+#' @param ... Other arguments to pass to [renv::snapshot()]
 #'
 #' @return a renv.lock file
-#' @export
-#' @importFrom renv snapshot
+#'
 #' @importFrom cli cat_bullet
+#' @export
+#'
 #' @examples
 #' \dontrun{
 #' create_renv_for_dev()
@@ -41,7 +46,13 @@ create_renv_for_dev <- function(path = ".",
                                 folder_to_include = c("dev/", "data-raw/"),
                                 output = "renv.lock",
                                 install_if_missing = TRUE,
-                                document = TRUE) {
+                                document = TRUE,
+                                ...) {
+
+  if (!requireNamespace("renv")) {
+    stop("'renv' is required. Please install it before.")
+  }
+
   path <- normalizePath(path)
 
   if (isTRUE(document)) {
@@ -91,7 +102,8 @@ create_renv_for_dev <- function(path = ".",
   renv::snapshot(
     packages = pkg_list,
     lockfile = output,
-    prompt = FALSE # ,
+    prompt = FALSE,
+    ...
     # type = "packages"
   )
 
@@ -105,12 +117,13 @@ create_renv_for_dev <- function(path = ".",
 
 #' @export
 #' @rdname create_renv_for_dev
-create_renv_for_prod <- function(path = ".", output = "renv.lock.prod") {
+create_renv_for_prod <- function(path = ".", output = "renv.lock.prod", ...) {
   create_renv_for_dev(
     path = path,
     dev_pkg = "remotes",
     folder_to_include = NULL,
-    output = output
+    output = output,
+    ...
   )
 }
 

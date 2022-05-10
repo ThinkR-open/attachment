@@ -75,11 +75,14 @@ usethis::pr_push()
 # Document ----
 # Do not parse dir.t because of tests
 attachment::att_from_rscripts("tests")
+usethis::use_roxygen_md()
+roxygen2md::roxygen2md()
 roxygen2::roxygenise()
-attachment::att_amend_desc(pkg_ignore = c("remotes", "i", "usethis", "rstudioapi"), #i
-                           extra.suggests = c("testthat", "rstudioapi"), #"pkgdown", "covr",
-                           dir.t = "",
-                           normalize = FALSE)
+attachment::att_amend_desc(
+  pkg_ignore = c("remotes", "i", "usethis", "rstudioapi", "renv"), #i
+  extra.suggests = c("testthat", "rstudioapi", "renv", "lifecycle"), #"pkgdown", "covr",
+  dir.t = "",
+  normalize = FALSE)
 
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
 
