@@ -5,11 +5,10 @@
 
 ## Major changes
 
-* 
+* add `create_renv_for_dev()` and `create_renv_for_prod()` function to create `renv.lock` file based on development project (@VincentGuyader).
 
 ## Minor changes
 
-* add `create_renv_for_dev()` and `create_renv_for_prod()` function to create `renv.lock` file based on developpement project.
 * `att_amend_desc()` now saves file before processing
 
 

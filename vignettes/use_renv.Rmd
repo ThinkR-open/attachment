@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 library(attachment)
 ```
 
-`create_renv_for_dev()` and `create_renv_for_prod()` functions create `renv.lock` files based on developement projects.
+`create_renv_for_dev()` and `create_renv_for_prod()` functions create `renv.lock` files based on development projects.
 
 # Create reproducible environments for your R projects with {renv}
 
