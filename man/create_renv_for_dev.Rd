@@ -7,8 +7,8 @@
 \usage{
 create_renv_for_dev(
   path = ".",
-  dev_pkg = c("renv", "devtools", "roxygen2", "usethis", "pkgload", "testthat",
-    "remotes", "covr", "attachment", "pak", "dockerfiler"),
+  dev_pkg = c("renv", "fusen", "devtools", "roxygen2", "usethis", "pkgload",
+    "testthat", "remotes", "covr", "attachment", "pak", "dockerfiler", "pkgdown"),
   folder_to_include = c("dev", "data-raw"),
   output = "renv.lock",
   install_if_missing = TRUE,

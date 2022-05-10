@@ -33,6 +33,7 @@
 create_renv_for_dev <- function(path = ".",
                                 dev_pkg = c(
                                   "renv",
+                                  "fusen",
                                   "devtools",
                                   "roxygen2",
                                   "usethis",
@@ -42,7 +43,8 @@ create_renv_for_dev <- function(path = ".",
                                   "covr",
                                   "attachment",
                                   "pak",
-                                  "dockerfiler"
+                                  "dockerfiler",
+                                  "pkgdown"
                                 ),
                                 folder_to_include = c("dev", "data-raw"),
                                 output = "renv.lock",

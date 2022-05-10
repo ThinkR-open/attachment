@@ -18,10 +18,14 @@ file.copy(
 )
 extrapackage <- file.path(extra_path, "extrapackage")
 file.rename(file.path(extra_path, "dummypackage"), extrapackage)
-# Rename package
+# Rename package and remove 'Rcpp'
 desc_lines <- readLines(file.path(extrapackage, "DESCRIPTION"))
 desc_lines <- gsub("dummypackage", "extrapackage", desc_lines)
+desc_lines <- desc_lines[-grep("LinkingTo|Rcpp", desc_lines)]
 cat(desc_lines, sep = "\n", file = file.path(extrapackage, "DESCRIPTION"))
+# Remove calls to 'dummypackage' and 'Rcpp'
+unlink(file.path(extrapackage, "tests"), recursive = TRUE)
+# document
 att_amend_desc(extrapackage)
 # Install package to make it available to {renv}
 install.packages(extrapackage, repos = NULL)
@@ -69,9 +73,6 @@ if (interactive() | tolower(Sys.info()[["sysname"]]) == "linux") {
       force = TRUE)})
 }
 
-rstudioapi::navigateToFile(lock_without_extra)
-rstudioapi::navigateToFile(lock_includes_extra)
-
 test_that("create_renv_for_dev creates lock files", {
   expect_true(file.exists(lock_includes_extra))
   expect_true(file.exists(my_renv_extra))
@@ -91,17 +92,13 @@ test_that("lockfile are renv files", {
 pkg_extra <- names(local_renv_extra$data()$Packages)
 pkg_blank <- names(local_renv_blank$data()$Packages)
 
-# je ne trouve pas de moyen de controler que extra est bien dans local_renv_extra
-# et pas dans local_renv_
-
-# print(les_pkg) # devtools::check()pas de extra ici !!!
 test_that("extrapackage is present thank to dev_pkg", {
   expect_true("extrapackage" %in% pkg_extra)
   expect_false("extrapackage" %in% pkg_blank)
   # all blank are in extra
   expect_true(all(pkg_blank %in% pkg_extra))
   # there are extra not in blank
-  expect_equal(setdiff(pkg_extra, pkg_blank), c("Rcpp", "extrapackage"))
+  expect_equal(setdiff(pkg_extra, pkg_blank), c("extrapackage"))
 })
 
 # reference cannot work because it is system and R version dependent
