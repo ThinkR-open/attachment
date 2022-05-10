@@ -10,7 +10,8 @@
 #'
 #'
 #' @param path Path to your current package source folder
-#' @param dev_pkg Package development toolbox you need
+#' @param dev_pkg Package development toolbox you need.
+#' Use `NULL` for no extra packages.
 #' @param folder_to_include Folder to scan to detect development packages
 #' @param output Path and name of the file created, default is `./renv.lock`
 #' @param install_if_missing Logical. Install missing packages. `TRUE` by default
@@ -43,7 +44,7 @@ create_renv_for_dev <- function(path = ".",
                                   "pak",
                                   "dockerfiler"
                                 ),
-                                folder_to_include = c("dev/", "data-raw/"),
+                                folder_to_include = c("dev", "data-raw"),
                                 output = "renv.lock",
                                 install_if_missing = TRUE,
                                 document = TRUE,
@@ -66,14 +67,15 @@ create_renv_for_dev <- function(path = ".",
     )
 
   # Extra folders
+  folder_to_include_relative <- folder_to_include
   folder_to_include <- file.path(path, folder_to_include)
   folder_exists <- dir.exists(folder_to_include)
 
   if (any(!folder_exists)) {
     message(
       "There is no directory named: ",
-      paste(folder_to_include[!folder_exists], collapse = ", "),
-      ". This is removed from the exploration"
+      paste(folder_to_include_relative[!folder_exists], collapse = ", "),
+      ". This is removed from the exploration."
     )
   }
 
@@ -117,10 +119,10 @@ create_renv_for_dev <- function(path = ".",
 
 #' @export
 #' @rdname create_renv_for_dev
-create_renv_for_prod <- function(path = ".", output = "renv.lock.prod", ...) {
+create_renv_for_prod <- function(path = ".", output = "renv.lock.prod", dev_pkg = "remotes", ...) {
   create_renv_for_dev(
     path = path,
-    dev_pkg = "remotes",
+    dev_pkg = dev_pkg,
     folder_to_include = NULL,
     output = output,
     ...

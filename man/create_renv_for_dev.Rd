@@ -9,19 +9,25 @@ create_renv_for_dev(
   path = ".",
   dev_pkg = c("renv", "devtools", "roxygen2", "usethis", "pkgload", "testthat",
     "remotes", "covr", "attachment", "pak", "dockerfiler"),
-  folder_to_include = c("dev/", "data-raw/"),
+  folder_to_include = c("dev", "data-raw"),
   output = "renv.lock",
   install_if_missing = TRUE,
   document = TRUE,
   ...
 )
 
-create_renv_for_prod(path = ".", output = "renv.lock.prod", ...)
+create_renv_for_prod(
+  path = ".",
+  output = "renv.lock.prod",
+  dev_pkg = "remotes",
+  ...
+)
 }
 \arguments{
 \item{path}{Path to your current package source folder}
 
-\item{dev_pkg}{Package development toolbox you need}
+\item{dev_pkg}{Package development toolbox you need.
+Use \code{NULL} for no extra packages.}
 
 \item{folder_to_include}{Folder to scan to detect development packages}
 

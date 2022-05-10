@@ -32,6 +32,7 @@ VignetteBuilder:
 Encoding: UTF-8
 RoxygenNote: 7.1.2
 Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
 Depends: 
     R (>= 3.4)
 Imports: 
@@ -47,7 +48,6 @@ Imports:
     utils
 Suggests: 
     lifecycle,
-    renv,
+    renv (>= 0.8.4),
     rstudioapi,
     testthat (>= 3.0.0)
-Roxygen: list(markdown = TRUE)
