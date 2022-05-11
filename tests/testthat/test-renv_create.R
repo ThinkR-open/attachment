@@ -1,3 +1,7 @@
+if (length(find.package("extrapackage", quiet = TRUE)) != 0) {
+  unlink(find.package("extrapackage", quiet = TRUE), recursive = TRUE)
+}
+
 # test on dummy package
 tmpdir <- tempfile(pattern = "pkg")
 dir.create(tmpdir)
@@ -26,7 +30,9 @@ cat(desc_lines, sep = "\n", file = file.path(extrapackage, "DESCRIPTION"))
 # Remove calls to 'dummypackage' and 'Rcpp'
 unlink(file.path(extrapackage, "tests"), recursive = TRUE)
 # document
-att_amend_desc(extrapackage)
+# inuse <- search()
+att_amend_desc(path = extrapackage)
+unloadNamespace("extrapackage") # for windows mainly
 # Install package to make it available to {renv}
 install.packages(extrapackage, repos = NULL, type = "source")
 

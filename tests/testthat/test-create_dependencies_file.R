@@ -1,5 +1,3 @@
-context("create_dependencies_file.R")
-
 # Copy package in a temporary directory
 tmpdir <- tempdir()
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
