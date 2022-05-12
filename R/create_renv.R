@@ -1,3 +1,11 @@
+extra_dev_pkg <- c(
+  "renv", "fusen", "devtools",
+  "roxygen2", "usethis", "pkgload",
+  "testthat", "remotes", "covr",
+  "attachment", "pak", "dockerfiler",
+  "pkgdown"
+)
+
 #' Create reproducible environments for your R projects with {renv}
 #'
 #' @description
@@ -10,8 +18,10 @@
 #'
 #'
 #' @param path Path to your current package source folder
-#' @param dev_pkg Package development toolbox you need.
-#' Use `NULL` for no extra packages.
+#' @param dev_pkg Package development toolbox you need. Use `_default`
+#' (with underscore before to avoid confusing with a package name), to
+#' use the default list. Use `NULL` for no extra package.
+#' Use `attachment:::extra_dev_pkg` for the list.
 #' @param folder_to_include Folder to scan to detect development packages
 #' @param output Path and name of the file created, default is `./renv.lock`
 #' @param install_if_missing Logical. Install missing packages. `TRUE` by default
@@ -20,6 +30,7 @@
 #' @param ... Other arguments to pass to [renv::snapshot()]
 #'
 #' @return a renv.lock file
+#'
 #'
 #' @importFrom cli cat_bullet
 #' @export
@@ -31,21 +42,7 @@
 #' create_renv_for_prod()
 #' }
 create_renv_for_dev <- function(path = ".",
-                                dev_pkg = c(
-                                  "renv",
-                                  "fusen",
-                                  "devtools",
-                                  "roxygen2",
-                                  "usethis",
-                                  "pkgload",
-                                  "testthat",
-                                  "remotes",
-                                  "covr",
-                                  "attachment",
-                                  "pak",
-                                  "dockerfiler",
-                                  "pkgdown"
-                                ),
+                                dev_pkg = "_default",
                                 folder_to_include = c("dev", "data-raw"),
                                 output = "renv.lock",
                                 install_if_missing = TRUE,
@@ -57,6 +54,13 @@ create_renv_for_dev <- function(path = ".",
   }
 
   path <- normalizePath(path)
+
+  if (!is.null(dev_pkg) && "_default" %in% dev_pkg) {
+    cli::cli_alert_info(
+      paste('`dev_pkg = _default` includes: ',
+            paste(extra_dev_pkg, collapse = ", ")))
+    dev_pkg <- c(extra_dev_pkg, dev_pkg[dev_pkg != "_default"])
+  }
 
   if (isTRUE(document)) {
     att_amend_desc(path)
@@ -74,10 +78,12 @@ create_renv_for_dev <- function(path = ".",
   folder_exists <- dir.exists(folder_to_include)
 
   if (any(!folder_exists)) {
-    message(
-      "There is no directory named: ",
-      paste(folder_to_include_relative[!folder_exists], collapse = ", "),
-      ". This is removed from the exploration."
+    cli::cli_alert_info(
+      paste(
+        "There is no directory named: ",
+        paste(folder_to_include_relative[!folder_exists], collapse = ", "),
+        ". This is removed from the exploration."
+      )
     )
   }
 

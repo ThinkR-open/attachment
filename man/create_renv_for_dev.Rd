@@ -7,8 +7,7 @@
 \usage{
 create_renv_for_dev(
   path = ".",
-  dev_pkg = c("renv", "fusen", "devtools", "roxygen2", "usethis", "pkgload",
-    "testthat", "remotes", "covr", "attachment", "pak", "dockerfiler", "pkgdown"),
+  dev_pkg = "_default",
   folder_to_include = c("dev", "data-raw"),
   output = "renv.lock",
   install_if_missing = TRUE,
@@ -26,8 +25,10 @@ create_renv_for_prod(
 \arguments{
 \item{path}{Path to your current package source folder}
 
-\item{dev_pkg}{Package development toolbox you need.
-Use \code{NULL} for no extra packages.}
+\item{dev_pkg}{Package development toolbox you need. Use \verb{_default}
+(with underscore before to avoid confusing with a package name), to
+use the default list. Use \code{NULL} for no extra package.
+Use \code{attachment:::extra_dev_pkg} for the list.}
 
 \item{folder_to_include}{Folder to scan to detect development packages}
 
@@ -44,7 +45,7 @@ detecting packages in DESCRIPTION.}
 a renv.lock file
 }
 \description{
-\ifelse{html}{\out{<a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a>}}{\strong{Experimental}}
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 
 Tool to create and maintain renv.lock files.
 The idea is to have 2 distinct files, one for development and the other for deployment.

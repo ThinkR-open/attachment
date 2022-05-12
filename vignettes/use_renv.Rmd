@@ -32,28 +32,15 @@ Hence, create and update your "renv.lock" file in the development project with e
 This currently includes: 
 
 ```{r, echo=FALSE}
-c(
-  "renv",
-  "fusen",
-  "devtools",
-  "roxygen2",
-  "usethis",
-  "pkgload",
-  "testthat",
-  "remotes",
-  "covr",
-  "attachment",
-  "pak",
-  "dockerfiler",
-  "pkgdown"
-)
+attachment:::extra_dev_pkg
 ```
 
-And thus, run `create_renv_for_dev()` before sending your commit to your remote git server.
+And thus, run `create_renv_for_dev()` before sending your commit to your remote git server. Use `_default` (with underscore), to use the default list.
 
 ```{r, eval=FALSE}
 create_renv_for_dev() # with all default above
-create_renv_for_dev(dev_pkg = "attachment") # with attachment only
+create_renv_for_dev(dev_pkg = "attachment") # with {attachment} only
+create_renv_for_dev(dev_pkg = c("_default", "DT")) # for all default and {DT}
 ```
 
 Later on, if you want to create a R project that can use your package developed with {renv}, run `create_renv_for_prod()`.  

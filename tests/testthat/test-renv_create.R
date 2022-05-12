@@ -40,14 +40,15 @@ install.packages(extrapackage, repos = NULL, type = "source")
 lock_includes_extra <- file.path(tmpdir, "for_extra.lock")
 lock_without_extra <- file.path(tmpdir, "blank.lock")
 
-if (interactive() | tolower(Sys.info()[["sysname"]]) == "linux") {
+if (interactive()) {
   expect_message({my_renv_extra <-
     create_renv_for_dev(
       path = dummypackage,
       install_if_missing = FALSE,
       dev_pkg = "extrapackage",
-      output = lock_includes_extra)},
-    "There is no directory named: dev, data-raw")
+      output = lock_includes_extra)}
+    # "There is no directory named: dev, data-raw" # cli
+  )
   expect_message({
     # message, but not missing directories as they are skipped
     my_renv_blank <-
@@ -65,9 +66,9 @@ if (interactive() | tolower(Sys.info()[["sysname"]]) == "linux") {
       dev_pkg = "extrapackage",
       output = lock_includes_extra,
       # force generation of a lockfile even when pre-flight validation checks have failed?
-      force = TRUE)},
-    "There is no directory named: dev, data-raw")
-
+      force = TRUE)}#,
+    # "There is no directory named: dev, data-raw" # cli
+  )
   expect_message({
     # message, but not missing directories as they are skipped
     my_renv_blank <- create_renv_for_prod(
@@ -78,6 +79,7 @@ if (interactive() | tolower(Sys.info()[["sysname"]]) == "linux") {
       # force generation of a lockfile even when pre-flight validation checks have failed?
       force = TRUE)})
 }
+
 
 test_that("create_renv_for_dev creates lock files", {
   expect_true(file.exists(lock_includes_extra))
@@ -112,6 +114,34 @@ test_that("extrapackage is present thank to dev_pkg", {
 #   expect_equal_to_reference(names(pkg_extra),"my_renv.test")
 #   expect_equal_to_reference(names(pkg_blank),"my_renv_blank.test")
 # })
+
+# Test for extra and "_default" in interactive
+test_that("_default works", {
+  skip_if_not(interactive())
+
+  lock_includes_extra_default<- file.path(tmpdir, "for_extra_default.lock")
+  expect_message({my_renv_extra_default <-
+    create_renv_for_dev(
+      path = dummypackage,
+      install_if_missing = FALSE,
+      dev_pkg = c("_default", "extrapackage"),
+      output = lock_includes_extra_default)}
+    # "There is no directory named: dev, data-raw" # cli
+  )
+
+  expect_true(file.exists(lock_includes_extra_default))
+  expect_true(file.exists(my_renv_extra_default))
+
+  local_renv_extra_default <- getFromNamespace("lockfile", "renv")(my_renv_extra_default)
+  expect_s3_class(local_renv_extra_default, "renv_lockfile_api")
+
+  pkg_extra_default <- names(local_renv_extra_default$data()$Packages)
+  expect_true("extrapackage" %in% pkg_extra_default)
+  # all extra are in extra_default
+  expect_true(all(pkg_extra %in% pkg_extra_default))
+  # devtools and fusen are in extra_default
+  expect_true(all(c("devtools", "fusen") %in% pkg_extra_default))
+})
 
 remove.packages("extrapackage")
 unlink(tmpdir, recursive = TRUE)
