@@ -38,7 +38,7 @@ att_to_description(
 
 \item{document}{Run function roxygenise of roxygen2 package}
 
-\item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}}
+\item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc:desc_normalize]{desc::desc_normalize()}}}
 
 \item{inside_rmd}{Logical. Whether function is run inside a Rmd,
 in case this must be executed in an external R session}
@@ -49,8 +49,8 @@ Deprecated functions
 \section{Details}{
 
 \tabular{rl}{
-   \code{att_to_description} \tab is now called \code{att_amend_desc}
-   so that it is the first function proposed when using auto-completion\cr
+\code{att_to_description} \tab is now called \code{att_amend_desc}
+so that it is the first function proposed when using auto-completion\cr
 }
 }
 

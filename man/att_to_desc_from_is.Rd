@@ -19,7 +19,7 @@ att_to_desc_from_is(
 
 \item{suggests}{character vector of package names to add in Suggests section}
 
-\item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}}
+\item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc:desc_normalize]{desc::desc_normalize()}}}
 
 \item{must.exist}{Logical. If TRUE then an error is given if packages do not exist
 within installed packages. If NA, a warning.}
@@ -31,11 +31,11 @@ Fill in Description file
 Amend DESCRIPTION with dependencies from imports and suggests package list
 }
 \details{
-`must.exist` is better set to `TRUE` during package development.
+\code{must.exist} is better set to \code{TRUE} during package development.
 This stops the process when a package does not exists on your system.
 This avoids check errors with typos in package names in DESCRIPTION.
 When used in CI to discover dependencies, for a bookdown for instance,
-you may want to set to `FALSE` (no message at all) or `NA` (warning for not installed).
+you may want to set to \code{FALSE} (no message at all) or \code{NA} (warning for not installed).
 }
 \examples{
 tmpdir <- tempdir()

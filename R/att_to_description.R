@@ -3,7 +3,7 @@
 #' Amend package DESCRIPTION file with the list of dependencies extracted from
 #' R, tests, vignettes files.
 #' att_to_desc_from_pkg() is an alias of att_amend_desc(),
-#' for the correspondence with \code{\link{att_to_desc_from_is}}.
+#' for the correspondence with [att_to_desc_from_is()].
 #'
 #' @param path path to the root of the package directory. Default to current directory.
 #' @param path.n path to namespace file.
@@ -62,7 +62,7 @@ att_amend_desc <- function(path = ".",
             "Please fill it. ",
             "\nNext time, you may want to use 'usethis::use_description()'")
   }
-  if (path.d == "DESCRIPTION") {path.d <- file.path(normalizePath("."), path.d)}
+  if (path.d == "DESCRIPTION") {path.d <- file.path(normalizePath(path), path.d)}
 
   # Remove non-existing directories in path.n for Imports
   if (!file.exists(path.n)) {
@@ -171,7 +171,7 @@ att_to_desc_from_pkg <- att_amend_desc
 #' @param path.d path to description file.
 #' @param imports character vector of package names to add in Imports section
 #' @param suggests character vector of package names to add in Suggests section
-#' @param normalize Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc]{desc_normalize}}
+#' @param normalize Logical. Whether to normalize the DESCRIPTION file. See [desc::desc_normalize()]
 #' @param must.exist Logical. If TRUE then an error is given if packages do not exist
 #' within installed packages. If NA, a warning.
 #'

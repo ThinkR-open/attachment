@@ -1,0 +1,52 @@
+---
+title: "Use {renv} with developers tools"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{use_renv}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`r lifecycle::badge("experimental")`
+
+```{r setup}
+library(attachment)
+```
+
+`create_renv_for_dev()` and `create_renv_for_prod()` functions create `renv.lock` files based on development projects.
+
+# Create reproducible environments for your R projects with {renv}
+
+Tool to create and maintain "renv.lock" files.
+The idea is to have 2 distinct files, one for development and the other for deployment.
+Indeed, although package like {attachment}, {fusen} or {pkgload} must be installed to develop, they are not necessary in your project, package or Shiny application.
+
+Hence, create and update your "renv.lock" file in the development project with everything needed to work in the same conditions between collaborators and allow Continuous Integration to work properly.  
+This currently includes: 
+
+```{r, echo=FALSE}
+attachment:::extra_dev_pkg
+```
+
+And thus, run `create_renv_for_dev()` before sending your commit to your remote git server. Use `_default` (with underscore), to use the default list.
+
+```{r, eval=FALSE}
+create_renv_for_dev() # with all default above
+create_renv_for_dev(dev_pkg = "attachment") # with {attachment} only
+create_renv_for_dev(dev_pkg = c("_default", "DT")) # for all default and {DT}
+```
+
+Later on, if you want to create a R project that can use your package developed with {renv}, run `create_renv_for_prod()`.  
+Indeed, your users only need to install packages listed in your "DESCRIPTION" file, with the same packages versions you used during development.
+
+```{r, eval=FALSE}
+create_renv_for_prod(output = "renv.lock.prod")
+```
+

@@ -2,7 +2,7 @@
 % Please edit documentation in R/att_from_rscripts.R
 \name{att_from_rscripts}
 \alias{att_from_rscripts}
-\title{Look for functions called with `::` and library/requires in folder of scripts}
+\title{Look for functions called with \code{::} and library/requires in folder of scripts}
 \usage{
 att_from_rscripts(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE)
 }
@@ -17,7 +17,7 @@ att_from_rscripts(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE)
 vector of character of packages names found in the R script
 }
 \description{
-Look for functions called with `::` and library/requires in folder of scripts
+Look for functions called with \code{::} and library/requires in folder of scripts
 }
 \examples{
 dummypackage <- system.file("dummypackage",package = "attachment")

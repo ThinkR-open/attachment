@@ -1,8 +1,11 @@
-# attachment 0.2.4.9000
+# attachment 0.2.4.900x
+## Major changes
+
+* add `create_renv_for_dev()` and `create_renv_for_prod()` function to create `renv.lock` file based on development project (@VincentGuyader).
 
 ## Minor changes
 
-- `att_amend_desc()` now saves file before processing
+* `att_amend_desc()` now saves file before processing
 
 # attachment 0.2.4
 

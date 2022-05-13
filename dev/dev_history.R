@@ -61,10 +61,11 @@ usethis::use_github_action_check_standard()
 usethis::use_github_action("pkgdown")
 usethis::use_github_action("test-coverage")
 
+usethis::use_vignette("use_renv")
 usethis::use_build_ignore("_pkgdown.yml")
 pkgdown::build_site()
 
-# PR
+# PR ----
 usethis::pr_fetch(28)
 usethis::pr_push()
 
@@ -74,11 +75,14 @@ usethis::pr_push()
 # Document ----
 # Do not parse dir.t because of tests
 attachment::att_from_rscripts("tests")
+usethis::use_roxygen_md()
+roxygen2md::roxygen2md()
 roxygen2::roxygenise()
-attachment::att_amend_desc(pkg_ignore = c("remotes", "i", "usethis", "rstudioapi"), #i
-                           extra.suggests = c("testthat", "rstudioapi"), #"pkgdown", "covr",
-                           dir.t = "",
-                           normalize = FALSE)
+attachment::att_amend_desc(
+  pkg_ignore = c("remotes", "i", "usethis", "rstudioapi", "renv"), #i
+  extra.suggests = c("testthat", "rstudioapi", "renv", "lifecycle"), #"pkgdown", "covr",
+  dir.t = "",
+  normalize = FALSE)
 
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
 
@@ -103,9 +107,7 @@ devtools::test()
 
 # Checks for CRAN release ----
 # Check package as CRAN
-remotes::install_github("r-lib/roxygen2")
 rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
-install.packages("roxygen2")
 
 # Check content
 # remotes::install_github("ThinkR-open/checkhelper")
