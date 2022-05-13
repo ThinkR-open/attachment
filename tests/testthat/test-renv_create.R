@@ -143,5 +143,33 @@ test_that("_default works", {
   expect_true(all(c("devtools", "fusen") %in% pkg_extra_default))
 })
 
+# Test for "folder_to_include" in dummypackage
+dir.create(file.path(dummypackage, "dev"))
+cat("library(glue)", file = file.path(dummypackage, "dev", "my_r.R"))
+cat("```{r}\nlibrary(\"extrapackage\")\n```", file = file.path(dummypackage, "dev", "my_rmd.Rmd"))
+
+test_that("folder_to_include works", {
+
+  lock_includes_devdir <- file.path(tmpdir, "for_devdir.lock")
+  expect_message({my_renv_devdir <-
+    create_renv_for_dev(
+      path = dummypackage,
+      install_if_missing = FALSE,
+      output = lock_includes_devdir,
+      force = TRUE)}
+    # "There is no directory named: dev, data-raw" # cli
+  )
+
+  expect_true(file.exists(lock_includes_devdir))
+  expect_true(file.exists(my_renv_devdir))
+
+  local_renv_devdir <- getFromNamespace("lockfile", "renv")(my_renv_devdir)
+  expect_s3_class(local_renv_devdir, "renv_lockfile_api")
+
+  pkg_devdir <- names(local_renv_devdir$data()$Packages)
+  # glue and extrapackage in dev/ are there
+  expect_true(all(c("glue", "extrapackage") %in% pkg_devdir))
+})
+
 remove.packages("extrapackage")
 unlink(tmpdir, recursive = TRUE)

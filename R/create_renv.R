@@ -137,9 +137,3 @@ create_renv_for_prod <- function(path = ".", output = "renv.lock.prod", dev_pkg 
   )
 }
 
-cat_green_tick <- function(...) {
-  cat_bullet(...,
-             bullet = "tick",
-             bullet_col = "green"
-  )
-}
