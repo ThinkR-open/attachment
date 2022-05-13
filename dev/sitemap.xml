@@ -16,6 +16,9 @@
     <loc>https://thinkr-open.github.io/attachment/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://thinkr-open.github.io/attachment/articles/use_renv.html</loc>
+  </url>
+  <url>
     <loc>https://thinkr-open.github.io/attachment/authors.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>https://thinkr-open.github.io/attachment/reference/create_dependencies_file.html</loc>
+  </url>
+  <url>
+    <loc>https://thinkr-open.github.io/attachment/reference/create_renv_for_dev.html</loc>
   </url>
   <url>
     <loc>https://thinkr-open.github.io/attachment/reference/find_remotes.html</loc>

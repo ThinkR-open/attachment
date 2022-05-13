@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.4.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.4.9001</span>
       </span>
     </div>
 
@@ -51,6 +51,9 @@
     </li>
     <li>
       <a href="../articles/b-bookdown-and-scripts.html">b-bookdown and other scripts dependencies</a>
+    </li>
+    <li>
+      <a href="../articles/use_renv.html">Use {renv} with developers tools</a>
     </li>
   </ul></li>
 <li>
@@ -102,7 +105,7 @@
 <dt>suggests</dt>
 <dd><p>character vector of package names to add in Suggests section</p></dd>
 <dt>normalize</dt>
-<dd><p>Logical. Whether to normalize the DESCRIPTION file. See <code><a href="http://r-lib.github.io/desc/reference/desc_normalize.html" class="external-link">desc_normalize</a></code></p></dd>
+<dd><p>Logical. Whether to normalize the DESCRIPTION file. See <code><a href="http://r-lib.github.io/desc/reference/desc_normalize.html" class="external-link">desc::desc_normalize()</a></code></p></dd>
 <dt>must.exist</dt>
 <dd><p>Logical. If TRUE then an error is given if packages do not exist
 within installed packages. If NA, a warning.</p></dd>
@@ -113,11 +116,11 @@ within installed packages. If NA, a warning.</p></dd>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>`must.exist` is better set to `TRUE` during package development.
+    <p><code>must.exist</code> is better set to <code>TRUE</code> during package development.
 This stops the process when a package does not exists on your system.
 This avoids check errors with typos in package names in DESCRIPTION.
 When used in CI to discover dependencies, for a bookdown for instance,
-you may want to set to `FALSE` (no message at all) or `NA` (warning for not installed).</p>
+you may want to set to <code>FALSE</code> (no message at all) or <code>NA</code> (warning for not installed).</p>
     </div>
 
     <div id="ref-examples">
