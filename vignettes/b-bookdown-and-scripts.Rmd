@@ -1,5 +1,5 @@
 ---
-title: "b-bookdown and other scripts dependencies"
+title: "Bookdown, quarto and other scripts dependencies"
 author: "Sébastien Rochette"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -38,10 +38,20 @@ usethis::use_build_ignore("dev")
 
 You can then call {attachment} in this file to help you build your description file.
 
-## Fill a bookdown DESCRIPTION file
+## Use {attachment} with {bookdown} / {pagedown} / {quarto} dependencies
 
-You can use a similar approach for a {bookdown} description file using `attachment::att_to_desc_from_is()`.
-Indeed, you can use it in your CI to automatically build your HTML pages while parsing dependencies required. Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set `att_to_desc_from_is(must.exist = FALSE)`.
+Dependencies of your Bookdown can be automatically installed if you use a "DESCRIPTION" file.  
+Indeed, you can use this procedure to create the DESCRIPTION file for local installation or for Continuous Integration with GitLab Pages or GitHub Actions.
+See for instance, the GitLab CI workflows in {gitlabr}: https://github.com/statnmap/gitlabr/tree/main/inst/gitlab-ci
+
+1. Create a "DESCRIPTION" file
+```{r, eval=FALSE}
+usethis::use_description()
+```
+
+
+2. Fill the "DESCRIPTION" file using `attachment::att_to_desc_from_is()`.
+_Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set `att_to_desc_from_is(must.exist = FALSE)`._
 
 ```{r, eval=FALSE}
 # bookdown Imports are in Rmds
@@ -54,11 +64,14 @@ attachment::att_to_desc_from_is(
 )
 ```
 
-Then, you can install dependencies from the DESCRIPTION file.
+3. Install dependencies from the DESCRIPTION file
 
 ```{r, eval=FALSE}
-remotes::install_local()
+# install.packages("remotes")
+remotes::install_deps()
 ```
+
+4. Build your {bookdown} / {pagedown} / {quarto}
 
 ### Propose content for "Remotes" field
 

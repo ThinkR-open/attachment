@@ -6,7 +6,7 @@
 \usage{
 att_from_rmds(
   path = "vignettes",
-  pattern = "*.[.](Rmd|rmd)$",
+  pattern = "*.[.](Rmd|rmd|qmd)$",
   recursive = TRUE,
   warn = -1,
   inside_rmd = FALSE,

@@ -111,7 +111,8 @@ rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
 
 # Check content
 # remotes::install_github("ThinkR-open/checkhelper")
-checkhelper::find_missing_tags()
+out <- checkhelper::find_missing_tags()
+View(out)
 
 # Check spelling
 # usethis::use_spell_check()
@@ -137,6 +138,7 @@ aa
 # _win devel
 devtools::check_win_devel()
 devtools::check_win_release()
+devtools::check_mac_release()
 
 # Check reverse dependencies
 # remotes::install_github("r-lib/revdepcheck")
@@ -146,14 +148,17 @@ usethis::use_build_ignore("revdep/")
 devtools::revdep()
 library(revdepcheck)
 # In another session
+revdepcheck::revdep_todo()
+# revdepcheck::revdep_add(packages = "fusen")
 id <- rstudioapi::terminalExecute("Rscript -e 'revdepcheck::revdep_check(num_workers = 4)'")
 rstudioapi::terminalKill(id)
 # See outputs
-revdep_details(revdep = "pkg")
-revdep_summary()                 # table of results by package
+revdep_details(revdep = "fusen")
+revdep_summary()
+# table of results by package
 revdep_report() # in revdep/
 # Clean up when on CRAN
-revdep_reset()
+revdepcheck::revdep_reset()
 
 # Update NEWS
 # Bump version manually and add list of changes

@@ -60,7 +60,13 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
   yaml <- c("\n# yaml to parse \n",
             paste(yaml_pkg, "\n"))
   cat(yaml, file = r_file, append = TRUE)
-  att_from_rscript(r_file)
+  res <- att_from_rscript(r_file)
+
+  # clean tempdir
+  file.remove(runR)
+  file.remove(r_file)
+
+  return(res)
 }
 
 #' Get all packages called in vignettes folder
@@ -81,7 +87,7 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 
 #' @export
 att_from_rmds <- function(path = "vignettes",
-                          pattern = "*.[.](Rmd|rmd)$",
+                          pattern = "*.[.](Rmd|rmd|qmd)$",
                           recursive = TRUE, warn = -1,
                           inside_rmd = FALSE, inline = TRUE) {
 

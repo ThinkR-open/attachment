@@ -19,6 +19,8 @@
 att_from_rscript <- function(path) {
 
   file <- as.character(parse(path))
+  # Replace newlines `\n` by space
+  file <- gsub("\\\\n", " ", file)
 
   pkg_points <- file %>%
     .[grep("^#", ., invert = TRUE)] %>%

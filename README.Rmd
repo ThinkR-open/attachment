@@ -108,20 +108,27 @@ for (i in to_install) {
 }
 ```
 
-### For bookdown
+### For bookdown, pagedown, quarto
 
-If you write a {bookdown} and want to publish it on Github using Travis for instance, you will need a DESCRIPTION file with list of dependencies just like for a package. In this case, you can use the function to description from import/suggest: `att_to_desc_from_is()`.
+If you write a {bookdown} and want to publish it on Github using GitHub Actions or GitLab CI for instance, you will need a DESCRIPTION file with list of dependencies just like for a package. In this case, you can use the function to description from import/suggest: `att_to_desc_from_is()`.
 
 ```{r, eval=FALSE}
+usethis::use_description()
 # bookdown Imports are in Rmds
 imports <- c("bookdown", attachment::att_from_rmds("."))
 attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
                                 imports = imports, suggests = NULL)
 ```
 
+Then, install dependencies with
+```{r, eval=FALSE}
+remotes::install_deps()
+```
+
 
 ### To list information
-Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts()` or Rmd files using `att_from_rmds()`.  
+
+Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts()` or Rmd/qmd files using `att_from_rmds()`.  
 If you are running this inside a Rmd, you may need parameter `inside_rmd = TRUE`.  
 
 ```{r, eval=TRUE}
@@ -131,17 +138,18 @@ att_from_rscripts(path = dummypackage)
 att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 ```
 
-## Vignette
+## Vignettes
 
-Package {attachment} has a vignette to present the different functions available. There is also a recommendation to have a `dev_history.R` in the root directory of your package. (*Have a look at [dev_history.R](https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R) in the present package*)
+Package {attachment} has vignettes to present the different functions available. There is also a recommendation to have a `dev_history.R` in the root directory of your package. (*Have a look at [dev_history.R](https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R) in the present package*)
 
 ```{r, eval=FALSE}
-vignette("fill-pkg-description", package = "attachment")
+vignette("a-fill-pkg-description", package = "attachment")
+vignette("b-bookdown-and-scripts", package = "attachment")
+vignette("use_renv", package = "attachment")
 ```
 
-The vignette is available on the {pkgdown} page: <https://thinkr-open.github.io/attachment/articles/fill-pkg-description.html>
+The vignettes are available on the {pkgdown} page, in the "Articles" menu: <https://thinkr-open.github.io/attachment/>
 
-See full documentation realized using {pkgdown} at <https://thinkr-open.github.io/attachment/>  
   
 ## Code of Conduct
 
