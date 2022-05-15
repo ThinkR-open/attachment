@@ -1,11 +1,12 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   a-fill-pkg-description: a-fill-pkg-description.html
   b-bookdown-and-scripts: b-bookdown-and-scripts.html
-last_built: 2021-11-16T08:03Z
+  use_renv: use_renv.html
+last_built: 2022-05-15T16:19Z
 urls:
-  reference: https://thinkr-open.github.io/attachment//reference
-  article: https://thinkr-open.github.io/attachment//articles
+  reference: https://thinkr-open.github.io/attachment/reference
+  article: https://thinkr-open.github.io/attachment/articles
 
