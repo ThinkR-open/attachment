@@ -2,6 +2,8 @@
 ## Major changes
 
 * add `create_renv_for_dev()` and `create_renv_for_prod()` function to create `renv.lock` file based on development project (@VincentGuyader and @statnmap).
+* Quarto documents can be parsed with `att_from_rmds()`.
+* Documentation for bookdown and quarto dependencies extraction updated
 
 ## Minor changes
 

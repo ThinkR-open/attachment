@@ -18,7 +18,9 @@ all_to_be_found <- c(
   "find.inline",
   "bookdown",
   "rmarkdown",
-  "emo"
+  "emo",
+  "findme.quarto",
+  "utils"
 )
 
 # One Rmd with YAML ---
@@ -29,7 +31,9 @@ test_that("rmd well parsed", {
 
   # One output
   res <- sort(attachment::att_from_rmd(path = "f1.Rmd"))
-  expect_equal(sort(res), sort(sort(setdiff(all_to_be_found, c("emo", "rmarkdown")))))
+  expect_equal(sort(res),
+               sort(sort(setdiff(
+                 all_to_be_found, c("emo", "rmarkdown", "findme.quarto", "utils")))))
 })
 
 # A directory ----
@@ -57,4 +61,11 @@ test_that("test inside rmd works", {
   }
 })
 
-
+# Test quarto and new way of chunk options with knitr>=1.35 ----
+if (utils::packageVersion("knitr") >= "1.35") {
+  test_that("test inside qmd works", {
+    res <- attachment::att_from_rmds(path = ".")
+    expect_true("findme.quarto" %in% res)
+    expect_true(!"dontfindme.quarto" %in% res)
+  })
+}
