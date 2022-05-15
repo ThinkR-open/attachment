@@ -85,13 +85,13 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Updating dummypackage documentation
-#> Updating roxygen version in /tmp/RtmpdAJaCu/dummypackage/DESCRIPTION
+#> Updating roxygen version in /tmp/RtmpK2L9Ud/dummypackage/DESCRIPTION
 #> ℹ Loading dummypackage
 #> Writing NAMESPACE
 #> Writing NAMESPACE
 #> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
 #> [-] 1 package(s) removed: utils.
-#> [+] 2 package(s) added: stats, ggplot2.
+#> [+] 2 package(s) added: stats, glue.
 ```
 
 ### For installation
@@ -130,24 +130,32 @@ for (i in to_install) {
 }
 ```
 
-### For bookdown
+### For bookdown, pagedown, quarto
 
-If you write a {bookdown} and want to publish it on Github using Travis
-for instance, you will need a DESCRIPTION file with list of dependencies
-just like for a package. In this case, you can use the function to
-description from import/suggest: `att_to_desc_from_is()`.
+If you write a {bookdown} and want to publish it on Github using GitHub
+Actions or GitLab CI for instance, you will need a DESCRIPTION file with
+list of dependencies just like for a package. In this case, you can use
+the function to description from import/suggest:
+`att_to_desc_from_is()`.
 
 ``` r
+usethis::use_description()
 # bookdown Imports are in Rmds
 imports <- c("bookdown", attachment::att_from_rmds("."))
 attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
                                 imports = imports, suggests = NULL)
 ```
 
+Then, install dependencies with
+
+``` r
+remotes::install_deps()
+```
+
 ### To list information
 
 Of course, you can also use {attachment} out of a package to list all
-package dependencies of R scripts using `att_from_rscripts()` or Rmd
+package dependencies of R scripts using `att_from_rscripts()` or Rmd/qmd
 files using `att_from_rmds()`.  
 If you are running this inside a Rmd, you may need parameter
 `inside_rmd = TRUE`.
@@ -158,26 +166,25 @@ dummypackage <- system.file("dummypackage", package = "attachment")
 att_from_rscripts(path = dummypackage)
 #> [1] "stats"        "testthat"     "dummypackage"
 att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
-#> [1] "knitr"     "rmarkdown" "ggplot2"
+#> [1] "knitr"     "rmarkdown" "glue"
 ```
 
-## Vignette
+## Vignettes
 
-Package {attachment} has a vignette to present the different functions
+Package {attachment} has vignettes to present the different functions
 available. There is also a recommendation to have a `dev_history.R` in
 the root directory of your package. (*Have a look at
-[dev\_history.R](https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R)
+[dev_history.R](https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R)
 in the present package*)
 
 ``` r
-vignette("fill-pkg-description", package = "attachment")
+vignette("a-fill-pkg-description", package = "attachment")
+vignette("b-bookdown-and-scripts", package = "attachment")
+vignette("use_renv", package = "attachment")
 ```
 
-The vignette is available on the {pkgdown} page:
-<https://thinkr-open.github.io/attachment/articles/fill-pkg-description.html>
-
-See full documentation realized using {pkgdown} at
-<https://thinkr-open.github.io/attachment/>
+The vignettes are available on the {pkgdown} page, in the “Articles”
+menu: <https://thinkr-open.github.io/attachment/>
 
 ## Code of Conduct
 
