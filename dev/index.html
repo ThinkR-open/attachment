@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">attachment</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.4.9001</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.5.9000</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@
       <a href="articles/a-fill-pkg-description.html">a-Help during package development</a>
     </li>
     <li>
-      <a href="articles/b-bookdown-and-scripts.html">b-bookdown and other scripts dependencies</a>
+      <a href="articles/b-bookdown-and-scripts.html">Bookdown, quarto and other scripts dependencies</a>
     </li>
     <li>
       <a href="articles/use_renv.html">Use {renv} with developers tools</a>
@@ -173,13 +173,13 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <span class="co"># browseURL(dummypackage)</span>
 <span class="fu"><a href="reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Updating dummypackage documentation</span>
-<span class="co">#&gt; Updating roxygen version in /tmp/RtmpdAJaCu/dummypackage/DESCRIPTION</span>
+<span class="co">#&gt; Updating roxygen version in /tmp/RtmpK2L9Ud/dummypackage/DESCRIPTION</span>
 <span class="co">#&gt; ℹ Loading dummypackage</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
 <span class="co">#&gt; Writing NAMESPACE</span>
 <span class="co">#&gt; Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
 <span class="co">#&gt; [-] 1 package(s) removed: utils.</span>
-<span class="co">#&gt; [+] 2 package(s) added: stats, ggplot2.</span></code></pre></div>
+<span class="co">#&gt; [+] 2 package(s) added: stats, glue.</span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -209,37 +209,42 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <span class="op">}</span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="for-bookdown">For bookdown<a class="anchor" aria-label="anchor" href="#for-bookdown"></a>
+<h3 id="for-bookdown-pagedown-quarto">For bookdown, pagedown, quarto<a class="anchor" aria-label="anchor" href="#for-bookdown-pagedown-quarto"></a>
 </h3>
-<p>If you write a {bookdown} and want to publish it on Github using Travis for instance, you will need a DESCRIPTION file with list of dependencies just like for a package. In this case, you can use the function to description from import/suggest: <code><a href="reference/att_to_desc_from_is.html">att_to_desc_from_is()</a></code>.</p>
+<p>If you write a {bookdown} and want to publish it on Github using GitHub Actions or GitLab CI for instance, you will need a DESCRIPTION file with list of dependencies just like for a package. In this case, you can use the function to description from import/suggest: <code><a href="reference/att_to_desc_from_is.html">att_to_desc_from_is()</a></code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># bookdown Imports are in Rmds</span>
+<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_description</span><span class="op">(</span><span class="op">)</span>
+<span class="co"># bookdown Imports are in Rmds</span>
 <span class="va">imports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bookdown"</span>, <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span><span class="op">(</span>path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,
                                 imports <span class="op">=</span> <span class="va">imports</span>, suggests <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<p>Then, install dependencies with</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="to-list-information">To list information<a class="anchor" aria-label="anchor" href="#to-list-information"></a>
 </h3>
-<p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code><a href="reference/att_from_rscripts.html">att_from_rscripts()</a></code> or Rmd files using <code><a href="reference/att_from_rmds.html">att_from_rmds()</a></code>.<br>
+<p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code><a href="reference/att_from_rscripts.html">att_from_rscripts()</a></code> or Rmd/qmd files using <code><a href="reference/att_from_rmds.html">att_from_rmds()</a></code>.<br>
 If you are running this inside a Rmd, you may need parameter <code>inside_rmd = TRUE</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>
 
 <span class="fu"><a href="reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span><span class="op">)</span>
 <span class="co">#&gt; [1] "stats"        "testthat"     "dummypackage"</span>
 <span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "knitr"     "rmarkdown" "ggplot2"</span></code></pre></div>
+<span class="co">#&gt; [1] "knitr"     "rmarkdown" "glue"</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
-<h2 id="vignette">Vignette<a class="anchor" aria-label="anchor" href="#vignette"></a>
+<h2 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
 </h2>
-<p>Package {attachment} has a vignette to present the different functions available. There is also a recommendation to have a <code>dev_history.R</code> in the root directory of your package. (<em>Have a look at <a href="https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R" class="external-link">dev_history.R</a> in the present package</em>)</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"fill-pkg-description"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></code></pre></div>
-<p>The vignette is available on the {pkgdown} page: <a href="https://thinkr-open.github.io/attachment/articles/fill-pkg-description.html" class="uri">https://thinkr-open.github.io/attachment/articles/fill-pkg-description.html</a></p>
-<p>See full documentation realized using {pkgdown} at <a href="https://thinkr-open.github.io/attachment/" class="uri">https://thinkr-open.github.io/attachment/</a></p>
+<p>Package {attachment} has vignettes to present the different functions available. There is also a recommendation to have a <code>dev_history.R</code> in the root directory of your package. (<em>Have a look at <a href="https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R" class="external-link">dev_history.R</a> in the present package</em>)</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"a-fill-pkg-description"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"b-bookdown-and-scripts"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"use_renv"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></code></pre></div>
+<p>The vignettes are available on the {pkgdown} page, in the “Articles” menu: <a href="https://thinkr-open.github.io/attachment/" class="uri">https://thinkr-open.github.io/attachment/</a></p>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>

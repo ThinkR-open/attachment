@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>b-bookdown and other scripts dependencies • attachment</title>
+<title>Bookdown, quarto and other scripts dependencies • attachment</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
@@ -18,7 +18,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="b-bookdown and other scripts dependencies">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Bookdown, quarto and other scripts dependencies">
 <meta property="og:description" content="attachment">
 <meta property="og:image" content="https://thinkr-open.github.io/attachment/logo.png">
 <meta name="twitter:card" content="summary">
@@ -59,7 +59,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.4.9001</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.5.9000</span>
       </span>
     </div>
 
@@ -79,7 +79,7 @@
       <a href="../articles/a-fill-pkg-description.html">a-Help during package development</a>
     </li>
     <li>
-      <a href="../articles/b-bookdown-and-scripts.html">b-bookdown and other scripts dependencies</a>
+      <a href="../articles/b-bookdown-and-scripts.html">Bookdown, quarto and other scripts dependencies</a>
     </li>
     <li>
       <a href="../articles/use_renv.html">Use {renv} with developers tools</a>
@@ -118,7 +118,7 @@
       </header><script src="b-bookdown-and-scripts_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>b-bookdown and other scripts dependencies</h1>
+      <h1 data-toc-skip>Bookdown, quarto and other scripts dependencies</h1>
                         <h4 data-toc-skip class="author">Sébastien Rochette</h4>
             
             <h4 data-toc-skip class="date">2022-05-15</h4>
@@ -150,10 +150,20 @@ Its first line should be :</p>
 <p>You can then call {attachment} in this file to help you build your description file.</p>
 </div>
 <div class="section level2">
-<h2 id="fill-a-bookdown-description-file">Fill a bookdown DESCRIPTION file<a class="anchor" aria-label="anchor" href="#fill-a-bookdown-description-file"></a>
+<h2 id="use-attachment-with-bookdown-pagedown-quarto-dependencies">Use {attachment} with {bookdown} / {pagedown} / {quarto} dependencies<a class="anchor" aria-label="anchor" href="#use-attachment-with-bookdown-pagedown-quarto-dependencies"></a>
 </h2>
-<p>You can use a similar approach for a {bookdown} description file using <code><a href="../reference/att_to_desc_from_is.html">attachment::att_to_desc_from_is()</a></code>. Indeed, you can use it in your CI to automatically build your HTML pages while parsing dependencies required. Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set <code>att_to_desc_from_is(must.exist = FALSE)</code>.</p>
+<p>Dependencies of your Bookdown can be automatically installed if you use a “DESCRIPTION” file.<br>
+Indeed, you can use this procedure to create the DESCRIPTION file for local installation or for Continuous Integration with GitLab Pages or GitHub Actions. See for instance, the GitLab CI workflows in {gitlabr}: <a href="https://github.com/statnmap/gitlabr/tree/main/inst/gitlab-ci" class="external-link uri">https://github.com/statnmap/gitlabr/tree/main/inst/gitlab-ci</a></p>
+<ol style="list-style-type: decimal">
+<li>Create a “DESCRIPTION” file</li>
+</ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_description</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Fill the “DESCRIPTION” file using <code><a href="../reference/att_to_desc_from_is.html">attachment::att_to_desc_from_is()</a></code>. <em>Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set <code>att_to_desc_from_is(must.exist = FALSE)</code>.</em>
+</li>
+</ol>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># bookdown Imports are in Rmds</span>
 <span class="va">imports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bookdown"</span>, <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span><span class="op">)</span>
 
@@ -162,16 +172,22 @@ Its first line should be :</p>
   imports <span class="op">=</span> <span class="va">imports</span>, suggests <span class="op">=</span> <span class="cn">NULL</span>, 
   must.exist <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span></code></pre></div>
-<p>Then, you can install dependencies from the DESCRIPTION file.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_local.html" class="external-link">install_local</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Install dependencies from the DESCRIPTION file</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Build your {bookdown} / {pagedown} / {quarto}</li>
+</ol>
 <div class="section level3">
 <h3 id="propose-content-for-remotes-field">Propose content for “Remotes” field<a class="anchor" aria-label="anchor" href="#propose-content-for-remotes-field"></a>
 </h3>
 <p>An interest of using DESCRIPTION to list your bookdown dependencies is to use packages from other sources than CRAN and list them in the ‘Remotes’ field.<br>
 Here comes <code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc()</a></code>, which adds packages that were installed from other source than CRAN to <code>Remotes:</code> field in DESCRIPTION.</p>
 <p>You can run it after <code><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span><span class="op">(</span>
   path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,
   imports <span class="op">=</span> <span class="va">imports</span>, suggests <span class="op">=</span> <span class="cn">NULL</span>, 
@@ -184,21 +200,21 @@ Here comes <code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_
 <h2 id="get-all-packages-listed-in-namespace">Get all packages listed in “namespace”<a class="anchor" aria-label="anchor" href="#get-all-packages-listed-in-namespace"></a>
 </h2>
 <p>You can get the list of packages in your package with <code><a href="../reference/att_from_namespace.html">att_from_namespace()</a></code></p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/att_from_namespace.html">att_from_namespace</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get-all-packages-added-using-pkgfunction-or-libraryrequire">Get all packages added using <code>pkg::function</code> or library/require<a class="anchor" aria-label="anchor" href="#get-all-packages-added-using-pkgfunction-or-libraryrequire"></a>
 </h2>
 <p>This reads all files in directories of R scripts (default to <code>R</code> directory of a package)</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get-all-packages-called-in-your-rmd">Get all packages called in your Rmd<a class="anchor" aria-label="anchor" href="#get-all-packages-called-in-your-rmd"></a>
 </h2>
 <p>If you have vignette, you may want to list extra libraries, not listed in your “Depends” list. This function applies to any Rmd file, of course.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 </div>
 <div class="section level2">
@@ -206,7 +222,7 @@ Here comes <code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_
 </h2>
 <p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code> or Rmd files using <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code>.<br>
 If you want to run <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> inside a Rmd as for this vignette, you will need to set <code>att_from_rmds(inside_rmd = TRUE)</code></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>

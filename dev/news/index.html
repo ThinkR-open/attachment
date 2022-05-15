@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.4.9001</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.5.9000</span>
       </span>
     </div>
 
@@ -50,7 +50,7 @@
       <a href="../articles/a-fill-pkg-description.html">a-Help during package development</a>
     </li>
     <li>
-      <a href="../articles/b-bookdown-and-scripts.html">b-bookdown and other scripts dependencies</a>
+      <a href="../articles/b-bookdown-and-scripts.html">Bookdown, quarto and other scripts dependencies</a>
     </li>
     <li>
       <a href="../articles/use_renv.html">Use {renv} with developers tools</a>
@@ -81,15 +81,21 @@
       <small>Source: <a href="https://github.com/Thinkr-open/attachment/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2"><h2 class="page-header" data-toc-text="development version" id="attachment-development-version">attachment (development version)<a class="anchor" aria-label="anchor" href="#attachment-development-version"></a></h2></div>
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.2.4.900" id="attachment-024900x">attachment 0.2.4.900x<a class="anchor" aria-label="anchor" href="#attachment-024900x"></a></h2>
+<h2 class="page-header" data-toc-text="0.2.5" id="attachment-025">attachment 0.2.5<small>2022-05-15</small><a class="anchor" aria-label="anchor" href="#attachment-025"></a></h2>
 <div class="section level3">
-<h3 id="major-changes-0-2-4-900">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-0-2-4-900"></a></h3>
-<ul><li>add <code><a href="../reference/create_renv_for_dev.html">create_renv_for_dev()</a></code> and <code><a href="../reference/create_renv_for_dev.html">create_renv_for_prod()</a></code> function to create <code>renv.lock</code> file based on development project (<a href="https://github.com/VincentGuyader" class="external-link">@VincentGuyader</a> and <a href="https://github.com/statnmap" class="external-link">@statnmap</a>).</li></ul></div>
+<h3 id="major-changes-0-2-5">Major changes<a class="anchor" aria-label="anchor" href="#major-changes-0-2-5"></a></h3>
+<ul><li>add <code><a href="../reference/create_renv_for_dev.html">create_renv_for_dev()</a></code> and <code><a href="../reference/create_renv_for_dev.html">create_renv_for_prod()</a></code> function to create <code>renv.lock</code> file based on development project (<a href="https://github.com/VincentGuyader" class="external-link">@VincentGuyader</a> and <a href="https://github.com/statnmap" class="external-link">@statnmap</a>).</li>
+<li>Quarto documents can be parsed with <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code>.</li>
+<li>Documentation for bookdown and quarto dependencies extraction updated</li>
+</ul></div>
 <div class="section level3">
-<h3 id="minor-changes-0-2-4-900">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-2-4-900"></a></h3>
+<h3 id="minor-changes-0-2-5">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-2-5"></a></h3>
 <ul><li>
-<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> now saves file before processing</li></ul></div>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> now saves file before processing</li>
+<li>Newline escape code <code>\n</code> will not interfere with package discovery</li>
+</ul></div>
 </div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.2.4" id="attachment-024">attachment 0.2.4<small>2021-11-16</small><a class="anchor" aria-label="anchor" href="#attachment-024"></a></h2>
