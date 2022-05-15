@@ -100,7 +100,7 @@ test_that("lockfile are renv files", {
 pkg_extra <- names(local_renv_extra$data()$Packages)
 pkg_blank <- names(local_renv_blank$data()$Packages)
 
-test_that("extrapackage is present thank to dev_pkg", {
+test_that("extrapackage is present thanks to dev_pkg", {
   expect_true("extrapackage" %in% pkg_extra)
   expect_false("extrapackage" %in% pkg_blank)
   # all blank are in extra
@@ -115,7 +115,7 @@ test_that("extrapackage is present thank to dev_pkg", {
 #   expect_equal_to_reference(names(pkg_blank),"my_renv_blank.test")
 # })
 
-# Test for extra and "_default" in interactive
+# Test for extra and "_default" in interactive ----
 test_that("_default works", {
   skip_if_not(interactive())
 
@@ -143,7 +143,7 @@ test_that("_default works", {
   expect_true(all(c("devtools", "fusen") %in% pkg_extra_default))
 })
 
-# Test for "folder_to_include" in dummypackage
+# Test for "folder_to_include" in dummypackage ----
 dir.create(file.path(dummypackage, "dev"))
 cat("library(glue)", file = file.path(dummypackage, "dev", "my_r.R"))
 cat("```{r}\nlibrary(\"extrapackage\")\n```", file = file.path(dummypackage, "dev", "my_rmd.Rmd"))
@@ -157,7 +157,7 @@ test_that("folder_to_include works", {
       install_if_missing = FALSE,
       output = lock_includes_devdir,
       force = TRUE)}
-    # "There is no directory named: dev, data-raw" # cli
+    # "There is no directory named: data-raw" # cli
   )
 
   expect_true(file.exists(lock_includes_devdir))
@@ -169,6 +169,33 @@ test_that("folder_to_include works", {
   pkg_devdir <- names(local_renv_devdir$data()$Packages)
   # glue and extrapackage in dev/ are there
   expect_true(all(c("glue", "extrapackage") %in% pkg_devdir))
+})
+
+# Test pkg_ignore works ----
+# extrapackage is in "dev/" but I want it to be ignored
+test_that("create_renv_(pkg_ignore) works", {
+
+  lock_includes_ignore <- file.path(tmpdir, "for_ignore.lock")
+  expect_message({my_renv_ignore <-
+    create_renv_for_dev(
+      path = dummypackage,
+      install_if_missing = FALSE,
+      output = lock_includes_ignore,
+      pkg_ignore = "extrapackage",
+      force = TRUE)}
+  )
+
+  expect_true(file.exists(lock_includes_ignore))
+  expect_true(file.exists(my_renv_ignore))
+
+  local_renv_ignore <- getFromNamespace("lockfile", "renv")(my_renv_ignore)
+  expect_s3_class(local_renv_ignore, "renv_lockfile_api")
+
+  pkg_ignore <- names(local_renv_ignore$data()$Packages)
+  # glue and  in dev/ are there
+  expect_true(all(c("glue") %in% pkg_ignore))
+  # extrapackage is ignored in dev/
+  expect_false(all(c("extrapackage") %in% pkg_ignore))
 })
 
 remove.packages("extrapackage")

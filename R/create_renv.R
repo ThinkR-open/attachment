@@ -18,7 +18,7 @@ extra_dev_pkg <- c(
 #'
 #'
 #' @param path Path to your current package source folder
-#' @param dev_pkg Package development toolbox you need. Use `_default`
+#' @param dev_pkg Vector of packages you need for development. Use `_default`
 #' (with underscore before to avoid confusing with a package name), to
 #' use the default list. Use `NULL` for no extra package.
 #' Use `attachment:::extra_dev_pkg` for the list.
@@ -27,6 +27,8 @@ extra_dev_pkg <- c(
 #' @param install_if_missing Logical. Install missing packages. `TRUE` by default
 #' @param document Logical. Whether to run [att_amend_desc()] before
 #' detecting packages in DESCRIPTION.
+#' @param pkg_ignore Vector of packages to ignore from being discovered in your files.
+#' This does not prevent them to be in "renv.lock" if they are recursive dependencies.
 #' @param ... Other arguments to pass to [renv::snapshot()]
 #'
 #' @return a renv.lock file
@@ -47,6 +49,7 @@ create_renv_for_dev <- function(path = ".",
                                 output = "renv.lock",
                                 install_if_missing = TRUE,
                                 document = TRUE,
+                                pkg_ignore = NULL,
                                 ...) {
 
   if (!requireNamespace("renv")) {
@@ -66,11 +69,12 @@ create_renv_for_dev <- function(path = ".",
     att_amend_desc(path)
   }
 
-  pkg_list <-
+  pkg_list <- unique(
     c(
       att_from_description(path = file.path(path, "DESCRIPTION")),
       dev_pkg
     )
+  )
 
   # Extra folders
   folder_to_include_relative <- folder_to_include
@@ -96,6 +100,11 @@ create_renv_for_dev <- function(path = ".",
     from_rmd <- att_from_rmds(folder_to_include)
 
     pkg_list <- unique(c(pkg_list, from_r_script, from_rmd))
+  }
+
+  # Ignore
+  if (!is.null(pkg_ignore)) {
+    pkg_list <- pkg_list[!pkg_list %in% pkg_ignore]
   }
 
   # Install
