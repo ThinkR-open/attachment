@@ -19,3 +19,4 @@ img
 ^CRAN-RELEASE$
 ^dev$
 ^revdep$
+^CRAN-SUBMISSION$
