@@ -53,3 +53,13 @@ test_that("att_from_rscripts well parsed", {
   expect_false("base" %in% res_files)
 
 })
+
+# Test escape code not used ----
+newline_script <- att_from_rscript(path = "escape_newline.R")
+
+test_that("newline correctly escaped", {
+  expect_equal(sort(c("rmarkdown", "glue", "knitr")),
+               sort(newline_script))
+  expect_true(!"nknitr" %in% newline_script)
+
+})

@@ -6,6 +6,7 @@
 ## Minor changes
 
 * `att_amend_desc()` now saves file before processing
+* Newline escape code `\n` will not interfere with package discovery 
 
 # attachment 0.2.4
 
