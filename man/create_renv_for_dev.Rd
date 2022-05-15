@@ -12,6 +12,7 @@ create_renv_for_dev(
   output = "renv.lock",
   install_if_missing = TRUE,
   document = TRUE,
+  pkg_ignore = NULL,
   ...
 )
 
@@ -25,7 +26,7 @@ create_renv_for_prod(
 \arguments{
 \item{path}{Path to your current package source folder}
 
-\item{dev_pkg}{Package development toolbox you need. Use \verb{_default}
+\item{dev_pkg}{Vector of packages you need for development. Use \verb{_default}
 (with underscore before to avoid confusing with a package name), to
 use the default list. Use \code{NULL} for no extra package.
 Use \code{attachment:::extra_dev_pkg} for the list.}
@@ -38,6 +39,9 @@ Use \code{attachment:::extra_dev_pkg} for the list.}
 
 \item{document}{Logical. Whether to run \code{\link[=att_amend_desc]{att_amend_desc()}} before
 detecting packages in DESCRIPTION.}
+
+\item{pkg_ignore}{Vector of packages to ignore from being discovered in your files.
+This does not prevent them to be in "renv.lock" if they are recursive dependencies.}
 
 \item{...}{Other arguments to pass to \code{\link[renv:snapshot]{renv::snapshot()}}}
 }
