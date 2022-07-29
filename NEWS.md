@@ -1,4 +1,9 @@
 # attachment (development version)
+## Minor changes
+
+## Bug fixes 
+
+* Allow to use dependencies after `att_amend_desc()` #52
 
 # attachment 0.2.5
 ## Major changes
