@@ -104,6 +104,9 @@ install.packages("glue")
 rstudioapi::restartSession()
 devtools::test()
 
+# Test specific interactive ----
+devtools::load_all()
+testthat::test_file(here::here("tests/testthat/test-amend-description.R"))
 
 # Checks for CRAN release ----
 # Check package as CRAN

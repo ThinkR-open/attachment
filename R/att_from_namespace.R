@@ -35,6 +35,7 @@ att_from_namespace <- function(path = "NAMESPACE", document = TRUE, clean = TRUE
     }
     withr::with_dir(dirname(path), {
       roxygenise(dirname(path), roclets = NULL)
+      roxygen2::load_pkgload(path = path)
     })
   }
   base <- try(readLines(path), silent = TRUE)
