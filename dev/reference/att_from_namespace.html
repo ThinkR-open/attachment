@@ -87,42 +87,50 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">att_from_namespace</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"NAMESPACE"</span>, document <span class="op">=</span> <span class="cn">TRUE</span>, clean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">att_from_namespace</span><span class="op">(</span>path <span class="op">=</span> <span class="st">"NAMESPACE"</span>, document <span class="op">=</span> <span class="cn">TRUE</span>, clean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>path</dt>
 <dd><p>path to NAMESPACE file</p></dd>
+
+
 <dt>document</dt>
 <dd><p>Run function roxygenise of roxygen2 package</p></dd>
+
+
 <dt>clean</dt>
 <dd><p>Logical. Whether to remove the original NAMESPACE before updating</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a vector</p>
+    
+
+<p>a vector</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span>
-<span class="r-in"> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span></span>
+<span class="r-in"><span> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># browseURL(dummypackage)</span></span>
-<span class="r-in"><span class="fu">att_from_namespace</span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"NAMESPACE"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># browseURL(dummypackage)</span></span></span>
+<span class="r-in"><span><span class="fu">att_from_namespace</span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"NAMESPACE"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Updating dummypackage documentation</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Changes in roxygen2 7.0.0:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> * `%` is now escaped automatically in Markdown mode.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Please carefully check .Rd files for changes</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting `RoxygenNote` to "7.2.0"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting `RoxygenNote` to "7.2.1"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "magrittr"</span>
 </code></pre></div>
     </div>
@@ -134,7 +142,7 @@
 
 
       <footer><div class="thinkr">
-  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
 <div class="author">

@@ -121,7 +121,7 @@
       <h1 data-toc-skip>Bookdown, quarto and other scripts dependencies</h1>
                         <h4 data-toc-skip class="author">Sébastien Rochette</h4>
             
-            <h4 data-toc-skip class="date">2022-05-15</h4>
+            <h4 data-toc-skip class="date">2022-07-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/HEAD/vignettes/b-bookdown-and-scripts.Rmd" class="external-link"><code>vignettes/b-bookdown-and-scripts.Rmd</code></a></small>
       <div class="hidden name"><code>b-bookdown-and-scripts.Rmd</code></div>
@@ -138,7 +138,7 @@ $(document).ready(function () {
 <h2 id="load-package-attachment">Load package {attachment}<a class="anchor" aria-label="anchor" href="#load-package-attachment"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://thinkr-open.github.io/attachment/">attachment</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://thinkr-open.github.io/attachment/">attachment</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="use-devdev_history-r">Use “dev/dev_history.R”<a class="anchor" aria-label="anchor" href="#use-devdev_history-r"></a>
@@ -146,7 +146,7 @@ $(document).ready(function () {
 <p>When building your package, create a file called “dev_history.R” in a “dev/” directory. You will store all “manual” calls to <code>devtools::xxx</code> and <code>usethis::xxx</code> in this script.<br>
 Its first line should be :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_build_ignore</span><span class="op">(</span><span class="st">"dev"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_build_ignore</span><span class="op">(</span><span class="st">"dev"</span><span class="op">)</span></span></code></pre></div>
 <p>You can then call {attachment} in this file to help you build your description file.</p>
 </div>
 <div class="section level2">
@@ -158,26 +158,26 @@ Indeed, you can use this procedure to create the DESCRIPTION file for local inst
 <li>Create a “DESCRIPTION” file</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_description</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_description</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Fill the “DESCRIPTION” file using <code><a href="../reference/att_to_desc_from_is.html">attachment::att_to_desc_from_is()</a></code>. <em>Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set <code>att_to_desc_from_is(must.exist = FALSE)</code>.</em>
 </li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># bookdown Imports are in Rmds</span>
-<span class="va">imports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bookdown"</span>, <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span><span class="op">(</span>
-  path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,
-  imports <span class="op">=</span> <span class="va">imports</span>, suggests <span class="op">=</span> <span class="cn">NULL</span>, 
-  must.exist <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># bookdown Imports are in Rmds</span></span>
+<span><span class="va">imports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bookdown"</span>, <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span><span class="op">(</span></span>
+<span>  path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,</span>
+<span>  imports <span class="op">=</span> <span class="va">imports</span>, suggests <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>  must.exist <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>Install dependencies from the DESCRIPTION file</li>
 </ol>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Build your {bookdown} / {pagedown} / {quarto}</li>
 </ol>
@@ -188,12 +188,12 @@ Indeed, you can use this procedure to create the DESCRIPTION file for local inst
 Here comes <code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc()</a></code>, which adds packages that were installed from other source than CRAN to <code>Remotes:</code> field in DESCRIPTION.</p>
 <p>You can run it after <code><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is()</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span><span class="op">(</span>
-  path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,
-  imports <span class="op">=</span> <span class="va">imports</span>, suggests <span class="op">=</span> <span class="cn">NULL</span>, 
-  must.exist <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span><span class="op">(</span></span>
+<span>  path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,</span>
+<span>  imports <span class="op">=</span> <span class="va">imports</span>, suggests <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span>  must.exist <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -201,21 +201,21 @@ Here comes <code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_
 </h2>
 <p>You can get the list of packages in your package with <code><a href="../reference/att_from_namespace.html">att_from_namespace()</a></code></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/att_from_namespace.html">att_from_namespace</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/att_from_namespace.html">att_from_namespace</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get-all-packages-added-using-pkgfunction-or-libraryrequire">Get all packages added using <code>pkg::function</code> or library/require<a class="anchor" aria-label="anchor" href="#get-all-packages-added-using-pkgfunction-or-libraryrequire"></a>
 </h2>
 <p>This reads all files in directories of R scripts (default to <code>R</code> directory of a package)</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get-all-packages-called-in-your-rmd">Get all packages called in your Rmd<a class="anchor" aria-label="anchor" href="#get-all-packages-called-in-your-rmd"></a>
 </h2>
 <p>If you have vignette, you may want to list extra libraries, not listed in your “Depends” list. This function applies to any Rmd file, of course.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get-all-packages-called-in-your-rmd-and-show-them-in-this-same-rmd">Get all packages called in your Rmd and show them in this same Rmd<a class="anchor" aria-label="anchor" href="#get-all-packages-called-in-your-rmd-and-show-them-in-this-same-rmd"></a>
@@ -223,10 +223,10 @@ Here comes <code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_
 <p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code> or Rmd files using <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code>.<br>
 If you want to run <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> inside a Rmd as for this vignette, you will need to set <code>att_from_rmds(inside_rmd = TRUE)</code></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>
-
-<span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "knitr"     "rmarkdown" "glue"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "knitr"     "rmarkdown" "glue"</span></span></code></pre></div>
 </div>
   </div>
 
@@ -242,7 +242,7 @@ If you want to run <code><a href="../reference/att_from_rmds.html">att_from_rmds
 
       <footer><div class="thinkr">
   <p></p>
-<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
 <div class="author">

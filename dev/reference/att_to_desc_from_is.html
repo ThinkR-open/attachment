@@ -87,32 +87,43 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">att_to_desc_from_is</span><span class="op">(</span>
-  path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,
-  imports <span class="op">=</span> <span class="cn">NULL</span>,
-  suggests <span class="op">=</span> <span class="cn">NULL</span>,
-  normalize <span class="op">=</span> <span class="cn">TRUE</span>,
-  must.exist <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">att_to_desc_from_is</span><span class="op">(</span></span>
+<span>  path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,</span>
+<span>  imports <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  suggests <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  normalize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  must.exist <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>path.d</dt>
 <dd><p>path to description file.</p></dd>
+
+
 <dt>imports</dt>
 <dd><p>character vector of package names to add in Imports section</p></dd>
+
+
 <dt>suggests</dt>
 <dd><p>character vector of package names to add in Suggests section</p></dd>
+
+
 <dt>normalize</dt>
 <dd><p>Logical. Whether to normalize the DESCRIPTION file. See <code><a href="http://r-lib.github.io/desc/reference/desc_normalize.html" class="external-link">desc::desc_normalize()</a></code></p></dd>
+
+
 <dt>must.exist</dt>
 <dd><p>Logical. If TRUE then an error is given if packages do not exist
 within installed packages. If NA, a warning.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Fill in Description file</p>
+    
+
+<p>Fill in Description file</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -125,21 +136,21 @@ you may want to set to <code>FALSE</code> (no message at all) or <code>NA</code>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span>
-<span class="r-in"> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span></span>
+<span class="r-in"><span> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># browseURL(dummypackage)</span></span>
-<span class="r-in"><span class="fu">att_to_desc_from_is</span><span class="op">(</span>path.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"DESCRIPTION"</span><span class="op">)</span>,</span>
-<span class="r-in">imports <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"magrittr"</span>, <span class="st">"attachment"</span><span class="op">)</span>, suggests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"knitr"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># browseURL(dummypackage)</span></span></span>
+<span class="r-in"><span><span class="fu">att_to_desc_from_is</span><span class="op">(</span>path.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"DESCRIPTION"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>imports <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"magrittr"</span>, <span class="st">"attachment"</span><span class="op">)</span>, suggests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"knitr"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> [-] 3 package(s) removed: utils, rmarkdown, testthat.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> [+] 1 package(s) added: attachment.</span>
-<span class="r-in"><span class="co"># In combination with other functions</span></span>
-<span class="r-in"><span class="fu">att_to_desc_from_is</span><span class="op">(</span>path.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"DESCRIPTION"</span><span class="op">)</span>,</span>
-<span class="r-in">imports <span class="op">=</span> <span class="fu"><a href="att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"R"</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">suggests <span class="op">=</span> <span class="fu"><a href="att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># In combination with other functions</span></span></span>
+<span class="r-in"><span><span class="fu">att_to_desc_from_is</span><span class="op">(</span>path.d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"DESCRIPTION"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>imports <span class="op">=</span> <span class="fu"><a href="att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"R"</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>suggests <span class="op">=</span> <span class="fu"><a href="att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> [-] 2 package(s) removed: attachment, magrittr.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> [+] 3 package(s) added: stats, glue, rmarkdown.</span>
@@ -153,7 +164,7 @@ you may want to set to <code>FALSE</code> (no message at all) or <code>NA</code>
 
 
       <footer><div class="thinkr">
-  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
 <div class="author">

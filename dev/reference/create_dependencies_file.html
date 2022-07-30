@@ -87,46 +87,57 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_dependencies_file</span><span class="op">(</span>
-  path <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,
-  field <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span><span class="op">)</span>,
-  to <span class="op">=</span> <span class="st">"inst/dependencies.R"</span>,
-  open_file <span class="op">=</span> <span class="cn">TRUE</span>,
-  ignore_base <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_dependencies_file</span><span class="op">(</span></span>
+<span>  path <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,</span>
+<span>  field <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span><span class="op">)</span>,</span>
+<span>  to <span class="op">=</span> <span class="st">"inst/dependencies.R"</span>,</span>
+<span>  open_file <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ignore_base <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>path</dt>
 <dd><p>path to the DESCRIPTION file</p></dd>
+
+
 <dt>field</dt>
 <dd><p>DESCRIPTION field to parse, "Import" and "Depends" by default. Can add "Suggests"</p></dd>
+
+
 <dt>to</dt>
 <dd><p>path to dependencies.R. "inst/dependencies.R" by default</p></dd>
+
+
 <dt>open_file</dt>
 <dd><p>Logical. Open the file created in an editor</p></dd>
+
+
 <dt>ignore_base</dt>
 <dd><p>Logical. Whether to ignore package coming with base, as they cannot be installed</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Used for side effect. Shows a message with installation instructions and
+    
+
+<p>Used for side effect. Shows a message with installation instructions and
 creates a R file containing these instructions.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span>
-<span class="r-in"> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span></span>
+<span class="r-in"><span> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># browseURL(dummypackage)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">create_dependencies_file</span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>,<span class="st">"DESCRIPTION"</span><span class="op">)</span>,</span>
-<span class="r-in">to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"inst/dependencies.R"</span><span class="op">)</span>,</span>
-<span class="r-in">open_file <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># browseURL(dummypackage)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">create_dependencies_file</span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>,<span class="st">"DESCRIPTION"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"inst/dependencies.R"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>open_file <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -137,7 +148,7 @@ creates a R file containing these instructions.</p>
 
 
       <footer><div class="thinkr">
-  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
 <div class="author">
