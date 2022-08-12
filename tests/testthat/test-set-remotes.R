@@ -36,8 +36,21 @@ test_that("extract_pkg_info extracts code", {
   ) %>% setNames("fakepkg")
   expect_equal(extract_pkg_info(fake_desc_gitlab)[["fakepkg"]], "gitlab::statnmap/fakepkg")
 
-  # Other installations
+  # local package path
   fake_desc_local <- list(
+    list(
+      RemoteType = "local",
+      RemoteUrl = "/path/fakelocal",
+      RemoteHost = NULL,
+      RemoteRepo = NULL,
+      RemoteUsername = NULL
+    )
+  ) %>% setNames("fakelocal")
+
+  expect_equal(extract_pkg_info(fake_desc_local)[["fakelocal"]], "local::/path/fakelocal")
+
+  # Other installations
+  fake_desc_other <- list(
     list(
       RemoteType = NULL,
       RemoteHost = NULL,
@@ -46,8 +59,8 @@ test_that("extract_pkg_info extracts code", {
     )
   ) %>% setNames("fakenull")
 
-  expect_true(is.na(extract_pkg_info(fake_desc_local)[["fakenull"]]))
-  expect_equal(names(extract_pkg_info(fake_desc_local)[["fakenull"]]), "local maybe ?")
+  expect_true(is.na(extract_pkg_info(fake_desc_other)[["fakenull"]]))
+  expect_equal(names(extract_pkg_info(fake_desc_other)[["fakenull"]]), "local maybe ?")
 
   # Test internal_remotes_to_desc ----
   tmpdir <- tempdir()
@@ -61,7 +74,8 @@ test_that("extract_pkg_info extracts code", {
   remotes <- c(
     extract_pkg_info(fake_desc_github),
     extract_pkg_info(fake_desc_gitlab),
-    extract_pkg_info(fake_desc_local)
+    extract_pkg_info(fake_desc_local),
+    extract_pkg_info(fake_desc_other)
   )
 
   expect_error(
@@ -75,7 +89,7 @@ test_that("extract_pkg_info extracts code", {
                                stop.local = FALSE, clean = FALSE),
       "installed from source locally"
     ),
-    "Remotes for 'attachment', 'fusen' & 'fakepkg' were added to DESCRIPTION."
+    "Remotes for 'attachment', 'fusen', 'fakepkg' & 'fakelocal' were added to DESCRIPTION."
   )
 
   new_desc <- readLines(path.d)
@@ -84,7 +98,8 @@ test_that("extract_pkg_info extracts code", {
   expect_length(w.remotes, 1)
   expect_equal(new_desc[w.remotes + 1], "    thinkr-open/attachment,")
   expect_equal(new_desc[w.remotes + 2], "    thinkr-open/fusen,")
-  expect_equal(new_desc[w.remotes + 3], "    gitlab::statnmap/fakepkg")
+  expect_equal(new_desc[w.remotes + 3], "    gitlab::statnmap/fakepkg,")
+  expect_equal(new_desc[w.remotes + 4], "    local::/path/fakelocal")
 
   # Test clean before
   expect_message(
@@ -161,5 +176,16 @@ test_that("set_remotes_to_desc return nothing if local installs", {
     set_remotes_to_desc(desc_file),
     "Package 'attachment' was probably installed from source locally"
   )
+
+  # Add pkglocal in DESCRIPTION as should be local installed from a path
+  desc_lines <- readLines(desc_file)
+  desc_lines <- c(desc_lines,"Remotes: \n    local::/path/pkglocal")
+  writeLines(desc_lines, con = desc_file)
+
+  expect_message(
+    set_remotes_to_desc(desc_file),
+    "Package 'attachment' was probably installed from source locally"
+  )
+
 })
 unlink(dummypackage, recursive = TRUE)

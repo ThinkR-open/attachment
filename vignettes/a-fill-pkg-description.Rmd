@@ -68,6 +68,7 @@ For instance:
 
 - For GitHub : `Remotes: thinkr-open/attachment`
 - For GitLab : `Remotes: gitlab::jimhester/covr`
+- For local package: `Remotes: local::c:\mylocalpackage`
 
 You may want to run it after `att_amend_desc()`.
 
