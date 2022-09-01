@@ -36,6 +36,16 @@ test_that("extract_pkg_info extracts code", {
   ) %>% setNames("fakepkg")
   expect_equal(extract_pkg_info(fake_desc_gitlab)[["fakepkg"]], "gitlab::statnmap/fakepkg")
 
+  # Git
+  fake_desc_git <- list(
+    list(
+      RemoteType = "xgit",
+      RemoteUrl = "https://github.com/fakepkggit.git"
+    )
+  ) %>% setNames("fakepkggit")
+  expect_equal(extract_pkg_info(fake_desc_git)[["fakepkggit"]], "git::https://github.com/fakepkggit.git")
+
+
   # Other installations
   fake_desc_local <- list(
     list(
@@ -61,6 +71,7 @@ test_that("extract_pkg_info extracts code", {
   remotes <- c(
     extract_pkg_info(fake_desc_github),
     extract_pkg_info(fake_desc_gitlab),
+    extract_pkg_info(fake_desc_git),
     extract_pkg_info(fake_desc_local)
   )
 
@@ -75,7 +86,7 @@ test_that("extract_pkg_info extracts code", {
                                stop.local = FALSE, clean = FALSE),
       "installed from source locally"
     ),
-    "Remotes for 'attachment', 'fusen' & 'fakepkg' were added to DESCRIPTION."
+    "Remotes for 'attachment', 'fusen', 'fakepkg' & 'fakepkggit' were added to DESCRIPTION."
   )
 
   new_desc <- readLines(path.d)
@@ -84,7 +95,8 @@ test_that("extract_pkg_info extracts code", {
   expect_length(w.remotes, 1)
   expect_equal(new_desc[w.remotes + 1], "    thinkr-open/attachment,")
   expect_equal(new_desc[w.remotes + 2], "    thinkr-open/fusen,")
-  expect_equal(new_desc[w.remotes + 3], "    gitlab::statnmap/fakepkg")
+  expect_equal(new_desc[w.remotes + 3], "    gitlab::statnmap/fakepkg,")
+  expect_equal(new_desc[w.remotes + 4], "    git::https://github.com/fakepkggit.git")
 
   # Test clean before
   expect_message(
@@ -98,6 +110,7 @@ test_that("extract_pkg_info extracts code", {
   expect_equal(new_desc[w.remotes + 1], "    thinkr-open/fusen")
   expect_false(any(grepl("attachment", new_desc)))
   expect_false(any(grepl("fakepkg", new_desc)))
+  expect_false(any(grepl("fakepkggit", new_desc)))
 
   # Test what happens if null and clean FALSE
   expect_message(
@@ -163,3 +176,4 @@ test_that("set_remotes_to_desc return nothing if local installs", {
   )
 })
 unlink(dummypackage, recursive = TRUE)
+
