@@ -45,6 +45,16 @@ test_that("extract_pkg_info extracts code", {
   ) %>% setNames("fakepkggit")
   expect_equal(extract_pkg_info(fake_desc_git)[["fakepkggit"]], "git::https://github.com/fakepkggit.git")
 
+  # Bioconductor
+  fake_desc_bioc <- list(
+    list(
+      URL = "https://bioconductor.org/packages/fakepkgbioc",
+      git_branch = "RELEASE_3_3",
+      Package = "fakepkgbioc"
+    )
+  ) %>% setNames("fakepkgbioc")
+  expect_equal(extract_pkg_info(fake_desc_bioc)[["fakepkgbioc"]], "bioc::3.3/fakepkgbioc")
+
   # Other installations
   # local package path
   fake_desc_local <- list(
@@ -86,6 +96,7 @@ test_that("extract_pkg_info extracts code", {
     extract_pkg_info(fake_desc_gitlab),
     extract_pkg_info(fake_desc_other),
     extract_pkg_info(fake_desc_git),
+    extract_pkg_info(fake_desc_bioc),
     extract_pkg_info(fake_desc_local)
   )
 
@@ -100,7 +111,7 @@ test_that("extract_pkg_info extracts code", {
                                stop.local = FALSE, clean = FALSE),
       "installed from source locally"
     ),
-    "Remotes for 'attachment', 'fusen', 'fakepkg', 'fakepkggit' & 'fakelocal' were added to DESCRIPTION."
+    "Remotes for 'attachment', 'fusen', 'fakepkg', 'fakepkggit', 'fakepkgbioc' & 'fakelocal' were added to DESCRIPTION."
   )
 
   new_desc <- readLines(path.d)
@@ -111,7 +122,8 @@ test_that("extract_pkg_info extracts code", {
   expect_equal(new_desc[w.remotes + 2], "    thinkr-open/fusen,")
   expect_equal(new_desc[w.remotes + 3], "    gitlab::statnmap/fakepkg,")
   expect_equal(new_desc[w.remotes + 4], "    git::https://github.com/fakepkggit.git,")
-  expect_equal(new_desc[w.remotes + 5], "    local::/path/fakelocal")
+  expect_equal(new_desc[w.remotes + 5], "    bioc::3.3/fakepkgbioc,")
+  expect_equal(new_desc[w.remotes + 6], "    local::/path/fakelocal")
 
 
   # Test clean before
@@ -128,6 +140,7 @@ test_that("extract_pkg_info extracts code", {
   expect_false(any(grepl("fakepkg", new_desc)))
   expect_false(any(grepl("fakepkggit", new_desc)))
   expect_false(any(grepl("fakelocal", new_desc)))
+  expect_false(any(grepl("fakepkgbioc", new_desc)))
 
   # Test what happens if null and clean FALSE
   expect_message(
