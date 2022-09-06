@@ -152,6 +152,8 @@ extract_pkg_info <- function(pkgdesc) {
                        paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")))
       } else if (desc$RemoteType == "local" && !is.null(desc$RemoteUrl)  && is.null(desc$RemoteHost)) {
         tolower(paste0(desc$RemoteType, "::", desc$RemoteUrl))
+      } else if (!is.null(desc$RemoteType) && !(desc$RemoteType %in% c("github","gitlab","bitbucket","local")) &&  grepl(".git",x = desc$RemoteUrl) ){
+        tolower(paste0("git::",desc$RemoteUrl))
       } else if (!is.null(desc$RemoteType) && is.null(desc$RemoteHost)) {
         c("Maybe ?" = tolower(paste0(desc$RemoteType, "::", desc$RemoteHost, ":",
                                      paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))))
