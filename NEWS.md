@@ -1,9 +1,18 @@
 # attachment (development version)
+
+## New features
+
+- `set_remotes_to_desc()` now detects github, gitlab, git, local installations (@MurielleDelmotte)
+
 ## Minor changes
+
+- Quarto documents can be parsed with `att_from_rmds()`.
+- Documentation for bookdown and quarto dependencies extraction updated
 
 ## Bug fixes 
 
 * Allow to use dependencies after `att_amend_desc()` #52
+* Fix HTML5 issues with update to {roxygen2}
 
 # attachment 0.2.5
 ## Major changes
