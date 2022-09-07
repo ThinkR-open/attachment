@@ -23,9 +23,6 @@ test_that("extract_pkg_info extracts code", {
   expect_equal(extract_pkg_info(fake_desc_github)[["fusen"]], "thinkr-open/fusen")
 
   # GitLab
-  # Sys.setenv(GITLAB_PAT = "xxxxxxxxxxxxxxxx")
-  # remotes::gitlab_pat(FALSE)
-  # remotes::install_gitlab("statnmap/fakepkg")
   fake_desc_gitlab <- list(
     list(
       RemoteType = "gitlab",
