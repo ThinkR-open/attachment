@@ -60,6 +60,7 @@ usethis::use_appveyor()
 usethis::use_github_action_check_standard()
 usethis::use_github_action("pkgdown")
 usethis::use_github_action("test-coverage")
+usethis::use_github_action(url = "https://github.com/DavisVaughan/extrachecks-html5/blob/main/R-CMD-check-HTML5.yaml")
 
 usethis::use_vignette("use_renv")
 usethis::use_build_ignore("_pkgdown.yml")

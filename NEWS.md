@@ -1,4 +1,4 @@
-# attachment (development version)
+# attachment 0.3.0
 
 ## New features
 
