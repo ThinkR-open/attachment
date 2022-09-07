@@ -154,6 +154,11 @@ extract_pkg_info <- function(pkgdesc) {
         tolower(paste0(desc$RemoteType, "::", desc$RemoteUrl))
       } else if (!is.null(desc$RemoteType) && !(desc$RemoteType %in% c("github","gitlab","bitbucket","local")) &&  grepl(".git",x = desc$RemoteUrl) ){
         tolower(paste0("git::",desc$RemoteUrl))
+      } else if (is.null(desc$RemoteType) && isTRUE(grepl("bioconductor",x = desc$URL))) {
+        biocversion <-  desc$git_branch %>%
+          gsub(pattern = "RELEASE_", replacement = "") %>%
+          gsub(pattern = "_", replacement = ".")
+        tolower(paste0("bioc::",biocversion,"/",desc$Package))
       } else if (!is.null(desc$RemoteType) && is.null(desc$RemoteHost)) {
         c("Maybe ?" = tolower(paste0(desc$RemoteType, "::", desc$RemoteHost, ":",
                                      paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))))
