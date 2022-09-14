@@ -25,8 +25,8 @@ Description: Tools to help manage dependencies during package
     be used independently of a package development.
 License: GPL-3
 URL: https://thinkr-open.github.io/attachment/,
-    https://github.com/Thinkr-open/attachment
-BugReports: https://github.com/Thinkr-open/attachment/issues
+    https://github.com/ThinkR-open/attachment
+BugReports: https://github.com/ThinkR-open/attachment/issues
 VignetteBuilder:
     knitr
 Encoding: UTF-8

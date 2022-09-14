@@ -14,8 +14,8 @@ Tools to help manage dependencies during package development. This can retrieve 
 Useful links:
 \itemize{
   \item \url{https://thinkr-open.github.io/attachment/}
-  \item \url{https://github.com/Thinkr-open/attachment}
-  \item Report bugs at \url{https://github.com/Thinkr-open/attachment/issues}
+  \item \url{https://github.com/ThinkR-open/attachment}
+  \item Report bugs at \url{https://github.com/ThinkR-open/attachment/issues}
 }
 
 }
