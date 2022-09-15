@@ -5,6 +5,7 @@
 #' @return
 #' List of all non-CRAN packages and code to add in Remotes field in DESCRIPTION.
 #' NULL otherwise.
+#' @importFrom utils packageDescription
 #' @export
 #'
 #' @examples
@@ -33,6 +34,19 @@ find_remotes <- function(pkg) {
     packageDescription(x)
   }) %>%
     setNames(pkg)
+
+  # Keep only thos that are packages
+  w.notpkg <- which(unlist(lapply(pkgdesc, function(x) all(is.na(x)))))
+  if (length(w.notpkg) != 0) {
+      message(glue::glue_collapse(names(pkgdesc)[w.notpkg], sep = ", ", last = " & "),
+              ifelse(length(w.notpkg) == 1,
+                     " does not seem to be a package. It is removed from exploration.",
+                     " do not seem to be packages. They are removed from exploration."
+              )
+      )
+    pkgdesc <- pkgdesc[-w.notpkg]
+    if (length(pkgdesc) == 0) {return(NULL)}
+  }
 
   extract_pkg_info(pkgdesc)
 }

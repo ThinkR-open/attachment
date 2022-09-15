@@ -9,6 +9,39 @@ test_that("find_remotes works with no error", {
   expect_true(length(find_remotes("stats")) == 0)
 })
 
+# find_remotes does not fail with packages installation errors ----
+
+test_that("find_remotes does not fail with packages installation errors", {
+  tmplibpath <- tempfile("tmplibpath")
+  dir.create(tmplibpath)
+  dir.create(file.path(tmplibpath, "emptydir"))
+
+  withr::with_libpaths(tmplibpath, {
+    expect_warning(packageDescription("zazazaz"), "no package 'zazazaz' was found")
+
+    expect_message(
+      suppressWarnings(
+        find_remotes(
+          c(
+            list.dirs(tmplibpath, full.names = FALSE, recursive = FALSE),
+            "dontexistspkg"
+          )
+        )),
+      regexp = "emptydir.*dontexistspkg.*They are removed from exploration."
+    )
+  })
+
+  unlink(tmplibpath, recursive = TRUE)
+
+  expect_warning(
+  expect_message(
+    res <- find_remotes("dontexistspkg"),
+    regexp = "dontexistspkg does not seem to be a package. It is removed from exploration."
+  )
+  )
+  expect_null(res)
+})
+
 # Test core of find_remotes ----
 test_that("extract_pkg_info extracts code", {
   # Github
