@@ -25,7 +25,7 @@
 #' find_remotes("attachment")
 #'
 #' # Find remotes from all installed packages
-#' find_remotes(list.files(.libPaths()))
+#' find_remotes(list.dirs(.libPaths(), full.names = FALSE, recursive = FALSE))
 #' }
 find_remotes <- function(pkg) {
 
