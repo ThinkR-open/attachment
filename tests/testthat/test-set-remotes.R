@@ -76,6 +76,18 @@ test_that("extract_pkg_info extracts code", {
 
   expect_equal(extract_pkg_info(fake_desc_local)[["fakelocal"]], "local::/path/fakelocal")
 
+  # Other specific unknown remotetype
+  fake_desc_unknown <- list(
+    list(
+      RemoteType = "svn",
+      RemoteHost = "host",
+      RemoteRepo = "repo",
+      RemoteUsername = "username"
+    )
+  ) %>% setNames("fakeunknown")
+
+  expect_equal(extract_pkg_info(fake_desc_unknown)[["fakeunknown"]], c("Maybe ?" = "svn::host:username/repo"))
+
   # Other installations
   fake_desc_other <- list(
     list(

@@ -142,8 +142,8 @@ rhub::platforms()
 rhub::check(platform = "windows-x86_64-devel", show_status = FALSE)
 rhub::check(platform = "windows-x86_64-oldrel", show_status = FALSE)
 rhub::check_on_solaris(show_status = FALSE)
-aa <- rhub::check_for_cran(show_status = FALSE)
-aa
+rhub::check_for_cran(show_status = FALSE)
+
 
 # _win devel
 devtools::check_win_devel()

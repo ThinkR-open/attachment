@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Manage dependencies during package development. This can retrieve all dependencies that are used in ".R" files in the "R/" directory, in ".Rmd" files in "vignettes/" directory and in 'roxygen2' documentation of functions. There is a function to update the DESCRIPTION file of your package with CRAN packages or any other remote package. All functions to retrieve dependencies of ".R" scripts and ".Rmd" or ".qmd" files can be used independently of a package development.
+Manage dependencies during package development. This can retrieve all dependencies that are used in ".R" files in the "R/" directory, in ".Rmd" files in "vignettes/" directory and in 'roxygen2' documentation of functions. There is a function to update the "DESCRIPTION" file of your package with 'CRAN' packages or any other remote package. All functions to retrieve dependencies of ".R" scripts and ".Rmd" or ".qmd" files can be used independently of a package development.
 }
 \seealso{
 Useful links:

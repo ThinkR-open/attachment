@@ -167,7 +167,7 @@ extract_pkg_info <- function(pkgdesc) {
           gsub(pattern = "RELEASE_", replacement = "") %>%
           gsub(pattern = "_", replacement = ".")
         paste0("bioc::",biocversion,"/",desc$Package)
-      } else if (!is.null(desc$RemoteType) && is.null(desc$RemoteHost)) {
+      } else if (!is.null(desc$RemoteType) && !is.null(desc$RemoteHost)) {
         c("Maybe ?" = paste0(desc$RemoteType, "::", desc$RemoteHost, ":",
                                      paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")))
       } else {
