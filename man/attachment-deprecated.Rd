@@ -43,8 +43,12 @@ att_to_description(
 \item{inside_rmd}{Logical. Whether function is run inside a Rmd,
 in case this must be executed in an external R session}
 }
+\value{
+List of functions used for deprecation side effects.
+Output depends on the deprecated function.
+}
 \description{
-Deprecated functions
+List of functions deprecated. They will be removed in a future release.
 }
 \section{Details}{
 
@@ -54,3 +58,4 @@ so that it is the first function proposed when using auto-completion\cr
 }
 }
 
+\keyword{internal}
