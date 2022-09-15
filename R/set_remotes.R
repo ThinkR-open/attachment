@@ -19,7 +19,9 @@
 #' \dontrun{
 #' # For the current package directory
 #' att_from_description() %>% find_remotes()
+#' }
 #'
+#' \donttest{
 #' # For a specific package name
 #' find_remotes("attachment")
 #'
