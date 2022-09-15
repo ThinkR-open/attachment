@@ -117,6 +117,7 @@ internal_remotes_to_desc <- function(remotes, path.d = "DESCRIPTION",
 
   w.unique <- !duplicated(names(new_remotes))
   new_remotes <- unlist(new_remotes)[w.unique]
+  new_remotes <- new_remotes[sort(names(new_remotes))]
 
   if (length(new_remotes) != 0) {
     desc$set_remotes(new_remotes)
@@ -151,22 +152,24 @@ extract_pkg_info <- function(pkgdesc) {
     guess_repo <- lapply(pkg_not_cran, function(x) {
       desc <- pkgdesc[[x]]
       if (!is.null(desc$RemoteType) && desc$RemoteType == "github") {
-        tolower(paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))
+        paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")
       } else if (!is.null(desc$RemoteType) && desc$RemoteType %in% c("gitlab", "bitbucket")) {
-        tolower(paste0(desc$RemoteType, "::",
-                       paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")))
+        paste0(desc$RemoteType, "::",
+                       paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))
       } else if (desc$RemoteType == "local" && !is.null(desc$RemoteUrl)  && is.null(desc$RemoteHost)) {
-        tolower(paste0(desc$RemoteType, "::", desc$RemoteUrl))
-      } else if (!is.null(desc$RemoteType) && !(desc$RemoteType %in% c("github","gitlab","bitbucket","local")) &&  grepl(".git",x = desc$RemoteUrl) ){
-        tolower(paste0("git::",desc$RemoteUrl))
+        paste0(desc$RemoteType, "::", desc$RemoteUrl)
+      } else if (!is.null(desc$RemoteType) &&
+                 !(desc$RemoteType %in% c("github","gitlab","bitbucket","local")) &&
+                 grepl("git",x = desc$RemoteType) ){
+        paste0("git::",desc$RemoteUrl)
       } else if (is.null(desc$RemoteType) && isTRUE(grepl("bioconductor",x = desc$URL))) {
         biocversion <-  desc$git_branch %>%
           gsub(pattern = "RELEASE_", replacement = "") %>%
           gsub(pattern = "_", replacement = ".")
-        tolower(paste0("bioc::",biocversion,"/",desc$Package))
+        paste0("bioc::",biocversion,"/",desc$Package)
       } else if (!is.null(desc$RemoteType) && is.null(desc$RemoteHost)) {
-        c("Maybe ?" = tolower(paste0(desc$RemoteType, "::", desc$RemoteHost, ":",
-                                     paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))))
+        c("Maybe ?" = paste0(desc$RemoteType, "::", desc$RemoteHost, ":",
+                                     paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")))
       } else {
         c("local maybe ?" = NA)
       }

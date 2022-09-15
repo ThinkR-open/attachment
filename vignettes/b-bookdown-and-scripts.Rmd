@@ -51,7 +51,9 @@ usethis::use_description()
 
 
 2. Fill the "DESCRIPTION" file using `attachment::att_to_desc_from_is()`.
-_Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set `att_to_desc_from_is(must.exist = FALSE)`._
+_Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set `att_to_desc_from_is(must.exist = FALSE)`._   
+_Note that `att_from_rmds()` also works for ".qmd" documents. You can use `att_from_qmds()` if you want, although for now there is no difference and it will also parse ".Rmd" documents._
+
 
 ```{r, eval=FALSE}
 # bookdown Imports are in Rmds

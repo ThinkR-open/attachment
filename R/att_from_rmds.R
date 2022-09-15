@@ -114,3 +114,12 @@ att_from_rmds <- function(path = "vignettes",
     res
   }
 }
+
+#' @rdname att_from_rmds
+#' @export
+att_from_qmds <- att_from_rmds
+
+#' @rdname att_from_rmd
+#' @export
+att_from_qmd <- att_from_rmd
+

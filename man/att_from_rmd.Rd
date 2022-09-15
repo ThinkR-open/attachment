@@ -2,9 +2,19 @@
 % Please edit documentation in R/att_from_rmds.R
 \name{att_from_rmd}
 \alias{att_from_rmd}
+\alias{att_from_qmd}
 \title{Get all dependencies from a Rmd file}
 \usage{
 att_from_rmd(
+  path,
+  temp_dir = tempdir(),
+  warn = -1,
+  encoding = getOption("encoding"),
+  inside_rmd = FALSE,
+  inline = TRUE
+)
+
+att_from_qmd(
   path,
   temp_dir = tempdir(),
   warn = -1,
