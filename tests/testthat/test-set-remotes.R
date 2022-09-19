@@ -9,6 +9,39 @@ test_that("find_remotes works with no error", {
   expect_true(length(find_remotes("stats")) == 0)
 })
 
+# find_remotes does not fail with packages installation errors ----
+
+test_that("find_remotes does not fail with packages installation errors", {
+  tmplibpath <- tempfile("tmplibpath")
+  dir.create(tmplibpath)
+  dir.create(file.path(tmplibpath, "emptydir"))
+
+  withr::with_libpaths(tmplibpath, {
+    expect_warning(packageDescription("zazazaz"), "no package 'zazazaz' was found")
+
+    expect_message(
+      suppressWarnings(
+        find_remotes(
+          c(
+            list.dirs(tmplibpath, full.names = FALSE, recursive = FALSE),
+            "dontexistspkg"
+          )
+        )),
+      regexp = "emptydir.*dontexistspkg.*They are removed from exploration."
+    )
+  })
+
+  unlink(tmplibpath, recursive = TRUE)
+
+  expect_warning(
+  expect_message(
+    res <- find_remotes("dontexistspkg"),
+    regexp = "dontexistspkg does not seem to be a package. It is removed from exploration."
+  )
+  )
+  expect_null(res)
+})
+
 # Test core of find_remotes ----
 test_that("extract_pkg_info extracts code", {
   # Github
@@ -20,12 +53,9 @@ test_that("extract_pkg_info extracts code", {
       RemoteUsername = "ThinkR-open"
     )
   ) %>% setNames("fusen")
-  expect_equal(extract_pkg_info(fake_desc_github)[["fusen"]], "thinkr-open/fusen")
+  expect_equal(extract_pkg_info(fake_desc_github)[["fusen"]], "ThinkR-open/fusen")
 
   # GitLab
-  # Sys.setenv(GITLAB_PAT = "xxxxxxxxxxxxxxxx")
-  # remotes::gitlab_pat(FALSE)
-  # remotes::install_gitlab("statnmap/fakepkg")
   fake_desc_gitlab <- list(
     list(
       RemoteType = "gitlab",
@@ -44,6 +74,16 @@ test_that("extract_pkg_info extracts code", {
     )
   ) %>% setNames("fakepkggit")
   expect_equal(extract_pkg_info(fake_desc_git)[["fakepkggit"]], "git::https://github.com/fakepkggit.git")
+
+  fake_desc_git2r <- list(
+    list(
+      RemoteType = "git2r",
+      RemoteUrl = "https://MyForge.com/fakepkggit2r",
+      RemoteRepo = NULL,
+      RemoteUsername = NULL
+    )
+  ) %>% setNames("fakepkggit2r")
+  expect_equal(extract_pkg_info(fake_desc_git2r)[["fakepkggit2r"]], "git::https://MyForge.com/fakepkggit2r")
 
   # Bioconductor
   fake_desc_bioc <- list(
@@ -69,6 +109,18 @@ test_that("extract_pkg_info extracts code", {
 
   expect_equal(extract_pkg_info(fake_desc_local)[["fakelocal"]], "local::/path/fakelocal")
 
+  # Other specific unknown remotetype
+  fake_desc_unknown <- list(
+    list(
+      RemoteType = "svn",
+      RemoteHost = "host",
+      RemoteRepo = "repo",
+      RemoteUsername = "username"
+    )
+  ) %>% setNames("fakeunknown")
+
+  expect_equal(extract_pkg_info(fake_desc_unknown)[["fakeunknown"]], c("Maybe ?" = "svn::host:username/repo"))
+
   # Other installations
   fake_desc_other <- list(
     list(
@@ -88,7 +140,7 @@ test_that("extract_pkg_info extracts code", {
   dummypackage <- file.path(tmpdir, "dummypackage")
 
   path.d <- file.path(dummypackage, "DESCRIPTION")
-  cat("Remotes:\n    thinkr-open/attachment\n", append = TRUE,
+  cat("Remotes:\n    ThinkR-open/attachment\n", append = TRUE,
       file = path.d)
 
   remotes <- c(
@@ -96,34 +148,68 @@ test_that("extract_pkg_info extracts code", {
     extract_pkg_info(fake_desc_gitlab),
     extract_pkg_info(fake_desc_other),
     extract_pkg_info(fake_desc_git),
+    extract_pkg_info(fake_desc_git2r),
     extract_pkg_info(fake_desc_bioc),
     extract_pkg_info(fake_desc_local)
   )
 
   expect_error(
     internal_remotes_to_desc(remotes, path.d = path.d, stop.local = TRUE),
-    "installed from source locally"
+    "'fakenull' was probably installed from source locally"
   )
 
+  packages_names_sort <- sort(c('attachment', 'fusen', 'fakepkg', 'fakepkggit',
+                                'fakepkggit2r', 'fakepkgbioc', 'fakelocal'))
   expect_message(
     expect_message(
       internal_remotes_to_desc(remotes, path.d = path.d,
                                stop.local = FALSE, clean = FALSE),
       "installed from source locally"
     ),
-    "Remotes for 'attachment', 'fusen', 'fakepkg', 'fakepkggit', 'fakepkgbioc' & 'fakelocal' were added to DESCRIPTION."
+    paste("Remotes for",
+          glue::glue_collapse(glue("'{packages_names_sort}'"), sep = ", ", last = " & "),
+          "were added to DESCRIPTION.")
   )
 
   new_desc <- readLines(path.d)
 
   w.remotes <- grep('Remotes:', new_desc)
   expect_length(w.remotes, 1)
-  expect_equal(new_desc[w.remotes + 1], "    thinkr-open/attachment,")
-  expect_equal(new_desc[w.remotes + 2], "    thinkr-open/fusen,")
-  expect_equal(new_desc[w.remotes + 3], "    gitlab::statnmap/fakepkg,")
-  expect_equal(new_desc[w.remotes + 4], "    git::https://github.com/fakepkggit.git,")
-  expect_equal(new_desc[w.remotes + 5], "    bioc::3.3/fakepkgbioc,")
-  expect_equal(new_desc[w.remotes + 6], "    local::/path/fakelocal")
+  expect_equal(
+    gsub(",", "",
+         new_desc[w.remotes + which(packages_names_sort == "attachment")]
+    ),
+    "    ThinkR-open/attachment")
+  expect_equal(
+    gsub(",", "",
+         new_desc[w.remotes + which(packages_names_sort == "fusen")]
+    ),
+    "    ThinkR-open/fusen")
+  expect_equal(
+    gsub(",", "",
+         new_desc[w.remotes + which(packages_names_sort == "fakepkg")]
+    ),
+    "    gitlab::statnmap/fakepkg")
+  expect_equal(
+    gsub(",", "",
+         new_desc[w.remotes + which(packages_names_sort == "fakepkggit")]
+    ),
+    "    git::https://github.com/fakepkggit.git")
+  expect_equal(
+    gsub(",", "",
+         new_desc[w.remotes + which(packages_names_sort == "fakepkgbioc")]
+    ),
+    "    bioc::3.3/fakepkgbioc")
+  expect_equal(
+    gsub(",", "",
+         new_desc[w.remotes + which(packages_names_sort == "fakelocal")]
+    ),
+    "    local::/path/fakelocal")
+  expect_equal(
+    gsub(",", "",
+         new_desc[w.remotes + which(packages_names_sort == "fakepkggit2r")]
+    ),
+    "    git::https://MyForge.com/fakepkggit2r")
 
 
   # Test clean before
@@ -135,18 +221,19 @@ test_that("extract_pkg_info extracts code", {
   new_desc <- readLines(path.d)
   w.remotes <- grep('Remotes:', new_desc)
   expect_length(w.remotes, 1)
-  expect_equal(new_desc[w.remotes + 1], "    thinkr-open/fusen")
+  expect_equal(new_desc[w.remotes + 1], "    ThinkR-open/fusen")
   expect_false(any(grepl("attachment", new_desc)))
   expect_false(any(grepl("fakepkg", new_desc)))
   expect_false(any(grepl("fakepkggit", new_desc)))
+  expect_false(any(grepl("fakepkggit2r", new_desc)))
   expect_false(any(grepl("fakelocal", new_desc)))
   expect_false(any(grepl("fakepkgbioc", new_desc)))
 
   # Test what happens if null and clean FALSE
   expect_message(
-  internal_remotes_to_desc(NULL, path.d = path.d,
-                           stop.local = FALSE, clean = FALSE),
-  regexp = "'fusen' was added to DESCRIPTION")
+    internal_remotes_to_desc(NULL, path.d = path.d,
+                             stop.local = FALSE, clean = FALSE),
+    regexp = "'fusen' was added to DESCRIPTION")
 
   new_desc_null <- readLines(path.d)
   expect_equal(new_desc_null, new_desc)

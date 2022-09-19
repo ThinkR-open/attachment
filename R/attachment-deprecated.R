@@ -1,7 +1,13 @@
 #' Deprecated functions
 #'
-#' @name attachment-deprecated
+#' @description
+#' List of functions deprecated. They will be removed in a future release.
 #'
+#'
+#' @name attachment-deprecated
+#' @keywords internal
+#' @return List of functions used for deprecation side effects.
+#' Output depends on the deprecated function.
 #' @section Details:
 #' \tabular{rl}{
 #'    `att_to_description` \tab is now called `att_amend_desc`

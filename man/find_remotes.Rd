@@ -10,7 +10,8 @@ find_remotes(pkg)
 \item{pkg}{Character. Packages to test for potential non-CRAN installation}
 }
 \value{
-List of non-CRAN packages and code to add in Remotes field in DESCRIPTION
+List of all non-CRAN packages and code to add in Remotes field in DESCRIPTION.
+NULL otherwise.
 }
 \description{
 Proposes values for Remotes field for DESCRIPTION file based on your installation
@@ -24,9 +25,15 @@ att_from_description(
 path = file.path(dummypackage, "DESCRIPTION")) \%>\%
 find_remotes()
 \dontrun{
-# For your current directory
+# For the current package directory
 att_from_description() \%>\% find_remotes()
-# Find from all installed packages
-head(find_remotes(installed.packages()[,1]))
+}
+
+\donttest{
+# For a specific package name
+find_remotes("attachment")
+
+# Find remotes from all installed packages
+find_remotes(list.dirs(.libPaths(), full.names = FALSE, recursive = FALSE))
 }
 }

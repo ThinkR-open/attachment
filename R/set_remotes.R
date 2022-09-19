@@ -3,7 +3,9 @@
 #' @param pkg Character. Packages to test for potential non-CRAN installation
 #'
 #' @return
-#' List of non-CRAN packages and code to add in Remotes field in DESCRIPTION
+#' List of all non-CRAN packages and code to add in Remotes field in DESCRIPTION.
+#' NULL otherwise.
+#' @importFrom utils packageDescription
 #' @export
 #'
 #' @examples
@@ -15,10 +17,16 @@
 #' path = file.path(dummypackage, "DESCRIPTION")) %>%
 #' find_remotes()
 #' \dontrun{
-#' # For your current directory
+#' # For the current package directory
 #' att_from_description() %>% find_remotes()
-#' # Find from all installed packages
-#' head(find_remotes(installed.packages()[,1]))
+#' }
+#'
+#' \donttest{
+#' # For a specific package name
+#' find_remotes("attachment")
+#'
+#' # Find remotes from all installed packages
+#' find_remotes(list.dirs(.libPaths(), full.names = FALSE, recursive = FALSE))
 #' }
 find_remotes <- function(pkg) {
 
@@ -26,6 +34,19 @@ find_remotes <- function(pkg) {
     packageDescription(x)
   }) %>%
     setNames(pkg)
+
+  # Keep only thos that are packages
+  w.notpkg <- which(unlist(lapply(pkgdesc, function(x) all(is.na(x)))))
+  if (length(w.notpkg) != 0) {
+      message(glue::glue_collapse(names(pkgdesc)[w.notpkg], sep = ", ", last = " & "),
+              ifelse(length(w.notpkg) == 1,
+                     " does not seem to be a package. It is removed from exploration.",
+                     " do not seem to be packages. They are removed from exploration."
+              )
+      )
+    pkgdesc <- pkgdesc[-w.notpkg]
+    if (length(pkgdesc) == 0) {return(NULL)}
+  }
 
   extract_pkg_info(pkgdesc)
 }
@@ -112,6 +133,7 @@ internal_remotes_to_desc <- function(remotes, path.d = "DESCRIPTION",
 
   w.unique <- !duplicated(names(new_remotes))
   new_remotes <- unlist(new_remotes)[w.unique]
+  new_remotes <- new_remotes[sort(names(new_remotes))]
 
   if (length(new_remotes) != 0) {
     desc$set_remotes(new_remotes)
@@ -146,22 +168,24 @@ extract_pkg_info <- function(pkgdesc) {
     guess_repo <- lapply(pkg_not_cran, function(x) {
       desc <- pkgdesc[[x]]
       if (!is.null(desc$RemoteType) && desc$RemoteType == "github") {
-        tolower(paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))
+        paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")
       } else if (!is.null(desc$RemoteType) && desc$RemoteType %in% c("gitlab", "bitbucket")) {
-        tolower(paste0(desc$RemoteType, "::",
-                       paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")))
+        paste0(desc$RemoteType, "::",
+                       paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))
       } else if (desc$RemoteType == "local" && !is.null(desc$RemoteUrl)  && is.null(desc$RemoteHost)) {
-        tolower(paste0(desc$RemoteType, "::", desc$RemoteUrl))
-      } else if (!is.null(desc$RemoteType) && !(desc$RemoteType %in% c("github","gitlab","bitbucket","local")) &&  grepl(".git",x = desc$RemoteUrl) ){
-        tolower(paste0("git::",desc$RemoteUrl))
+        paste0(desc$RemoteType, "::", desc$RemoteUrl)
+      } else if (!is.null(desc$RemoteType) &&
+                 !(desc$RemoteType %in% c("github","gitlab","bitbucket","local")) &&
+                 grepl("git",x = desc$RemoteType) ){
+        paste0("git::",desc$RemoteUrl)
       } else if (is.null(desc$RemoteType) && isTRUE(grepl("bioconductor",x = desc$URL))) {
         biocversion <-  desc$git_branch %>%
           gsub(pattern = "RELEASE_", replacement = "") %>%
           gsub(pattern = "_", replacement = ".")
-        tolower(paste0("bioc::",biocversion,"/",desc$Package))
-      } else if (!is.null(desc$RemoteType) && is.null(desc$RemoteHost)) {
-        c("Maybe ?" = tolower(paste0(desc$RemoteType, "::", desc$RemoteHost, ":",
-                                     paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))))
+        paste0("bioc::",biocversion,"/",desc$Package)
+      } else if (!is.null(desc$RemoteType) && !is.null(desc$RemoteHost)) {
+        c("Maybe ?" = paste0(desc$RemoteType, "::", desc$RemoteHost, ":",
+                                     paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")))
       } else {
         c("local maybe ?" = NA)
       }

@@ -63,8 +63,26 @@ test_that("test inside rmd works", {
 
 # Test quarto and new way of chunk options with knitr>=1.35 ----
 if (utils::packageVersion("knitr") >= "1.35") {
-  test_that("test inside qmd works", {
-    res <- attachment::att_from_rmds(path = ".")
+  test_that("att_from_rmds with qmd works", {
+    res <- attachment::att_from_rmds(path = "quarto.qmd")
+    expect_true("findme.quarto" %in% res)
+    expect_true(!"dontfindme.quarto" %in% res)
+  })
+
+  test_that("att_from_rmd with qmd works", {
+    res <- attachment::att_from_rmd(path = "quarto.qmd")
+    expect_true("findme.quarto" %in% res)
+    expect_true(!"dontfindme.quarto" %in% res)
+  })
+
+  test_that("att_from_qmds works", {
+    res <- attachment::att_from_qmds(path = "quarto.qmd")
+    expect_true("findme.quarto" %in% res)
+    expect_true(!"dontfindme.quarto" %in% res)
+  })
+
+  test_that("att_from_qmd qmd works", {
+    res <- attachment::att_from_qmd(path = "quarto.qmd")
     expect_true("findme.quarto" %in% res)
     expect_true(!"dontfindme.quarto" %in% res)
   })

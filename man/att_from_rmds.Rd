@@ -2,9 +2,19 @@
 % Please edit documentation in R/att_from_rmds.R
 \name{att_from_rmds}
 \alias{att_from_rmds}
+\alias{att_from_qmds}
 \title{Get all packages called in vignettes folder}
 \usage{
 att_from_rmds(
+  path = "vignettes",
+  pattern = "*.[.](Rmd|rmd|qmd)$",
+  recursive = TRUE,
+  warn = -1,
+  inside_rmd = FALSE,
+  inline = TRUE
+)
+
+att_from_qmds(
   path = "vignettes",
   pattern = "*.[.](Rmd|rmd|qmd)$",
   recursive = TRUE,

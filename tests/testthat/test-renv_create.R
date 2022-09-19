@@ -40,6 +40,8 @@ install.packages(extrapackage, repos = NULL, type = "source")
 lock_includes_extra <- file.path(tmpdir, "for_extra.lock")
 lock_without_extra <- file.path(tmpdir, "blank.lock")
 
+skip_on_cran()
+
 if (interactive()) {
   expect_message({my_renv_extra <-
     create_renv_for_dev(

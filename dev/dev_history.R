@@ -60,6 +60,7 @@ usethis::use_appveyor()
 usethis::use_github_action_check_standard()
 usethis::use_github_action("pkgdown")
 usethis::use_github_action("test-coverage")
+usethis::use_github_action(url = "https://github.com/DavisVaughan/extrachecks-html5/blob/main/R-CMD-check-HTML5.yaml")
 
 usethis::use_vignette("use_renv")
 usethis::use_build_ignore("_pkgdown.yml")
@@ -79,7 +80,8 @@ usethis::use_roxygen_md()
 roxygen2md::roxygen2md()
 roxygen2::roxygenise()
 attachment::att_amend_desc(
-  pkg_ignore = c("remotes", "i", "usethis", "rstudioapi", "renv"), #i
+  pkg_ignore = c("remotes", "i", "usethis", "rstudioapi", "renv",
+                 "gitlab", "git", "local", "find.rscript", "bioc"), #i
   extra.suggests = c("testthat", "rstudioapi", "renv", "lifecycle"), #"pkgdown", "covr",
   dir.t = "",
   normalize = FALSE)
@@ -108,6 +110,9 @@ devtools::test()
 devtools::load_all()
 testthat::test_file(here::here("tests/testthat/test-amend-description.R"))
 
+# Test for dependencies
+tools:::.check_packages_used_in_tests(dir = ".", testdir = "tests/testthat")
+
 # Checks for CRAN release ----
 # Check package as CRAN
 rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
@@ -128,19 +133,22 @@ urlchecker::url_update()
 
 # check on other distributions
 # _rhub
-devtools::check_rhub()
+# devtools::check_rhub()
 rhub::local_check_linux_images()
 rhub::local_check_linux(image = "rhub/debian-gcc-release")
 rhub::local_check_linux(image = "rhub/debian-clang-devel")
 
+rhub::platforms()
 rhub::check(platform = "windows-x86_64-devel", show_status = FALSE)
+rhub::check(platform = "windows-x86_64-oldrel", show_status = FALSE)
 rhub::check_on_solaris(show_status = FALSE)
-aa <- rhub::check_for_cran(show_status = FALSE)
-aa
+rhub::check_for_cran(show_status = FALSE)
+
 
 # _win devel
 devtools::check_win_devel()
 devtools::check_win_release()
+devtools::check_win_oldrelease()
 devtools::check_mac_release()
 
 # Check reverse dependencies
@@ -157,6 +165,7 @@ id <- rstudioapi::terminalExecute("Rscript -e 'revdepcheck::revdep_check(num_wor
 rstudioapi::terminalKill(id)
 # See outputs
 revdep_details(revdep = "fusen")
+revdep_details(revdep = "golem")
 revdep_summary()
 # table of results by package
 revdep_report() # in revdep/
