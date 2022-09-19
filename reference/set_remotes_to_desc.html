@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -63,7 +63,7 @@
           <div id="code-folding-buttons" class="btn-group"><button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-_extension-text-contrast=""><span>Show/Hide all code</span><span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>
         </li>
         <li>
-  <a href="https://github.com/Thinkr-open/attachment/" class="external-link">
+  <a href="https://github.com/ThinkR-open/attachment/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -78,7 +78,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add Remotes field to DESCRIPTION based on your local installation</h1>
-    <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/HEAD/R/set_remotes.R" class="external-link"><code>R/set_remotes.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/HEAD/R/set_remotes.R" class="external-link"><code>R/set_remotes.R</code></a></small>
     <div class="hidden name"><code>set_remotes_to_desc.Rd</code></div>
     </div>
 
@@ -87,54 +87,62 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">set_remotes_to_desc</span><span class="op">(</span>path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>, stop.local <span class="op">=</span> <span class="cn">FALSE</span>, clean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">set_remotes_to_desc</span><span class="op">(</span>path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>, stop.local <span class="op">=</span> <span class="cn">FALSE</span>, clean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>path.d</dt>
 <dd><p>path to description file.</p></dd>
+
+
 <dt>stop.local</dt>
 <dd><p>Logical. Whether to stop if package was installed from local source.
 Message otherwise.</p></dd>
+
+
 <dt>clean</dt>
 <dd><p>Logical. Whether to clean all existing remotes before run.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Used for side effect. Adds Remotes field in DESCRIPTION file.</p>
+    
+
+<p>Used for side effect. Adds Remotes field in DESCRIPTION file.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span>
-<span class="r-in"> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span></span>
+<span class="r-in"><span> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Add remotes field if there are Remotes locally</span></span>
-<span class="r-in"><span class="fu"><a href="att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="va">dummypackage</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">set_remotes_to_desc</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Add remotes field if there are Remotes locally</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="va">dummypackage</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">set_remotes_to_desc</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Updating dummypackage documentation</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Changes in roxygen2 7.0.0:</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> * `%` is now escaped automatically in Markdown mode.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Please carefully check .Rd files for changes</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting `RoxygenNote` to "7.2.0"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting `RoxygenNote` to "7.2.1"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> [-] 1 package(s) removed: utils.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> [+] 2 package(s) added: stats, glue.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> There are no remote packages installed on your computer to add to description</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># For your current package</span></span>
-<span class="r-in"><span class="fu"><a href="att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span>
-<span class="r-in">  <span class="fu">set_remotes_to_desc</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># For your current package</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">set_remotes_to_desc</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -145,7 +153,7 @@ Message otherwise.</p></dd>
 
 
       <footer><div class="thinkr">
-  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
 <div class="author">

@@ -19,13 +19,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Deal with Dependencies">
-<meta property="og:description" content='Tools to help manage dependencies during package
-    development.  This can retrieve all dependencies that are used in R
-    files in the "R" directory, in Rmd files in "vignettes" directory and
+<meta property="og:description" content='Manage dependencies during package
+    development. This can retrieve all dependencies that are used in ".R"
+    files in the "R/" directory, in ".Rmd" files in "vignettes/" directory and
     in roxygen2 documentation of functions. There is a function to
-    update the Description file of your package and a function to create a
-    file with the R commands to install all dependencies of your package.
-    All functions to retrieve dependencies of R scripts and Rmd files can
+    update the "DESCRIPTION" file of your package with CRAN packages or any other remote package.
+    All functions to retrieve dependencies of ".R" scripts and ".Rmd" or ".qmd" files can
     be used independently of a package development.'>
 <meta property="og:image" content="https://thinkr-open.github.io/attachment/logo.png">
 <meta name="twitter:card" content="summary">
@@ -65,7 +64,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -106,7 +105,7 @@
 </div>
         </li>
         <li>
-  <a href="https://github.com/Thinkr-open/attachment/" class="external-link">
+  <a href="https://github.com/ThinkR-open/attachment/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -139,11 +138,11 @@ And what happens when you remove a dependency for one of your functions ? Do you
 </h2>
 <p>CRAN version</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"attachment"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"attachment"</span><span class="op">)</span></span></code></pre></div>
 <p>Development version</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ThinkR-open/attachment"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ThinkR-open/attachment"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="use-package-attachment">Use package {attachment}<a class="anchor" aria-label="anchor" href="#use-package-attachment"></a>
@@ -152,33 +151,33 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <h3 id="during-package-development">During package development<a class="anchor" aria-label="anchor" href="#during-package-development"></a>
 </h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://thinkr-open.github.io/attachment/">attachment</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://thinkr-open.github.io/attachment/">attachment</a></span><span class="op">)</span></span></code></pre></div>
 <p>What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only the following function will really be called. Use and abuse during the development of your package !</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>As {pkgdown} and {covr} are not listed in any script in your package, a common call for your development packages would be:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>extra.suggests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pkgdown"</span>, <span class="st">"covr"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>extra.suggests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pkgdown"</span>, <span class="st">"covr"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><em>Note: <code><a href="reference/attachment-deprecated.html">attachment::att_to_description()</a></code> is Deprecated.</em></p>
 <div class="section level4">
 <h4 id="example-on-a-fake-package">Example on a fake package<a class="anchor" aria-label="anchor" href="#example-on-a-fake-package"></a>
 </h4>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Copy package in a temporary directory</span>
-<span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] TRUE</span>
-<span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span>
-<span class="co"># browseURL(dummypackage)</span>
-<span class="fu"><a href="reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; Updating dummypackage documentation</span>
-<span class="co">#&gt; Updating roxygen version in /tmp/RtmpK2L9Ud/dummypackage/DESCRIPTION</span>
-<span class="co">#&gt; ℹ Loading dummypackage</span>
-<span class="co">#&gt; Writing NAMESPACE</span>
-<span class="co">#&gt; Writing NAMESPACE</span>
-<span class="co">#&gt; Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
-<span class="co">#&gt; [-] 1 package(s) removed: utils.</span>
-<span class="co">#&gt; [+] 2 package(s) added: stats, glue.</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Copy package in a temporary directory</span></span>
+<span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span>
+<span><span class="co"># browseURL(dummypackage)</span></span>
+<span><span class="fu"><a href="reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Updating dummypackage documentation</span></span>
+<span><span class="co">#&gt; Updating roxygen version in /tmp/RtmpK2L9Ud/dummypackage/DESCRIPTION</span></span>
+<span><span class="co">#&gt; ℹ Loading dummypackage</span></span>
+<span><span class="co">#&gt; Writing NAMESPACE</span></span>
+<span><span class="co">#&gt; Writing NAMESPACE</span></span>
+<span><span class="co">#&gt; Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span></span>
+<span><span class="co">#&gt; [-] 1 package(s) removed: utils.</span></span>
+<span><span class="co">#&gt; [+] 2 package(s) added: stats, glue.</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level3">
@@ -186,40 +185,40 @@ And what happens when you remove a dependency for one of your functions ? Do you
 </h3>
 <p>To quickly install missing packages from a DESCRIPTION file, use:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_from_description.html">install_from_description</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; All required packages are installed</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_from_description.html">install_from_description</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; All required packages are installed</span></span></code></pre></div>
 <p>To quickly install missing packages needed to compile Rmd files or run Rscripts, use:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_if_missing.html">install_if_missing</a></span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_if_missing.html">install_if_missing</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_if_missing.html">install_if_missing</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="st">"."</span><span class="op">)</span> <span class="op"><a href="reference/pipe.html">%&gt;%</a></span> <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/install_if_missing.html">install_if_missing</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>Function <code><a href="reference/create_dependencies_file.html">attachment::create_dependencies_file()</a></code> will create a <code>dependencies.R</code> file in <code>inst/</code> directory. This R script contains the procedure to quickly install missing dependencies:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># No Remotes ----</span>
-<span class="co"># remotes::install_github("ThinkR-open/fcuk")</span>
-<span class="co"># Attachments ----</span>
-<span class="va">to_install</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"covr"</span>, <span class="st">"desc"</span>, <span class="st">"devtools"</span>, <span class="st">"glue"</span>, <span class="st">"knitr"</span>, <span class="st">"magrittr"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"stats"</span>, <span class="st">"stringr"</span>, <span class="st">"testthat"</span>, <span class="st">"utils"</span><span class="op">)</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="va">to_install</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"looking for "</span>, <span class="va">i</span><span class="op">)</span><span class="op">)</span>
-  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"     installing"</span>, <span class="va">i</span><span class="op">)</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span>
-  <span class="op">}</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># No Remotes ----</span></span>
+<span><span class="co"># remotes::install_github("ThinkR-open/fcuk")</span></span>
+<span><span class="co"># Attachments ----</span></span>
+<span><span class="va">to_install</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"covr"</span>, <span class="st">"desc"</span>, <span class="st">"devtools"</span>, <span class="st">"glue"</span>, <span class="st">"knitr"</span>, <span class="st">"magrittr"</span>, <span class="st">"rmarkdown"</span>, <span class="st">"stats"</span>, <span class="st">"stringr"</span>, <span class="st">"testthat"</span>, <span class="st">"utils"</span><span class="op">)</span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="va">to_install</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"looking for "</span>, <span class="va">i</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">message</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"     installing"</span>, <span class="va">i</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">i</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="for-bookdown-pagedown-quarto">For bookdown, pagedown, quarto<a class="anchor" aria-label="anchor" href="#for-bookdown-pagedown-quarto"></a>
 </h3>
 <p>If you write a {bookdown} and want to publish it on Github using GitHub Actions or GitLab CI for instance, you will need a DESCRIPTION file with list of dependencies just like for a package. In this case, you can use the function to description from import/suggest: <code><a href="reference/att_to_desc_from_is.html">att_to_desc_from_is()</a></code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_description</span><span class="op">(</span><span class="op">)</span>
-<span class="co"># bookdown Imports are in Rmds</span>
-<span class="va">imports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bookdown"</span>, <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span><span class="op">(</span>path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,
-                                imports <span class="op">=</span> <span class="va">imports</span>, suggests <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_description</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># bookdown Imports are in Rmds</span></span>
+<span><span class="va">imports</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"bookdown"</span>, <span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span><span class="op">(</span>path.d <span class="op">=</span> <span class="st">"DESCRIPTION"</span>,</span>
+<span>                                imports <span class="op">=</span> <span class="va">imports</span>, suggests <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p>Then, install dependencies with</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="to-list-information">To list information<a class="anchor" aria-label="anchor" href="#to-list-information"></a>
@@ -227,12 +226,12 @@ And what happens when you remove a dependency for one of your functions ? Do you
 <p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code><a href="reference/att_from_rscripts.html">att_from_rscripts()</a></code> or Rmd/qmd files using <code><a href="reference/att_from_rmds.html">att_from_rmds()</a></code>.<br>
 If you are running this inside a Rmd, you may need parameter <code>inside_rmd = TRUE</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>
-
-<span class="fu"><a href="reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span><span class="op">)</span>
-<span class="co">#&gt; [1] "stats"        "testthat"     "dummypackage"</span>
-<span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="co">#&gt; [1] "knitr"     "rmarkdown" "glue"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "stats"        "testthat"     "dummypackage"</span></span>
+<span><span class="fu"><a href="reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "knitr"     "rmarkdown" "glue"</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -240,9 +239,9 @@ If you are running this inside a Rmd, you may need parameter <code>inside_rmd = 
 </h2>
 <p>Package {attachment} has vignettes to present the different functions available. There is also a recommendation to have a <code>dev_history.R</code> in the root directory of your package. (<em>Have a look at <a href="https://github.com/ThinkR-open/attachment/blob/main/dev/dev_history.R" class="external-link">dev_history.R</a> in the present package</em>)</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"a-fill-pkg-description"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"b-bookdown-and-scripts"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"use_renv"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"a-fill-pkg-description"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"b-bookdown-and-scripts"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html" class="external-link">vignette</a></span><span class="op">(</span><span class="st">"use_renv"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span></code></pre></div>
 <p>The vignettes are available on the {pkgdown} page, in the “Articles” menu: <a href="https://thinkr-open.github.io/attachment/" class="uri">https://thinkr-open.github.io/attachment/</a></p>
 </div>
 <div class="section level2">
@@ -259,8 +258,8 @@ If you are running this inside a Rmd, you may need parameter <code>inside_rmd = 
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://cloud.r-project.org/package=attachment" class="external-link">View on CRAN</a></li>
-<li><a href="https://github.com/Thinkr-open/attachment/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/Thinkr-open/attachment/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/ThinkR-open/attachment/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/ThinkR-open/attachment/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -296,14 +295,7 @@ If you are running this inside a Rmd, you may need parameter <code>inside_rmd = 
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://github.com/ThinkR-open/attachment/actions" class="external-link"><img src="https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://codecov.io/github/ThinkR-open/attachment?branch=main" class="external-link"><img src="https://codecov.io/gh/ThinkR-open/attachment/branch/main/graph/badge.svg" alt="Coverage status"></a></li>
-<li><a href="https://cran.r-project.org/package=attachment" class="external-link"><img src="https://www.r-pkg.org/badges/version/attachment" alt="CRAN status"></a></li>
-</ul>
-</div>
+
 
   </div>
 </div>
@@ -311,7 +303,7 @@ If you are running this inside a Rmd, you may need parameter <code>inside_rmd = 
 
       <footer><div class="thinkr">
   <p></p>
-<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
 <div class="author">

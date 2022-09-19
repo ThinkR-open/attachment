@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -63,7 +63,7 @@
           <div id="code-folding-buttons" class="btn-group"><button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-_extension-text-contrast=""><span>Show/Hide all code</span><span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>
         </li>
         <li>
-  <a href="https://github.com/Thinkr-open/attachment/" class="external-link">
+  <a href="https://github.com/ThinkR-open/attachment/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -78,7 +78,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Get all packages called in vignettes folder</h1>
-    <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/HEAD/R/att_from_rmds.R" class="external-link"><code>R/att_from_rmds.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/HEAD/R/att_from_rmds.R" class="external-link"><code>R/att_from_rmds.R</code></a></small>
     <div class="hidden name"><code>att_from_rmds.Rd</code></div>
     </div>
 
@@ -87,44 +87,66 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">att_from_rmds</span><span class="op">(</span>
-  path <span class="op">=</span> <span class="st">"vignettes"</span>,
-  pattern <span class="op">=</span> <span class="st">"*.[.](Rmd|rmd|qmd)$"</span>,
-  recursive <span class="op">=</span> <span class="cn">TRUE</span>,
-  warn <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,
-  inside_rmd <span class="op">=</span> <span class="cn">FALSE</span>,
-  inline <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">att_from_rmds</span><span class="op">(</span></span>
+<span>  path <span class="op">=</span> <span class="st">"vignettes"</span>,</span>
+<span>  pattern <span class="op">=</span> <span class="st">"*.[.](Rmd|rmd|qmd)$"</span>,</span>
+<span>  recursive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  warn <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>  inside_rmd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  inline <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">att_from_qmds</span><span class="op">(</span></span>
+<span>  path <span class="op">=</span> <span class="st">"vignettes"</span>,</span>
+<span>  pattern <span class="op">=</span> <span class="st">"*.[.](Rmd|rmd|qmd)$"</span>,</span>
+<span>  recursive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  warn <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
+<span>  inside_rmd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  inline <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>path</dt>
 <dd><p>path to directory with Rmds or vector of Rmd files</p></dd>
+
+
 <dt>pattern</dt>
 <dd><p>pattern to detect Rmd files</p></dd>
+
+
 <dt>recursive</dt>
 <dd><p>logical. Should the listing recurse into directories?</p></dd>
+
+
 <dt>warn</dt>
 <dd><p>-1 for quiet warnings with purl, 0 to see warnings</p></dd>
+
+
 <dt>inside_rmd</dt>
 <dd><p>Logical. Whether function is run inside a Rmd,
 in case this must be executed in an external R session</p></dd>
+
+
 <dt>inline</dt>
 <dd><p>Logical. Default TRUE. Whether to explore inline code for dependencies.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Character vector of packages called with library or require.
+    
+
+<p>Character vector of packages called with library or require.
 knitr and rmarkdown are added by default to allow building the vignettes
 if the directory contains "vignettes" in the path</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># browseURL(dummypackage)</span></span>
-<span class="r-in"><span class="fu">att_from_rmds</span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>,<span class="st">"vignettes"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># browseURL(dummypackage)</span></span></span>
+<span class="r-in"><span><span class="fu">att_from_rmds</span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>,<span class="st">"vignettes"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "knitr"     "rmarkdown" "glue"     </span>
 </code></pre></div>
     </div>
@@ -136,7 +158,7 @@ if the directory contains "vignettes" in the path</p>
 
 
       <footer><div class="thinkr">
-  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
 <div class="author">

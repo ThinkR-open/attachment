@@ -36,7 +36,7 @@ they are not necessary in your project, package or Shiny application."><meta pro
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -67,7 +67,7 @@ they are not necessary in your project, package or Shiny application."><meta pro
           <div id="code-folding-buttons" class="btn-group"><button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-_extension-text-contrast=""><span>Show/Hide all code</span><span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>
         </li>
         <li>
-  <a href="https://github.com/Thinkr-open/attachment/" class="external-link">
+  <a href="https://github.com/ThinkR-open/attachment/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -82,7 +82,7 @@ they are not necessary in your project, package or Shiny application."><meta pro
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create reproducible environments for your R projects with renv</h1>
-    <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/HEAD/R/create_renv.R" class="external-link"><code>R/create_renv.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/HEAD/R/create_renv.R" class="external-link"><code>R/create_renv.R</code></a></small>
     <div class="hidden name"><code>create_renv_for_dev.Rd</code></div>
     </div>
 
@@ -95,61 +95,78 @@ they are not necessary in your project, package or Shiny application.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">create_renv_for_dev</span><span class="op">(</span>
-  path <span class="op">=</span> <span class="st">"."</span>,
-  dev_pkg <span class="op">=</span> <span class="st">"_default"</span>,
-  folder_to_include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dev"</span>, <span class="st">"data-raw"</span><span class="op">)</span>,
-  output <span class="op">=</span> <span class="st">"renv.lock"</span>,
-  install_if_missing <span class="op">=</span> <span class="cn">TRUE</span>,
-  document <span class="op">=</span> <span class="cn">TRUE</span>,
-  pkg_ignore <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">create_renv_for_prod</span><span class="op">(</span>
-  path <span class="op">=</span> <span class="st">"."</span>,
-  output <span class="op">=</span> <span class="st">"renv.lock.prod"</span>,
-  dev_pkg <span class="op">=</span> <span class="st">"remotes"</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_renv_for_dev</span><span class="op">(</span></span>
+<span>  path <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  dev_pkg <span class="op">=</span> <span class="st">"_default"</span>,</span>
+<span>  folder_to_include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dev"</span>, <span class="st">"data-raw"</span><span class="op">)</span>,</span>
+<span>  output <span class="op">=</span> <span class="st">"renv.lock"</span>,</span>
+<span>  install_if_missing <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  document <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  pkg_ignore <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">create_renv_for_prod</span><span class="op">(</span></span>
+<span>  path <span class="op">=</span> <span class="st">"."</span>,</span>
+<span>  output <span class="op">=</span> <span class="st">"renv.lock.prod"</span>,</span>
+<span>  dev_pkg <span class="op">=</span> <span class="st">"remotes"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>path</dt>
 <dd><p>Path to your current package source folder</p></dd>
+
+
 <dt>dev_pkg</dt>
 <dd><p>Vector of packages you need for development. Use <code>_default</code>
 (with underscore before to avoid confusing with a package name), to
 use the default list. Use <code>NULL</code> for no extra package.
 Use <code>attachment:::extra_dev_pkg</code> for the list.</p></dd>
+
+
 <dt>folder_to_include</dt>
 <dd><p>Folder to scan to detect development packages</p></dd>
+
+
 <dt>output</dt>
 <dd><p>Path and name of the file created, default is <code>./renv.lock</code></p></dd>
+
+
 <dt>install_if_missing</dt>
 <dd><p>Logical. Install missing packages. <code>TRUE</code> by default</p></dd>
+
+
 <dt>document</dt>
 <dd><p>Logical. Whether to run <code><a href="att_amend_desc.html">att_amend_desc()</a></code> before
 detecting packages in DESCRIPTION.</p></dd>
+
+
 <dt>pkg_ignore</dt>
 <dd><p>Vector of packages to ignore from being discovered in your files.
 This does not prevent them to be in "renv.lock" if they are recursive dependencies.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Other arguments to pass to <code><a href="https://rstudio.github.io/renv/reference/snapshot.html" class="external-link">renv::snapshot()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a renv.lock file</p>
+    
+
+<p>a renv.lock file</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">create_renv_for_dev</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">create_renv_for_dev</span><span class="op">(</span>dev_pkg <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">create_renv_for_prod</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">create_renv_for_dev</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">create_renv_for_dev</span><span class="op">(</span>dev_pkg <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">create_renv_for_prod</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -160,7 +177,7 @@ This does not prevent them to be in "renv.lock" if they are recursive dependenci
 
 
       <footer><div class="thinkr">
-  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
 <div class="author">
