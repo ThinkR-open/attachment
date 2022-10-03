@@ -106,15 +106,13 @@ You can test it if you install {fusen} from GitHub or r-universe:
 remotes::install_github("ThinkR-open/fusen",
                         quiet = TRUE, upgrade = "never")
 attachment::find_remotes("fusen")
+#> $fusen
+#> [1] "ThinkR-open/fusen"
 
 # From r-universe as default repos
 install.packages("fusen", repos = "https://thinkr-open.r-universe.dev")
 attachment::find_remotes("fusen")
-
-# From r-universe tar.gz
-remotes::install_url("https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.0.9000.tar.gz",
-                     quiet = TRUE, upgrade = "never")
-attachment::find_remotes("fusen")
+#> r-universe: need to set options to repos="https://thinkr-open.r-universe.dev" 
 ```
 
 

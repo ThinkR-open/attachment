@@ -51,5 +51,3 @@ Suggests:
     renv (>= 0.8.4),
     rstudioapi,
     testthat (>= 3.0.0)
-Remotes: 
-    url::https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.0.9000.tar.gz

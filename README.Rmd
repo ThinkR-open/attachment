@@ -91,7 +91,7 @@ attachment::set_remotes_to_desc(path.d = desc_file)
 Find packages installed out of CRAN. This helps fill the "Remotes" field in DESCRIPTION file with `set_remotes_to_desc()`.  
 Behind the scene, it uses `fund_remotes()`.  
 
-- See the examples below if {fusen} is installed from GitHub or r-universe
+- See the examples below if {fusen} is installed from GitHub
   + Also works for GitLab, Bioconductor, Git, Local installations
   
 ```{r, eval=FALSE}
@@ -101,12 +101,6 @@ remotes::install_github("ThinkR-open/fusen",
 attachment::find_remotes("fusen")
 #> $fusen
 #> [1] "ThinkR-open/fusen"
-
-# From r-universe as default repos
-install.packages("fusen", repos = "https://thinkr-open.r-universe.dev")
-attachment::find_remotes("fusen")
-#> $fusen
-#> [1] "url::https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.1.tar.gz"
 ```
 
 

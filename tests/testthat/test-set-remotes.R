@@ -46,17 +46,21 @@ test_that("find_remotes does not fail with packages installation errors", {
 test_that("extract_pkg_info extracts code", {
 
   # R-universe from tar.gz
+  # One day, maybe we can specify to use r-universe by default
   fake_desc_universe <- list(
     list(
       RemoteType = "url",
       Repository = "https://thinkr-open.r-universe.dev",
       RemoteUrl = "https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.0.9000.tar.gz",
       RemoteRef = "HEAD",
-      RemoteSha = "bfd6867bdc00976206479d5e784cdc9f057e0991"
+      RemoteSha = "bfd6867bdc00976206479d5e784cdc9f057e0991",
+      Package = "fusen"
     )
   ) %>% setNames("fusen")
-  expect_equal(extract_pkg_info(fake_desc_universe)[["fusen"]],
-               "url::https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.0.9000.tar.gz")
+  expect_equal(
+    extract_pkg_info(fake_desc_universe)[["fusen"]],
+    c("r-universe: need to set options to repos=\"https://thinkr-open.r-universe.dev\"" = NA))
+  #"universe::thinkr-open/fusen"
 
   # R-universe from repos changed
   fake_desc_universe2 <- list(
@@ -69,8 +73,10 @@ test_that("extract_pkg_info extracts code", {
       Package = "fusen"
     )
   ) %>% setNames("fusen")
-  expect_equal(extract_pkg_info(fake_desc_universe2)[["fusen"]],
-               "url::https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.0.9000.tar.gz")
+  expect_equal(
+    extract_pkg_info(fake_desc_universe2)[["fusen"]],
+    c("r-universe: need to set options to repos=\"https://thinkr-open.r-universe.dev\"" = NA))
+  #"universe::thinkr-open/fusen"
 
   # Github
   fake_desc_github <- list(

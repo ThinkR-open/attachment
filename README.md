@@ -101,8 +101,8 @@ desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> 
 #> Setting `RoxygenNote` to "7.2.1"
 #> ℹ Loading dummypackage
-#> Writing ']8;;file:///tmp/Rtmpq9m278/dummypackage/NAMESPACENAMESPACE]8;;'
-#> Writing ']8;;file:///tmp/Rtmpq9m278/dummypackage/NAMESPACENAMESPACE]8;;'
+#> Writing ']8;;file:///tmp/RtmpB3u77H/dummypackage/NAMESPACENAMESPACE]8;;'
+#> Writing ']8;;file:///tmp/RtmpB3u77H/dummypackage/NAMESPACENAMESPACE]8;;'
 #> ℹ Loading dummypackage
 #> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
 #> 
@@ -122,8 +122,7 @@ Find packages installed out of CRAN. This helps fill the “Remotes” field
 in DESCRIPTION file with `set_remotes_to_desc()`.  
 Behind the scene, it uses `fund_remotes()`.
 
--   See the examples below if {fusen} is installed from GitHub or
-    r-universe
+-   See the examples below if {fusen} is installed from GitHub
     -   Also works for GitLab, Bioconductor, Git, Local installations
 
 ``` r
@@ -133,12 +132,6 @@ remotes::install_github("ThinkR-open/fusen",
 attachment::find_remotes("fusen")
 #> $fusen
 #> [1] "ThinkR-open/fusen"
-
-# From r-universe as default repos
-install.packages("fusen", repos = "https://thinkr-open.r-universe.dev")
-attachment::find_remotes("fusen")
-#> $fusen
-#> [1] "url::https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.1.tar.gz"
 ```
 
 ### For installation

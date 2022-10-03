@@ -167,13 +167,10 @@ extract_pkg_info <- function(pkgdesc) {
   } else {
     guess_repo <- lapply(pkg_not_cran, function(x) {
       desc <- pkgdesc[[x]]
-      if (!is.null(desc[["Repository"]]) && grepl("r-universe", desc[["Repository"]]) &&
-          !is.null(desc[["RemoteUrl"]]) && grepl("r-universe", desc[["RemoteUrl"]])) {
-        paste0("url::", desc[["RemoteUrl"]])
-      } else if (!is.null(desc[["Repository"]]) && grepl("r-universe", desc[["Repository"]]) &&
-                 !is.null(desc[["RemoteSha"]])) {
-        paste0("url::", desc[["Repository"]], "/src/contrib/", desc[["Package"]], "_",
-               desc[["Version"]], ".tar.gz")
+      if (!is.null(desc[["Repository"]]) && grepl("r-universe", desc[["Repository"]])) {
+        # For when {remotes} and/or {pak} can read universe from Remotes: field ?
+        # paste0("universe::", gsub(".r-universe.dev", "", desc[["Repository"]]), "/", desc[["Package"]])
+        setNames(NA, paste0("r-universe: need to set options to repos=\"", desc[["Repository"]], "\""))
       } else if (!is.null(desc$RemoteType) && desc$RemoteType == "github") {
         paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")
       } else if (!is.null(desc$RemoteType) && desc$RemoteType %in% c("gitlab", "bitbucket")) {
