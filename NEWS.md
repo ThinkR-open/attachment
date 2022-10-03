@@ -1,3 +1,9 @@
+# attachment (development version)
+
+## New features
+
+- `find_remotes()` and `set_remotes_to_desc()` now detects "r-universe" repositories.
+
 # attachment 0.3.0
 
 ## New features

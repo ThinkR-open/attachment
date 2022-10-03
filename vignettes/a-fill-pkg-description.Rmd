@@ -66,11 +66,13 @@ att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 
 For instance:
 
-- For GitHub : `Remotes: thinkr-open/attachment`
-- For GitLab : `Remotes: gitlab::jimhester/covr`
-- For Git : `Remotes: git::https://theurl/package_git.git`
+- For GitHub: `Remotes: thinkr-open/attachment`
+- For GitLab: `Remotes: gitlab::jimhester/covr`
+- For Git: `Remotes: git::https://theurl/package_git.git`
 - For local package: `Remotes: local::c:\mylocalpackage` or `Remotes: local::subdir/mylocalpackage`
-- For Bioconductor : `Remotes: bioc::3.3/package_bioc`
+- For Bioconductor: `Remotes: bioc::3.3/package_bioc`
+- For r-universe: `Remotes: url::https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.0.9000.tar.gz`
+
 
 You may want to run it after `att_amend_desc()`.
 
@@ -92,7 +94,32 @@ att_from_description() %>%
   find_remotes()
 ```
 
+If you want to get the complete list of packages installed on your computer with non-CRAN repositories:
+```{r, eval=FALSE}
+find_remotes(list.dirs(.libPaths(), full.names = FALSE, recursive = FALSE))
+```
+
+You can test it if you install {fusen} from GitHub or r-universe:
+
+```{r, eval=FALSE}
+# From GitHub
+remotes::install_github("ThinkR-open/fusen",
+                        quiet = TRUE, upgrade = "never")
+attachment::find_remotes("fusen")
+
+# From r-universe as default repos
+install.packages("fusen", repos = "https://thinkr-open.r-universe.dev")
+attachment::find_remotes("fusen")
+
+# From r-universe tar.gz
+remotes::install_url("https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.0.9000.tar.gz",
+                     quiet = TRUE, upgrade = "never")
+attachment::find_remotes("fusen")
+```
+
+
 ## Create a file for package installation
+
 Once your package is finished. Well, is a package ever finished ? Let's say, once you want to release a version of your package, you may want to deliver the list of dependencies your users will have to install. A little script like `install.packages(c(...all dep...))` would be so nice :
 
 ```{r, eval=FALSE}

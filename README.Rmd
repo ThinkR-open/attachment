@@ -63,7 +63,12 @@ As {pkgdown} and {covr} are not listed in any script in your package, a common c
 attachment::att_amend_desc(extra.suggests = c("pkgdown", "covr"))
 ```
 
-_Note: `attachment::att_to_description()` is Deprecated._
+If you would like to add dependencies in the "Remotes" field of your DESCRIPTION file, to mimic your local installation, you will want to use:
+
+```{r, eval=FALSE}
+attachment::set_remotes_to_desc()
+```
+
 
 #### Example on a fake package
 
@@ -73,7 +78,35 @@ tmpdir <- tempdir()
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
-att_amend_desc(path = dummypackage, inside_rmd = TRUE)
+
+# Fill the DESCRIPTION file automatically
+desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE)
+
+# Add Remotes if you have some installed
+attachment::set_remotes_to_desc(path.d = desc_file)
+```
+
+#### More on finding Remotes repositories (non installed from CRAN)
+
+Find packages installed out of CRAN. This helps fill the "Remotes" field in DESCRIPTION file with `set_remotes_to_desc()`.  
+Behind the scene, it uses `fund_remotes()`.  
+
+- See the examples below if {fusen} is installed from GitHub or r-universe
+  + Also works for GitLab, Bioconductor, Git, Local installations
+  
+```{r, eval=FALSE}
+# From GitHub
+remotes::install_github("ThinkR-open/fusen",
+                        quiet = TRUE, upgrade = "never")
+attachment::find_remotes("fusen")
+#> $fusen
+#> [1] "ThinkR-open/fusen"
+
+# From r-universe as default repos
+install.packages("fusen", repos = "https://thinkr-open.r-universe.dev")
+attachment::find_remotes("fusen")
+#> $fusen
+#> [1] "url::https://thinkr-open.r-universe.dev/src/contrib/fusen_0.4.1.tar.gz"
 ```
 
 

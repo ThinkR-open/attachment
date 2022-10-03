@@ -155,7 +155,7 @@ internal_remotes_to_desc <- function(remotes, path.d = "DESCRIPTION",
 #' @noRd
 extract_pkg_info <- function(pkgdesc) {
   is_cran <- lapply(pkgdesc, function(x) {
-    !is.null(x[["Repository"]]) |
+    (!is.null(x[["Repository"]]) && !grepl("r-universe", x[["Repository"]])) |
       (!is.null(x[["Priority"]]) && x[["Priority"]] == "base")
   }) %>% unlist()
 
@@ -167,12 +167,19 @@ extract_pkg_info <- function(pkgdesc) {
   } else {
     guess_repo <- lapply(pkg_not_cran, function(x) {
       desc <- pkgdesc[[x]]
-      if (!is.null(desc$RemoteType) && desc$RemoteType == "github") {
+      if (!is.null(desc[["Repository"]]) && grepl("r-universe", desc[["Repository"]]) &&
+          !is.null(desc[["RemoteUrl"]]) && grepl("r-universe", desc[["RemoteUrl"]])) {
+        paste0("url::", desc[["RemoteUrl"]])
+      } else if (!is.null(desc[["Repository"]]) && grepl("r-universe", desc[["Repository"]]) &&
+                 !is.null(desc[["RemoteSha"]])) {
+        paste0("url::", desc[["Repository"]], "/src/contrib/", desc[["Package"]], "_",
+               desc[["Version"]], ".tar.gz")
+      } else if (!is.null(desc$RemoteType) && desc$RemoteType == "github") {
         paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")
       } else if (!is.null(desc$RemoteType) && desc$RemoteType %in% c("gitlab", "bitbucket")) {
         paste0(desc$RemoteType, "::",
                        paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))
-      } else if (desc$RemoteType == "local" && !is.null(desc$RemoteUrl)  && is.null(desc$RemoteHost)) {
+      } else if (!is.null(desc$RemoteType) && desc$RemoteType == "local" && !is.null(desc$RemoteUrl)  && is.null(desc$RemoteHost)) {
         paste0(desc$RemoteType, "::", desc$RemoteUrl)
       } else if (!is.null(desc$RemoteType) &&
                  !(desc$RemoteType %in% c("github","gitlab","bitbucket","local")) &&
