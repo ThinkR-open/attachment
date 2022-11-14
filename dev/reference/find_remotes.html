@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.0.9000</span>
       </span>
     </div>
 
@@ -63,7 +63,7 @@
           <div id="code-folding-buttons" class="btn-group"><button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-_extension-text-contrast=""><span>Show/Hide all code</span><span class="caret"></span></button><ul class="dropdown-menu" style="min-width: 50px;"><li><a id="rmd-show-all-code" href="#">Show All Code</a></li><li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li></ul></div>
         </li>
         <li>
-  <a href="https://github.com/Thinkr-open/attachment/" class="external-link">
+  <a href="https://github.com/ThinkR-open/attachment/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -78,7 +78,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Proposes values for Remotes field for DESCRIPTION file based on your installation</h1>
-    <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/HEAD/R/set_remotes.R" class="external-link"><code>R/set_remotes.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/HEAD/R/set_remotes.R" class="external-link"><code>R/set_remotes.R</code></a></small>
     <div class="hidden name"><code>find_remotes.Rd</code></div>
     </div>
 
@@ -100,7 +100,8 @@
     <h2>Value</h2>
     
 
-<p>List of non-CRAN packages and code to add in Remotes field in DESCRIPTION</p>
+<p>List of all non-CRAN packages and code to add in Remotes field in DESCRIPTION.
+NULL otherwise.</p>
     </div>
 
     <div id="ref-examples">
@@ -108,8 +109,8 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Find from vector of packages</span></span></span>
 <span class="r-in"><span><span class="fu">find_remotes</span><span class="op">(</span>pkg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"attachment"</span>, <span class="st">"desc"</span>, <span class="st">"glue"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $attachment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Maybe ? </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> "local:::" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> local maybe ? </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            NA </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Find from Description file</span></span></span>
 <span class="r-in"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span></span>
@@ -118,11 +119,37 @@
 <span class="r-in"><span><span class="fu">find_remotes</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co"># For your current directory</span></span></span>
+<span class="r-in"><span><span class="co"># For the current package directory</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="att_from_description.html">att_from_description</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span> <span class="fu">find_remotes</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Find from all installed packages</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">find_remotes</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># For a specific package name</span></span></span>
+<span class="r-in"><span><span class="fu">find_remotes</span><span class="op">(</span><span class="st">"attachment"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $attachment</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> local maybe ? </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Find remotes from all installed packages</span></span></span>
+<span class="r-in"><span><span class="fu">find_remotes</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.dirs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> _cache does not seem to be a package. It is removed from exploration.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $attachment</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> local maybe ? </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $pak</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> local maybe ? </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $thinkrtemplate</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "ThinkR-open/thinkrtemplate"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $translations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> local maybe ? </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            NA </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>

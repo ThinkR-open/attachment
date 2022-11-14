@@ -59,7 +59,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.2.5.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.0.9000</span>
       </span>
     </div>
 
@@ -100,7 +100,7 @@
 </div>
         </li>
         <li>
-  <a href="https://github.com/Thinkr-open/attachment/" class="external-link">
+  <a href="https://github.com/ThinkR-open/attachment/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -121,9 +121,9 @@
       <h1 data-toc-skip>Bookdown, quarto and other scripts dependencies</h1>
                         <h4 data-toc-skip class="author">Sébastien Rochette</h4>
             
-            <h4 data-toc-skip class="date">2022-09-07</h4>
+            <h4 data-toc-skip class="date">2022-11-14</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/Thinkr-open/attachment/blob/HEAD/vignettes/b-bookdown-and-scripts.Rmd" class="external-link"><code>vignettes/b-bookdown-and-scripts.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/HEAD/vignettes/b-bookdown-and-scripts.Rmd" class="external-link"><code>vignettes/b-bookdown-and-scripts.Rmd</code></a></small>
       <div class="hidden name"><code>b-bookdown-and-scripts.Rmd</code></div>
 
     </div>
@@ -160,7 +160,7 @@ Indeed, you can use this procedure to create the DESCRIPTION file for local inst
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_description</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Fill the “DESCRIPTION” file using <code><a href="../reference/att_to_desc_from_is.html">attachment::att_to_desc_from_is()</a></code>. <em>Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set <code>att_to_desc_from_is(must.exist = FALSE)</code>.</em>
+<li>Fill the “DESCRIPTION” file using <code><a href="../reference/att_to_desc_from_is.html">attachment::att_to_desc_from_is()</a></code>. <em>Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set <code>att_to_desc_from_is(must.exist = FALSE)</code>.</em><br><em>Note that <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> also works for “.qmd” documents. You can use <code><a href="../reference/att_from_rmds.html">att_from_qmds()</a></code> if you want, although for now there is no difference and it will also parse “.Rmd” documents.</em>
 </li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
