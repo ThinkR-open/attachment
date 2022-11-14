@@ -1,3 +1,9 @@
+# attachment (development version)
+
+## New features
+
+- `find_remotes()` now informs when using "r-universe" repositories.
+
 # attachment 0.3.0
 
 ## New features
