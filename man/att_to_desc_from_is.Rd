@@ -8,6 +8,7 @@ att_to_desc_from_is(
   path.d = "DESCRIPTION",
   imports = NULL,
   suggests = NULL,
+  require_suggests = TRUE,
   normalize = TRUE,
   must.exist = TRUE
 )
@@ -18,6 +19,8 @@ att_to_desc_from_is(
 \item{imports}{character vector of package names to add in Imports section}
 
 \item{suggests}{character vector of package names to add in Suggests section}
+
+\item{require_suggests}{Logical. Whether to require that packages in the Suggests section are installed.}
 
 \item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc:desc_normalize]{desc::desc_normalize()}}}
 
