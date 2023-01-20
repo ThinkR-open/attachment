@@ -229,8 +229,9 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   # rlang::check_installed("pkg")
   # imports
   check_installed <- c(imports)
-  if (require_suggests)
+  if (require_suggests){
     check_installed <- c(check_installed, suggests)
+  }
   suppressWarnings(
     res <- vapply(
       check_installed, FUN = requireNamespace,
