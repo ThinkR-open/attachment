@@ -4,6 +4,9 @@
 
 - `find_remotes()` now informs when using "r-universe" repositories.
 
+## Minor changes
+- a new parameters `check_if_suggests_is_installed` in `att_amend_desc()` allow not to check if suggested package is installed.
+
 # attachment 0.3.0
 
 ## New features

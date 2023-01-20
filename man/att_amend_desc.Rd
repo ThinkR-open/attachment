@@ -18,7 +18,7 @@ att_amend_desc(
   normalize = TRUE,
   inside_rmd = FALSE,
   must.exist = TRUE,
-  require_suggests = FALSE
+  check_if_suggests_is_installed = TRUE
 )
 
 att_to_desc_from_pkg(
@@ -34,7 +34,7 @@ att_to_desc_from_pkg(
   normalize = TRUE,
   inside_rmd = FALSE,
   must.exist = TRUE,
-  require_suggests = FALSE
+  check_if_suggests_is_installed = TRUE
 )
 }
 \arguments{
@@ -64,7 +64,7 @@ in case this must be executed in an external R session}
 \item{must.exist}{Logical. If TRUE then an error is given if packages do not exist
 within installed packages. If NA, a warning.}
 
-\item{require_suggests}{Logical. Whether to require that packages in the Suggests section are installed.}
+\item{check_if_suggests_is_installed}{Logical. Whether to require that packages in the Suggests section are installed.}
 }
 \value{
 Update DESCRIPTION file.

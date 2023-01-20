@@ -51,7 +51,7 @@ create_renv_for_dev <- function(path = ".",
                                 install_if_missing = TRUE,
                                 document = TRUE,
                                 pkg_ignore = NULL,
-                                require_suggests = FALSE,
+                                check_if_suggests_is_installed = TRUE,
                                 ...) {
 
   if (!requireNamespace("renv")) {
@@ -68,12 +68,22 @@ create_renv_for_dev <- function(path = ".",
   }
 
   if (isTRUE(document)) {
-    att_amend_desc(path, require_suggests = require_suggests)
+    att_amend_desc(path, check_if_suggests_is_installed = check_if_suggests_is_installed)
+  }
+
+  if ( isTRUE(check_if_suggests_is_installed)){
+
+  fields <- c("Depends", "Imports", "Suggests")
+
+  } else {
+
+  fields <- c("Depends", "Imports")
+
   }
 
   pkg_list <- unique(
     c(
-      att_from_description(path = file.path(path, "DESCRIPTION")),
+      att_from_description(path = file.path(path, "DESCRIPTION"),field = fields),
       dev_pkg
     )
   )
@@ -138,12 +148,17 @@ create_renv_for_dev <- function(path = ".",
 
 #' @export
 #' @rdname create_renv_for_dev
-create_renv_for_prod <- function(path = ".", output = "renv.lock.prod", dev_pkg = "remotes", ...) {
+create_renv_for_prod <- function(path = ".",
+                                 output = "renv.lock.prod",
+                                 dev_pkg = "remotes",
+                                 check_if_suggests_is_installed = FALSE,
+                                 ...) {
   create_renv_for_dev(
     path = path,
     dev_pkg = dev_pkg,
     folder_to_include = NULL,
     output = output,
+    check_if_suggests_is_installed = check_if_suggests_is_installed,
     ...
   )
 }
