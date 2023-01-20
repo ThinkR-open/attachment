@@ -1,6 +1,6 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.3.0.9000
+Version: 0.3.0.9001
 Authors@R:
     c(person(given = "Sébastien",
              family = "Rochette",
@@ -26,10 +26,11 @@ License: GPL-3
 URL: https://thinkr-open.github.io/attachment/,
     https://github.com/ThinkR-open/attachment
 BugReports: https://github.com/ThinkR-open/attachment/issues
+Config/Needs/website: ThinkR-open/thinkrtemplate
 VignetteBuilder:
     knitr
 Encoding: UTF-8
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 Depends: 
@@ -47,6 +48,7 @@ Imports:
     utils,
     withr
 Suggests: 
+    covr,
     lifecycle,
     renv (>= 0.8.4),
     rstudioapi,
