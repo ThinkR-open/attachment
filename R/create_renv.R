@@ -29,6 +29,7 @@ extra_dev_pkg <- c(
 #' detecting packages in DESCRIPTION.
 #' @param pkg_ignore Vector of packages to ignore from being discovered in your files.
 #' This does not prevent them to be in "renv.lock" if they are recursive dependencies.
+#' @inheritParams att_to_desc_from_is
 #' @param ... Other arguments to pass to [renv::snapshot()]
 #'
 #' @return a renv.lock file
@@ -50,6 +51,7 @@ create_renv_for_dev <- function(path = ".",
                                 install_if_missing = TRUE,
                                 document = TRUE,
                                 pkg_ignore = NULL,
+                                require_suggests = FALSE,
                                 ...) {
 
   if (!requireNamespace("renv")) {
@@ -66,7 +68,7 @@ create_renv_for_dev <- function(path = ".",
   }
 
   if (isTRUE(document)) {
-    att_amend_desc(path)
+    att_amend_desc(path, require_suggests = require_suggests)
   }
 
   pkg_list <- unique(

@@ -13,6 +13,7 @@ create_renv_for_dev(
   install_if_missing = TRUE,
   document = TRUE,
   pkg_ignore = NULL,
+  require_suggests = FALSE,
   ...
 )
 
@@ -42,6 +43,8 @@ detecting packages in DESCRIPTION.}
 
 \item{pkg_ignore}{Vector of packages to ignore from being discovered in your files.
 This does not prevent them to be in "renv.lock" if they are recursive dependencies.}
+
+\item{require_suggests}{Logical. Whether to require that packages in the Suggests section are installed.}
 
 \item{...}{Other arguments to pass to \code{\link[renv:snapshot]{renv::snapshot()}}}
 }
