@@ -138,12 +138,17 @@ create_renv_for_dev <- function(path = ".",
 
 #' @export
 #' @rdname create_renv_for_dev
-create_renv_for_prod <- function(path = ".", output = "renv.lock.prod", dev_pkg = "remotes", ...) {
+create_renv_for_prod <- function(path = ".",
+                                 output = "renv.lock.prod",
+                                 dev_pkg = "remotes",
+                                 check_if_suggests_is_installed = FALSE,
+                                 ...) {
   create_renv_for_dev(
     path = path,
     dev_pkg = dev_pkg,
     folder_to_include = NULL,
     output = output,
+    check_if_suggests_is_installed = check_if_suggests_is_installed,
     ...
   )
 }
