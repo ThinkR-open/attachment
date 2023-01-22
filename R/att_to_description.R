@@ -42,7 +42,7 @@ att_amend_desc <- function(path = ".",
                            normalize = TRUE,
                            inside_rmd = FALSE,
                            must.exist = TRUE,
-                           require_suggests = FALSE
+                           require_suggests = TRUE
 ) {
 
 

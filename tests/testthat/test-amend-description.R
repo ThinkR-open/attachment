@@ -298,9 +298,8 @@ library(ggplot3)
 ```
 ", file = file.path(dummypackage, "vignettes", "vignette.Rmd"))
 
-  expect_error(attachment::att_amend_desc(path = dummypackage),
+  expect_error(attachment::att_amend_desc(path = dummypackage,require_suggests = TRUE),
                "The package ggplot3 is missing or misspelled.")
-
   # Clean after
   unlink(dummypackage)
 })
@@ -408,3 +407,44 @@ my_length(1)
 
 
 }
+
+
+# missing pkg in vignette (Suggests) is not installed but we dont check it ----
+test_that("if require_suggests = FALSE no test is done on Suggests packages", {
+  # Copy package in a temporary directory
+  tmpdir <- tempfile("dummy")
+  dir.create(tmpdir)
+  file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+  dummypackage <- file.path(tmpdir, "dummypackage")
+  # browseURL(dummypackage)
+  cat("
+## The vignette
+```{r}
+library(glue)
+library(ggplot3)
+```
+", file = file.path(dummypackage, "vignettes", "vignette.Rmd"))
+  attachment::att_amend_desc(path = dummypackage,require_suggests = FALSE)
+
+
+  desc_file <- readLines(file.path(dummypackage, "DESCRIPTION"))
+
+  w.depends <- grep("Depends:", desc_file)
+  expect_length(w.depends, 1)
+  expect_equal(desc_file[w.depends + 1], "    R (>= 3.5.0)")
+  expect_equal(desc_file[w.depends + 2], "Imports: ")
+  expect_equal(desc_file[w.depends + 3], "    magrittr,")
+  expect_equal(desc_file[w.depends + 4], "    stats")
+  expect_equal(desc_file[w.depends + 5], "Suggests: ")
+  expect_equal(desc_file[w.depends + 6], "    ggplot3,")
+  expect_equal(desc_file[w.depends + 7], "    glue,")
+  expect_equal(desc_file[w.depends + 8], "    knitr,")
+  expect_equal(desc_file[w.depends + 9], "    rmarkdown,")
+  expect_equal(desc_file[w.depends + 10], "    testthat")
+  expect_equal(desc_file[w.depends + 11], "LinkingTo:" )
+  expect_equal(desc_file[w.depends + 12], "    Rcpp")
+
+
+  # Clean after
+  unlink(dummypackage)
+})
