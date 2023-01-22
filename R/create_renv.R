@@ -51,7 +51,7 @@ create_renv_for_dev <- function(path = ".",
                                 install_if_missing = TRUE,
                                 document = TRUE,
                                 pkg_ignore = NULL,
-                                require_suggests = FALSE,
+                                check_if_suggests_is_installed = TRUE,
                                 ...) {
 
   if (!requireNamespace("renv")) {
@@ -68,7 +68,7 @@ create_renv_for_dev <- function(path = ".",
   }
 
   if (isTRUE(document)) {
-    att_amend_desc(path, require_suggests = require_suggests)
+    att_amend_desc(path, check_if_suggests_is_installed = check_if_suggests_is_installed)
   }
 
   pkg_list <- unique(

@@ -298,7 +298,7 @@ library(ggplot3)
 ```
 ", file = file.path(dummypackage, "vignettes", "vignette.Rmd"))
 
-  expect_error(attachment::att_amend_desc(path = dummypackage,require_suggests = TRUE),
+  expect_error(attachment::att_amend_desc(path = dummypackage,check_if_suggests_is_installed = TRUE),
                "The package ggplot3 is missing or misspelled.")
   # Clean after
   unlink(dummypackage)
@@ -410,7 +410,7 @@ my_length(1)
 
 
 # missing pkg in vignette (Suggests) is not installed but we dont check it ----
-test_that("if require_suggests = FALSE no test is done on Suggests packages", {
+test_that("if check_if_suggests_is_installed = FALSE no test is done on Suggests packages", {
   # Copy package in a temporary directory
   tmpdir <- tempfile("dummy")
   dir.create(tmpdir)
@@ -424,7 +424,7 @@ library(glue)
 library(ggplot3)
 ```
 ", file = file.path(dummypackage, "vignettes", "vignette.Rmd"))
-  attachment::att_amend_desc(path = dummypackage,require_suggests = FALSE)
+  attachment::att_amend_desc(path = dummypackage,check_if_suggests_is_installed = FALSE)
 
 
   desc_file <- readLines(file.path(dummypackage, "DESCRIPTION"))

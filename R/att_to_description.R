@@ -42,7 +42,7 @@ att_amend_desc <- function(path = ".",
                            normalize = TRUE,
                            inside_rmd = FALSE,
                            must.exist = TRUE,
-                           require_suggests = TRUE
+                           check_if_suggests_is_installed = TRUE
 ) {
 
 
@@ -160,7 +160,7 @@ att_amend_desc <- function(path = ".",
   suggests <- suggests[suggests != "base"]
 
   # Build DESCRIPTION ----
-  att_to_desc_from_is(path.d, imports, suggests, normalize, must.exist, require_suggests = require_suggests)
+  att_to_desc_from_is(path.d, imports, suggests, normalize, must.exist, check_if_suggests_is_installed = check_if_suggests_is_installed)
 }
 
 #' @rdname att_amend_desc
@@ -172,7 +172,7 @@ att_to_desc_from_pkg <- att_amend_desc
 #' @param path.d path to description file.
 #' @param imports character vector of package names to add in Imports section
 #' @param suggests character vector of package names to add in Suggests section
-#' @param require_suggests Logical. Whether to require that packages in the Suggests section are installed.
+#' @param check_if_suggests_is_installed Logical. Whether to require that packages in the Suggests section are installed.
 #' @param normalize Logical. Whether to normalize the DESCRIPTION file. See [desc::desc_normalize()]
 #' @param must.exist Logical. If TRUE then an error is given if packages do not exist
 #' within installed packages. If NA, a warning.
@@ -205,7 +205,7 @@ att_to_desc_from_pkg <- att_amend_desc
 #' suggests = att_from_rmds(file.path(dummypackage, "vignettes")))
 
 att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
-                                suggests = NULL, require_suggests = TRUE, normalize = TRUE,
+                                suggests = NULL, check_if_suggests_is_installed = TRUE, normalize = TRUE,
                                 must.exist = TRUE) {
 
   if (!file.exists(path.d)) {
@@ -229,7 +229,7 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   # rlang::check_installed("pkg")
   # imports
   check_installed <- c(imports)
-  if (require_suggests){
+  if (check_if_suggests_is_installed){
     check_installed <- c(check_installed, suggests)
   }
   suppressWarnings(
