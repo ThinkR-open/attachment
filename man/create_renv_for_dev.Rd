@@ -21,6 +21,7 @@ create_renv_for_prod(
   path = ".",
   output = "renv.lock.prod",
   dev_pkg = "remotes",
+  check_if_suggests_is_installed = FALSE,
   ...
 )
 }

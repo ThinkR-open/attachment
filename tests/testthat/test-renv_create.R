@@ -91,6 +91,9 @@ test_that("create_renv_for_dev creates lock files", {
 })
 
 # print(my_renv_extra)
+
+SOUCIS ICI
+
 local_renv_extra <- getFromNamespace("lockfile", "renv")(my_renv_extra)
 local_renv_blank <- getFromNamespace("lockfile", "renv")(my_renv_blank)
 
@@ -202,3 +205,90 @@ test_that("create_renv_(pkg_ignore) works", {
 
 remove.packages("extrapackage")
 unlink(tmpdir, recursive = TRUE)
+
+
+unlink(dummypackage, recursive = TRUE)
+
+
+tmpdir <- tempfile("dummy")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+desc_file <- file.path(dummypackage, "DESCRIPTION")
+desc_lines <- readLines(desc_file)
+# desc_lines <- c(desc_lines,"Suggests: \n    idontexist")
+desc_lines[desc_lines == "Suggests: "] <- "Suggests: \n    idontexist,\n    sudoku,"
+writeLines(desc_lines,desc_file)
+
+test_that("suggested package are not in renv prod", {
+
+  create_renv_for_prod(
+    document = FALSE,# to use the DESCRIPTION file we have created
+    path = dummypackage,
+    install_if_missing = FALSE,
+    # check_if_suggests_is_installed = FALSE,
+    force = TRUE)
+
+  base <- paste(readLines("renv.lock.prod"),collapse = " ")
+  expect_false(grepl(pattern = "idontexist",x = base))
+  expect_false(grepl(pattern = "sudoku",x = base))
+  expect_true(grepl(pattern = "magrittr",x = base))
+
+  unlink(dummypackage, recursive = TRUE)
+  }
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+tmpdir <- tempfile("dummy")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+desc_file <- file.path(dummypackage, "DESCRIPTION")
+desc_lines <- readLines(desc_file)
+# desc_lines <- c(desc_lines,"Suggests: \n    idontexist")
+desc_lines[desc_lines == "Suggests: "] <- "Suggests: \n    idontexist,\n    sudoku,"
+writeLines(desc_lines,desc_file)
+
+test_that("suggested package are in renv dev", {
+
+  create_renv_for_dev(
+    document = FALSE, # to use the DESCRIPTION file we have created
+    path = dummypackage,
+    install_if_missing = FALSE,
+    # check_if_suggests_is_installed = TRUE,
+    force = TRUE)
+
+  base <- paste(readLines("renv.lock"),collapse = " ")
+  # expect_true(grepl(pattern = "idontexist",x = base)) #renv dont install unistalled package
+  expect_true(grepl(pattern = "sudoku",x = base))
+  expect_true(grepl(pattern = "magrittr",x = base))
+
+  unlink(dummypackage, recursive = TRUE)
+
+}
+)
+
+# faire la meme avec un ggplot3 dans vignette
+
+# cat("
+# ## The vignette
+# ```{r}
+# library(glue)
+# library(ggplot3)
+# ```
+# ", file = file.path(dummypackage, "vignettes", "vignette.Rmd"))
+
+
+
+

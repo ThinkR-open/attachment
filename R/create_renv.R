@@ -71,9 +71,19 @@ create_renv_for_dev <- function(path = ".",
     att_amend_desc(path, check_if_suggests_is_installed = check_if_suggests_is_installed)
   }
 
+  if ( isTRUE(check_if_suggests_is_installed)){
+
+  fields <- c("Depends", "Imports", "Suggests")
+
+  } else {
+
+  fields <- c("Depends", "Imports")
+
+  }
+
   pkg_list <- unique(
     c(
-      att_from_description(path = file.path(path, "DESCRIPTION")),
+      att_from_description(path = file.path(path, "DESCRIPTION"),field = fields),
       dev_pkg
     )
   )
