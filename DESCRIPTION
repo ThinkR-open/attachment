@@ -47,6 +47,7 @@ Imports:
     utils,
     withr
 Suggests: 
+    covr,
     lifecycle,
     renv (>= 0.8.4),
     rstudioapi,
