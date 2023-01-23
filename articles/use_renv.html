@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
 
       
 
-      </header><script src="use_renv_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Use {renv} with developers tools</h1>
@@ -127,26 +127,39 @@
 
     
     
-
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://thinkr-open.github.io/attachment/">attachment</a></span><span class="op">)</span></span></code></pre></div>
-<p><code><a href="../reference/create_renv_for_dev.html">create_renv_for_dev()</a></code> and <code><a href="../reference/create_renv_for_dev.html">create_renv_for_prod()</a></code> functions create <code>renv.lock</code> files based on development projects.</p>
+<p><code><a href="../reference/create_renv_for_dev.html">create_renv_for_dev()</a></code> and
+<code><a href="../reference/create_renv_for_dev.html">create_renv_for_prod()</a></code> functions create
+<code>renv.lock</code> files based on development projects.</p>
 <div class="section level2">
-<h2 id="create-reproducible-environments-for-your-r-projects-with-renv">Create reproducible environments for your R projects with {renv}<a class="anchor" aria-label="anchor" href="#create-reproducible-environments-for-your-r-projects-with-renv"></a>
+<h2 id="create-reproducible-environments-for-your-r-projects-with-renv">Create reproducible environments for your R projects with
+{renv}<a class="anchor" aria-label="anchor" href="#create-reproducible-environments-for-your-r-projects-with-renv"></a>
 </h2>
-<p>Tool to create and maintain “renv.lock” files. The idea is to have 2 distinct files, one for development and the other for deployment. Indeed, although package like {attachment}, {fusen} or {pkgload} must be installed to develop, they are not necessary in your project, package or Shiny application.</p>
-<p>Hence, create and update your “renv.lock” file in the development project with everything needed to work in the same conditions between collaborators and allow Continuous Integration to work properly.<br>
+<p>Tool to create and maintain “renv.lock” files. The idea is to have 2
+distinct files, one for development and the other for deployment.
+Indeed, although package like {attachment}, {fusen} or {pkgload} must be
+installed to develop, they are not necessary in your project, package or
+Shiny application.</p>
+<p>Hence, create and update your “renv.lock” file in the development
+project with everything needed to work in the same conditions between
+collaborators and allow Continuous Integration to work properly.<br>
 This currently includes:</p>
 <pre><code><span><span class="co">#&gt;  [1] "renv"        "fusen"       "devtools"    "roxygen2"    "usethis"    </span></span>
 <span><span class="co">#&gt;  [6] "pkgload"     "testthat"    "remotes"     "covr"        "attachment" </span></span>
 <span><span class="co">#&gt; [11] "pak"         "dockerfiler" "pkgdown"</span></span></code></pre>
-<p>And thus, run <code><a href="../reference/create_renv_for_dev.html">create_renv_for_dev()</a></code> before sending your commit to your remote git server. Use <code>_default</code> (with underscore), to use the default list.</p>
+<p>And thus, run <code><a href="../reference/create_renv_for_dev.html">create_renv_for_dev()</a></code> before sending your
+commit to your remote git server. Use <code>_default</code> (with
+underscore), to use the default list.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_renv_for_dev.html">create_renv_for_dev</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># with all default above</span></span>
 <span><span class="fu"><a href="../reference/create_renv_for_dev.html">create_renv_for_dev</a></span><span class="op">(</span>dev_pkg <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span> <span class="co"># with {attachment} only</span></span>
 <span><span class="fu"><a href="../reference/create_renv_for_dev.html">create_renv_for_dev</a></span><span class="op">(</span>dev_pkg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"_default"</span>, <span class="st">"DT"</span><span class="op">)</span><span class="op">)</span> <span class="co"># for all default and {DT}</span></span></code></pre></div>
-<p>Later on, if you want to create a R project that can use your package developed with {renv}, run <code><a href="../reference/create_renv_for_dev.html">create_renv_for_prod()</a></code>.<br>
-Indeed, your users only need to install packages listed in your “DESCRIPTION” file, with the same packages versions you used during development.</p>
+<p>Later on, if you want to create a R project that can use your package
+developed with {renv}, run <code><a href="../reference/create_renv_for_dev.html">create_renv_for_prod()</a></code>.<br>
+Indeed, your users only need to install packages listed in your
+“DESCRIPTION” file, with the same packages versions you used during
+development.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_renv_for_dev.html">create_renv_for_prod</a></span><span class="op">(</span>output <span class="op">=</span> <span class="st">"renv.lock.prod"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -164,7 +177,7 @@ Indeed, your users only need to install packages listed in your “DESCRIPTION�
 
       <footer><div class="thinkr">
   <p></p>
-<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
 <div class="author">

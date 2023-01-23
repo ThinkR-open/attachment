@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -114,13 +114,14 @@
 
       
 
-      </header><script src="a-fill-pkg-description_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>a-Help during package development</h1>
-                        <h4 data-toc-skip class="author">Sébastien Rochette</h4>
+                        <h4 data-toc-skip class="author">Sébastien
+Rochette</h4>
             
-            <h4 data-toc-skip class="date">2022-09-19</h4>
+            <h4 data-toc-skip class="date">2023-01-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/HEAD/vignettes/a-fill-pkg-description.Rmd" class="external-link"><code>vignettes/a-fill-pkg-description.Rmd</code></a></small>
       <div class="hidden name"><code>a-fill-pkg-description.Rmd</code></div>
@@ -142,23 +143,32 @@ $(document).ready(function () {
 <div class="section level2">
 <h2 id="use-devdev_history-r">Use “dev/dev_history.R”<a class="anchor" aria-label="anchor" href="#use-devdev_history-r"></a>
 </h2>
-<p>When building your package, create a file called “dev_history.R” in a “dev/” directory. You will store all “manual” calls to <code>devtools::xxx</code> and <code>usethis::xxx</code> in this script.<br>
+<p>When building your package, create a file called “dev_history.R” in a
+“dev/” directory. You will store all “manual” calls to
+<code>devtools::xxx</code> and <code>usethis::xxx</code> in this
+script.<br>
 Its first line should be :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_build_ignore</span><span class="op">(</span><span class="st">"dev"</span><span class="op">)</span></span></code></pre></div>
-<p>You can then call {attachment} in this file to help you build your description file.</p>
+<p>You can then call {attachment} in this file to help you build your
+description file.</p>
 </div>
 <div class="section level2">
 <h2 id="fill-your-description-file">Fill your DESCRIPTION file<a class="anchor" aria-label="anchor" href="#fill-your-description-file"></a>
 </h2>
-<p>What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only this function will really be called in your “dev/dev_history.R”.<br>
-Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc()</a></code> each time before <code>devtools::check()</code>, this will save you some warnings and errors !</p>
+<p>What you really want is to fill and update your description file
+along with the modifications of your documentation. Indeed, only this
+function will really be called in your “dev/dev_history.R”.<br>
+Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc()</a></code> each time before
+<code>devtools::check()</code>, this will save you some warnings and
+errors !</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="section level4">
 <h4 id="example-on-a-fake-package">Example on a fake package<a class="anchor" aria-label="anchor" href="#example-on-a-fake-package"></a>
 </h4>
-<p>If you are running this inside a Rmd like here, you may need parameter <code>inside_rmd = TRUE</code>.</p>
+<p>If you are running this inside a Rmd like here, you may need
+parameter <code>inside_rmd = TRUE</code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Copy package in a temporary directory</span></span>
 <span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -175,7 +185,7 @@ Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc(
 <span><span class="co">#&gt; Please carefully check .Rd files for changes</span></span>
 <span><span class="co">#&gt; ────────────────────────────────────────────────────────────────────────────────</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Setting `RoxygenNote` to "7.2.1"</span></span>
+<span><span class="co">#&gt; Setting `RoxygenNote` to "7.2.3"</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span></span>
 <span><span class="co">#&gt; Writing <span style="color: #0000BB;">NAMESPACE</span></span></span>
 <span><span class="co">#&gt; Writing <span style="color: #0000BB;">NAMESPACE</span></span></span>
@@ -190,44 +200,77 @@ Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc(
 <div class="section level2">
 <h2 id="propose-content-for-remotes-field">Propose content for “Remotes” field<a class="anchor" aria-label="anchor" href="#propose-content-for-remotes-field"></a>
 </h2>
-<p><code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc()</a></code> adds packages that were installed from other source than CRAN to <code>Remotes:</code> field in DESCRIPTION.</p>
+<p><code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc()</a></code> adds packages that were installed
+from other source than CRAN to <code>Remotes:</code> field in
+DESCRIPTION.</p>
 <p>For instance:</p>
 <ul>
-<li>For GitHub : <code>Remotes: thinkr-open/attachment</code>
+<li>For GitHub: <code>Remotes: thinkr-open/attachment</code>
 </li>
-<li>For GitLab : <code>Remotes: gitlab::jimhester/covr</code>
+<li>For GitLab: <code>Remotes: gitlab::jimhester/covr</code>
 </li>
-<li>For Git : <code>Remotes: git::https://theurl/package_git.git</code>
+<li>For Git:
+<code>Remotes: git::https://theurl/package_git.git</code>
 </li>
-<li>For local package: <code>Remotes: local::c:\mylocalpackage</code> or <code>Remotes: local::subdir/mylocalpackage</code>
+<li>For local package: <code>Remotes: local::c:\mylocalpackage</code> or
+<code>Remotes: local::subdir/mylocalpackage</code>
 </li>
-<li>For Bioconductor : <code>Remotes: bioc::3.3/package_bioc</code>
+<li>For Bioconductor: <code>Remotes: bioc::3.3/package_bioc</code>
+</li>
+<li>For r-universe: Show a message to inform how to use r-universe with
+<code>options</code>, like
+<code>r-universe: need to set options to repos="https://thinkr-open.r-universe.dev"</code>
 </li>
 </ul>
 <p>You may want to run it after <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="va">dummypackage</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>If you only want to find if packages were installed from other source than CRAN, without amending DESCRIPTION, you can use <code><a href="../reference/find_remotes.html">find_remotes()</a></code>.</p>
+<p>If you only want to find if packages were installed from other source
+than CRAN, without amending DESCRIPTION, you can use
+<code><a href="../reference/find_remotes.html">find_remotes()</a></code>.</p>
 <p>You can use it on a vector of packages names</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/find_remotes.html">find_remotes</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"attachment"</span>, <span class="st">"desc"</span>, <span class="st">"glue"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $attachment</span></span>
 <span><span class="co">#&gt; local maybe ? </span></span>
 <span><span class="co">#&gt;            NA</span></span></code></pre></div>
-<p>You may also want to combine it to <code><a href="../reference/att_from_description.html">att_from_description()</a></code></p>
+<p>You may also want to combine it to
+<code><a href="../reference/att_from_description.html">att_from_description()</a></code></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/att_from_description.html">att_from_description</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/find_remotes.html">find_remotes</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>If you want to get the complete list of packages installed on your
+computer with non-CRAN repositories:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/find_remotes.html">find_remotes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.dirs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>You can test it if you install {fusen} from GitHub or r-universe:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># From GitHub</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ThinkR-open/fusen"</span>,</span>
+<span>                        quiet <span class="op">=</span> <span class="cn">TRUE</span>, upgrade <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span>
+<span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/find_remotes.html">find_remotes</a></span><span class="op">(</span><span class="st">"fusen"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $fusen</span></span>
+<span><span class="co">#&gt; [1] "ThinkR-open/fusen"</span></span>
+<span></span>
+<span><span class="co"># From r-universe as default repos</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"fusen"</span>, repos <span class="op">=</span> <span class="st">"https://thinkr-open.r-universe.dev"</span><span class="op">)</span></span>
+<span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/find_remotes.html">find_remotes</a></span><span class="op">(</span><span class="st">"fusen"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; r-universe: need to set options to repos="https://thinkr-open.r-universe.dev" </span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="create-a-file-for-package-installation">Create a file for package installation<a class="anchor" aria-label="anchor" href="#create-a-file-for-package-installation"></a>
 </h2>
-<p>Once your package is finished. Well, is a package ever finished ? Let’s say, once you want to release a version of your package, you may want to deliver the list of dependencies your users will have to install. A little script like <code>install.packages(c(...all dep...))</code> would be so nice :</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>Once your package is finished. Well, is a package ever finished ?
+Let’s say, once you want to release a version of your package, you may
+want to deliver the list of dependencies your users will have to
+install. A little script like
+<code>install.packages(c(...all dep...))</code> would be so nice :</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_dependencies_file.html">create_dependencies_file</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>This file will be placed in <code>inst/dependencies.R</code> and contains :</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<p>This file will be placed in <code>inst/dependencies.R</code> and
+contains :</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># No Remotes ----</span></span>
 <span><span class="co"># remotes::install_github("ThinkR-open/fcuk")</span></span>
 <span><span class="co"># Attachments ----</span></span>
@@ -243,8 +286,10 @@ Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc(
 <div class="section level2">
 <h2 id="other-possibilities">Other possibilities<a class="anchor" aria-label="anchor" href="#other-possibilities"></a>
 </h2>
-<p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code> or Rmd files using <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>Of course, you can also use {attachment} out of a package to list all
+package dependencies of R scripts using <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code>
+or Rmd files using <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code>.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"R"</span><span class="op">)</span><span class="op">)</span></span>
@@ -266,7 +311,7 @@ Run <code><a href="../reference/att_amend_desc.html">attachment::att_amend_desc(
 
       <footer><div class="thinkr">
   <p></p>
-<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
 <div class="author">

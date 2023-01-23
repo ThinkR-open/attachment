@@ -35,7 +35,7 @@ for the correspondence with att_to_desc_from_is()."><meta property="og:image" co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -105,7 +105,8 @@ for the correspondence with <code><a href="att_to_desc_from_is.html">att_to_desc
 <span>  document <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  normalize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  inside_rmd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  must.exist <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  must.exist <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_if_suggests_is_installed <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">att_to_desc_from_pkg</span><span class="op">(</span></span>
@@ -120,7 +121,8 @@ for the correspondence with <code><a href="att_to_desc_from_is.html">att_to_desc
 <span>  document <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  normalize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  inside_rmd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  must.exist <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  must.exist <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_if_suggests_is_installed <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -175,6 +177,10 @@ in case this must be executed in an external R session</p></dd>
 <dd><p>Logical. If TRUE then an error is given if packages do not exist
 within installed packages. If NA, a warning.</p></dd>
 
+
+<dt>check_if_suggests_is_installed</dt>
+<dd><p>Logical. Whether to require that packages in the Suggests section are installed.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -198,7 +204,7 @@ within installed packages. If NA, a warning.</p></dd>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> * `%` is now escaped automatically in Markdown mode.</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Please carefully check .Rd files for changes</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting `RoxygenNote` to "7.2.1"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting `RoxygenNote` to "7.2.3"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
@@ -216,7 +222,7 @@ within installed packages. If NA, a warning.</p></dd>
 
 
       <footer><div class="thinkr">
-  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
 <div class="author">
