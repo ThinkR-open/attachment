@@ -37,8 +37,10 @@ unloadNamespace("extrapackage") # for windows mainly
 install.packages(extrapackage, repos = NULL, type = "source")
 
 # Add a development package not required in DESCRIPTION: dummy.extra ----
-lock_includes_extra <- file.path(tmpdir, "for_extra.lock")
-lock_without_extra <- file.path(tmpdir, "blank.lock")
+lock_includes_extra_dev <- file.path(tmpdir, "for_extra_dev.lock")
+lock_without_extra_dev <- file.path(tmpdir, "blank_dev.lock")
+lock_includes_extra_prod <- file.path(tmpdir, "for_extra_prod.lock")
+lock_without_extra_prod <- file.path(tmpdir, "blank_prod.lock")
 
 skip_on_cran()
 
@@ -61,58 +63,116 @@ if (interactive()) {
         output = lock_without_extra)}
   )
 } else {
+
+  # renv for dev
+
   expect_message({
-    my_renv_extra <- create_renv_for_dev(
+
+    my_renv_extra_dev <- create_renv_for_dev(
       path = dummypackage,
       install_if_missing = FALSE,
       dev_pkg = "extrapackage",
-      output = lock_includes_extra,
+      output = lock_includes_extra_dev,
       # force generation of a lockfile even when pre-flight validation checks have failed?
       force = TRUE)}#,
     # "There is no directory named: dev, data-raw" # cli
   )
   expect_message({
     # message, but not missing directories as they are skipped
-    my_renv_blank <- create_renv_for_prod(
+    my_renv_blank_dev <- create_renv_for_dev(
       path = dummypackage,
       install_if_missing = FALSE,
       dev_pkg = NULL,
-      output = lock_without_extra,
+      output = lock_without_extra_dev,
+      # force generation of a lockfile even when pre-flight validation checks have failed?
+      force = TRUE)})
+
+  # renv for prod
+
+
+  expect_message({
+    my_renv_extra_prod <- create_renv_for_prod(
+      path = dummypackage,
+      install_if_missing = FALSE,
+      dev_pkg = "extrapackage",
+      output = lock_includes_extra_prod,
+      # force generation of a lockfile even when pre-flight validation checks have failed?
+      force = TRUE)}#,
+    # "There is no directory named: dev, data-raw" # cli
+  )
+  expect_message({
+    # message, but not missing directories as they are skipped
+    my_renv_blank_prod <- create_renv_for_prod(
+      path = dummypackage,
+      install_if_missing = FALSE,
+      dev_pkg = NULL,
+      output = lock_without_extra_prod,
       # force generation of a lockfile even when pre-flight validation checks have failed?
       force = TRUE)})
 }
 
 
 test_that("create_renv_for_dev creates lock files", {
-  expect_true(file.exists(lock_includes_extra))
-  expect_true(file.exists(my_renv_extra))
-  expect_true(file.exists(lock_without_extra))
-  expect_true(file.exists(my_renv_blank))
+  expect_true(file.exists(lock_includes_extra_dev))
+  expect_true(file.exists(my_renv_extra_dev))
+  expect_true(file.exists(lock_without_extra_dev))
+  expect_true(file.exists(my_renv_blank_dev))
+  expect_true(file.exists(lock_includes_extra_prod))
+  expect_true(file.exists(my_renv_extra_prod))
+  expect_true(file.exists(lock_without_extra_prod))
+  expect_true(file.exists(my_renv_blank_prod))
 })
 
 # print(my_renv_extra)
 
-SOUCIS ICI
 
-local_renv_extra <- getFromNamespace("lockfile", "renv")(my_renv_extra)
-local_renv_blank <- getFromNamespace("lockfile", "renv")(my_renv_blank)
+local_renv_extra_dev <- getFromNamespace("lockfile", "renv")(my_renv_extra_dev)
+local_renv_blank_dev <- getFromNamespace("lockfile", "renv")(my_renv_blank_dev)
+local_renv_extra_prod <- getFromNamespace("lockfile", "renv")(my_renv_extra_prod)
+local_renv_blank_prod <- getFromNamespace("lockfile", "renv")(my_renv_blank_prod)
 
 test_that("lockfile are renv files", {
-  expect_s3_class(local_renv_extra, "renv_lockfile_api")
-  expect_s3_class(local_renv_blank, "renv_lockfile_api")
+  expect_s3_class(local_renv_extra_dev, "renv_lockfile_api")
+  expect_s3_class(local_renv_blank_dev, "renv_lockfile_api")
+  expect_s3_class(local_renv_extra_prod, "renv_lockfile_api")
+  expect_s3_class(local_renv_blank_prod, "renv_lockfile_api")
 })
 
-pkg_extra <- names(local_renv_extra$data()$Packages)
-pkg_blank <- names(local_renv_blank$data()$Packages)
+pkg_extra_dev <- names(local_renv_extra_dev$data()$Packages)
+pkg_blank_dev <- names(local_renv_blank_dev$data()$Packages)
+pkg_extra_prod <- names(local_renv_extra_prod$data()$Packages)
+pkg_blank_prod <- names(local_renv_blank_prod$data()$Packages)
 
 test_that("extrapackage is present thanks to dev_pkg", {
-  expect_true("extrapackage" %in% pkg_extra)
-  expect_false("extrapackage" %in% pkg_blank)
+
+  #dev
+
+  expect_true("extrapackage" %in% pkg_extra_dev)
+  expect_false("extrapackage" %in% pkg_blank_dev)
   # all blank are in extra
-  expect_true(all(pkg_blank %in% pkg_extra))
+  expect_true(all(pkg_blank_dev %in% pkg_extra_dev))
   # there are extra not in blank
-  expect_equal(setdiff(pkg_extra, pkg_blank), c("extrapackage"))
+  expect_equal(setdiff(pkg_extra_dev, pkg_blank_dev), c("extrapackage"))
+
+  # prod
+  expect_true("extrapackage" %in% pkg_extra_prod)
+  expect_false("extrapackage" %in% pkg_blank_prod)
+  # all blank are in extra
+  expect_true(all(pkg_blank_prod %in% pkg_extra_prod))
+  # there are extra not in blank
+  expect_equal(setdiff(pkg_extra_prod, pkg_blank_prod), c("extrapackage"))
 })
+
+
+
+
+
+
+
+
+
+
+
 
 # reference cannot work because it is system and R version dependent
 # test_that("create_renv_for_dev works", {
@@ -178,7 +238,7 @@ test_that("folder_to_include works", {
 
 # Test pkg_ignore works ----
 # extrapackage is in "dev/" but I want it to be ignored
-test_that("create_renv_(pkg_ignore) works", {
+test_that("DEV create_renv_(pkg_ignore) works", {
 
   lock_includes_ignore <- file.path(tmpdir, "for_ignore.lock")
   expect_message({my_renv_ignore <-
@@ -199,9 +259,44 @@ test_that("create_renv_(pkg_ignore) works", {
   pkg_ignore <- names(local_renv_ignore$data()$Packages)
   # glue and  in dev/ are there
   expect_true(all(c("glue") %in% pkg_ignore))
+  expect_true(all(c("magrittr") %in% pkg_ignore))
   # extrapackage is ignored in dev/
   expect_false(all(c("extrapackage") %in% pkg_ignore))
 })
+
+
+# Test pkg_ignore works ----
+# extrapackage is in "dev/" but I want it to be ignored
+test_that("PROD create_renv_(pkg_ignore) works", {
+
+  lock_includes_ignore <- file.path(tmpdir, "for_ignore.lock")
+  expect_message({my_renv_ignore <-
+    create_renv_for_prod(
+      path = dummypackage,
+      install_if_missing = FALSE,
+      output = lock_includes_ignore,
+      pkg_ignore = "extrapackage",
+      force = TRUE)}
+  )
+
+  expect_true(file.exists(lock_includes_ignore))
+  expect_true(file.exists(my_renv_ignore))
+
+  local_renv_ignore <- getFromNamespace("lockfile", "renv")(my_renv_ignore)
+  expect_s3_class(local_renv_ignore, "renv_lockfile_api")
+
+  pkg_ignore <- names(local_renv_ignore$data()$Packages)
+  # glue and  in dev/ are there
+  expect_false(all(c("glue") %in% pkg_ignore)) # in suggests only so not present
+  expect_true(all(c("magrittr") %in% pkg_ignore))
+  # extrapackage is ignored in dev/
+  expect_false(all(c("extrapackage") %in% pkg_ignore))
+})
+
+
+
+
+
 
 remove.packages("extrapackage")
 unlink(tmpdir, recursive = TRUE)
@@ -281,14 +376,73 @@ test_that("suggested package are in renv dev", {
 
 # faire la meme avec un ggplot3 dans vignette
 
-# cat("
-# ## The vignette
-# ```{r}
-# library(glue)
-# library(ggplot3)
-# ```
-# ", file = file.path(dummypackage, "vignettes", "vignette.Rmd"))
 
 
+
+
+
+
+unlink(tmpdir, recursive = TRUE)
+
+
+unlink(dummypackage, recursive = TRUE)
+
+
+tmpdir <- tempfile("dummy")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+desc_file <- file.path(dummypackage, "DESCRIPTION")
+desc_lines <- readLines(desc_file)
+# desc_lines <- c(desc_lines,"Suggests: \n    idontexist")
+desc_lines[desc_lines == "Suggests: "] <- "Suggests: \n    idontexist,\n    sudoku,"
+writeLines(desc_lines,desc_file)
+cat("
+## The vignette
+```{r}
+library(glue)
+library(ggplot3)
+```
+", file = file.path(dummypackage, "vignettes", "vignette.Rmd"))
+
+
+test_that("suggested package are not in renv prod even from vignettes", {
+
+  create_renv_for_prod(
+    document = FALSE,# to use the DESCRIPTION file we have created
+    path = dummypackage,
+    install_if_missing = FALSE,
+    # check_if_suggests_is_installed = FALSE,
+    force = TRUE)
+
+  base <- paste(readLines("renv.lock.prod"),collapse = " ")
+  expect_false(grepl(pattern = "idontexist",x = base))
+  expect_false(grepl(pattern = "sudoku",x = base))
+  expect_false(grepl(pattern = "ggplot3",x = base))
+  expect_false(grepl(pattern = "glue",x = base))
+  expect_true(grepl(pattern = "magrittr",x = base))
+
+  unlink(dummypackage, recursive = TRUE)
+}
+)
+test_that("suggested package are not in renv prod even from vignettes", {
+
+  create_renv_for_prod(
+    document = TRUE,# to use the DESCRIPTION file we have created
+    path = dummypackage,
+    install_if_missing = FALSE,
+    # check_if_suggests_is_installed = FALSE,
+    force = TRUE)
+
+  base <- paste(readLines("renv.lock.prod"),collapse = " ")
+  expect_false(grepl(pattern = "idontexist",x = base))
+  expect_false(grepl(pattern = "sudoku",x = base))
+  expect_false(grepl(pattern = "ggplot3",x = base))
+  expect_false(grepl(pattern = "glue",x = base))
+  expect_true(grepl(pattern = "magrittr",x = base))
+
+  unlink(dummypackage, recursive = TRUE)
+}
+)
 
 
