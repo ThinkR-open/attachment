@@ -26,6 +26,7 @@ License: GPL-3
 URL: https://thinkr-open.github.io/attachment/,
     https://github.com/ThinkR-open/attachment
 BugReports: https://github.com/ThinkR-open/attachment/issues
+Config/Needs/website: ThinkR-open/thinkrtemplate
 VignetteBuilder:
     knitr
 Encoding: UTF-8
