@@ -102,8 +102,8 @@ desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> 
 #> Setting `RoxygenNote` to "7.2.2"
 #> ℹ Loading dummypackage
-#> Writing ']8;;file:///tmp/RtmpGswQNm/fakepkg2db2d37861041/dummypackage/NAMESPACENAMESPACE]8;;'
-#> Writing ']8;;file:///tmp/RtmpGswQNm/fakepkg2db2d37861041/dummypackage/NAMESPACENAMESPACE]8;;'
+#> Writing ']8;;file:///tmp/Rtmpe9Zik8/fakepkg4c0f84cd8072f/dummypackage/NAMESPACENAMESPACE]8;;'
+#> Writing ']8;;file:///tmp/Rtmpe9Zik8/fakepkg4c0f84cd8072f/dummypackage/NAMESPACENAMESPACE]8;;'
 #> ℹ Loading dummypackage
 #> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
 #> 
