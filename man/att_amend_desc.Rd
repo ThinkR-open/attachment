@@ -76,10 +76,11 @@ att_to_desc_from_pkg() is an alias of att_amend_desc(),
 for the correspondence with \code{\link[=att_to_desc_from_is]{att_to_desc_from_is()}}.
 }
 \examples{
-tmpdir <- tempdir()
+tmpdir <- tempfile(pattern = "description")
+dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
  recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
-att_amend_desc(path = dummypackage)
+att_amend_desc(path = tmpdir)
 }

@@ -84,7 +84,8 @@ attachment::set_remotes_to_desc()
 
 ``` r
 # Copy package in a temporary directory
-tmpdir <- tempdir()
+tmpdir <- tempfile(pattern = "fakepkg")
+dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 #> [1] TRUE
 dummypackage <- file.path(tmpdir, "dummypackage")
@@ -99,10 +100,10 @@ desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Please carefully check .Rd files for changes
 #> ────────────────────────────────────────────────────────────────────────────────
 #> 
-#> Setting `RoxygenNote` to "7.2.1"
+#> Setting `RoxygenNote` to "7.2.2"
 #> ℹ Loading dummypackage
-#> Writing ']8;;file:///tmp/RtmpB3u77H/dummypackage/NAMESPACENAMESPACE]8;;'
-#> Writing ']8;;file:///tmp/RtmpB3u77H/dummypackage/NAMESPACENAMESPACE]8;;'
+#> Writing ']8;;file:///tmp/RtmpGswQNm/fakepkg2db2d37861041/dummypackage/NAMESPACENAMESPACE]8;;'
+#> Writing ']8;;file:///tmp/RtmpGswQNm/fakepkg2db2d37861041/dummypackage/NAMESPACENAMESPACE]8;;'
 #> ℹ Loading dummypackage
 #> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
 #> 
@@ -114,6 +115,9 @@ desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 attachment::set_remotes_to_desc(path.d = desc_file)
 #> There are no remote packages installed on your computer to add to description
 #> NULL
+
+# Clean state
+unlink(tmpdir, recursive = TRUE)
 ```
 
 #### More on finding Remotes repositories (non installed from CRAN)
@@ -122,8 +126,8 @@ Find packages installed out of CRAN. This helps fill the “Remotes” field
 in DESCRIPTION file with `set_remotes_to_desc()`.  
 Behind the scene, it uses `fund_remotes()`.
 
--   See the examples below if {fusen} is installed from GitHub
-    -   Also works for GitLab, Bioconductor, Git, Local installations
+- See the examples below if {fusen} is installed from GitHub
+  - Also works for GitLab, Bioconductor, Git, Local installations
 
 ``` r
 # From GitHub

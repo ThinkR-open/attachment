@@ -28,7 +28,7 @@ test_that("rscript well parsed", {
 })
 
 # att_from_rscripts accept a vector of files or directory
-dir_with_R <- tempfile()
+dir_with_R <- tempfile(pattern = "rscripts")
 dir.create(dir_with_R)
 file.copy("f2.R", to = file.path(dir_with_R, "f2.R"))
 path_copy <- file.path(dir_with_R, "f2b.R")
@@ -53,6 +53,8 @@ test_that("att_from_rscripts well parsed", {
   expect_false("base" %in% res_files)
 
 })
+
+unlink(dir_with_R, recursive = TRUE)
 
 # Test escape code not used ----
 newline_script <- att_from_rscript(path = "escape_newline.R")

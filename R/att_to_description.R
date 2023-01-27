@@ -23,12 +23,16 @@
 #'
 #' @export
 #' @examples
-#' tmpdir <- tempdir()
+#' tmpdir <- tempfile(pattern = "description")
+#' dir.create(tmpdir)
 #' file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
 #'  recursive = TRUE)
 #' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # browseURL(dummypackage)
-#' att_amend_desc(path = dummypackage)
+#' att_amend_desc(path = tmpdir)
+#'
+#' # Clean after examples
+#' unlink(tmpdir, recursive = TRUE)
 
 att_amend_desc <- function(path = ".",
                            path.n = "NAMESPACE",
@@ -192,17 +196,22 @@ att_to_desc_from_pkg <- att_amend_desc
 #' you may want to set to `FALSE` (no message at all) or `NA` (warning for not installed).
 #'
 #' @examples
-#' tmpdir <- tempdir()
+#' tmpdir <- tempfile(pattern = "descfromis")
+#' dir.create(tmpdir)
 #' file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
 #'  recursive = TRUE)
 #' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # browseURL(dummypackage)
 #' att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
 #' imports = c("magrittr", "attachment"), suggests = c("knitr"))
+#'
 #' # In combination with other functions
 #' att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
 #' imports = att_from_rscripts(file.path(dummypackage, "R")),
 #' suggests = att_from_rmds(file.path(dummypackage, "vignettes")))
+#'
+#' # Clean temp files after this example
+#' unlink(tmpdir, recursive = TRUE)
 
 att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
                                 suggests = NULL, check_if_suggests_is_installed = TRUE, normalize = TRUE,

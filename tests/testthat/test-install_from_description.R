@@ -1,6 +1,7 @@
 dummypackage <- system.file("dummypackage", package = "attachment")
 # Copy to tmpdir
-pkg_dir <- tempdir()
+pkg_dir <- tempfile(pattern = "fromdesc")
+dir.create(pkg_dir)
 file.copy(dummypackage, pkg_dir, recursive = TRUE)
 # browseURL(file.path(pkg_dir, "dummypackage"))
 # install_from_description(path = file.path(dummypackage,"DESCRIPTION"), field = c("Imports", "Depends"))
@@ -41,4 +42,4 @@ test_that("install_from_description works", {
   )
 })
 
-unlink(file.path(pkg_dir, "dummypackage"), recursive = TRUE)
+unlink(pkg_dir, recursive = TRUE)

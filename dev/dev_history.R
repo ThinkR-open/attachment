@@ -122,6 +122,9 @@ rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
 out <- checkhelper::find_missing_tags()
 View(out)
 
+all_files_to_clean <- checkhelper::check_clean_userspace(pkg = ".")
+View(all_files_to_clean)
+
 # Check spelling
 # usethis::use_spell_check()
 spelling::spell_check_package()

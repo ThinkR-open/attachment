@@ -48,8 +48,12 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
 imports = c("magrittr", "attachment"), suggests = c("knitr"))
+
 # In combination with other functions
 att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
 imports = att_from_rscripts(file.path(dummypackage, "R")),
 suggests = att_from_rmds(file.path(dummypackage, "vignettes")))
+
+# Clean temp files after this example
+unlink(dummypackage, recursive = TRUE)
 }

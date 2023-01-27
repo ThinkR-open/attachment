@@ -35,3 +35,5 @@ cran-comments.md
 revdep/
 CRAN-RELEASE
 CRAN-SUBMISSION
+/doc/
+/Meta/

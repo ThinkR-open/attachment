@@ -1,9 +1,12 @@
+# These tests can not run on CRAN
+skip_on_cran()
+
 if (length(find.package("extrapackage", quiet = TRUE)) != 0) {
   unlink(find.package("extrapackage", quiet = TRUE), recursive = TRUE)
 }
 
 # test on dummy package
-tmpdir <- tempfile(pattern = "pkg")
+tmpdir <- tempfile(pattern = "pkgrenv")
 dir.create(tmpdir)
 file.copy(
   system.file("dummypackage", package = "attachment"), tmpdir,
@@ -42,8 +45,6 @@ lock_without_extra_dev <- file.path(tmpdir, "blank_dev.lock")
 lock_includes_extra_prod <- file.path(tmpdir, "for_extra_prod.lock")
 lock_without_extra_prod <- file.path(tmpdir, "blank_prod.lock")
 
-skip_on_cran()
-
 if (interactive()) {
   expect_message({my_renv_extra <-
     create_renv_for_dev(
@@ -63,8 +64,6 @@ if (interactive()) {
         output = lock_without_extra)}
   )
 } else {
-
-  # renv for dev
 
   expect_message({
 
@@ -162,17 +161,6 @@ test_that("extrapackage is present thanks to dev_pkg", {
   # there are extra not in blank
   expect_equal(setdiff(pkg_extra_prod, pkg_blank_prod), c("extrapackage"))
 })
-
-
-
-
-
-
-
-
-
-
-
 
 # reference cannot work because it is system and R version dependent
 # test_that("create_renv_for_dev works", {
@@ -293,19 +281,14 @@ test_that("PROD create_renv_(pkg_ignore) works", {
   expect_false(all(c("extrapackage") %in% pkg_ignore))
 })
 
-
-
-
-
-
+# Clean userspace
 remove.packages("extrapackage")
+unlink(extrapackage, recursive = TRUE)
 unlink(tmpdir, recursive = TRUE)
-
-
 unlink(dummypackage, recursive = TRUE)
 
 
-tmpdir <- tempfile("dummy")
+tmpdir <- tempfile("dummyrenv")
 dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
@@ -317,14 +300,17 @@ writeLines(desc_lines,desc_file)
 
 test_that("suggested package are not in renv prod", {
 
+  out_renv_file <- tempfile(pattern = "renv.lock.prod")
+
   create_renv_for_prod(
     document = FALSE,# to use the DESCRIPTION file we have created
     path = dummypackage,
     install_if_missing = FALSE,
+    output = out_renv_file,
     # check_if_suggests_is_installed = FALSE,
     force = TRUE)
 
-  base <- paste(readLines("renv.lock.prod"),collapse = " ")
+  base <- paste(readLines(out_renv_file),collapse = " ")
   expect_false(grepl(pattern = "idontexist",x = base))
   expect_false(grepl(pattern = "withr",x = base))
   expect_true(grepl(pattern = "magrittr",x = base))
@@ -345,7 +331,7 @@ test_that("suggested package are not in renv prod", {
 
 
 
-tmpdir <- tempfile("dummy")
+tmpdir <- tempfile("dummyrenvdev")
 dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
@@ -394,7 +380,7 @@ unlink(tmpdir, recursive = TRUE)
 unlink(dummypackage, recursive = TRUE)
 
 
-tmpdir <- tempfile("dummy")
+tmpdir <- tempfile("dummyrenvsuggest")
 dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
@@ -414,14 +400,17 @@ library(ggplot3)
 
 test_that("suggested package are not in renv prod even from vignettes", {
 
+  out_renv_file <- tempfile(pattern = "renv.lock.prod")
+
   create_renv_for_prod(
     document = FALSE,# to use the DESCRIPTION file we have created
     path = dummypackage,
     install_if_missing = FALSE,
+    output = out_renv_file,
     # check_if_suggests_is_installed = FALSE,
     force = TRUE)
 
-  base <- paste(readLines("renv.lock.prod"),collapse = " ")
+  base <- paste(readLines(out_renv_file),collapse = " ")
   expect_false(grepl(pattern = "idontexist",x = base))
   expect_false(grepl(pattern = "withr",x = base))
   expect_false(grepl(pattern = "ggplot3",x = base))
@@ -429,6 +418,7 @@ test_that("suggested package are not in renv prod even from vignettes", {
   expect_true(grepl(pattern = "magrittr",x = base))
 
   unlink(dummypackage, recursive = TRUE)
+  file.remove(out_renv_file)
 }
 )
 
@@ -441,7 +431,7 @@ unlink(tmpdir, recursive = TRUE)
 unlink(dummypackage, recursive = TRUE)
 
 
-tmpdir <- tempfile("dummy")
+tmpdir <- tempfile("dummyrenvprod")
 dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
@@ -461,14 +451,17 @@ library(ggplot3)
 
 test_that("suggested package are not in renv prod even from vignettes", {
 
+  out_renv_file <- tempfile(pattern = "renv.lock.prod")
+
   create_renv_for_prod(
     document = TRUE,
     path = dummypackage,
     install_if_missing = FALSE,
+    output = out_renv_file,
     # check_if_suggests_is_installed = FALSE,
     force = TRUE)
 
-  base <- paste(readLines("renv.lock.prod"),collapse = " ")
+  base <- paste(readLines(out_renv_file),collapse = " ")
   expect_false(grepl(pattern = "idontexist",x = base))
   expect_false(grepl(pattern = "withr",x = base))
   expect_false(grepl(pattern = "ggplot3",x = base))
@@ -476,6 +469,7 @@ test_that("suggested package are not in renv prod even from vignettes", {
   expect_true(grepl(pattern = "magrittr",x = base))
 
   unlink(dummypackage, recursive = TRUE)
+  file.remove(out_renv_file)
 }
 )
 

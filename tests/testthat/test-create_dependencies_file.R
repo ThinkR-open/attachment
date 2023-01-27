@@ -1,5 +1,6 @@
 # Copy package in a temporary directory
-tmpdir <- tempdir()
+tmpdir <- tempfile(pattern = "pkgdeps")
+dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
@@ -14,3 +15,6 @@ test_that("create-dependencies-file works", {
   expect_equal(dep_file[1], "# No Remotes ----")
   expect_equal(dep_file[3], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
 })
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
