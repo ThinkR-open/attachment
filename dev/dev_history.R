@@ -164,10 +164,16 @@ usethis::use_git_ignore("revdep/")
 usethis::use_build_ignore("revdep/")
 
 devtools::revdep()
+
+# remotes::install_github('r-lib/revdepcheck')
+id <- rstudioapi::terminalExecute("Rscript -e 'remotes::install_github(\"r-lib/revdepcheck\", upgrade = \"never\")'")
+rstudioapi::terminalKill(id)
+
 library(revdepcheck)
 # In another session
 revdepcheck::revdep_todo()
 # revdepcheck::revdep_add(packages = "fusen")
+# revdepcheck::revdep_check(num_workers = 4)
 id <- rstudioapi::terminalExecute("Rscript -e 'revdepcheck::revdep_check(num_workers = 4)'")
 rstudioapi::terminalKill(id)
 # See outputs
