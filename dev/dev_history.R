@@ -158,17 +158,6 @@ devtools::check_mac_release()
 # sudo apt-get install biber texlive-science texlive-lang-french texlive-lang-english texlive-fonts-extra
 checkhelper::check_as_cran()
 
-debugonce(tools:::.check_packages_used_in_tests)
-tools:::.check_packages_used_in_tests(dir = ".", testdir = "tests/testthat")
-db <- tools:::.read_description("DESCRIPTION")
-testdir <- "tests/testthat"
-Rinfiles <- list.files(testdir, pattern = "\\.Rin$", full.names = TRUE)
-Rfiles <- list.files(testdir, pattern = "\\.[rR]$", full.names = TRUE)
-res <- tools:::.check_packages_used_helper(db, c(Rinfiles, Rfiles))
-res
-?withr::with_connection()
-tools:::.get_standard_repository_URLs()
-
 # Check reverse dependencies
 # remotes::install_github("r-lib/revdepcheck")
 usethis::use_git_ignore("revdep/")

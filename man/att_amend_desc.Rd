@@ -83,4 +83,7 @@ file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_amend_desc(path = tmpdir)
+
+# Clean after examples
+unlink(tmpdir, recursive = TRUE)
 }
