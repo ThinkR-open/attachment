@@ -191,27 +191,27 @@ within installed packages. If NA, a warning.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"description"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">tmpdir</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span></span>
 <span class="r-in"><span> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># browseURL(dummypackage)</span></span></span>
-<span class="r-in"><span><span class="fu">att_amend_desc</span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Updating dummypackage documentation</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Changes in roxygen2 7.0.0:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * `%` is now escaped automatically in Markdown mode.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Please carefully check .Rd files for changes</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
+<span class="r-in"><span><span class="fu">att_amend_desc</span><span class="op">(</span>path <span class="op">=</span> <span class="va">tmpdir</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> An new path.d =DESCRIPTION was added to the directory. Please fill it. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Next time, you may want to use 'usethis::use_description()'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> First time using roxygen2. Upgrading automatically...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Setting `RoxygenNote` to "7.2.3"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">description18e2a4f4db8</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [-] 1 package(s) removed: utils.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [+] 2 package(s) added: stats, glue.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> A new path.n =/tmp/RtmpafOfV3/description18e2a4f4db8/NAMESPACE was added to the directory. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Updating description18e2a4f4db8 documentation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">description18e2a4f4db8</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">description18e2a4f4db8</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Clean after examples</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">tmpdir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
