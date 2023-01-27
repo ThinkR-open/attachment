@@ -11,10 +11,10 @@ test_that("att_from_namespace works", {
   expect_true(setequal(deps, c("magrittr")))
 })
 
-unlink(dummypackage, recursive = TRUE)
+unlink(tmpdir, recursive = TRUE)
 
 # Do not work when NAMESPACE does not exists
-tmpdir <- tempfile(pattern = "pkg")
+tmpdir <- tempfile(pattern = "pkgnamespace")
 dir.create(tmpdir)
 file.copy(
   system.file("dummypackage", package = "attachment"), tmpdir,
@@ -31,10 +31,10 @@ test_that("att_from_namespace works", {
   expect_true(setequal(deps, c("magrittr")))
 })
 
-unlink(dummypackage, recursive = TRUE)
+unlink(tmpdir, recursive = TRUE)
 
 # Works when used twice
-tmpdir <- tempfile(pattern = "pkg")
+tmpdir <- tempfile(pattern = "pkgtwice")
 dir.create(tmpdir)
 file.copy(
   system.file("dummypackage", package = "attachment"), tmpdir,
@@ -61,6 +61,7 @@ test_that("att_from_namespace works", {
   expect_true(setequal(deps, c("magrittr")))
 })
 
+unlink(tmpdir, recursive = TRUE)
 
 # File that failed in the past ----
 deps <- att_from_namespace("fake_namespace", document = FALSE)
@@ -71,7 +72,7 @@ test_that("att_from_namespace works", {
 
 # File that failed in the past with bad NAMESPACE ----
 # test on dummy package
-tmpdir <- tempfile(pattern = "pkg")
+tmpdir <- tempfile(pattern = "pkgbadnamespace")
 dir.create(tmpdir)
 file.copy(
   system.file("dummypackage", package = "attachment"), tmpdir,
@@ -115,3 +116,5 @@ test_that("bad namespace can be corrected", {
 })
 
 unlink(dummypackage, recursive = TRUE)
+unlink(tmpdir, recursive = TRUE)
+

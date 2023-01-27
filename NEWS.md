@@ -1,12 +1,14 @@
-# attachment (development version)
+# attachment 0.3.1
 
 ## New features
 
 - `find_remotes()` now informs when using "r-universe" repositories.
 
 ## Minor changes
+
 - a new parameters `check_if_suggests_is_installed` in `att_amend_desc()` allow not to check if suggested package is installed. (thanks to @yogat3ch)
-- `create_renv_for_prod` dont look anymore for suggested packages
+- `create_renv_for_prod()` dont look anymore for suggested packages
+- Clean a maximum of temp directories after examples and unit tests
 
 # attachment 0.3.0
 

@@ -12,12 +12,16 @@
 #' @importFrom roxygen2 roxygenise
 #'
 #' @examples
-#' tmpdir <- tempdir()
+#' tmpdir <- tempfile(pattern = "namespace")
+#' dir.create(tmpdir)
 #' file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
 #'  recursive = TRUE)
 #' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # browseURL(dummypackage)
 #' att_from_namespace(path = file.path(dummypackage, "NAMESPACE"))
+#'
+#' # Clean temp files after this example
+#' unlink(tmpdir, recursive = TRUE)
 
 att_from_namespace <- function(path = "NAMESPACE", document = TRUE, clean = TRUE) {
   if (!file.exists(path)) {

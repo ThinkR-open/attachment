@@ -21,13 +21,18 @@ Used for side effect. Adds Remotes field in DESCRIPTION file.
 Add Remotes field to DESCRIPTION based on your local installation
 }
 \examples{
-tmpdir <- tempdir()
+tmpdir <- tempfile(pattern = "setremotes")
+dir.create(tmpdir)
 file.copy(system.file("dummypackage", package = "attachment"), tmpdir,
  recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # Add remotes field if there are Remotes locally
 att_amend_desc(dummypackage) \%>\%
   set_remotes_to_desc()
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
+
 \dontrun{
 # For your current package
 att_amend_desc() \%>\%

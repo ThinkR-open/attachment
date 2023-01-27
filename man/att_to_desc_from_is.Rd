@@ -41,15 +41,20 @@ When used in CI to discover dependencies, for a bookdown for instance,
 you may want to set to \code{FALSE} (no message at all) or \code{NA} (warning for not installed).
 }
 \examples{
-tmpdir <- tempdir()
+tmpdir <- tempfile(pattern = "descfromis")
+dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
  recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
 imports = c("magrittr", "attachment"), suggests = c("knitr"))
+
 # In combination with other functions
 att_to_desc_from_is(path.d = file.path(dummypackage, "DESCRIPTION"),
 imports = att_from_rscripts(file.path(dummypackage, "R")),
 suggests = att_from_rmds(file.path(dummypackage, "vignettes")))
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
 }

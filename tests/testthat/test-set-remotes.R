@@ -169,7 +169,8 @@ test_that("extract_pkg_info extracts code", {
   expect_equal(names(extract_pkg_info(fake_desc_other)[["fakenull"]]), "local maybe ?")
 
   # Test internal_remotes_to_desc ----
-  tmpdir <- tempdir()
+  tmpdir <- tempfile(pattern = "pkginternalremotes")
+  dir.create(tmpdir)
   file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
   dummypackage <- file.path(tmpdir, "dummypackage")
 
@@ -282,11 +283,12 @@ test_that("extract_pkg_info extracts code", {
   new_desc_null <- readLines(path.d)
   expect_false(any(grepl("Remotes", new_desc_null)))
 
-  unlink(dummypackage, recursive = TRUE)
+  unlink(tmpdir, recursive = TRUE)
 })
 
 # test set_remotes_to_desc ----
-tmpdir <- tempdir()
+tmpdir <- tempfile(pattern = "pkgset")
+dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 
@@ -337,5 +339,5 @@ test_that("set_remotes_to_desc return nothing if local installs", {
   )
 
 })
-unlink(dummypackage, recursive = TRUE)
+unlink(tmpdir, recursive = TRUE)
 

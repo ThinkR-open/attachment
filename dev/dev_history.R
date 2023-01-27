@@ -122,6 +122,9 @@ rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
 out <- checkhelper::find_missing_tags()
 View(out)
 
+all_files_to_clean <- checkhelper::check_clean_userspace(pkg = ".")
+View(all_files_to_clean)
+
 # Check spelling
 # usethis::use_spell_check()
 spelling::spell_check_package()
@@ -155,27 +158,22 @@ devtools::check_mac_release()
 # sudo apt-get install biber texlive-science texlive-lang-french texlive-lang-english texlive-fonts-extra
 checkhelper::check_as_cran()
 
-debugonce(tools:::.check_packages_used_in_tests)
-tools:::.check_packages_used_in_tests(dir = ".", testdir = "tests/testthat")
-db <- tools:::.read_description("DESCRIPTION")
-testdir <- "tests/testthat"
-Rinfiles <- list.files(testdir, pattern = "\\.Rin$", full.names = TRUE)
-Rfiles <- list.files(testdir, pattern = "\\.[rR]$", full.names = TRUE)
-res <- tools:::.check_packages_used_helper(db, c(Rinfiles, Rfiles))
-res
-?withr::with_connection()
-tools:::.get_standard_repository_URLs()
-
 # Check reverse dependencies
 # remotes::install_github("r-lib/revdepcheck")
 usethis::use_git_ignore("revdep/")
 usethis::use_build_ignore("revdep/")
 
 devtools::revdep()
+
+# remotes::install_github('r-lib/revdepcheck')
+id <- rstudioapi::terminalExecute("Rscript -e 'remotes::install_github(\"r-lib/revdepcheck\", upgrade = \"never\")'")
+rstudioapi::terminalKill(id)
+
 library(revdepcheck)
 # In another session
 revdepcheck::revdep_todo()
 # revdepcheck::revdep_add(packages = "fusen")
+# revdepcheck::revdep_check(num_workers = 4)
 id <- rstudioapi::terminalExecute("Rscript -e 'revdepcheck::revdep_check(num_workers = 4)'")
 rstudioapi::terminalKill(id)
 # See outputs

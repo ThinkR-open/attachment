@@ -20,10 +20,14 @@ a vector
 return package dependencies from NAMESPACE file
 }
 \examples{
-tmpdir <- tempdir()
+tmpdir <- tempfile(pattern = "namespace")
+dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
  recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_from_namespace(path = file.path(dummypackage, "NAMESPACE"))
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
 }
