@@ -52,3 +52,4 @@ Suggests:
     renv (>= 0.8.4),
     rstudioapi,
     testthat (>= 3.0.0)
+Config/fusen/version: 0.5.0.9000

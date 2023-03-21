@@ -1,0 +1,6 @@
+flat_create_dependencies_file.Rmd:
+  path: dev/flat_create_dependencies_file.Rmd
+  state: active
+  R: R/create_dependencies_file.R
+  tests: tests/testthat/test-create_dependencies_file.R
+  vignettes: vignettes/create-dependencies-file.Rmd
