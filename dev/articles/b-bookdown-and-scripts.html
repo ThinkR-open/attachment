@@ -59,7 +59,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -80,6 +80,9 @@
     </li>
     <li>
       <a href="../articles/b-bookdown-and-scripts.html">Bookdown, quarto and other scripts dependencies</a>
+    </li>
+    <li>
+      <a href="../articles/create-dependencies-file.html">Create dependencies file</a>
     </li>
     <li>
       <a href="../articles/use_renv.html">Use {renv} with developers tools</a>
@@ -115,13 +118,15 @@
 
       
 
-      </header><script src="b-bookdown-and-scripts_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Bookdown, quarto and other scripts dependencies</h1>
-                        <h4 data-toc-skip class="author">Sébastien Rochette</h4>
+      <h1 data-toc-skip>Bookdown, quarto and other scripts
+dependencies</h1>
+                        <h4 data-toc-skip class="author">Sébastien
+Rochette</h4>
             
-            <h4 data-toc-skip class="date">2022-11-14</h4>
+            <h4 data-toc-skip class="date">2023-03-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/HEAD/vignettes/b-bookdown-and-scripts.Rmd" class="external-link"><code>vignettes/b-bookdown-and-scripts.Rmd</code></a></small>
       <div class="hidden name"><code>b-bookdown-and-scripts.Rmd</code></div>
@@ -143,24 +148,39 @@ $(document).ready(function () {
 <div class="section level2">
 <h2 id="use-devdev_history-r">Use “dev/dev_history.R”<a class="anchor" aria-label="anchor" href="#use-devdev_history-r"></a>
 </h2>
-<p>When building your package, create a file called “dev_history.R” in a “dev/” directory. You will store all “manual” calls to <code>devtools::xxx</code> and <code>usethis::xxx</code> in this script.<br>
+<p>When building your package, create a file called “dev_history.R” in a
+“dev/” directory. You will store all “manual” calls to
+<code>devtools::xxx</code> and <code>usethis::xxx</code> in this
+script.<br>
 Its first line should be :</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_build_ignore</span><span class="op">(</span><span class="st">"dev"</span><span class="op">)</span></span></code></pre></div>
-<p>You can then call {attachment} in this file to help you build your description file.</p>
+<p>You can then call {attachment} in this file to help you build your
+description file.</p>
 </div>
 <div class="section level2">
-<h2 id="use-attachment-with-bookdown-pagedown-quarto-dependencies">Use {attachment} with {bookdown} / {pagedown} / {quarto} dependencies<a class="anchor" aria-label="anchor" href="#use-attachment-with-bookdown-pagedown-quarto-dependencies"></a>
+<h2 id="use-attachment-with-bookdown-pagedown-quarto-dependencies">Use {attachment} with {bookdown} / {pagedown} / {quarto}
+dependencies<a class="anchor" aria-label="anchor" href="#use-attachment-with-bookdown-pagedown-quarto-dependencies"></a>
 </h2>
-<p>Dependencies of your Bookdown can be automatically installed if you use a “DESCRIPTION” file.<br>
-Indeed, you can use this procedure to create the DESCRIPTION file for local installation or for Continuous Integration with GitLab Pages or GitHub Actions. See for instance, the GitLab CI workflows in {gitlabr}: <a href="https://github.com/statnmap/gitlabr/tree/main/inst/gitlab-ci" class="external-link uri">https://github.com/statnmap/gitlabr/tree/main/inst/gitlab-ci</a></p>
+<p>Dependencies of your Bookdown can be automatically installed if you
+use a “DESCRIPTION” file.<br>
+Indeed, you can use this procedure to create the DESCRIPTION file for
+local installation or for Continuous Integration with GitLab Pages or
+GitHub Actions. See for instance, the GitLab CI workflows in {gitlabr}:
+<a href="https://github.com/statnmap/gitlabr/tree/main/inst/gitlab-ci" class="external-link uri">https://github.com/statnmap/gitlabr/tree/main/inst/gitlab-ci</a></p>
 <ol style="list-style-type: decimal">
 <li>Create a “DESCRIPTION” file</li>
 </ol>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">usethis</span><span class="fu">::</span><span class="fu">use_description</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Fill the “DESCRIPTION” file using <code><a href="../reference/att_to_desc_from_is.html">attachment::att_to_desc_from_is()</a></code>. <em>Note that to include it directly in CI (as proposed in {gitlabr} templates), you may need to set <code>att_to_desc_from_is(must.exist = FALSE)</code>.</em><br><em>Note that <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> also works for “.qmd” documents. You can use <code><a href="../reference/att_from_rmds.html">att_from_qmds()</a></code> if you want, although for now there is no difference and it will also parse “.Rmd” documents.</em>
+<li>Fill the “DESCRIPTION” file using
+<code><a href="../reference/att_to_desc_from_is.html">attachment::att_to_desc_from_is()</a></code>. <em>Note that to include
+it directly in CI (as proposed in {gitlabr} templates), you may need to
+set <code>att_to_desc_from_is(must.exist = FALSE)</code>.</em><br><em>Note that <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> also works for “.qmd”
+documents. You can use <code><a href="../reference/att_from_rmds.html">att_from_qmds()</a></code> if you want,
+although for now there is no difference and it will also parse “.Rmd”
+documents.</em>
 </li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -177,15 +197,19 @@ Indeed, you can use this procedure to create the DESCRIPTION file for local inst
 </ol>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_deps.html" class="external-link">install_deps</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_deps</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Build your {bookdown} / {pagedown} / {quarto}</li>
 </ol>
 <div class="section level3">
 <h3 id="propose-content-for-remotes-field">Propose content for “Remotes” field<a class="anchor" aria-label="anchor" href="#propose-content-for-remotes-field"></a>
 </h3>
-<p>An interest of using DESCRIPTION to list your bookdown dependencies is to use packages from other sources than CRAN and list them in the ‘Remotes’ field.<br>
-Here comes <code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc()</a></code>, which adds packages that were installed from other source than CRAN to <code>Remotes:</code> field in DESCRIPTION.</p>
+<p>An interest of using DESCRIPTION to list your bookdown dependencies
+is to use packages from other sources than CRAN and list them in the
+‘Remotes’ field.<br>
+Here comes <code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc()</a></code>, which adds packages that
+were installed from other source than CRAN to <code>Remotes:</code>
+field in DESCRIPTION.</p>
 <p>You can run it after <code><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is()</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">attachment</span><span class="fu">::</span><span class="fu"><a href="../reference/att_to_desc_from_is.html">att_to_desc_from_is</a></span><span class="op">(</span></span>
@@ -199,29 +223,39 @@ Here comes <code><a href="../reference/set_remotes_to_desc.html">set_remotes_to_
 <div class="section level2">
 <h2 id="get-all-packages-listed-in-namespace">Get all packages listed in “namespace”<a class="anchor" aria-label="anchor" href="#get-all-packages-listed-in-namespace"></a>
 </h2>
-<p>You can get the list of packages in your package with <code><a href="../reference/att_from_namespace.html">att_from_namespace()</a></code></p>
+<p>You can get the list of packages in your package with
+<code><a href="../reference/att_from_namespace.html">att_from_namespace()</a></code></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/att_from_namespace.html">att_from_namespace</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="get-all-packages-added-using-pkgfunction-or-libraryrequire">Get all packages added using <code>pkg::function</code> or library/require<a class="anchor" aria-label="anchor" href="#get-all-packages-added-using-pkgfunction-or-libraryrequire"></a>
+<h2 id="get-all-packages-added-using-pkgfunction-or-libraryrequire">Get all packages added using <code>pkg::function</code> or
+library/require<a class="anchor" aria-label="anchor" href="#get-all-packages-added-using-pkgfunction-or-libraryrequire"></a>
 </h2>
-<p>This reads all files in directories of R scripts (default to <code>R</code> directory of a package)</p>
+<p>This reads all files in directories of R scripts (default to
+<code>R</code> directory of a package)</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="get-all-packages-called-in-your-rmd">Get all packages called in your Rmd<a class="anchor" aria-label="anchor" href="#get-all-packages-called-in-your-rmd"></a>
 </h2>
-<p>If you have vignette, you may want to list extra libraries, not listed in your “Depends” list. This function applies to any Rmd file, of course.</p>
+<p>If you have vignette, you may want to list extra libraries, not
+listed in your “Depends” list. This function applies to any Rmd file, of
+course.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="get-all-packages-called-in-your-rmd-and-show-them-in-this-same-rmd">Get all packages called in your Rmd and show them in this same Rmd<a class="anchor" aria-label="anchor" href="#get-all-packages-called-in-your-rmd-and-show-them-in-this-same-rmd"></a>
+<h2 id="get-all-packages-called-in-your-rmd-and-show-them-in-this-same-rmd">Get all packages called in your Rmd and show them in this same
+Rmd<a class="anchor" aria-label="anchor" href="#get-all-packages-called-in-your-rmd-and-show-them-in-this-same-rmd"></a>
 </h2>
-<p>Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code> or Rmd files using <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code>.<br>
-If you want to run <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> inside a Rmd as for this vignette, you will need to set <code>att_from_rmds(inside_rmd = TRUE)</code></p>
+<p>Of course, you can also use {attachment} out of a package to list all
+package dependencies of R scripts using <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code>
+or Rmd files using <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code>.<br>
+If you want to run <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> inside a Rmd as for this
+vignette, you will need to set
+<code>att_from_rmds(inside_rmd = TRUE)</code></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span>
 <span></span>
@@ -242,7 +276,7 @@ If you want to run <code><a href="../reference/att_from_rmds.html">att_from_rmds
 
       <footer><div class="thinkr">
   <p></p>
-<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
 <div class="author">

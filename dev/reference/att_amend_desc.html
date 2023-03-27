@@ -35,7 +35,7 @@ for the correspondence with att_to_desc_from_is()."><meta property="og:image" co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.0.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.1.9000</span>
       </span>
     </div>
 
@@ -54,6 +54,9 @@ for the correspondence with att_to_desc_from_is()."><meta property="og:image" co
     </li>
     <li>
       <a href="../articles/b-bookdown-and-scripts.html">Bookdown, quarto and other scripts dependencies</a>
+    </li>
+    <li>
+      <a href="../articles/create-dependencies-file.html">Create dependencies file</a>
     </li>
     <li>
       <a href="../articles/use_renv.html">Use {renv} with developers tools</a>
@@ -105,7 +108,8 @@ for the correspondence with <code><a href="att_to_desc_from_is.html">att_to_desc
 <span>  document <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  normalize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  inside_rmd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  must.exist <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  must.exist <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_if_suggests_is_installed <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">att_to_desc_from_pkg</span><span class="op">(</span></span>
@@ -120,7 +124,8 @@ for the correspondence with <code><a href="att_to_desc_from_is.html">att_to_desc
 <span>  document <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  normalize <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  inside_rmd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  must.exist <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  must.exist <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  check_if_suggests_is_installed <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -175,6 +180,10 @@ in case this must be executed in an external R session</p></dd>
 <dd><p>Logical. If TRUE then an error is given if packages do not exist
 within installed packages. If NA, a warning.</p></dd>
 
+
+<dt>check_if_suggests_is_installed</dt>
+<dd><p>Logical. Whether to require that packages in the Suggests section are installed.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -185,27 +194,27 @@ within installed packages. If NA, a warning.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"description"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">tmpdir</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>,package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span>, <span class="va">tmpdir</span>,</span></span>
 <span class="r-in"><span> recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># browseURL(dummypackage)</span></span></span>
-<span class="r-in"><span><span class="fu">att_amend_desc</span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Updating dummypackage documentation</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Changes in roxygen2 7.0.0:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> * `%` is now escaped automatically in Markdown mode.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Please carefully check .Rd files for changes</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> ────────────────────────────────────────────────────────────────────────────────</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting `RoxygenNote` to "7.2.2"</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
+<span class="r-in"><span><span class="fu">att_amend_desc</span><span class="op">(</span>path <span class="op">=</span> <span class="va">tmpdir</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> An new path.d =DESCRIPTION was added to the directory. Please fill it. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Next time, you may want to use 'usethis::use_description()'</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> First time using roxygen2. Upgrading automatically...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Setting `RoxygenNote` to "7.2.3"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">description1a9c8f3a455</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [-] 1 package(s) removed: utils.</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> [+] 2 package(s) added: stats, glue.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> A new path.n =/tmp/RtmpZzV3rN/description1a9c8f3a455/NAMESPACE was added to the directory. </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Updating description1a9c8f3a455 documentation</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">description1a9c8f3a455</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">description1a9c8f3a455</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Clean after examples</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">tmpdir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -216,7 +225,7 @@ within installed packages. If NA, a warning.</p></dd>
 
 
       <footer><div class="thinkr">
-  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
 <div class="author">
