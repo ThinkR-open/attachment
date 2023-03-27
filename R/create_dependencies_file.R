@@ -58,21 +58,31 @@ create_dependencies_file <- function(path = "DESCRIPTION",
   # deps_orig <- desc$get_deps()
   remotes_orig <- desc$get_remotes()
   if (length(remotes_orig) != 0) {
-    remotes_orig_pkg <- gsub("^.*/|^local::", "", remotes_orig)
 
+    remotes_orig_pkg <- gsub("^.*/|^local::", "", remotes_orig)
+    remotes_without_orig <- gsub("^.*::/{0,1}", "", remotes_orig)
     # Remove remotes from ll
     ll <- ll[!ll %in% remotes_orig_pkg]
-
     # Install script
     inst_remotes <- remotes_orig
-    # _If no (), then github
-    w.github <- !grepl("\\(", remotes_orig) & !grepl("local::", remotes_orig)
-    inst_remotes[w.github] <- glue("remotes::install_github('{remotes_orig[w.github]}')")
+    # _If no (), then bioc
+    w.bioc <- grepl("bioc::", remotes_orig)
+    inst_remotes[w.bioc] <- glue("remotes::install_bioc('{remotes_without_orig[w.bioc]}')")
     # _If no (), then local
     w.local <- grepl("local::", remotes_orig)
-    inst_remotes[w.local] <- glue("remotes::install_local('{remotes_orig[w.local]}')")
+    inst_remotes[w.local] <- glue("remotes::install_local('{remotes_without_orig[w.local]}')")
+    # _If no (), then git
+    w.git <- grepl("git::", remotes_orig)
+    inst_remotes[w.git] <- glue("remotes::install_git('{remotes_without_orig[w.git]}')")
+    # _If no (), then git
+    w.gitlab <- grepl("gitlab::", remotes_orig)
+    inst_remotes[w.gitlab] <- glue("remotes::install_gitlab('{remotes_without_orig[w.gitlab]}')")
+    # _If no (), then github
+    w.github <- !grepl("\\(", remotes_orig) & !grepl("remotes::", inst_remotes)
+    inst_remotes[w.github] <- glue("remotes::install_github('{remotes_without_orig[w.github]}')")
+
     # _Others (WIP...)
-    inst_remotes[!(w.github | w.local)] <- remotes_orig[!w.github]
+    inst_remotes[!(w.github | w.local | w.bioc | w.git | w.gitlab)] <- remotes_orig[!(w.github | w.local | w.bioc | w.git | w.gitlab)]
 
     # Store content
     remotes_content <- paste("# Remotes ----",
