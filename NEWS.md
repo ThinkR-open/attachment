@@ -1,3 +1,7 @@
+# attachment 0.3.1.9000
+
+- `create_dependencies_file()` now takes other sources into account (git, gitlab, github, bioc, local)
+
 # attachment 0.3.1
 
 ## New features

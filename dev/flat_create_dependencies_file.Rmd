@@ -1,0 +1,245 @@
+---
+title: "flat_create_dependencies_file.Rmd empty"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r development, include=FALSE}
+library(testthat)
+
+# Copy package in a temporary directory
+tmpdir <- tempfile(pattern = "pkgdeps")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+
+  path.d <- file.path(dummypackage, "DESCRIPTION")
+
+  new_desc <- readLines(path.d)
+  new_desc[new_desc == "Depends: "] <- "Depends:\n    asupp,"
+  new_desc[new_desc == "Imports: "] <- "Imports:\n    appflagquizz,"
+
+  # Add pkglocal in DESCRIPTION as should be local installed from a path
+  new_desc <- c(new_desc,"Remotes: \n    local::asupp,\n    murielledelmotte/appflagquizz")
+  writeLines(new_desc, con = path.d)
+  
+  # browseURL(file.path(dummypackage, "DESCRIPTION"))
+
+  create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+                           to = file.path(dummypackage, "inst/dependencies.R"),
+                           field = c("Depends", "Imports", "Suggests"),
+                           open_file = FALSE)
+  
+  dep_file <- readLines(file.path(tmpdir, "dummypackage", "inst/dependencies.R"))
+  unlink(tmpdir, recursive = TRUE)
+```
+
+```{r development-load}
+# Load already included functions if relevant
+pkgload::load_all(export_all = FALSE)
+```
+
+# create_dependencies_file
+
+```{r function-create_dependencies_file}
+#' Create a dependencies.R in the `inst` folder
+#'
+#' @param path path to the DESCRIPTION file
+#' @param field DESCRIPTION field to parse, "Import" and "Depends" by default. Can add "Suggests"
+#' @param to path to dependencies.R. "inst/dependencies.R" by default
+#' @param open_file Logical. Open the file created in an editor
+#' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed
+#'
+#' @export
+#' @return Used for side effect. Shows a message with installation instructions and
+#' creates a R file containing these instructions.
+#' @importFrom glue glue glue_collapse
+#' @importFrom desc description
+#' @importFrom utils packageDescription
+#'
+#' @examples
+create_dependencies_file <- function(path = "DESCRIPTION",
+                                     field = c("Depends", "Imports"),
+                                     to = "inst/dependencies.R",
+                                     open_file = TRUE,
+                                     ignore_base = TRUE) {
+
+  if (!dir.exists(dirname(to))) {
+    dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
+    dir_to <- normalizePath(dirname(to))
+  } else {
+    dir_to <- normalizePath(dirname(to))
+  }
+
+  # get all packages
+  ll <- att_from_description(path = path, field = field)
+  # get pkg in remotes
+  if (isTRUE(ignore_base)) {
+    to_remove<- which(lapply(ll,packageDescription,field="Priority")=="base")
+    if (length(to_remove)>0){
+     ll<- ll[-to_remove]
+    }
+
+  }
+
+  desc <- description$new(path)
+  # Get previous dependencies in Description in case version is set
+  # deps_orig <- desc$get_deps()
+  remotes_orig <- desc$get_remotes()
+  if (length(remotes_orig) != 0) {
+
+    remotes_orig_pkg <- gsub("^.*/|^local::", "", remotes_orig)
+    remotes_without_orig <- gsub("^.*::/{0,1}", "", remotes_orig)
+    # Remove remotes from ll
+    ll <- ll[!ll %in% remotes_orig_pkg]
+    # Install script
+    inst_remotes <- remotes_orig
+    # _If no (), then bioc
+    w.bioc <- grepl("bioc::", remotes_orig)
+    inst_remotes[w.bioc] <- glue("remotes::install_bioc('{remotes_without_orig[w.bioc]}')")
+    # _If no (), then local
+    w.local <- grepl("local::", remotes_orig)
+    inst_remotes[w.local] <- glue("remotes::install_local('{remotes_without_orig[w.local]}')")
+    # _If no (), then git
+    w.git <- grepl("git::", remotes_orig)
+    inst_remotes[w.git] <- glue("remotes::install_git('{remotes_without_orig[w.git]}')")
+    # _If no (), then git
+    w.gitlab <- grepl("gitlab::", remotes_orig)
+    inst_remotes[w.gitlab] <- glue("remotes::install_gitlab('{remotes_without_orig[w.gitlab]}')")
+    # _If no (), then github
+    w.github <- !grepl("\\(", remotes_orig) & !grepl("remotes::", inst_remotes)
+    inst_remotes[w.github] <- glue("remotes::install_github('{remotes_without_orig[w.github]}')")
+
+    # _Others (WIP...)
+    inst_remotes[!(w.github | w.local | w.bioc | w.git | w.gitlab)] <- remotes_orig[!(w.github | w.local | w.bioc | w.git | w.gitlab)]
+
+    # Store content
+    remotes_content <- paste("# Remotes ----",
+                             "install.packages(\"remotes\")",
+                             paste(inst_remotes, collapse = "\n"),
+                             sep = "\n")
+  } else {
+    remotes_content <- "# No Remotes ----"
+  }
+
+  if (length(ll) != 0) {
+
+    content <- glue::glue(
+      '*{remotes_content}*
+# Attachments ----
+to_install <- c("*{glue::glue_collapse(as.character(ll), sep="\\", \\"")}*")
+  for (i in to_install) {
+    message(paste("looking for ", i))
+    if (!requireNamespace(i)) {
+      message(paste("     installing", i))
+      install.packages(i)
+    }
+  }\n\n', .open = "*{", .close = "}*")
+  } else {
+    content <- glue::glue(
+      '*{remotes_content}*
+# No attachments ----
+      \n\n', .open = "*{", .close = "}*")
+  }
+
+  # file <- normalizePath(to, mustWork = FALSE)
+  file <- file.path(dir_to, basename(to))
+  file.create(file)
+  cat(content, file = file)
+
+  if (open_file) {
+    utils::file.edit(file, editor = "internal")
+  }
+}
+
+```
+
+```{r examples-create_dependencies_file}
+tmpdir <- tempfile(pattern = "depsfile")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+ recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+
+# browseURL(dummypackage)
+create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+to = file.path(dummypackage, "inst/dependencies.R"),
+open_file = FALSE)
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
+```
+
+```{r tests-create_dependencies_file}
+# Copy package in a temporary directory
+tmpdir <- tempfile(pattern = "pkgdeps")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+# browseURL(dummypackage)
+
+
+create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+                         to = file.path(dummypackage, "inst/dependencies.R"),
+                         field = c("Depends", "Imports", "Suggests"),
+                         open_file = FALSE)
+dep_file_without_remotes <- readLines(file.path(tmpdir, "dummypackage", "inst/dependencies.R"))
+test_that("create-dependencies-file works without remotes", {
+  expect_equal(dep_file_without_remotes[1], "# No Remotes ----")
+  expect_equal(dep_file_without_remotes[3], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
+})
+  
+
+  # Add remotes in DESCRIPTION
+
+  # Test internal_remotes_to_desc ----
+  tmpdir <- tempfile(pattern = "pkgwithremotes")
+  dir.create(tmpdir)
+  file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+  dummypackage <- file.path(tmpdir, "dummypackage")
+
+  path.d <- file.path(dummypackage, "DESCRIPTION")
+
+  cat(c("Remotes:\n     ThinkR-open/attachment,\n     local::/path/fakelocal,\n     gitlab::statnmap/fakepkg,\n     bioc::3.3/fakepkgbioc,\n     git::https://github.com/fakepkggit.git,\n     git::https://MyForge.com/fakepkggit2r,\n     ThinkR-open/fusen"), append = TRUE,
+      file = path.d)
+
+  new_desc <- readLines(path.d)
+
+create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+                         to = file.path(dummypackage, "inst/dependencies.R"),
+                         field = c("Depends", "Imports", "Suggests"),
+                         open_file = FALSE)
+
+dep_file_with_remotes <- readLines(file.path(tmpdir, "dummypackage", "inst/dependencies.R"))
+
+test_that("create-dependencies-file works with remotes", {
+  expect_equal(dep_file_with_remotes[1], "# Remotes ----")
+  expect_equal(dep_file_with_remotes[3], "remotes::install_github('ThinkR-open/attachment')")
+  expect_equal(dep_file_with_remotes[4], "remotes::install_local('path/fakelocal')")
+  expect_equal(dep_file_with_remotes[5], "remotes::install_gitlab('statnmap/fakepkg')")
+  expect_equal(dep_file_with_remotes[6], "remotes::install_bioc('3.3/fakepkgbioc')")
+  expect_equal(dep_file_with_remotes[7], "remotes::install_git('https://github.com/fakepkggit.git')")
+  expect_equal(dep_file_with_remotes[8], "remotes::install_git('https://MyForge.com/fakepkggit2r')")
+  expect_equal(dep_file_with_remotes[9], "remotes::install_github('ThinkR-open/fusen')")
+  expect_equal(dep_file_with_remotes[11], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
+})
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
+
+```
+
+
+```{r development-inflate, eval=FALSE}
+# Run but keep eval=FALSE to avoid infinite loop
+# Execute in the console directly
+fusen::inflate(flat_file = "dev/flat_create_dependencies_file.Rmd", vignette_name = "Create dependencies file",
+               check = FALSE,
+               open_vignette = FALSE,
+               overwrite = TRUE,
+               document = FALSE)
+
+rstudioapi::navigateToFile(file = "dev/dev_history.R", line = 82)
+```
+

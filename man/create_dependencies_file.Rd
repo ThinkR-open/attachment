@@ -36,8 +36,8 @@ dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
  recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
-# browseURL(dummypackage)
 
+# browseURL(dummypackage)
 create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
 to = file.path(dummypackage, "inst/dependencies.R"),
 open_file = FALSE)

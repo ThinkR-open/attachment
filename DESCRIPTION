@@ -1,6 +1,6 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.3.1
+Version: 0.3.1.9000
 Authors@R:
     c(person(given = "Sébastien",
              family = "Rochette",
@@ -33,6 +33,7 @@ Encoding: UTF-8
 RoxygenNote: 7.2.3
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
+Config/fusen/version: 0.5.0.9000
 Depends: 
     R (>= 3.4)
 Imports: 
