@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/attachment/actions)
-[![Coverage status](https://codecov.io/gh/ThinkR-open/attachment/branch/main/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=main)
+[![Coverage status](https://codecov.io/gh/ThinkR-open/attachment/branch/main/graph/badge.svg)](https://app.codecov.io/github/ThinkR-open/attachment/tree/main)
 [![CRAN status](https://www.r-pkg.org/badges/version/attachment)](https://cran.r-project.org/package=attachment)
 ![downloads](http://cranlogs.r-pkg.org/badges/attachment)
 <!-- badges: end -->

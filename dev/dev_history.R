@@ -114,6 +114,89 @@ testthat::test_file(here::here("tests/testthat/test-amend-description.R"))
 tools:::.check_packages_used_in_tests(dir = ".", testdir = "tests/testthat")
 
 # Checks for CRAN release ----
+
+## Prepare for CRAN ----
+
+# Check package coverage
+covr::package_coverage()
+
+# _Check in interactive test-inflate for templates and Addins
+pkgload::load_all()
+devtools::test()
+testthat::test_dir("tests/testthat/")
+
+# Test no output generated in the user files
+# Run examples in interactive mode too
+devtools::run_examples()
+
+# Check that the state is clean after check
+all_files <- checkhelper::check_clean_userspace()
+all_files
+
+# Check package as CRAN
+rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
+# devtools::check(args = c("--no-manual", "--as-cran"))
+
+# Check content
+# remotes::install_github("ThinkR-open/checkhelper")
+tags <-
+  checkhelper::find_missing_tags() # Toutes les fonctions doivent avoir soit `@noRd` soit un `@export`
+tags
+checkhelper::check_as_cran()
+
+# Check spelling
+# usethis::use_spell_check()
+spelling::spell_check_package()
+
+# Check URL are correct
+# remotes::install_github("r-lib/urlchecker")
+urlchecker::url_check()
+urlchecker::url_update()
+
+# Upgrade version number
+usethis::use_version(which = c("patch", "minor", "major", "dev")[2])
+# check on other distributions
+# _rhub
+# devtools::check_rhub()
+buildpath <- devtools::build()
+rhub::platforms()
+rhub::check_on_windows(check_args = "--force-multiarch",
+                       show_status = FALSE,
+                       path = buildpath)
+rhub::check_on_solaris(show_status = FALSE, path = buildpath)
+rhub::check(platform = "debian-clang-devel",
+            show_status = FALSE,
+            path = buildpath)
+rhub::check(platform = "debian-gcc-devel",
+            show_status = FALSE,
+            path = buildpath)
+rhub::check(platform = "fedora-clang-devel",
+            show_status = FALSE,
+            path = buildpath)
+rhub::check(platform = "macos-highsierra-release-cran",
+            show_status = FALSE,
+            path = buildpath)
+rhub::check_for_cran(show_status = FALSE, path = buildpath)
+# _win devel
+devtools::check_win_devel()
+devtools::check_win_release()
+# remotes::install_github("r-lib/devtools")
+devtools::check_mac_release() # Need to follow the URL proposed to see the results
+# Update NEWS
+# Bump version manually and add list of changes
+# Add comments for CRAN
+# Need to .gitignore this file
+usethis::use_cran_comments(open = rlang::is_interactive())
+usethis::use_git_ignore("cran-comments.md")
+usethis::use_git_ignore("CRAN-SUBMISSION")
+# Upgrade version number if necessary
+usethis::use_version(which = c("patch", "minor", "major", "dev")[1])
+# Verify you're ready for release, and release
+devtools::release()
+
+
+
+
 # Check package as CRAN
 rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
 

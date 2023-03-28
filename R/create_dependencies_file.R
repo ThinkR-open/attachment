@@ -16,22 +16,24 @@
 #' @importFrom utils packageDescription
 #'
 #' @examples
-#' tmpdir <- tempfile(pattern = "depsfile")
-#' dir.create(tmpdir)
-#' file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
-#'  recursive = TRUE)
-#' dummypackage <- file.path(tmpdir, "dummypackage")
-#' 
-#' # browseURL(dummypackage)
-#' create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
-#' to = file.path(dummypackage, "inst/dependencies.R"),
-#' open_file = FALSE)
-#' 
-#' # Clean temp files after this example
-#' unlink(tmpdir, recursive = TRUE)
+#' \dontrun{
+#'   tmpdir <- tempfile(pattern = "depsfile")
+#'   dir.create(tmpdir)
+#'   file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+#'    recursive = TRUE)
+#'   dummypackage <- file.path(tmpdir, "dummypackage")
+#'   
+#'   # browseURL(dummypackage)
+#'   create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+#'   to = file.path(dummypackage, "inst/dependencies.R"),
+#'   open_file = FALSE)
+#'   
+#'   # Clean temp files after this example
+#'   unlink(tmpdir, recursive = TRUE)
+#' }
 create_dependencies_file <- function(path = "DESCRIPTION",
                                      field = c("Depends", "Imports"),
-                                     to = "inst/dependencies.R",
+                                     to = "inst/dependencies.R", 
                                      open_file = TRUE,
                                      ignore_base = TRUE) {
 
@@ -118,7 +120,7 @@ to_install <- c("*{glue::glue_collapse(as.character(ll), sep="\\", \\"")}*")
   file.create(file)
   cat(content, file = file)
 
-  if (open_file) {
+  if (interactive() && open_file) {
     utils::file.edit(file, editor = "internal")
   }
 }

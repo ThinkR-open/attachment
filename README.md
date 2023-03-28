@@ -4,7 +4,7 @@
 
 [![R-CMD-check](https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/attachment/actions)
 [![Coverage
-status](https://codecov.io/gh/ThinkR-open/attachment/branch/main/graph/badge.svg)](https://codecov.io/github/ThinkR-open/attachment?branch=main)
+status](https://codecov.io/gh/ThinkR-open/attachment/branch/main/graph/badge.svg)](https://app.codecov.io/github/ThinkR-open/attachment/tree/main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/attachment)](https://cran.r-project.org/package=attachment)
 ![downloads](http://cranlogs.r-pkg.org/badges/attachment)
@@ -100,11 +100,13 @@ desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Please carefully check .Rd files for changes
 #> ────────────────────────────────────────────────────────────────────────────────
 #> 
-#> Setting `RoxygenNote` to "7.2.2"
+#> Setting `RoxygenNote` to "7.2.0"
 #> ℹ Loading dummypackage
-#> Writing ']8;;file:///tmp/Rtmpe9Zik8/fakepkg4c0f84cd8072f/dummypackage/NAMESPACENAMESPACE]8;;'
-#> Writing ']8;;file:///tmp/Rtmpe9Zik8/fakepkg4c0f84cd8072f/dummypackage/NAMESPACENAMESPACE]8;;'
+#> 
+#> Writing 'NAMESPACE'
+#> Writing 'NAMESPACE'
 #> ℹ Loading dummypackage
+#> 
 #> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
 #> 
 #> [-] 1 package(s) removed: utils.
@@ -126,8 +128,8 @@ Find packages installed out of CRAN. This helps fill the “Remotes” field
 in DESCRIPTION file with `set_remotes_to_desc()`.  
 Behind the scene, it uses `fund_remotes()`.
 
-- See the examples below if {fusen} is installed from GitHub
-  - Also works for GitLab, Bioconductor, Git, Local installations
+-   See the examples below if {fusen} is installed from GitHub
+    -   Also works for GitLab, Bioconductor, Git, Local installations
 
 ``` r
 # From GitHub

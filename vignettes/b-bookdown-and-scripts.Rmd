@@ -42,7 +42,7 @@ You can then call {attachment} in this file to help you build your description f
 
 Dependencies of your Bookdown can be automatically installed if you use a "DESCRIPTION" file.  
 Indeed, you can use this procedure to create the DESCRIPTION file for local installation or for Continuous Integration with GitLab Pages or GitHub Actions.
-See for instance, the GitLab CI workflows in {gitlabr}: https://github.com/statnmap/gitlabr/tree/main/inst/gitlab-ci
+See for instance, the GitLab CI workflows in {gitlabr}: https://github.com/ThinkR-open/gitlabr/tree/main/inst/gitlab-ci
 
 1. Create a "DESCRIPTION" file
 ```{r, eval=FALSE}
