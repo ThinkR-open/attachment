@@ -6,8 +6,8 @@
 #' @param field DESCRIPTION field to parse, "Import" and "Depends" by default. Can add "Suggests"
 #' @param to path to dependencies.R. "inst/dependencies.R" by default
 #' @param open_file Logical. Open the file created in an editor
-#' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed
-#'
+#' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed (default TRUE)
+#' @param install_if_missing Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)
 #' @export
 #' @return Used for side effect. Shows a message with installation instructions and
 #' creates a R file containing these instructions.
@@ -35,7 +35,8 @@ create_dependencies_file <- function(path = "DESCRIPTION",
                                      field = c("Depends", "Imports"),
                                      to = "inst/dependencies.R", 
                                      open_file = TRUE,
-                                     ignore_base = TRUE) {
+                                     ignore_base = TRUE,
+                                     install_if_missing = FALSE) {
 
   if (!dir.exists(dirname(to))) {
     dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
@@ -61,7 +62,7 @@ create_dependencies_file <- function(path = "DESCRIPTION",
   remotes_orig <- desc$get_remotes()
   if (length(remotes_orig) != 0) {
 
-    remotes_orig_pkg <- gsub("^.*/|^local::", "", remotes_orig)
+    remotes_orig_pkg <- gsub("^.*/|^local::|.git$", "", remotes_orig)
     remotes_without_orig <- gsub("^.*::/{0,1}", "", remotes_orig)
     # Remove remotes from ll
     ll <- ll[!ll %in% remotes_orig_pkg]
@@ -83,6 +84,19 @@ create_dependencies_file <- function(path = "DESCRIPTION",
     w.github <- !grepl("\\(", remotes_orig) & !grepl("remotes::", inst_remotes)
     inst_remotes[w.github] <- glue("remotes::install_github('{remotes_without_orig[w.github]}')")
 
+    
+    # Install if missing
+    if (isTRUE(install_if_missing)) {
+      inst_remotes <-
+        paste0(
+          "if(isFALSE(requireNamespace('",
+          remotes_orig_pkg,
+          "', quietly = TRUE))) {",
+          inst_remotes,
+          "}"
+        )
+    }
+    
     # _Others (WIP...)
     inst_remotes[!(w.github | w.local | w.bioc | w.git | w.gitlab)] <- remotes_orig[!(w.github | w.local | w.bioc | w.git | w.gitlab)]
 
