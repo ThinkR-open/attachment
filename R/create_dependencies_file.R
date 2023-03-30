@@ -60,82 +60,21 @@ create_dependencies_file <- function(path = "DESCRIPTION",
   # Get previous dependencies in Description in case version is set
   # deps_orig <- desc$get_deps()
   remotes_orig <- desc$get_remotes()
-  if (length(remotes_orig) != 0) {
 
-    remotes_orig_pkg <- gsub("^.*/|^local::|.git$", "", remotes_orig)
-    remotes_without_orig <- gsub("^.*::/{0,1}", "", remotes_orig)
-    # Remove remotes from ll
-    ll <- ll[!ll %in% remotes_orig_pkg]
-    # Install script
-    inst_remotes <- remotes_orig
-    # _If no (), then bioc
-    w.bioc <- grepl("bioc::", remotes_orig)
-    inst_remotes[w.bioc] <- glue("remotes::install_bioc('{remotes_without_orig[w.bioc]}')")
-    # _If no (), then local
-    w.local <- grepl("local::", remotes_orig)
-    inst_remotes[w.local] <- glue("remotes::install_local('{remotes_without_orig[w.local]}')")
-    # _If no (), then git
-    w.git <- grepl("git::", remotes_orig)
-    inst_remotes[w.git] <- glue("remotes::install_git('{remotes_without_orig[w.git]}')")
-    # _If no (), then git
-    w.gitlab <- grepl("gitlab::", remotes_orig)
-    inst_remotes[w.gitlab] <- glue("remotes::install_gitlab('{remotes_without_orig[w.gitlab]}')")
-    # _If no (), then github
-    w.github <- !grepl("\\(", remotes_orig) & !grepl("remotes::", inst_remotes)
-    inst_remotes[w.github] <- glue("remotes::install_github('{remotes_without_orig[w.github]}')")
-
-    
-    # Install if missing
-    if (isTRUE(install_if_missing)) {
-      inst_remotes <-
-        paste0(
-          "if(isFALSE(requireNamespace('",
-          remotes_orig_pkg,
-          "', quietly = TRUE))) {",
-          inst_remotes,
-          "}"
-        )
-    }
-    
-    # _Others (WIP...)
-    inst_remotes[!(w.github | w.local | w.bioc | w.git | w.gitlab)] <- remotes_orig[!(w.github | w.local | w.bioc | w.git | w.gitlab)]
-
-    # Store content
-    remotes_content <- paste("# Remotes ----",
-                             "install.packages(\"remotes\")",
-                             paste(inst_remotes, collapse = "\n"),
-                             sep = "\n")
-  } else {
-    remotes_content <- "# No Remotes ----"
-  }
-
-  if (length(ll) != 0) {
-
-    content <- glue::glue(
-      '*{remotes_content}*
-# Attachments ----
-to_install <- c("*{glue::glue_collapse(as.character(ll), sep="\\", \\"")}*")
-  for (i in to_install) {
-    message(paste("looking for ", i))
-    if (!requireNamespace(i)) {
-      message(paste("     installing", i))
-      install.packages(i)
-    }
-  }\n\n', .open = "*{", .close = "}*")
-  } else {
-    content <- glue::glue(
-      '*{remotes_content}*
-# No attachments ----
-      \n\n', .open = "*{", .close = "}*")
-  }
+  content <- dependencies_file_text(ll = ll,
+                         remotes_orig = remotes_orig,
+                         install_if_missing = install_if_missing)
 
   # file <- normalizePath(to, mustWork = FALSE)
   file <- file.path(dir_to, basename(to))
   file.create(file)
-  cat(content, file = file)
+
+  cat(unlist(content), sep  = "\n", file = file)
 
   if (interactive() && open_file) {
     utils::file.edit(file, editor = "internal")
   }
+  
+  return(invisible(content))
 }
 
