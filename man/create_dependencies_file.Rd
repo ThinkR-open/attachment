@@ -9,7 +9,8 @@ create_dependencies_file(
   field = c("Depends", "Imports"),
   to = "inst/dependencies.R",
   open_file = TRUE,
-  ignore_base = TRUE
+  ignore_base = TRUE,
+  install_if_missing = FALSE
 )
 }
 \arguments{
@@ -21,7 +22,9 @@ create_dependencies_file(
 
 \item{open_file}{Logical. Open the file created in an editor}
 
-\item{ignore_base}{Logical. Whether to ignore package coming with base, as they cannot be installed}
+\item{ignore_base}{Logical. Whether to ignore package coming with base, as they cannot be installed (default TRUE)}
+
+\item{install_if_missing}{Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)}
 }
 \value{
 Used for side effect. Shows a message with installation instructions and

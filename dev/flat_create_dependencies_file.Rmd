@@ -42,6 +42,8 @@ pkgload::load_all(export_all = FALSE)
 
 # create_dependencies_file
 
+Create a dependencies.R in the `inst` folder that contains the list of dependencies your users will have to install.
+
 ```{r function-create_dependencies_file}
 #' Create a dependencies.R in the `inst` folder
 #'
@@ -49,8 +51,8 @@ pkgload::load_all(export_all = FALSE)
 #' @param field DESCRIPTION field to parse, "Import" and "Depends" by default. Can add "Suggests"
 #' @param to path to dependencies.R. "inst/dependencies.R" by default
 #' @param open_file Logical. Open the file created in an editor
-#' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed
-#'
+#' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed (default TRUE)
+#' @param install_if_missing Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)
 #' @export
 #' @return Used for side effect. Shows a message with installation instructions and
 #' creates a R file containing these instructions.
@@ -63,7 +65,8 @@ create_dependencies_file <- function(path = "DESCRIPTION",
                                      field = c("Depends", "Imports"),
                                      to = "inst/dependencies.R", 
                                      open_file = TRUE,
-                                     ignore_base = TRUE) {
+                                     ignore_base = TRUE,
+                                     install_if_missing = FALSE) {
 
   if (!dir.exists(dirname(to))) {
     dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
@@ -89,7 +92,7 @@ create_dependencies_file <- function(path = "DESCRIPTION",
   remotes_orig <- desc$get_remotes()
   if (length(remotes_orig) != 0) {
 
-    remotes_orig_pkg <- gsub("^.*/|^local::", "", remotes_orig)
+    remotes_orig_pkg <- gsub("^.*/|^local::|.git$", "", remotes_orig)
     remotes_without_orig <- gsub("^.*::/{0,1}", "", remotes_orig)
     # Remove remotes from ll
     ll <- ll[!ll %in% remotes_orig_pkg]
@@ -111,6 +114,19 @@ create_dependencies_file <- function(path = "DESCRIPTION",
     w.github <- !grepl("\\(", remotes_orig) & !grepl("remotes::", inst_remotes)
     inst_remotes[w.github] <- glue("remotes::install_github('{remotes_without_orig[w.github]}')")
 
+    
+    # Install if missing
+    if (isTRUE(install_if_missing)) {
+      inst_remotes <-
+        paste0(
+          "if(isFALSE(requireNamespace('",
+          remotes_orig_pkg,
+          "', quietly = TRUE))) {",
+          inst_remotes,
+          "}"
+        )
+    }
+    
     # _Others (WIP...)
     inst_remotes[!(w.github | w.local | w.bioc | w.git | w.gitlab)] <- remotes_orig[!(w.github | w.local | w.bioc | w.git | w.gitlab)]
 
@@ -187,6 +203,7 @@ create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
                          field = c("Depends", "Imports", "Suggests"),
                          open_file = FALSE)
 dep_file_without_remotes <- readLines(file.path(tmpdir, "dummypackage", "inst/dependencies.R"))
+
 test_that("create-dependencies-file works without remotes", {
   expect_equal(dep_file_without_remotes[1], "# No Remotes ----")
   expect_equal(dep_file_without_remotes[3], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
@@ -225,6 +242,27 @@ test_that("create-dependencies-file works with remotes", {
   expect_equal(dep_file_with_remotes[8], "remotes::install_git('https://MyForge.com/fakepkggit2r')")
   expect_equal(dep_file_with_remotes[9], "remotes::install_github('ThinkR-open/fusen')")
   expect_equal(dep_file_with_remotes[11], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
+})
+
+
+create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+                         to = file.path(dummypackage, "inst/dependencies.R"),
+                         field = c("Depends", "Imports", "Suggests"),
+                         open_file = FALSE,
+                         install_if_missing = TRUE)
+
+dep_file_with_remotes_install_if_missing <- readLines(file.path(tmpdir, "dummypackage", "inst/dependencies.R"))
+
+test_that("create-dependencies-file works with remotes install_if_missing", {
+  expect_equal(dep_file_with_remotes_install_if_missing[1], "# Remotes ----")
+  expect_equal(dep_file_with_remotes_install_if_missing[3], "if(isFALSE(requireNamespace('attachment', quietly = TRUE))) {remotes::install_github('ThinkR-open/attachment')}")
+  expect_equal(dep_file_with_remotes_install_if_missing[4], "if(isFALSE(requireNamespace('fakelocal', quietly = TRUE))) {remotes::install_local('path/fakelocal')}")
+  expect_equal(dep_file_with_remotes_install_if_missing[5], "if(isFALSE(requireNamespace('fakepkg', quietly = TRUE))) {remotes::install_gitlab('statnmap/fakepkg')}")
+  expect_equal(dep_file_with_remotes_install_if_missing[6], "if(isFALSE(requireNamespace('fakepkgbioc', quietly = TRUE))) {remotes::install_bioc('3.3/fakepkgbioc')}")
+  expect_equal(dep_file_with_remotes_install_if_missing[7], "if(isFALSE(requireNamespace('fakepkggit', quietly = TRUE))) {remotes::install_git('https://github.com/fakepkggit.git')}")
+  expect_equal(dep_file_with_remotes_install_if_missing[8], "if(isFALSE(requireNamespace('fakepkggit2r', quietly = TRUE))) {remotes::install_git('https://MyForge.com/fakepkggit2r')}")
+  expect_equal(dep_file_with_remotes_install_if_missing[9], "if(isFALSE(requireNamespace('fusen', quietly = TRUE))) {remotes::install_github('ThinkR-open/fusen')}")
+  expect_equal(dep_file_with_remotes_install_if_missing[11], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
 })
 
 # Clean temp files after this example

@@ -22,6 +22,9 @@ library(attachment)
 
 # create_dependencies_file
 
+Create a dependencies.R in the `inst` folder that contains the list of dependencies your users will have to install.
+
+
 ```{r examples-create_dependencies_file, eval = FALSE}
 #' \dontrun{
   tmpdir <- tempfile(pattern = "depsfile")
