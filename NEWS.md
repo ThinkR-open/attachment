@@ -1,7 +1,7 @@
 # attachment 0.3.1.9000
 
 - `create_dependencies_file()` now takes other sources into account (git, gitlab, github, bioc, local)
-- `create_dependencies_file()` gets parameter `install_if_missing = FALSE` by default to complete the installation instructions packages only if missing.
+- `create_dependencies_file()` gets parameter `install_only_if_missing = FALSE` by default to complete the installation instructions packages only if missing.
 
 # attachment 0.3.1
 

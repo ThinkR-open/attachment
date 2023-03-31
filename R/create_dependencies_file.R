@@ -7,7 +7,7 @@
 #' @param to path to dependencies.R. "inst/dependencies.R" by default
 #' @param open_file Logical. Open the file created in an editor
 #' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed (default TRUE)
-#' @param install_if_missing Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)
+#' @param install_only_if_missing Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)
 #' @export
 #' @return Used for side effect. Shows a message with installation instructions and
 #' creates a R file containing these instructions.
@@ -36,7 +36,7 @@ create_dependencies_file <- function(path = "DESCRIPTION",
                                      to = "inst/dependencies.R", 
                                      open_file = TRUE,
                                      ignore_base = TRUE,
-                                     install_if_missing = FALSE) {
+                                     install_only_if_missing = FALSE) {
 
   if (!dir.exists(dirname(to))) {
     dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
@@ -63,7 +63,7 @@ create_dependencies_file <- function(path = "DESCRIPTION",
 
   content <- dependencies_file_text(ll = ll,
                          remotes_orig = remotes_orig,
-                         install_if_missing = install_if_missing)
+                         install_only_if_missing = install_only_if_missing)
 
   # file <- normalizePath(to, mustWork = FALSE)
   file <- file.path(dir_to, basename(to))

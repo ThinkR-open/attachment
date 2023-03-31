@@ -6,12 +6,12 @@
 #' 
 #' @param ll a vector of all packages
 #' @param remotes_orig a vector of remotes 
-#' @param install_if_missing Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)
-#'
+#' @param install_only_if_missing Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)
+#' @importFrom glue glue
 #' @return a list
 #' 
 #' @noRd
-dependencies_file_text <- function(ll, remotes_orig, install_if_missing = FALSE){
+dependencies_file_text <- function(ll, remotes_orig, install_only_if_missing = FALSE){
     
   if (length(remotes_orig) != 0) {
 
@@ -38,8 +38,8 @@ dependencies_file_text <- function(ll, remotes_orig, install_if_missing = FALSE)
     inst_remotes[w.github] <- glue("remotes::install_github('{remotes_without_orig[w.github]}')")
 
     
-    # Install if missing
-    if (isTRUE(install_if_missing)) {
+    # Install only if missing
+    if (isTRUE(install_only_if_missing)) {
       inst_remotes <-
         paste0(
           "if(isFALSE(requireNamespace('",
@@ -48,14 +48,19 @@ dependencies_file_text <- function(ll, remotes_orig, install_if_missing = FALSE)
           inst_remotes,
           "}"
         )
-    }
+      
+      install_pkg_remote <-
+        "if(isFALSE(requireNamespace('remotes', quietly = TRUE))) {install.packages(\"remotes\")}"
+    } else {
+       install_pkg_remote <- "install.packages(\"remotes\")"
+      }
     
     # _Others (WIP...)
     inst_remotes[!(w.github | w.local | w.bioc | w.git | w.gitlab)] <- remotes_orig[!(w.github | w.local | w.bioc | w.git | w.gitlab)]
 
     # Store content
     remotes_content <- paste("# Remotes ----",
-                             "install.packages(\"remotes\")",
+                             install_pkg_remote,
                              paste(inst_remotes, collapse = "\n"),
                              sep = "\n")
   } else {
