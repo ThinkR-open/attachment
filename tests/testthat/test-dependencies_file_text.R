@@ -16,6 +16,7 @@ thetext <- dependencies_file_text(ll, remo, FALSE)
   
 
   expect_equal(thetext[1], list(remotes_content = "# Remotes ----\ninstall.packages(\"remotes\")\nremotes::install_github('ThinkR-open/attachment')\nremotes::install_local('path/fakelocal')\nremotes::install_gitlab('statnmap/fakepkg')\nremotes::install_bioc('3.3/fakepkgbioc')\nremotes::install_git('https://github.com/fakepkggit.git')\nremotes::install_git('https://MyForge.com/fakepkggit2r')\nremotes::install_github('ThinkR-open/fusen')"))
+  
   expect_equal(thetext[2], list(attachment_content = structure("# Attachments ----\nto_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")\n  for (i in to_install) {\n    message(paste(\"looking for \", i))\n    if (!requireNamespace(i)) {\n      message(paste(\"     installing\", i))\n      install.packages(i)\n    }\n  }\n", class = c("glue", 
 "character"))))
 

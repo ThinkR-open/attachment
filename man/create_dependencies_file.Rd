@@ -10,7 +10,7 @@ create_dependencies_file(
   to = "inst/dependencies.R",
   open_file = TRUE,
   ignore_base = TRUE,
-  install_if_missing = FALSE
+  install_only_if_missing = FALSE
 )
 }
 \arguments{
@@ -24,7 +24,7 @@ create_dependencies_file(
 
 \item{ignore_base}{Logical. Whether to ignore package coming with base, as they cannot be installed (default TRUE)}
 
-\item{install_if_missing}{Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)}
+\item{install_only_if_missing}{Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)}
 }
 \value{
 Used for side effect. Shows a message with installation instructions and
