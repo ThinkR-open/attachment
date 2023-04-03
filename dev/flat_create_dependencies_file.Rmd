@@ -93,7 +93,7 @@ dependencies_file_text <- function(ll, remotes_orig, install_only_if_missing = F
 to_install <- c("*{glue::glue_collapse(as.character(ll), sep="\\", \\"")}*")
   for (i in to_install) {
     message(paste("looking for ", i))
-    if (!requireNamespace(i)) {
+    if (!requireNamespace(i, quietly = TRUE)) {
       message(paste("     installing", i))
       install.packages(i)
     }
