@@ -128,7 +128,7 @@ thetext <- dependencies_file_text(ll, remo, FALSE)
 
   expect_equal(thetext[1], list(remotes_content = "# Remotes ----\ninstall.packages(\"remotes\")\nremotes::install_github('ThinkR-open/attachment')\nremotes::install_local('path/fakelocal')\nremotes::install_gitlab('statnmap/fakepkg')\nremotes::install_bioc('3.3/fakepkgbioc')\nremotes::install_git('https://github.com/fakepkggit.git')\nremotes::install_git('https://MyForge.com/fakepkggit2r')\nremotes::install_github('ThinkR-open/fusen')"))
   
-  expect_equal(thetext[2], list(attachment_content = structure("# Attachments ----\nto_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")\n  for (i in to_install) {\n    message(paste(\"looking for \", i))\n    if (!requireNamespace(i)) {\n      message(paste(\"     installing\", i))\n      install.packages(i)\n    }\n  }\n", class = c("glue", 
+  expect_equal(thetext[2], list(attachment_content = structure("# Attachments ----\nto_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")\n  for (i in to_install) {\n    message(paste(\"looking for \", i))\n    if (!requireNamespace(i, quietly = TRUE)) {\n      message(paste(\"     installing\", i))\n      install.packages(i)\n    }\n  }\n", class = c("glue", 
 "character"))))
 
 
@@ -305,13 +305,13 @@ dep_file_with_remotes_install_only_if_missing <- readLines(file.path(tmpdir, "du
 
 test_that("create-dependencies-file works with remotes install_only_if_missing", {
   expect_equal(dep_file_with_remotes_install_only_if_missing[1], "# Remotes ----")
-  expect_equal(dep_file_with_remotes_install_only_if_missing[3], "if(isFALSE(requireNamespace('attachment', quietly = TRUE))) {remotes::install_github('ThinkR-open/attachment')}")
-  expect_equal(dep_file_with_remotes_install_only_if_missing[4], "if(isFALSE(requireNamespace('fakelocal', quietly = TRUE))) {remotes::install_local('path/fakelocal')}")
-  expect_equal(dep_file_with_remotes_install_only_if_missing[5], "if(isFALSE(requireNamespace('fakepkg', quietly = TRUE))) {remotes::install_gitlab('statnmap/fakepkg')}")
-  expect_equal(dep_file_with_remotes_install_only_if_missing[6], "if(isFALSE(requireNamespace('fakepkgbioc', quietly = TRUE))) {remotes::install_bioc('3.3/fakepkgbioc')}")
-  expect_equal(dep_file_with_remotes_install_only_if_missing[7], "if(isFALSE(requireNamespace('fakepkggit', quietly = TRUE))) {remotes::install_git('https://github.com/fakepkggit.git')}")
-  expect_equal(dep_file_with_remotes_install_only_if_missing[8], "if(isFALSE(requireNamespace('fakepkggit2r', quietly = TRUE))) {remotes::install_git('https://MyForge.com/fakepkggit2r')}")
-  expect_equal(dep_file_with_remotes_install_only_if_missing[9], "if(isFALSE(requireNamespace('fusen', quietly = TRUE))) {remotes::install_github('ThinkR-open/fusen')}")
+  expect_equal(dep_file_with_remotes_install_only_if_missing[3], "if(isFALSE(requireNamespace('attachment', quietly = TRUE))) {message('installation of attachment');remotes::install_github('ThinkR-open/attachment')}")
+  expect_equal(dep_file_with_remotes_install_only_if_missing[4], "if(isFALSE(requireNamespace('fakelocal', quietly = TRUE))) {message('installation of fakelocal');remotes::install_local('path/fakelocal')}")
+  expect_equal(dep_file_with_remotes_install_only_if_missing[5], "if(isFALSE(requireNamespace('fakepkg', quietly = TRUE))) {message('installation of fakepkg');remotes::install_gitlab('statnmap/fakepkg')}")
+  expect_equal(dep_file_with_remotes_install_only_if_missing[6], "if(isFALSE(requireNamespace('fakepkgbioc', quietly = TRUE))) {message('installation of fakepkgbioc');remotes::install_bioc('3.3/fakepkgbioc')}")
+  expect_equal(dep_file_with_remotes_install_only_if_missing[7], "if(isFALSE(requireNamespace('fakepkggit', quietly = TRUE))) {message('installation of fakepkggit');remotes::install_git('https://github.com/fakepkggit.git')}")
+  expect_equal(dep_file_with_remotes_install_only_if_missing[8],  "if(isFALSE(requireNamespace('fakepkggit2r', quietly = TRUE))) {message('installation of fakepkggit2r');remotes::install_git('https://MyForge.com/fakepkggit2r')}")
+  expect_equal(dep_file_with_remotes_install_only_if_missing[9], "if(isFALSE(requireNamespace('fusen', quietly = TRUE))) {message('installation of fusen');remotes::install_github('ThinkR-open/fusen')}")
   expect_equal(dep_file_with_remotes_install_only_if_missing[11], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
 })
 
