@@ -8,3 +8,9 @@ flat_create_dependencies_file.Rmd:
   - tests/testthat/test-dependencies_file_text.R
   - tests/testthat/test-create_dependencies_file.R
   vignettes: vignettes/create-dependencies-file.Rmd
+flat_save_att_params.Rmd:
+  path: dev/flat_save_att_params.Rmd
+  state: active
+  R: R/save_att_params.R
+  tests: tests/testthat/test-save_att_params.R
+  vignettes: vignettes/save-attachment-config.Rmd

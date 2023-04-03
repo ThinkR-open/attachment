@@ -1,0 +1,182 @@
+---
+title: "flat_save_att_params.Rmd empty"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r development, include=FALSE}
+library(testthat)
+library(yaml)
+```
+
+```{r development-load}
+# Load already included functions if relevant
+pkgload::load_all(export_all = FALSE)
+```
+
+## `save_att_params()` : save attachment parameter configuration as a yaml file
+
+This function will save a list of attachment parameters to a yaml file. It is used to allow the function `att_amend_desc()` to be executed with previsouly saved parameters. By default, the save parameters are stored in a yaml file named `config_attachment.yaml` at the root of the package.
+
+```{r function-save_att_params}
+#' save_att_params
+#'
+#' @param param_list list A named list of all parameters to save
+#' @param path_to_yaml character The path to the yaml file
+#' @param overwrite logical Whether to overwrite the yaml file if it already exists
+#' 
+#' @importFrom yaml write_yaml
+#' 
+#' @return character The path to the yaml file
+#' @export
+save_att_params <- function(
+    param_list,
+    path_to_yaml = "config_attachment.yaml",
+    overwrite = FALSE
+    ) {
+  
+  # Check each name in list corresponds to a parameter name
+  att_param_names <- names(formals(att_amend_desc))
+  input_names <- names(param_list)
+  all_inputs_are_params <- all(input_names %in% att_param_names)
+  if (isFALSE(all_inputs_are_params)){
+    bad_names <- input_names[!input_names %in% att_param_names]
+    stop(paste0("Unexpected parameters to save : ", paste0(bad_names, collapse = " ; ")))
+  }
+  
+  # Write params to yaml
+  yaml_exists <- file.exists(path_to_yaml)
+  
+  if (isTRUE(yaml_exists & !overwrite)) {
+    stop("yaml file already exists and overwriting is not permitted")
+  } else {
+    write_yaml(
+      x = param_list,
+      file = path_to_yaml
+    )
+    message("Saving attachment parameters to yaml config file")
+  }
+
+  return(path_to_yaml)
+}
+```
+
+```{r examples-save_att_params}
+# create a list of parameters and tmp file name
+parameter_list <- list(
+  pkg_ignore = c("remotes", "i"),
+  extra.suggests = c("testthat", "rstudioapi")
+)
+yaml_path <- paste0(tempfile(pattern = "save_att"), ".yaml")
+
+# save params
+save_att_params(param_list = parameter_list,
+                path_to_yaml = yaml_path)
+
+# clear created yaml file
+unlink(yaml_path)
+```
+
+```{r tests-save_att_params}
+test_that("save_att_params works", {
+
+  # Test error if incorrect list is provided
+  expect_error(object = save_att_params(param_list =
+                                          list(notanattparam = 3,
+                                               pkg_ignore = c("remotes"),
+                                               anotherbadparam = c("testthat")
+                                               )
+                                        ),
+               regexp = "Unexpected parameters to save : notanattparam ; anotherbadparam")
+  
+  # Create tmp dir
+  tmpdir <- tempfile(pattern = "att")
+  dir.create(tmpdir)
+  path_to_yaml <- file.path(tmpdir, "config_attachment.yaml")
+  
+  # Setup list of att_amend_desc() params
+  param_list <- list(
+    pkg_ignore = c("remotes", "i", "usethis", "rstudioapi", "renv",
+                   "gitlab", "git", "local", "find.rscript", "bioc"),
+    extra.suggests = c("testthat", "rstudioapi", "renv", "lifecycle"),
+    dir.t = "",
+    normalize = FALSE
+    )
+  
+  # Run function to save params in yaml in tmp folder
+  yaml_config <- save_att_params(
+    param_list = param_list,
+    path_to_yaml = path_to_yaml
+    )
+
+  # Test that yaml file is created
+  expect_true(file.exists(yaml_config))
+  
+  # Test that reading yaml file restore the correct list of parameters
+  config_data <- yaml::read_yaml(yaml_config)
+  expect_equal(
+    object = config_data,
+    expected = param_list
+    )
+  
+  # Test overwriting error
+  expect_error(object = save_att_params(param_list = param_list,
+                               path_to_yaml = path_to_yaml,
+                               overwrite = FALSE),
+               regexp = "yaml file already exists and overwriting is not permitted"
+               )
+
+  # Test that yaml file is updated after overwriting
+  new_parameter_list <- list(
+    pkg_ignore = c("remotes", "i", "usethis", "rstudioapi"),
+    extra.suggests = c("testthat", "rstudioapi", "lifecycle", "git", "renv")
+  )
+  
+  yaml_config <- save_att_params(
+    param_list = new_parameter_list,
+    path_to_yaml = path_to_yaml,
+    overwrite = TRUE
+  )
+  
+  config_data <- yaml::read_yaml(yaml_config)
+  expect_equal(
+    object = config_data,
+    expected = new_parameter_list
+    )
+  
+  # Test clearing yaml with no params
+  empty_parameter_list <- list()
+  
+  yaml_config <- save_att_params(
+    param_list = empty_parameter_list,
+    path_to_yaml = path_to_yaml,
+    overwrite = TRUE
+  )
+  
+  config_data <- yaml::read_yaml(yaml_config)
+  expect_equal(
+    object = config_data,
+    expected = empty_parameter_list
+    )
+
+  # clean
+  unlink(tmpdir, recursive = TRUE)
+  
+})
+```
+
+```{r development-inflate, eval=FALSE}
+# Run but keep eval=FALSE to avoid infinite loop
+# Execute in the console directly
+fusen::inflate(flat_file = "dev/flat_save_att_params.Rmd",
+               vignette_name = "Save attachment config",
+               document = FALSE)
+
+
+rstudioapi::navigateToFile( # Go to the dev_history.R to run att_amend_desc()
+  "dev/dev_history.R",
+  line = 82
+)
+```
+
