@@ -29,7 +29,17 @@ test_that("load_att_params works", {
   expect_message(object = load_att_params(yaml_path),
                  regexp = "att_amend_desc\\(\\) parameter loaded are : \npkg_ignore = c\\(\"remotes\", \"i\"\\)\nextra.suggests = c\\(\"testthat\", \"rstudioapi\"\\)")
   
-  # cleaar created file
+  # add wrong param to yaml
+  write(x = "randomparam:\n- randomvalue\n",
+        file = yaml_path,
+        append=TRUE
+        )
+  
+  # test error for incorrect param names
+  expect_error(object = load_att_params(yaml_path),
+               regexp = "Unexpected parameters in config : randomparam")
+  
+  # clear created file
   unlink(yaml_path)
 
 })
