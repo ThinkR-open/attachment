@@ -47,7 +47,8 @@ Imports:
     stats,
     stringr (>= 1.3.1),
     utils,
-    withr
+    withr,
+    yaml
 Suggests: 
     lifecycle,
     renv (>= 0.8.4),

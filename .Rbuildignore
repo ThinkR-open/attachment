@@ -20,3 +20,4 @@ img
 ^dev$
 ^revdep$
 ^CRAN-SUBMISSION$
+^attachment\.Rproj$
