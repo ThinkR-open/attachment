@@ -44,8 +44,7 @@ dependencies_file_text <- function(ll, remotes_orig, install_only_if_missing = F
         paste0(
           "if(isFALSE(requireNamespace('",
           remotes_orig_pkg,
-          "', quietly = TRUE))) {",
-          inst_remotes,
+          "', quietly = TRUE))) {","message('installation of " ,remotes_orig_pkg,"');", inst_remotes,
           "}"
         )
       
