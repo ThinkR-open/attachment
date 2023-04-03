@@ -22,7 +22,7 @@ library(attachment)
 
 ## `save_att_params()` : save attachment parameter configuration as a yaml file
 
-This function will save a list of attachment parameters to a yaml file. It is used to allow the function `att_amend_desc()` to be executed with previsouly saved parameters. By default, the save parameters are stored in a yaml file named `config_attachment.yaml` at the root of the package.
+This function will save a list of attachment parameters to a yaml file. It is used to allow the function `att_amend_desc()` to be executed with previously saved parameters. By default, the save parameters are stored in a yaml file named `config_attachment.yaml` at the root of the package.
 
 
 ```{r examples-save_att_params}
@@ -40,4 +40,37 @@ save_att_params(param_list = parameter_list,
 # clear created yaml file
 unlink(yaml_path)
 ```
+
+## `load_att_params()` : export att_amend_desc parameter config from yaml
+
+This function will try to read saved config for the `att_amend_desc()` function. If the config is present, it will provide the list of saved parameters. Otherwise, it will raise an error. The loaded parameter config will be show to the user by a message.
+    
+
+  
+
+```{r example-load_att_params}
+# create a list of parameters and tmp file name
+parameter_list <- list(
+  pkg_ignore = c("remotes", "i"),
+  extra.suggests = c("testthat", "rstudioapi")
+)
+yaml_path <- paste0(tempfile(pattern = "save_att"), ".yaml")
+
+# save params
+save_att_params(param_list = parameter_list,
+                path_to_yaml = yaml_path)
+
+# read yaml file
+config_params <- load_att_params(path_to_yaml = yaml_path)
+
+# clear created yaml file
+unlink(yaml_path)
+
+```
+
+  
+
+  
+
+
 
