@@ -144,7 +144,7 @@ configuration as a yaml file<a class="anchor" aria-label="anchor" href="#save_at
 </h2>
 <p>This function will save a list of attachment parameters to a yaml
 file. It is used to allow the function <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> to
-be executed with previsouly saved parameters. By default, the save
+be executed with previously saved parameters. By default, the save
 parameters are stored in a yaml file named
 <code>config_attachment.yaml</code> at the root of the package.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -159,7 +159,40 @@ parameters are stored in a yaml file named
 <span><span class="fu"><a href="../reference/save_att_params.html">save_att_params</a></span><span class="op">(</span>param_list <span class="op">=</span> <span class="va">parameter_list</span>,</span>
 <span>                path_to_yaml <span class="op">=</span> <span class="va">yaml_path</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Saving attachment parameters to yaml config file</span></span>
-<span><span class="co">#&gt; [1] "/tmp/RtmpOkgRx1/save_att17867349f505.yaml"</span></span>
+<span><span class="co">#&gt; [1] "/tmp/Rtmpqq7fdE/save_att17bf7d4ee5db.yaml"</span></span>
+<span></span>
+<span><span class="co"># clear created yaml file</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">yaml_path</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="load_att_params-export-att_amend_desc-parameter-config-from-yaml">
+<code>load_att_params()</code> : export att_amend_desc parameter
+config from yaml<a class="anchor" aria-label="anchor" href="#load_att_params-export-att_amend_desc-parameter-config-from-yaml"></a>
+</h2>
+<p>This function will try to read saved config for the
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> function. If the config is present, it
+will provide the list of saved parameters. Otherwise, it will raise an
+error. The loaded parameter config will be show to the user by a
+message.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># create a list of parameters and tmp file name</span></span>
+<span><span class="va">parameter_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>  pkg_ignore <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"remotes"</span>, <span class="st">"i"</span><span class="op">)</span>,</span>
+<span>  extra.suggests <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"testthat"</span>, <span class="st">"rstudioapi"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">yaml_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"save_att"</span><span class="op">)</span>, <span class="st">".yaml"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># save params</span></span>
+<span><span class="fu"><a href="../reference/save_att_params.html">save_att_params</a></span><span class="op">(</span>param_list <span class="op">=</span> <span class="va">parameter_list</span>,</span>
+<span>                path_to_yaml <span class="op">=</span> <span class="va">yaml_path</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Saving attachment parameters to yaml config file</span></span>
+<span><span class="co">#&gt; [1] "/tmp/Rtmpqq7fdE/save_att17bf3b35047a.yaml"</span></span>
+<span></span>
+<span><span class="co"># read yaml file</span></span>
+<span><span class="va">config_params</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/load_att_params.html">load_att_params</a></span><span class="op">(</span>path_to_yaml <span class="op">=</span> <span class="va">yaml_path</span><span class="op">)</span></span>
+<span><span class="co">#&gt; att_amend_desc() parameter loaded are : </span></span>
+<span><span class="co">#&gt; pkg_ignore = c("remotes", "i")</span></span>
+<span><span class="co">#&gt; extra.suggests = c("testthat", "rstudioapi")</span></span>
 <span></span>
 <span><span class="co"># clear created yaml file</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">yaml_path</span><span class="op">)</span></span></code></pre></div>
