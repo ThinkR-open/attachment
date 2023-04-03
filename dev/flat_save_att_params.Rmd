@@ -8,6 +8,7 @@ editor_options:
 ```{r development, include=FALSE}
 library(testthat)
 library(yaml)
+library(glue)
 ```
 
 ```{r development-load}
@@ -17,7 +18,7 @@ pkgload::load_all(export_all = FALSE)
 
 ## `save_att_params()` : save attachment parameter configuration as a yaml file
 
-This function will save a list of attachment parameters to a yaml file. It is used to allow the function `att_amend_desc()` to be executed with previsouly saved parameters. By default, the save parameters are stored in a yaml file named `config_attachment.yaml` at the root of the package.
+This function will save a list of attachment parameters to a yaml file. It is used to allow the function `att_amend_desc()` to be executed with previously saved parameters. By default, the save parameters are stored in a yaml file named `config_attachment.yaml` at the root of the package.
 
 ```{r function-save_att_params}
 #' save_att_params
@@ -165,6 +166,114 @@ test_that("save_att_params works", {
   
 })
 ```
+
+## `load_att_params()` : export att_amend_desc parameter config from yaml
+
+This function will try to read saved config for the `att_amend_desc()` function. If the config is present, it will provide the list of saved parameters. Otherwise, it will raise an error. The loaded parameter config will be show to the user by a message.
+    
+```{r function-load_att_params}
+#' load_att_params
+#' 
+#' @param path_to_yaml character The path to the yaml file
+#' 
+#' @importFrom yaml read_yaml
+#' @importFrom glue glue
+#' 
+#' @return list A named list of att_amend_desc parameters
+#' 
+#' @export
+load_att_params <- function(
+    path_to_yaml = "config_attachment.yaml"
+    ){
+    
+  # check yaml file exist
+  if (isFALSE(file.exists(path_to_yaml))){
+    stop(glue("The att_amend_desc() config file {path_to_yaml} does not exist"))
+  }
+  
+  # read yaml
+  param_list <- read_yaml(file = path_to_yaml)
+  
+  # Check each name in list corresponds to a parameter name
+  att_param_names <- names(formals(att_amend_desc))
+  input_names <- names(param_list)
+  all_inputs_are_params <- all(input_names %in% att_param_names)
+  if (isFALSE(all_inputs_are_params)){
+    bad_names <- input_names[!input_names %in% att_param_names]
+    stop(paste0("Unexpected parameters in config : ", paste0(bad_names, collapse = " ; ")))
+  }
+  
+  # Show parameters used from config
+  message("att_amend_desc() parameter loaded are : \n",
+          paste0(
+            glue("{names(param_list)} = {param_list}"),
+            collapse = "\n"
+            )
+          )
+  
+  # return parameters
+  return(param_list)
+  
+}
+```
+  
+```{r example-load_att_params}
+# create a list of parameters and tmp file name
+parameter_list <- list(
+  pkg_ignore = c("remotes", "i"),
+  extra.suggests = c("testthat", "rstudioapi")
+)
+yaml_path <- paste0(tempfile(pattern = "save_att"), ".yaml")
+
+# save params
+save_att_params(param_list = parameter_list,
+                path_to_yaml = yaml_path)
+
+# read yaml file
+config_params <- load_att_params(path_to_yaml = yaml_path)
+
+# clear created yaml file
+unlink(yaml_path)
+
+```
+  
+```{r tests-load_att_params}
+test_that("load_att_params works", {
+  
+  # create a list of parameters and tmp file name
+  parameter_list <- list(
+    pkg_ignore = c("remotes", "i"),
+    extra.suggests = c("testthat", "rstudioapi")
+  )
+  yaml_path <- paste0(tempfile(pattern = "save_att"), ".yaml")
+  
+  # test error for non-existing file
+  expect_error(object = load_att_params(yaml_path),
+              regexp = glue::glue("The .* does not exist"))
+
+  
+  # save params
+  save_att_params(param_list = parameter_list,
+                  path_to_yaml = yaml_path)
+  
+  # test correct list is returned
+  result <- load_att_params(yaml_path)
+  expect_equal(
+    object = result,
+    expected = parameter_list
+    )
+  
+  # test message is returned
+  expect_message(object = load_att_params(yaml_path),
+                 regexp = "att_amend_desc\\(\\) parameter loaded are : \npkg_ignore = c\\(\"remotes\", \"i\"\\)\nextra.suggests = c\\(\"testthat\", \"rstudioapi\"\\)")
+  
+  # cleaar created file
+  unlink(yaml_path)
+
+})
+```
+  
+
 
 ```{r development-inflate, eval=FALSE}
 # Run but keep eval=FALSE to avoid infinite loop

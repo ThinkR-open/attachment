@@ -11,6 +11,10 @@ flat_create_dependencies_file.Rmd:
 flat_save_att_params.Rmd:
   path: dev/flat_save_att_params.Rmd
   state: active
-  R: R/save_att_params.R
-  tests: tests/testthat/test-save_att_params.R
+  R:
+  - R/load_att_params.R
+  - R/save_att_params.R
+  tests:
+  - tests/testthat/test-save_att_params.R
+  - tests/testthat/test-load_att_params.R
   vignettes: vignettes/save-attachment-config.Rmd
