@@ -290,12 +290,9 @@ test_that("load_att_params works", {
 # Execute in the console directly
 fusen::inflate(flat_file = "dev/flat_save_att_params.Rmd",
                vignette_name = "Save attachment config",
+               overwrite = TRUE,
                document = FALSE)
 
-
-rstudioapi::navigateToFile( # Go to the dev_history.R to run att_amend_desc()
-  "dev/dev_history.R",
-  line = 82
-)
+att_amend_desc(use.config = TRUE)
 ```
 

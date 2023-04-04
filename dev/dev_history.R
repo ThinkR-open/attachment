@@ -84,7 +84,8 @@ attachment::att_amend_desc(
                  "gitlab", "git", "local", "find.rscript", "bioc"), #i
   extra.suggests = c("testthat", "rstudioapi", "renv", "lifecycle"), #"pkgdown", "covr",
   dir.t = "",
-  normalize = FALSE)
+  normalize = FALSE,
+  update.config = TRUE)
 
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
 

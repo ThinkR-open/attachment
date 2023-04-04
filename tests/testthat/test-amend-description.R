@@ -470,3 +470,61 @@ library(ggplot3)
   # Clean after
   unlink(dummypackage, recursive = TRUE)
 })
+
+
+# att_amend_desc use saved config ----
+test_that("att_amend_desc can create, use and update config file", {
+  # Copy package in a temporary directory
+  tmpdir <- tempfile("dummyamend")
+  dir.create(tmpdir)
+  file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+  dummypackage <- file.path(tmpdir, "dummypackage")
+
+  # create a first config file
+  att_amend_desc(
+    path = dummypackage,
+    update.config = TRUE,
+    path.c = file.path(dummypackage, "config_attachment.yaml")
+    )
+  yaml_config <- readLines(file.path(dummypackage, "config_attachment.yaml"))
+  expect_equal(object = yaml_config,
+               expected = c(paste0("path: ", dummypackage),
+                            "path.n: NAMESPACE", "path.d: DESCRIPTION", "dir.r: R", "dir.v: vignettes",
+                            "dir.t: tests", "extra.suggests: ~", "pkg_ignore: ~", "document: yes",
+                            "normalize: yes", "inside_rmd: no", "must.exist: yes", "check_if_suggests_is_installed: yes"
+               ))
+
+  # overwrite config file with new non-default parameters
+  att_amend_desc(
+    path = dummypackage,
+    extra.suggests = c("ggplot2"),
+    document = FALSE,
+    check_if_suggests_is_installed = FALSE,
+    update.config = TRUE,
+    path.c = file.path(dummypackage, "config_attachment.yaml")
+  )
+  yaml_config <- readLines(file.path(dummypackage, "config_attachment.yaml"))
+  expect_equal(object = yaml_config,
+               expected = c(paste0("path: ", dummypackage),
+                             "path.n: NAMESPACE", "path.d: DESCRIPTION", "dir.r: R", "dir.v: vignettes",
+                             "dir.t: tests", "extra.suggests: ggplot2", "pkg_ignore: ~", "document: no",
+                             "normalize: yes", "inside_rmd: no", "must.exist: yes", "check_if_suggests_is_installed: no"
+               ))
+
+  # remove non-default edits
+  expect_message(object = att_amend_desc(path = dummypackage),
+                 regexp = "1 package\\(s\\) removed: ggplot2.")
+
+  # re-run with saved config
+  expect_message(
+    object = att_amend_desc(
+      use.config = TRUE,
+      path.c = file.path(dummypackage, "config_attachment.yaml")
+    ),
+    regexp = "extra.suggests = ggplot2")
+  desc_file <- readLines(file.path(dummypackage, "DESCRIPTION"))
+  expect_equal(desc_file[grep("Suggests: ", desc_file) + 1], "    ggplot2,")
+
+  # Clean after
+  unlink(dummypackage, recursive = TRUE)
+})

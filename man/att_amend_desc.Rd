@@ -18,7 +18,10 @@ att_amend_desc(
   normalize = TRUE,
   inside_rmd = FALSE,
   must.exist = TRUE,
-  check_if_suggests_is_installed = TRUE
+  check_if_suggests_is_installed = TRUE,
+  update.config = FALSE,
+  use.config = FALSE,
+  path.c = "dev/config_attachment.yaml"
 )
 
 att_to_desc_from_pkg(
@@ -34,7 +37,10 @@ att_to_desc_from_pkg(
   normalize = TRUE,
   inside_rmd = FALSE,
   must.exist = TRUE,
-  check_if_suggests_is_installed = TRUE
+  check_if_suggests_is_installed = TRUE,
+  update.config = FALSE,
+  use.config = FALSE,
+  path.c = "dev/config_attachment.yaml"
 )
 }
 \arguments{
@@ -65,6 +71,12 @@ in case this must be executed in an external R session}
 within installed packages. If NA, a warning.}
 
 \item{check_if_suggests_is_installed}{Logical. Whether to require that packages in the Suggests section are installed.}
+
+\item{update.config}{logical Should the parameters used in this call be saved in the config file of the pkg}
+
+\item{use.config}{logical Should the command use the parameters from the config file to run}
+
+\item{path.c}{character Path to the yaml config file where parameters are saved}
 }
 \value{
 Update DESCRIPTION file.
