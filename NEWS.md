@@ -1,3 +1,7 @@
+# attachment 0.3.1.9002
+
+- `att_amend_desc()` gets parameters `update.config = FALSE`, `use.config = FALSE` and `path.c = "dev/config_attachment.yaml"` by default. It allows to store and re-use the provided set of parameters.
+
 # attachment 0.3.1.9000
 
 - `create_dependencies_file()` now takes other sources into account (git, gitlab, github, bioc, local)
