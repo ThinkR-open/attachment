@@ -525,6 +525,15 @@ test_that("att_amend_desc can create, use and update config file", {
   desc_file <- readLines(file.path(dummypackage, "DESCRIPTION"))
   expect_equal(desc_file[grep("Suggests: ", desc_file) + 1], "    ggplot2,")
 
+  # error when trying to use and update config at the same time
+  expect_error(
+    object =att_amend_desc(
+      path = dummypackage,
+      use.config = TRUE,
+      update.config = TRUE),
+    regexp = "Cannot use and update config at the same time"
+  )
+
   # Clean after
   unlink(dummypackage, recursive = TRUE)
 })
