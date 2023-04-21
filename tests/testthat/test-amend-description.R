@@ -104,22 +104,26 @@ test_that("fails if dir.t do not exists", {
 
   expect_message(
     att_amend_desc(path = dummypackage,
-                   dir.v = c("vignettes", "vava")),
+                   dir.v = c("vignettes", "vava"),
+                   use.config = FALSE),
     regexp = "There is no directory named: vava")
 
   expect_error(
     att_amend_desc(path = dummypackage,
-                   dir.v = "vava"), # do not exist, nothing fails
+                   dir.v = "vava",
+                   update.config = TRUE), # do not exist, nothing fails
     regexp = NA)
 
   expect_message(
     att_amend_desc(path = dummypackage,
-                   dir.t = c("tests", "tata")),
+                   dir.t = c("tests", "tata"),
+                   update.config = TRUE),
     regexp = "There is no directory named: tata")
 
   expect_error(
     att_amend_desc(path = dummypackage,
-                   dir.t = "tata"), # do not exist, nothing fails
+                   dir.t = "tata",
+                   update.config = TRUE), # do not exist, nothing fails
     regexp = NA)
 })
 unlink(dummypackage, recursive = TRUE)
@@ -208,6 +212,7 @@ file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive 
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 file.remove(file.path(dummypackage, "NAMESPACE"))
+
 test_that("Works with missing DESCRIPTION", {
   expect_false(file.exists(file.path(dummypackage, "NAMESPACE")))
   expect_error(att_from_namespace(file.path(dummypackage, "NAMESPACE")), "attachment::att_amend_desc()")
@@ -216,7 +221,7 @@ test_that("Works with missing DESCRIPTION", {
                  "no directory named: NAMESPACE")
   expect_false(file.exists(file.path(dummypackage, "NAMESPACE")))
 
-  expect_message(att_amend_desc(path = dummypackage), "new path.n")
+  expect_message(att_amend_desc(path = dummypackage, document = TRUE, update.config = TRUE), "new path.n")
   expect_true(file.exists(file.path(dummypackage, "NAMESPACE")))
 
 })
@@ -401,8 +406,8 @@ my_length <- function(x) {
   dir.create(file.path(dummypackage, "dev"))
   writeLines(
     text = paste0(
-      "devtools::install('", getwd(), "')\n",
-      "attachment::att_amend_desc()
+      "pkgload::load_all('", getwd(), "')\n",
+      "att_amend_desc()
 # This should work without error
 my_length(1)
 
@@ -471,69 +476,3 @@ library(ggplot3)
   unlink(dummypackage, recursive = TRUE)
 })
 
-
-# att_amend_desc use saved config ----
-test_that("att_amend_desc can create, use and update config file", {
-  # Copy package in a temporary directory
-  tmpdir <- tempfile("dummyamend")
-  dir.create(tmpdir)
-  file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
-  dummypackage <- file.path(tmpdir, "dummypackage")
-
-  # create a first config file
-  att_amend_desc(
-    path = dummypackage,
-    update.config = TRUE,
-    path.c = file.path(dummypackage, "config_attachment.yaml")
-    )
-  yaml_config <- readLines(file.path(dummypackage, "config_attachment.yaml"))
-  expect_equal(object = yaml_config,
-               expected = c(paste0("path: ", dummypackage),
-                            "path.n: NAMESPACE", "path.d: DESCRIPTION", "dir.r: R", "dir.v: vignettes",
-                            "dir.t: tests", "extra.suggests: ~", "pkg_ignore: ~", "document: yes",
-                            "normalize: yes", "inside_rmd: no", "must.exist: yes", "check_if_suggests_is_installed: yes"
-               ))
-
-  # overwrite config file with new non-default parameters
-  att_amend_desc(
-    path = dummypackage,
-    extra.suggests = c("ggplot2"),
-    document = FALSE,
-    check_if_suggests_is_installed = FALSE,
-    update.config = TRUE,
-    path.c = file.path(dummypackage, "config_attachment.yaml")
-  )
-  yaml_config <- readLines(file.path(dummypackage, "config_attachment.yaml"))
-  expect_equal(object = yaml_config,
-               expected = c(paste0("path: ", dummypackage),
-                             "path.n: NAMESPACE", "path.d: DESCRIPTION", "dir.r: R", "dir.v: vignettes",
-                             "dir.t: tests", "extra.suggests: ggplot2", "pkg_ignore: ~", "document: no",
-                             "normalize: yes", "inside_rmd: no", "must.exist: yes", "check_if_suggests_is_installed: no"
-               ))
-
-  # remove non-default edits
-  expect_message(object = att_amend_desc(path = dummypackage),
-                 regexp = "1 package\\(s\\) removed: ggplot2.")
-
-  # re-run with saved config
-  expect_message(
-    object = att_amend_desc(
-      use.config = TRUE,
-      path.c = file.path(dummypackage, "config_attachment.yaml")
-    ),
-    regexp = "extra.suggests = ggplot2")
-  desc_file <- readLines(file.path(dummypackage, "DESCRIPTION"))
-  expect_equal(desc_file[grep("Suggests: ", desc_file) + 1], "    ggplot2,")
-
-  # error when trying to use and update config at the same time
-  expect_error(
-    object =att_amend_desc(
-      path = dummypackage,
-      use.config = TRUE,
-      update.config = TRUE),
-    regexp = "Cannot use and update config at the same time"
-  )
-
-  # Clean after
-  unlink(dummypackage, recursive = TRUE)
-})

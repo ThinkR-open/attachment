@@ -1,11 +1,13 @@
 # attachment 0.3.1.9002
 
-- `att_amend_desc()` gets parameters `update.config = FALSE`, `use.config = FALSE` and `path.c = "dev/config_attachment.yaml"` by default. It allows to store and re-use the provided set of parameters.
+## New features
+
+- `att_amend_desc()` can run with the last set of parameters stored in a configuration file, without having to call them all each time. See vignettes and documentation of parameters `update.config = FALSE`, `use.config = FALSE` and `path.c = "dev/config_attachment.yaml"`. (@dagousket)
 
 # attachment 0.3.1.9000
 
-- `create_dependencies_file()` now takes other sources into account (git, gitlab, github, bioc, local)
-- `create_dependencies_file()` gets parameter `install_only_if_missing = FALSE` by default to complete the installation instructions packages only if missing.
+- `create_dependencies_file()` now takes other sources into account (git, gitlab, github, bioc, local). (@MurielleDelmotte)
+- `create_dependencies_file()` gets parameter `install_only_if_missing = FALSE` by default to complete the installation instructions packages only if missing. (@MurielleDelmotte) 
 
 # attachment 0.3.1
 

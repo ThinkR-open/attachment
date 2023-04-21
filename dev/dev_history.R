@@ -81,10 +81,14 @@ roxygen2md::roxygen2md()
 roxygen2::roxygenise()
 attachment::att_amend_desc(
   pkg_ignore = c("remotes", "i", "usethis", "rstudioapi", "renv",
-                 "gitlab", "git", "local", "find.rscript", "bioc"), #i
+                 "gitlab", "git", "local", "find.rscript", "bioc",
+                 "find.me", "findme1", "findme2", "findme3", "findme4",
+                 "findme5", "findme6", "findme1a", "findme2a", "findme3a",
+                 "findme4a", "findme5a", "findme6a", "ggplot3",
+                 "svn", "pkgload"), #i
   extra.suggests = c("testthat", "rstudioapi", "renv", "lifecycle"), #"pkgdown", "covr",
-  dir.t = "",
   normalize = FALSE,
+  must.exist = TRUE,
   update.config = TRUE)
 
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
