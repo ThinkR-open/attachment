@@ -5,7 +5,16 @@ dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
+
+user_warn <- getOption("warn")
 att_amend_desc(path = dummypackage)
+
+test_that("att_amend_desc does not change warn level", {
+  new_warn <- getOption("warn")
+  expect_equal(new_warn, user_warn)
+})
+
+
 desc_file <- readLines(file.path(tmpdir, "dummypackage", "DESCRIPTION"))
 namespace_file <- readLines(file.path(tmpdir, "dummypackage", "NAMESPACE"))
 

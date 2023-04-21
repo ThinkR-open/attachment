@@ -87,3 +87,24 @@ if (utils::packageVersion("knitr") >= "1.35") {
     expect_true(!"dontfindme.quarto" %in% res)
   })
 }
+
+# Test that warn level is set back to user's one after ----
+test_that("rmds well parsed", {
+
+  withr::with_options(list(warn = 0), {
+
+    res <- sort(attachment::att_from_rmds(path = "."))
+    expect_equal(sort(res), sort(all_to_be_found))
+
+    expect_equal(getOption("warn"), 0)
+  })
+
+  withr::with_options(list(warn = -1), {
+
+    res <- sort(attachment::att_from_rmds(path = "."))
+    expect_equal(sort(res), sort(all_to_be_found))
+
+    expect_equal(getOption("warn"), -1)
+  })
+})
+

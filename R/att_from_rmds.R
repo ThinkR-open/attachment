@@ -33,13 +33,18 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 
   # Need an external script to run on windows because of \\ path
   runR <- tempfile(fileext = "run.R")
+
   cat(
-    paste0('options(warn=', warn,
-           ');invisible(knitr::purl("', gsub("\\", "\\\\", path, fixed = TRUE), '"',
+    paste0('warn_user <- getOption("warn");',
+           'options(warn=', warn, ');',
+           'invisible(knitr::purl("', gsub("\\", "\\\\", path, fixed = TRUE), '"',
            ', output = "', gsub("\\", "\\\\", r_file, fixed = TRUE), '"',
            ', encoding = "', encoding, '"',
-           ', documentation = 0, quiet = TRUE))')
+           ', documentation = 0, quiet = TRUE));',
+           'options(warn=warn_user)'
+    )
     , file = runR)
+
 
   if (isTRUE(inside_rmd)) {
     # Purl in a new environment to avoid knit inside knit if function is inside Rmd file

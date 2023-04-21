@@ -1,6 +1,6 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.3.1.9002
+Version: 0.3.1.9003
 Authors@R: c(
     person("Sébastien", "Rochette", , "sebastien@thinkr.fr", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-1565-9313")),
