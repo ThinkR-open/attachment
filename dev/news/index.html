@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">attachment</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.1.9002</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.3.1.9003</span>
       </span>
     </div>
 
@@ -54,9 +54,6 @@
     </li>
     <li>
       <a href="../articles/create-dependencies-file.html">Create dependencies file</a>
-    </li>
-    <li>
-      <a href="../articles/save-attachment-config.html">Save attachment config</a>
     </li>
     <li>
       <a href="../articles/use_renv.html">Use {renv} with developers tools</a>
@@ -88,21 +85,26 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.3.1.9002" id="attachment-0319002">attachment 0.3.1.9002<a class="anchor" aria-label="anchor" href="#attachment-0319002"></a></h2>
+<h2 class="page-header" data-toc-text="0.3.1" id="attachment-031xxxx">attachment 0.3.1.XXXX<small>2023-01-27</small><a class="anchor" aria-label="anchor" href="#attachment-031xxxx"></a></h2>
+<div class="section level3">
+<h3 id="new-features-0-3-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-1"></a></h3>
 <ul><li>
-<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> gets parameters <code>update.config = FALSE</code>, <code>use.config = FALSE</code> and <code>path.c = "dev/config_attachment.yaml"</code> by default. It allows to store and re-use the provided set of parameters.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="0.3.1.9000" id="attachment-0319000">attachment 0.3.1.9000<a class="anchor" aria-label="anchor" href="#attachment-0319000"></a></h2>
-<ul><li>
-<code><a href="../reference/create_dependencies_file.html">create_dependencies_file()</a></code> now takes other sources into account (git, gitlab, github, bioc, local)</li>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> can run with the last set of parameters stored in a configuration file, without having to call them all each time. See vignettes and documentation of parameters <code>update.config = FALSE</code>, <code>use.config = FALSE</code> and <code>path.c = "dev/config_attachment.yaml"</code>. (<a href="https://github.com/dagousket" class="external-link">@dagousket</a>)</li>
 <li>
-<code><a href="../reference/create_dependencies_file.html">create_dependencies_file()</a></code> gets parameter <code>install_only_if_missing = FALSE</code> by default to complete the installation instructions packages only if missing.</li>
+<code><a href="../reference/create_dependencies_file.html">create_dependencies_file()</a></code> now takes other sources into account (git, gitlab, github, bioc, local). (<a href="https://github.com/MurielleDelmotte" class="external-link">@MurielleDelmotte</a>)</li>
+<li>
+<code><a href="../reference/create_dependencies_file.html">create_dependencies_file()</a></code> gets parameter <code>install_only_if_missing = FALSE</code> by default to complete the installation instructions packages only if missing. (<a href="https://github.com/MurielleDelmotte" class="external-link">@MurielleDelmotte</a>)</li>
 </ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-0-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-1"></a></h3>
+<ul><li>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> does not modify user <code>options("warn")</code> level anymore (<a href="https://github.com/ThinkR-open/attachment/issues/94" class="external-link">#94</a>)</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.1" id="attachment-031">attachment 0.3.1<small>2023-01-27</small><a class="anchor" aria-label="anchor" href="#attachment-031"></a></h2>
 <div class="section level3">
-<h3 id="new-features-0-3-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-1"></a></h3>
+<h3 id="new-features-0-3-1-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-1-1"></a></h3>
 <ul><li>
 <code><a href="../reference/find_remotes.html">find_remotes()</a></code> now informs when using “r-universe” repositories.</li>
 </ul></div>
@@ -308,7 +310,7 @@
 
 
       <footer><div class="thinkr">
-  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+  <p></p><p>Developed by Sébastien Rochette, Vincent Guyader, Murielle Delmotte, Swann Floc’hlay, ThinkR.</p>,<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
 <div class="author">

@@ -19,9 +19,6 @@
     <loc>https://thinkr-open.github.io/attachment/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://thinkr-open.github.io/attachment/articles/save-attachment-config.html</loc>
-  </url>
-  <url>
     <loc>https://thinkr-open.github.io/attachment/articles/use_renv.html</loc>
   </url>
   <url>
@@ -82,13 +79,7 @@
     <loc>https://thinkr-open.github.io/attachment/reference/install_if_missing.html</loc>
   </url>
   <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/load_att_params.html</loc>
-  </url>
-  <url>
     <loc>https://thinkr-open.github.io/attachment/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/save_att_params.html</loc>
   </url>
   <url>
     <loc>https://thinkr-open.github.io/attachment/reference/set_remotes_to_desc.html</loc>

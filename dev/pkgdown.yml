@@ -5,9 +5,8 @@ articles:
   a-fill-pkg-description: a-fill-pkg-description.html
   b-bookdown-and-scripts: b-bookdown-and-scripts.html
   create-dependencies-file: create-dependencies-file.html
-  save-attachment-config: save-attachment-config.html
   use_renv: use_renv.html
-last_built: 2023-04-05T06:56Z
+last_built: 2023-04-21T08:29Z
 urls:
   reference: https://thinkr-open.github.io/attachment/reference
   article: https://thinkr-open.github.io/attachment/articles
