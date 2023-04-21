@@ -12,8 +12,8 @@
 #' @param dir.t path to tests directory. Set to empty (dir.t = "") to ignore.
 #' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown, covr for instance)
 #' @param pkg_ignore vector of packages names to ignore.
-#' @param update.config logical Should the parameters used in this call be saved in the config file of the pkg
-#' @param use.config logical Should the command use the parameters from the config file to run
+#' @param update.config logical. Should the parameters used in this call be saved in the config file of the package
+#' @param use.config logical. Should the command use the parameters from the config file to run
 #' @param path.c character Path to the yaml config file where parameters are saved
 #'
 #' @inheritParams att_from_namespace
@@ -51,32 +51,9 @@ att_amend_desc <- function(path = ".",
                            must.exist = TRUE,
                            check_if_suggests_is_installed = TRUE,
                            update.config = FALSE,
-                           use.config = FALSE,
+                           use.config = TRUE,
                            path.c = "dev/config_attachment.yaml"
 ) {
-
-  # decide whether to use or update config file
-  if (isTRUE(update.config & use.config)) {
-    stop("Cannot use and update config at the same time")
-  } else if (isTRUE(use.config)) {
-    # reassign input value to saved parameters
-    saved_att_params <- load_att_params(path_to_yaml = path.c)
-    for (param_name in names(saved_att_params)){
-      assign(param_name, saved_att_params[[param_name]])
-    }
-  } else if (isTRUE(update.config)) {
-    # extract all current parameter values - ignore config parameters - save also default
-    att_params <- names(formals(att_amend_desc))
-    att_params <- att_params[!att_params %in% c("update.config", "use.config", "path.c")]
-    att_params <- mget(att_params)
-    # save current parameters to yaml config - overwrite if already exist
-    save_att_params(
-      param_list = att_params,
-      path_to_yaml = path.c,
-      overwrite = TRUE)
-  }
-
-  save_all()
 
   if (path != ".") {
     old <- setwd(normalizePath(path))
@@ -85,6 +62,39 @@ att_amend_desc <- function(path = ".",
 
   path <- normalizePath(path)
 
+  # decide whether to use or update config file ----
+  if (isTRUE(update.config) & isTRUE(use.config)) {
+    use.config <- FALSE
+    message("'update.config' was set to TRUE, hence, 'use.config' was forced to FALSE")
+  }
+
+  # extract all current parameter values - ignore config parameters - save also default
+  att_params <- names(formals(att_amend_desc))
+  att_params <- att_params[!att_params %in% c("path", "update.config", "use.config", "path.c")]
+  local_att_params <- mget(att_params)
+
+  if (isTRUE(use.config) & file.exists(path.c)) {
+      # reassign input value to saved parameters
+      saved_att_params <- load_att_params(path_to_yaml = path.c)
+      for (param_name in names(saved_att_params)){
+        assign(param_name, saved_att_params[[param_name]])
+      }
+      message(c("Documentation parameters were restored from attachment config file.\n",
+                "See `use.config` and `update.config` for other behaviour with `att_amend_desc()`\n"))
+  } else if (isTRUE(update.config) | !file.exists(path.c)) {
+    # save current parameters to yaml config - overwrite if already exist
+    save_att_params(
+      param_list = local_att_params,
+      path_to_yaml = path.c,
+      overwrite = TRUE)
+  } else {
+    message("attachment config file was not updated. Parameters used this time won't be stored.")
+  }
+
+  # Save all open files ----
+  save_all()
+
+  # Update description ----
   if (!file.exists(path.d)) {
     x3 <- description$new("!new")
     x3$set("Package", basename(path))

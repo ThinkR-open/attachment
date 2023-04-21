@@ -20,7 +20,7 @@ att_amend_desc(
   must.exist = TRUE,
   check_if_suggests_is_installed = TRUE,
   update.config = FALSE,
-  use.config = FALSE,
+  use.config = TRUE,
   path.c = "dev/config_attachment.yaml"
 )
 
@@ -39,7 +39,7 @@ att_to_desc_from_pkg(
   must.exist = TRUE,
   check_if_suggests_is_installed = TRUE,
   update.config = FALSE,
-  use.config = FALSE,
+  use.config = TRUE,
   path.c = "dev/config_attachment.yaml"
 )
 }
@@ -72,9 +72,9 @@ within installed packages. If NA, a warning.}
 
 \item{check_if_suggests_is_installed}{Logical. Whether to require that packages in the Suggests section are installed.}
 
-\item{update.config}{logical Should the parameters used in this call be saved in the config file of the pkg}
+\item{update.config}{logical. Should the parameters used in this call be saved in the config file of the package}
 
-\item{use.config}{logical Should the command use the parameters from the config file to run}
+\item{use.config}{logical. Should the command use the parameters from the config file to run}
 
 \item{path.c}{character Path to the yaml config file where parameters are saved}
 }

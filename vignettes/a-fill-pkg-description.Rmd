@@ -47,7 +47,36 @@ Run `attachment::att_amend_desc()` each time before `devtools::check()`, this wi
 att_amend_desc()
 ```
 
-#### Example on a fake package
+## Change default parameters
+
+We recommend to store the {attachment} command in a "dev/dev_history.R" file in your package, so that you can update the parameters if not using the default ones.
+
+### Use the configuration file
+
+If you run `att_amend_desc()` directly in the console, it will use the last set of parameters run the last time you updated the configuration file.  
+Hence, you can change the command in your "dev/dev_history.R" with `update.config = TRUE`, so that next time, you can run `attachment::att_amend_desc()` directly in the console using these updated parameters.
+
+### Ignore some of the dependencies automatically detected
+
+```{r, eval=FALSE}
+att_amend_desc(pkg_ignore = c("fakepackage.to_ignore", "other.package"), update.config = TRUE)
+```
+
+### Add extra `Suggests` dependencies
+
+```{r, eval=FALSE}
+att_amend_desc(extra.suggests = c("suggested.package.not.detected"), update.config = TRUE)
+```
+
+### Move detected dependencies from `Imports` to `Suggests`
+
+```{r, eval=FALSE}
+att_amend_desc(pkg_ignore = c("package.to.move"), extra.suggests = c("package.to.move"), update.config = TRUE)
+```
+
+Next time, you can run `attachment::att_amend_desc()` without any parameters, it will use the config file.
+
+## Example on a fake package
 
 If you are running this inside a Rmd like here, you may need parameter `inside_rmd = TRUE`.  
 
@@ -58,7 +87,7 @@ dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
-att_amend_desc(path = dummypackage, inside_rmd = TRUE)
+att_amend_desc(path = dummypackage, inside_rmd = TRUE, update.config = TRUE)
 
 # Clean temp files after this example
 unlink(tmpdir, recursive = TRUE)

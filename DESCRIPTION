@@ -1,39 +1,37 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.3.1.9002
-Authors@R:
-    c(person(given = "Sébastien",
-             family = "Rochette",
-             role = c("cre", "aut"),
-             email = "sebastien@thinkr.fr",
-             comment = c(ORCID = "0000-0002-1565-9313")),
-     person(given = "Vincent",
-             family = "Guyader",
-             role = c("aut"),
-             email = "vincent@thinkr.fr",
-             comment = c(ORCID = "0000-0003-0671-9270",
-             "previous maintainer")),
-     person(given = "ThinkR",
-             role = c("cph", "fnd")))
-Description: Manage dependencies during package
-    development. This can retrieve all dependencies that are used in ".R"
-    files in the "R/" directory, in ".Rmd" files in "vignettes/" directory and
-    in 'roxygen2' documentation of functions. There is a function to
-    update the "DESCRIPTION" file of your package with 'CRAN' packages or any other remote package.
-    All functions to retrieve dependencies of ".R" scripts and ".Rmd" or ".qmd" files can
-    be used independently of a package development.
+Version: 0.3.1.9003
+Authors@R: c(
+    person("Sébastien", "Rochette", , "sebastien@thinkr.fr", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0002-1565-9313")),
+    person("Vincent", "Guyader", , "vincent@thinkr.fr", role = "aut",
+           comment = c(ORCID = "0000-0003-0671-9270", "previous maintainer")),
+    person("Murielle", "Delmotte", , "murielle@thinkr.fr", role = "aut",
+           comment = c(ORCID = "0000-0002-1339-2424")),
+    person("Swann", "Floc'hlay", , "swann@thinkr.fr", role = "aut",
+           comment = c(ORCID = "0000-0003-1477-830X")),
+    person("ThinkR", role = c("cph", "fnd"))
+  )
+Description: Manage dependencies during package development. This can
+    retrieve all dependencies that are used in ".R" files in the "R/"
+    directory, in ".Rmd" files in "vignettes/" directory and in 'roxygen2'
+    documentation of functions. There is a function to update the
+    "DESCRIPTION" file of your package with 'CRAN' packages or any other
+    remote package.  All functions to retrieve dependencies of ".R"
+    scripts and ".Rmd" or ".qmd" files can be used independently of a
+    package development.
 License: GPL-3
 URL: https://thinkr-open.github.io/attachment/,
     https://github.com/ThinkR-open/attachment
 BugReports: https://github.com/ThinkR-open/attachment/issues
-Config/Needs/website: ThinkR-open/thinkrtemplate
 VignetteBuilder:
     knitr
-Encoding: UTF-8
-RoxygenNote: 7.2.3
-Config/testthat/edition: 3
-Roxygen: list(markdown = TRUE)
 Config/fusen/version: 0.5.0.9000
+Config/Needs/website: ThinkR-open/thinkrtemplate
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
 Depends: 
     R (>= 3.4)
 Imports: 
