@@ -87,18 +87,24 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.1" id="attachment-031xxxx">attachment 0.3.1.XXXX<small>2023-01-27</small><a class="anchor" aria-label="anchor" href="#attachment-031xxxx"></a></h2>
 <div class="section level3">
+<h3 id="breaking-changes-0-3-1">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-0-3-1"></a></h3>
+<ul><li><p>When using <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> without the default parameters, like <code>pkg_ignore = "x"</code> will now require <code>att_amend_desc(pkg_ignore = "x", update.config = TRUE)</code>, otherwise, it will fail. This allows for the use of parameters stored in the config file when running <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> directly in the console. Recommendation: Run <code>att_amend_desc(pkg_ignore = "x", update.config = TRUE)</code> if you have to update your config, run <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> daily as you’ll want to use what is stored in the config file.</p></li>
+<li><p><code><a href="../reference/create_dependencies_file.html">create_dependencies_file()</a></code> gets parameter <code>install_only_if_missing = FALSE</code> by default to complete the installation instructions packages only if missing. (<a href="https://github.com/MurielleDelmotte" class="external-link">@MurielleDelmotte</a>)</p></li>
+</ul></div>
+<div class="section level3">
 <h3 id="new-features-0-3-1">New features<a class="anchor" aria-label="anchor" href="#new-features-0-3-1"></a></h3>
 <ul><li>
 <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> can run with the last set of parameters stored in a configuration file, without having to call them all each time. See vignettes and documentation of parameters <code>update.config = FALSE</code>, <code>use.config = FALSE</code> and <code>path.c = "dev/config_attachment.yaml"</code>. (<a href="https://github.com/dagousket" class="external-link">@dagousket</a>)</li>
 <li>
 <code><a href="../reference/create_dependencies_file.html">create_dependencies_file()</a></code> now takes other sources into account (git, gitlab, github, bioc, local). (<a href="https://github.com/MurielleDelmotte" class="external-link">@MurielleDelmotte</a>)</li>
-<li>
-<code><a href="../reference/create_dependencies_file.html">create_dependencies_file()</a></code> gets parameter <code>install_only_if_missing = FALSE</code> by default to complete the installation instructions packages only if missing. (<a href="https://github.com/MurielleDelmotte" class="external-link">@MurielleDelmotte</a>)</li>
+<li>Use <code>create_dependencies_file(to = NULL)</code> to only get the output as character and do not create a file</li>
 </ul></div>
 <div class="section level3">
 <h3 id="bug-fixes-0-3-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-3-1"></a></h3>
 <ul><li>
 <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> does not modify user <code>options("warn")</code> level anymore (<a href="https://github.com/ThinkR-open/attachment/issues/94" class="external-link">#94</a>)</li>
+<li>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> allows “Remotes” field to contain <code>@ref</code> (<a href="https://github.com/ThinkR-open/attachment/issues/67" class="external-link">#67</a>)</li>
 </ul></div>
 </div>
     <div class="section level2">
@@ -112,7 +118,7 @@
 <h3 id="minor-changes-0-3-1">Minor changes<a class="anchor" aria-label="anchor" href="#minor-changes-0-3-1"></a></h3>
 <ul><li>a new parameters <code>check_if_suggests_is_installed</code> in <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> allow not to check if suggested package is installed. (thanks to <a href="https://github.com/yogat3ch" class="external-link">@yogat3ch</a>)</li>
 <li>
-<code><a href="../reference/create_renv_for_dev.html">create_renv_for_prod()</a></code> dont look anymore for suggested packages</li>
+<code><a href="../reference/create_renv_for_dev.html">create_renv_for_prod()</a></code> don’t look anymore for suggested packages</li>
 <li>Clean a maximum of temp directories after examples and unit tests</li>
 </ul></div>
 </div>
