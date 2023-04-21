@@ -166,9 +166,9 @@ test_that("att_amend_desc can create, use and update config file", {
                  "normalize: yes", "inside_rmd: no", "must.exist: yes", "check_if_suggests_is_installed: yes"
                ))
 
-  # Do not overwrite if not update.config
+  # Do not overwrite if not update.config and not default params
   withr::with_dir(dummypackage, {
-    expect_message(
+    expect_error(
       att_amend_desc(
         # path = dummypackage, # default to "."
         extra.suggests = c("ggplot2"),
@@ -177,7 +177,7 @@ test_that("att_amend_desc can create, use and update config file", {
         update.config = FALSE, # default
         # path.c = file.path(dummypackage, "dev", "config_attachment.yaml") " default
       ), 
-      regexp = "Documentation parameters were restored from attachment config file"
+      regexp = "Params in your `att_amend_desc\\(\\)` and the one in the config file are different. Please choose among `update.config = TRUE` or `use.config = FALSE`"
     )
   })
   

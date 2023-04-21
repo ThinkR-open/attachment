@@ -68,7 +68,21 @@ create_renv_for_dev <- function(path = ".",
   }
 
   if (isTRUE(document)) {
-    att_amend_desc(path, check_if_suggests_is_installed = check_if_suggests_is_installed)
+    # Use a temporary config_file for renv
+    config_file <- file.path(path, "dev", "config_attachment.yaml")
+    if (file.exists(config_file)) {
+      yaml_params <- load_att_params(path_to_yaml = config_file)
+      yaml_params[["check_if_suggests_is_installed"]] <- check_if_suggests_is_installed
+      yamlfile <- tempfile(fileext = ".yaml")
+      save_att_params(path_to_yaml = yamlfile, param_list = yaml_params)
+      att_amend_desc(path,
+                     use.config = TRUE,
+                     path.c = yamlfile)
+    } else {
+      att_amend_desc(path,
+                     check_if_suggests_is_installed = check_if_suggests_is_installed,
+                     use.config = FALSE)
+    }
   }
 
   if ( isTRUE(check_if_suggests_is_installed)){

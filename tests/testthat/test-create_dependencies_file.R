@@ -18,7 +18,7 @@ test_that("create-dependencies-file works without remotes", {
   expect_equal(dep_file_without_remotes[1], "# No Remotes ----")
   expect_equal(dep_file_without_remotes[3], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
 })
-  
+
 
   # Add remotes in DESCRIPTION
 
@@ -30,7 +30,7 @@ test_that("create-dependencies-file works without remotes", {
 
   path.d <- file.path(dummypackage, "DESCRIPTION")
 
-  cat(c("Remotes:\n     ThinkR-open/attachment,\n     local::/path/fakelocal,\n     gitlab::statnmap/fakepkg,\n     bioc::3.3/fakepkgbioc,\n     git::https://github.com/fakepkggit.git,\n     git::https://MyForge.com/fakepkggit2r,\n     ThinkR-open/fusen"), append = TRUE,
+  cat(c("Remotes:\n     ThinkR-open/attachment,\n     local::/path/fakelocal,\n     gitlab::statnmap/fakepkg,\n     bioc::3.3/fakepkgbioc,\n     git::https://github.com/fakepkggit.git,\n     git::https://MyForge.com/fakepkggit2r,\n     ThinkR-open/fusen\n"), append = TRUE,
       file = path.d)
 
   new_desc <- readLines(path.d)

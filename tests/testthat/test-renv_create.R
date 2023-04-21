@@ -197,7 +197,8 @@ test_that("_default works", {
 })
 
 # Test for "folder_to_include" in dummypackage ----
-dir.create(file.path(dummypackage, "dev"))
+dev_dir <- file.path(dummypackage, "dev")
+if (!dir.exists(dev_dir)) {dir.create(dev_dir)}
 cat("library(glue)", file = file.path(dummypackage, "dev", "my_r.R"))
 cat("```{r}\nlibrary(\"extrapackage\")\n```", file = file.path(dummypackage, "dev", "my_rmd.Rmd"))
 

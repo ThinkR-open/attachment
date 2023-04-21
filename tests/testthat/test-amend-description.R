@@ -108,7 +108,8 @@ test_that("fails if dir.t do not exists", {
 
   expect_error(
     att_amend_desc(path = dummypackage,
-                   dir.r = "rara"), # do not exist, nothing fails
+                   dir.r = "rara", # do not exist, nothing fails
+                   use.config = FALSE),
     regexp = NA)
 
   expect_message(

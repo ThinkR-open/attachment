@@ -298,6 +298,53 @@ test_that("load_att_params works", {
   
 # att_amend_desc() use saved config
   
+  
+```{r function, filename="amend_with_config"}
+#' Compare input from the user to config file or default inputs
+#'
+#' @param local_att_params List of parameters called by the user
+#' @inheritParams att_amend_desc
+#'
+#' @noRd
+
+compare_inputs_load_or_save <- function(path.c, local_att_params, use.config, update.config) {
+
+    if (isTRUE(use.config) & file.exists(path.c)) {
+      # reassign input value to saved parameters
+      saved_att_params <- load_att_params(path_to_yaml = path.c)
+      # Check if different from config and as defaults
+      diff_config <- lapply(names(local_att_params), function(x) {setdiff(local_att_params[x], saved_att_params[x])})
+      diff_default <- lapply(names(local_att_params), function(x) {setdiff(local_att_params[x], formals(att_amend_desc)[x])})
+
+      if (any(lengths(diff_config) != 0) & any(lengths(diff_default) != 0)) {
+        stop(c("Params in your `att_amend_desc()` and the one in the config file are different. ",
+             "Please choose among `update.config = TRUE` or `use.config = FALSE`"))
+      }
+      
+      params_to_load <- saved_att_params
+      # for (param_name in names(saved_att_params)){
+      #   assign(param_name, saved_att_params[[param_name]])
+      # }
+      # message(c("Documentation parameters were restored from attachment config file.\n"))
+    } else if (isTRUE(update.config) | !file.exists(path.c)) {
+      # save current parameters to yaml config - overwrite if already exist
+      save_att_params(
+        param_list = local_att_params,
+        path_to_yaml = path.c,
+        overwrite = TRUE)
+      
+      params_to_load <- NULL
+    } else {
+      message("attachment config file was not updated. Parameters used this time won't be stored.")
+      
+      params_to_load <- local_att_params
+    }
+
+    return(params_to_load)
+  }
+```
+
+  
 ```{r tests, filename="amend_with_config"}
 
 # att_amend_desc use saved config ----
@@ -333,9 +380,9 @@ test_that("att_amend_desc can create, use and update config file", {
                  "normalize: yes", "inside_rmd: no", "must.exist: yes", "check_if_suggests_is_installed: yes"
                ))
 
-  # Do not overwrite if not update.config
+  # Do not overwrite if not update.config and not default params
   withr::with_dir(dummypackage, {
-    expect_message(
+    expect_error(
       att_amend_desc(
         # path = dummypackage, # default to "."
         extra.suggests = c("ggplot2"),
@@ -344,7 +391,7 @@ test_that("att_amend_desc can create, use and update config file", {
         update.config = FALSE, # default
         # path.c = file.path(dummypackage, "dev", "config_attachment.yaml") " default
       ), 
-      regexp = "Documentation parameters were restored from attachment config file"
+      regexp = "Params in your `att_amend_desc\\(\\)` and the one in the config file are different. Please choose among `update.config = TRUE` or `use.config = FALSE`"
     )
   })
   

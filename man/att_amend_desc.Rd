@@ -87,14 +87,40 @@ R, tests, vignettes files.
 att_to_desc_from_pkg() is an alias of att_amend_desc(),
 for the correspondence with \code{\link[=att_to_desc_from_is]{att_to_desc_from_is()}}.
 }
+\details{
+Your daily use is to run \code{att_amend_desc()}, as is.
+You will want to run this function sometimes with some extra information like
+\code{att_amend_desc(pkg_ignore = "x", update.config = TRUE)} if you have to update
+the configuration file.
+Next time \code{att_amend_desc()} will use these parameters from the configuration
+file directly.
+}
 \examples{
+
+# Run on an external "dummypackage" as an example
+# For your local use, you do not have to specify the `path` as below
+# By default, `att_amend_desc()` will run on the current working directory
+
+# Create a fake package for the example
 tmpdir <- tempfile(pattern = "description")
 dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
  recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
-# browseURL(dummypackage)
-att_amend_desc(path = tmpdir)
+
+# Update documentation and dependencies
+att_amend_desc(path = dummypackage)
+
+# You can look at the content of this external package
+#' # browseURL(dummypackage)
+
+# Update the config file with extra parameters
+# We recommend that you store this code in a file in your "dev/" directory
+# to run it when needed
+att_amend_desc(path = dummypackage, extra.suggests = "testthat", update.config = TRUE)
+
+# Next time, in your daily development
+att_amend_desc(path = dummypackage)
 
 # Clean after examples
 unlink(tmpdir, recursive = TRUE)

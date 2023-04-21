@@ -113,7 +113,10 @@ devtools::test()
 
 # Test specific interactive ----
 devtools::load_all()
-testthat::test_file(here::here("tests/testthat/test-amend-description.R"))
+withr::with_envvar(list("NOT_CRAN" = "true"), {
+  testthat::test_file(here::here("tests/testthat/test-amend-description.R"))
+  testthat::test_file(here::here("tests/testthat/test-renv_create.R"))
+})
 
 # Test for dependencies
 tools:::.check_packages_used_in_tests(dir = ".", testdir = "tests/testthat")
