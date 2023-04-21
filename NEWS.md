@@ -16,6 +16,7 @@ Recommendation: Run `att_amend_desc(pkg_ignore = "x", update.config = TRUE)` if 
 ## Bug fixes 
 
 - `att_amend_desc()` does not modify user `options("warn")` level anymore (#94)
+- `att_amend_desc()` allows "Remotes" field to contain `@ref` (#67)
 
 # attachment 0.3.1
 

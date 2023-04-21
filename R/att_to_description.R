@@ -337,7 +337,7 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
 
   remotes_orig <- desc$get_remotes()
   if (length(remotes_orig) != 0) {
-    remotes_orig_pkg <- gsub("^.*/|[.]git", "", remotes_orig)
+    remotes_orig_pkg <- gsub("^.*/|[.]git|@.*$", "", remotes_orig)
   } else {
     remotes_orig_pkg <- NULL
   }
