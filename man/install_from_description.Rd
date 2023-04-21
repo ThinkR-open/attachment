@@ -25,9 +25,10 @@ Install missing package from DESCRIPTION
 }
 \examples{
 \dontrun{
+# This will install packages on your system
 dummypackage <- system.file("dummypackage", package = "attachment")
 # browseURL(dummypackage)
 
-install_from_description(path = file.path(dummypackage,"DESCRIPTION"))
+install_from_description(path = file.path(dummypackage, "DESCRIPTION"))
 }
 }

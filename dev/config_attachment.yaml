@@ -35,6 +35,7 @@ pkg_ignore:
   - ggplot3
   - svn
   - pkgload
+  - bookdown
 document: yes
 normalize: no
 inside_rmd: no

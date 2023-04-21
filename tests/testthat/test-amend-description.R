@@ -54,7 +54,8 @@ cat(
   "Remotes:
     thinkr-open/fusen,
     tidyverse/magrittr,
-    rstudio/rmarkdown
+    rstudio/rmarkdown@branch,
+    git::https://github.com/yihui/knitr@main
 ", append = TRUE,
   file = path.d)
 
@@ -66,8 +67,9 @@ test_that("Remotes stays here if exists and package in imports/suggests", {
   expect_false(any(grepl("thinkr-open/fusen", desc_file))) # not in deps
   w.remotes <- grep('Remotes:', desc_file)
   expect_length(w.remotes, 1)
-  expect_equal(desc_file[w.remotes + 1], "    rstudio/rmarkdown,") #suggest
-  expect_equal(desc_file[w.remotes + 2], "    tidyverse/magrittr") #imports
+  expect_equal(desc_file[w.remotes + 1], "    git::https://github.com/yihui/knitr@main,") #imports
+  expect_equal(desc_file[w.remotes + 2], "    rstudio/rmarkdown@branch,") #suggest
+  expect_equal(desc_file[w.remotes + 3], "    tidyverse/magrittr") #imports
 })
 unlink(dummypackage, recursive = TRUE)
 
@@ -108,7 +110,8 @@ test_that("fails if dir.t do not exists", {
 
   expect_error(
     att_amend_desc(path = dummypackage,
-                   dir.r = "rara"), # do not exist, nothing fails
+                   dir.r = "rara", # do not exist, nothing fails
+                   use.config = FALSE),
     regexp = NA)
 
   expect_message(

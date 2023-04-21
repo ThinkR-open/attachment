@@ -24,15 +24,43 @@
 #'
 #' @return Update DESCRIPTION file.
 #'
+#' @details
+#'
+#' Your daily use is to run `att_amend_desc()`, as is.
+#' You will want to run this function sometimes with some extra information like
+#' `att_amend_desc(pkg_ignore = "x", update.config = TRUE)` if you have to update
+#' the configuration file.
+#' Next time `att_amend_desc()` will use these parameters from the configuration
+#' file directly.
+#'
+#'
 #' @export
 #' @examples
+#'
+#' # Run on an external "dummypackage" as an example
+#' # For your local use, you do not have to specify the `path` as below
+#' # By default, `att_amend_desc()` will run on the current working directory
+#'
+#' # Create a fake package for the example
 #' tmpdir <- tempfile(pattern = "description")
 #' dir.create(tmpdir)
 #' file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
 #'  recursive = TRUE)
 #' dummypackage <- file.path(tmpdir, "dummypackage")
-#' # browseURL(dummypackage)
-#' att_amend_desc(path = tmpdir)
+#'
+#' # Update documentation and dependencies
+#' att_amend_desc(path = dummypackage)
+#'
+#' # You can look at the content of this external package
+#' #' # browseURL(dummypackage)
+#'
+#' # Update the config file with extra parameters
+#' # We recommend that you store this code in a file in your "dev/" directory
+#' # to run it when needed
+#' att_amend_desc(path = dummypackage, extra.suggests = "testthat", update.config = TRUE)
+#'
+#' # Next time, in your daily development
+#' att_amend_desc(path = dummypackage)
 #'
 #' # Clean after examples
 #' unlink(tmpdir, recursive = TRUE)
@@ -73,22 +101,17 @@ att_amend_desc <- function(path = ".",
   att_params <- att_params[!att_params %in% c("path", "update.config", "use.config", "path.c")]
   local_att_params <- mget(att_params)
 
-  if (isTRUE(use.config) & file.exists(path.c)) {
-      # reassign input value to saved parameters
-      saved_att_params <- load_att_params(path_to_yaml = path.c)
-      for (param_name in names(saved_att_params)){
-        assign(param_name, saved_att_params[[param_name]])
-      }
-      message(c("Documentation parameters were restored from attachment config file.\n",
-                "See `use.config` and `update.config` for other behaviour with `att_amend_desc()`\n"))
-  } else if (isTRUE(update.config) | !file.exists(path.c)) {
-    # save current parameters to yaml config - overwrite if already exist
-    save_att_params(
-      param_list = local_att_params,
-      path_to_yaml = path.c,
-      overwrite = TRUE)
-  } else {
-    message("attachment config file was not updated. Parameters used this time won't be stored.")
+  params_to_load <- compare_inputs_load_or_save(
+    path.c = path.c,
+    local_att_params = local_att_params,
+    use.config = use.config,
+    update.config = update.config)
+
+  if (!is.null(params_to_load)) {
+    for (param_name in names(params_to_load)){
+      assign(param_name, params_to_load[[param_name]])
+    }
+    message(c("Documentation parameters were restored from attachment config file."))
   }
 
   # Save all open files ----
@@ -314,7 +337,7 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
 
   remotes_orig <- desc$get_remotes()
   if (length(remotes_orig) != 0) {
-    remotes_orig_pkg <- gsub("^.*/|[.]git", "", remotes_orig)
+    remotes_orig_pkg <- gsub("^.*/|[.]git|@.*$", "", remotes_orig)
   } else {
     remotes_orig_pkg <- NULL
   }

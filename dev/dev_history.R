@@ -85,13 +85,14 @@ attachment::att_amend_desc(
                  "find.me", "findme1", "findme2", "findme3", "findme4",
                  "findme5", "findme6", "findme1a", "findme2a", "findme3a",
                  "findme4a", "findme5a", "findme6a", "ggplot3",
-                 "svn", "pkgload"), #i
+                 "svn", "pkgload", "bookdown"), #i
   extra.suggests = c("testthat", "rstudioapi", "renv", "lifecycle"), #"pkgdown", "covr",
   normalize = FALSE,
   must.exist = TRUE,
   update.config = TRUE)
 
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
+attachment::dependencies_file_text(field = c("Depends", "Imports", "Suggests"))
 
 usethis::use_vignette("fill-pkg-description")
 
@@ -113,7 +114,10 @@ devtools::test()
 
 # Test specific interactive ----
 devtools::load_all()
-testthat::test_file(here::here("tests/testthat/test-amend-description.R"))
+withr::with_envvar(list("NOT_CRAN" = "true"), {
+  testthat::test_file(here::here("tests/testthat/test-amend-description.R"))
+  testthat::test_file(here::here("tests/testthat/test-renv_create.R"))
+})
 
 # Test for dependencies
 tools:::.check_packages_used_in_tests(dir = ".", testdir = "tests/testthat")
@@ -124,6 +128,7 @@ tools:::.check_packages_used_in_tests(dir = ".", testdir = "tests/testthat")
 
 # Check package coverage
 covr::package_coverage()
+covr::report()
 
 # _Check in interactive test-inflate for templates and Addins
 pkgload::load_all()

@@ -1,14 +1,22 @@
 # attachment 0.3.1.XXXX
 
+## Breaking changes
+
+- When using `att_amend_desc()` without the default parameters, like `pkg_ignore = "x"` will now require `att_amend_desc(pkg_ignore = "x", update.config = TRUE)`, otherwise, it will fail. This allows for the use of parameters stored in the config file when running `att_amend_desc()` directly in the console.
+Recommendation: Run `att_amend_desc(pkg_ignore = "x", update.config = TRUE)` if you have to update your config, run `att_amend_desc()` daily as you'll want to use what is stored in the config file.
+
+- `create_dependencies_file()` gets parameter `install_only_if_missing = FALSE` by default to complete the installation instructions packages only if missing. (@MurielleDelmotte) 
+
 ## New features
 
 - `att_amend_desc()` can run with the last set of parameters stored in a configuration file, without having to call them all each time. See vignettes and documentation of parameters `update.config = FALSE`, `use.config = FALSE` and `path.c = "dev/config_attachment.yaml"`. (@dagousket)
 - `create_dependencies_file()` now takes other sources into account (git, gitlab, github, bioc, local). (@MurielleDelmotte)
-- `create_dependencies_file()` gets parameter `install_only_if_missing = FALSE` by default to complete the installation instructions packages only if missing. (@MurielleDelmotte) 
+- Use `create_dependencies_file(to = NULL)` to only get the output as character and do not create a file
 
 ## Bug fixes 
 
 - `att_amend_desc()` does not modify user `options("warn")` level anymore (#94)
+- `att_amend_desc()` allows "Remotes" field to contain `@ref` (#67)
 
 # attachment 0.3.1
 
@@ -19,7 +27,7 @@
 ## Minor changes
 
 - a new parameters `check_if_suggests_is_installed` in `att_amend_desc()` allow not to check if suggested package is installed. (thanks to @yogat3ch)
-- `create_renv_for_prod()` dont look anymore for suggested packages
+- `create_renv_for_prod()` don't look anymore for suggested packages
 - Clean a maximum of temp directories after examples and unit tests
 
 # attachment 0.3.0

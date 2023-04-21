@@ -19,7 +19,8 @@ install  packages if missing
 }
 \examples{
 \dontrun{
-install_if_missing(c("dplyr","fcuk","rusk"))
+# This will install packages on your system
+install_if_missing(c("dplyr", "fcuk", "rusk"))
 }
 
 }
