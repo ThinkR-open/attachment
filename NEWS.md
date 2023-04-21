@@ -1,4 +1,4 @@
-# attachment 0.3.1.XXXX
+# attachment 0.3.2
 
 ## Breaking changes
 
