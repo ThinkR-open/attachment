@@ -2,7 +2,7 @@
 % Please edit documentation in R/create_dependencies_file.R
 \name{create_dependencies_file}
 \alias{create_dependencies_file}
-\title{Create a dependencies.R in the \code{inst} folder}
+\title{Create the list of instructions to install dependencies from a DESCRIPTION file}
 \usage{
 create_dependencies_file(
   path = "DESCRIPTION",
@@ -18,7 +18,7 @@ create_dependencies_file(
 
 \item{field}{DESCRIPTION field to parse, "Import" and "Depends" by default. Can add "Suggests"}
 
-\item{to}{path to dependencies.R. "inst/dependencies.R" by default}
+\item{to}{path where to save the dependencies file. Set to "inst/dependencies.R" by default. Set to \code{NULL} if you do not want the file, but only the instructions as a list of character.}
 
 \item{open_file}{Logical. Open the file created in an editor}
 
@@ -27,26 +27,33 @@ create_dependencies_file(
 \item{install_only_if_missing}{Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)}
 }
 \value{
-Used for side effect. Shows a message with installation instructions and
-creates a R file containing these instructions.
+List of R instructions to install all dependencies from a DESCRIPTION file. Side effect: creates a R file containing these instructions.
 }
 \description{
-Create a dependencies.R in the \code{inst} folder
+Outputs the list of instructions and a "dependencies.R" file with instructions in the "inst/" directory
 }
 \examples{
-\dontrun{
-  tmpdir <- tempfile(pattern = "depsfile")
-  dir.create(tmpdir)
-  file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
-   recursive = TRUE)
-  dummypackage <- file.path(tmpdir, "dummypackage")
-  
-  # browseURL(dummypackage)
-  create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+# Create a fake package
+tmpdir <- tempfile(pattern = "depsfile")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+          recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+
+# Create the dependencies commands but no file
+create_dependencies_file(
+  path = file.path(dummypackage,"DESCRIPTION"),
+  to = NULL,
+  open_file = FALSE)
+
+# Create the dependencies files in the package
+create_dependencies_file(
+  path = file.path(dummypackage,"DESCRIPTION"),
   to = file.path(dummypackage, "inst/dependencies.R"),
   open_file = FALSE)
-  
-  # Clean temp files after this example
-  unlink(tmpdir, recursive = TRUE)
-}
+list.files(file.path(dummypackage, "inst"))
+# browseURL(dummypackage)
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
 }

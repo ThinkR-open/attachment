@@ -76,6 +76,52 @@ att_amend_desc(pkg_ignore = c("package.to.move"), extra.suggests = c("package.to
 
 Next time, you can run `attachment::att_amend_desc()` without any parameters, it will use the config file.
 
+## A package was not detected by `att_amend_desc`
+
+### I have a Rmarkdown file / Quarto file in my "inst/" directory
+
+In your package, you can have a wrapper around `knitr::knit()` with a specific template that you store in "inst/". 
+In this case, {attachment} will not detect if there are important dependencies that you used inside your notebook file that are necessary for your package to work properly. Indeed, we can not anticipate if dependencies listed in files in "inst/" need to be in "Imports", "Suggests", or not listed, depending on your use of these files.
+
+For instance, I have a notebook file "inst/my_template.Rmd" as follows, with {bookdown} being used only there in my package:
+
+````
+---
+title: "My Super template"
+author: "John Doe"
+date: "`r Sys.Date()`"
+output: bookdown::html_document2
+---
+
+# First title
+
+My text here.
+````
+
+_Suggests_ - If I want to present this template in an example only, {bookdown} should be listed in "Suggests". Then I can run this once:
+
+```{r, eval=FALSE}
+att_amend_desc(extra.suggests = c("bookdown"), update.config = TRUE)
+```
+
+_Imports_ - If I want to knit it inside a major function of my package, it is recommended to declare the dependency in the 'roxygen' documentation of this function. 
+
+```{r, eval=FALSE}
+#' Knit my internal template
+#'
+#' @importFrom bookdown html_document2
+#' @export
+#'
+my_knit <- function() {
+  rmarkdown::render(system.file("my_template.Rmd", package = "my.package"))
+}
+```
+
+Then I can directly run `att_amend_desc()`.
+
+In the _Imports_ case, if for any reason I decide to delete this `my_knit()` function, then the {bookdown} dependency won't be needed anymore, and {attachment} will automatically remove it with the next `att_amend_desc()`
+
+
 ## Example on a fake package
 
 If you are running this inside a Rmd like here, you may need parameter `inside_rmd = TRUE`.  

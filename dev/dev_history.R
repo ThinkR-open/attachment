@@ -85,13 +85,14 @@ attachment::att_amend_desc(
                  "find.me", "findme1", "findme2", "findme3", "findme4",
                  "findme5", "findme6", "findme1a", "findme2a", "findme3a",
                  "findme4a", "findme5a", "findme6a", "ggplot3",
-                 "svn", "pkgload"), #i
+                 "svn", "pkgload", "bookdown"), #i
   extra.suggests = c("testthat", "rstudioapi", "renv", "lifecycle"), #"pkgdown", "covr",
   normalize = FALSE,
   must.exist = TRUE,
   update.config = TRUE)
 
 attachment::create_dependencies_file(field = c("Depends", "Imports", "Suggests"))
+attachment::dependencies_file_text(field = c("Depends", "Imports", "Suggests"))
 
 usethis::use_vignette("fill-pkg-description")
 

@@ -151,22 +151,28 @@ expect_equal(thetext2[2], list(attachment_content = structure("# No attachments 
 ```
 
 
-# create_dependencies_file
+# Write instructions to install all dependencies from a "DESCRIPTION" file
 
-Create a dependencies.R in the `inst` folder that contains the list of dependencies your users will have to install.
+`create_dependencies_file()` creates "inst/dependencies.R" file with the instructions to install all dependencies listed in your "DESCRIPTION".
+This accounts for the "Remotes" field and write instructions accordingly.   
+
+Use `create_dependencies_file(to = NULL)` to only retrieve the output as a list of character and not save a "inst/dependencies.R" file in your project. 
+This can be used in a `Readme.Rmd` file for instance, to get the full list of each dependency to install and how, from any "DESCRIPTION" file.
+
 
 ```{r function-create_dependencies_file}
-#' Create a dependencies.R in the `inst` folder
+#' Create the list of instructions to install dependencies from a DESCRIPTION file
+#' 
+#' Outputs the list of instructions and a "dependencies.R" file with instructions in the "inst/" directory
 #'
 #' @param path path to the DESCRIPTION file
 #' @param field DESCRIPTION field to parse, "Import" and "Depends" by default. Can add "Suggests"
-#' @param to path to dependencies.R. "inst/dependencies.R" by default
+#' @param to path where to save the dependencies file. Set to "inst/dependencies.R" by default. Set to `NULL` if you do not want the file, but only the instructions as a list of character.
 #' @param open_file Logical. Open the file created in an editor
 #' @param ignore_base Logical. Whether to ignore package coming with base, as they cannot be installed (default TRUE)
 #' @param install_only_if_missing Logical Modify the installation instructions to check, beforehand, if the packages are missing . (default FALSE)
 #' @export
-#' @return Used for side effect. Shows a message with installation instructions and
-#' creates a R file containing these instructions.
+#' @return List of R instructions to install all dependencies from a DESCRIPTION file. Side effect: creates a R file containing these instructions.
 #' @importFrom glue glue glue_collapse
 #' @importFrom desc description
 #' @importFrom utils packageDescription
@@ -179,64 +185,76 @@ create_dependencies_file <- function(path = "DESCRIPTION",
                                      ignore_base = TRUE,
                                      install_only_if_missing = FALSE) {
 
-  if (!dir.exists(dirname(to))) {
-    dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
-    dir_to <- normalizePath(dirname(to))
-  } else {
-    dir_to <- normalizePath(dirname(to))
-  }
-
   # get all packages
   ll <- att_from_description(path = path, field = field)
   # get pkg in remotes
   if (isTRUE(ignore_base)) {
-    to_remove<- which(lapply(ll,packageDescription,field="Priority")=="base")
-    if (length(to_remove)>0){
-     ll<- ll[-to_remove]
+    to_remove <-
+      which(lapply(ll , packageDescription, field = "Priority") == "base")
+    if (length(to_remove) > 0) {
+      ll <- ll[-to_remove]
     }
 
   }
 
   desc <- description$new(path)
   # Get previous dependencies in Description in case version is set
-  # deps_orig <- desc$get_deps()
   remotes_orig <- desc$get_remotes()
 
   content <- dependencies_file_text(ll = ll,
                          remotes_orig = remotes_orig,
                          install_only_if_missing = install_only_if_missing)
 
-  # file <- normalizePath(to, mustWork = FALSE)
-  file <- file.path(dir_to, basename(to))
-  file.create(file)
+  if (!is.null(to)) {
+    if (!dir.exists(dirname(to))) {
+      dir.create(dirname(to), recursive = TRUE, showWarnings = FALSE)
+      dir_to <- normalizePath(dirname(to))
+    } else {
+      dir_to <- normalizePath(dirname(to))
+    }
+    
+    the_file <- file.path(dir_to, basename(to))
+    # file.create(the_file)
+    cat(unlist(content), sep  = "\n", file = the_file)
 
-  cat(unlist(content), sep  = "\n", file = file)
-
-  if (interactive() && open_file) {
-    utils::file.edit(file, editor = "internal")
+    if (interactive() && open_file) {
+      utils::file.edit(file, editor = "internal")
+    }
+    
+    return(invisible(content))
+  } else {
+    return(content)
   }
   
-  return(invisible(content))
+
 }
 
 ```
 
-```{r examples-create_dependencies_file, eval = FALSE}
-#' \dontrun{
-  tmpdir <- tempfile(pattern = "depsfile")
-  dir.create(tmpdir)
-  file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
-   recursive = TRUE)
-  dummypackage <- file.path(tmpdir, "dummypackage")
-  
-  # browseURL(dummypackage)
-  create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+```{r examples-create_dependencies_file, eval = TRUE}
+# Create a fake package
+tmpdir <- tempfile(pattern = "depsfile")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+          recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+
+# Create the dependencies commands but no file
+create_dependencies_file(
+  path = file.path(dummypackage,"DESCRIPTION"),
+  to = NULL,
+  open_file = FALSE)
+
+# Create the dependencies files in the package
+create_dependencies_file(
+  path = file.path(dummypackage,"DESCRIPTION"),
   to = file.path(dummypackage, "inst/dependencies.R"),
   open_file = FALSE)
-  
-  # Clean temp files after this example
-  unlink(tmpdir, recursive = TRUE)
-#' }
+list.files(file.path(dummypackage, "inst"))
+# browseURL(dummypackage)
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
 ```
 
 ```{r tests-create_dependencies_file}
@@ -247,12 +265,29 @@ file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive 
 dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 
+# Create the dependencies commands but no file
+test_that("create_dependencies_file does not create file with NULL", {
+  
+  out_list <- create_dependencies_file(
+    path = file.path(dummypackage, "DESCRIPTION"),
+    to = NULL,
+    field = c("Depends", "Imports", "Suggests"),
+    open_file = FALSE)
+  
+  expect_false(file.exists(
+    file.path(dummypackage, "inst", "dependencies.R")))
+})
 
-create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
-                         to = file.path(dummypackage, "inst/dependencies.R"),
-                         field = c("Depends", "Imports", "Suggests"),
-                         open_file = FALSE)
-dep_file_without_remotes <- readLines(file.path(tmpdir, "dummypackage", "inst/dependencies.R"))
+create_dependencies_file(
+  path = file.path(dummypackage, "DESCRIPTION"),
+  to = file.path(dummypackage, "inst", "dependencies.R"),
+  field = c("Depends", "Imports", "Suggests"),
+  open_file = FALSE)
+
+  expect_true(file.exists(
+    file.path(dummypackage, "inst", "dependencies.R")))
+  
+dep_file_without_remotes <- readLines(file.path(dummypackage, "inst", "dependencies.R"))
 
 test_that("create-dependencies-file works without remotes", {
   expect_equal(dep_file_without_remotes[1], "# No Remotes ----")
@@ -270,7 +305,7 @@ test_that("create-dependencies-file works without remotes", {
 
   path.d <- file.path(dummypackage, "DESCRIPTION")
 
-  cat(c("Remotes:\n     ThinkR-open/attachment,\n     local::/path/fakelocal,\n     gitlab::statnmap/fakepkg,\n     bioc::3.3/fakepkgbioc,\n     git::https://github.com/fakepkggit.git,\n     git::https://MyForge.com/fakepkggit2r,\n     ThinkR-open/fusen"), append = TRUE,
+  cat(c("Remotes:\n     ThinkR-open/attachment,\n     local::/path/fakelocal,\n     gitlab::statnmap/fakepkg,\n     bioc::3.3/fakepkgbioc,\n     git::https://github.com/fakepkggit.git,\n     git::https://MyForge.com/fakepkggit2r,\n     ThinkR-open/fusen\n"), append = TRUE,
       file = path.d)
 
   new_desc <- readLines(path.d)
@@ -328,8 +363,6 @@ fusen::inflate(flat_file = "dev/flat_create_dependencies_file.Rmd", vignette_nam
                check = FALSE,
                open_vignette = FALSE,
                overwrite = TRUE,
-               document = FALSE)
-
-rstudioapi::navigateToFile(file = "dev/dev_history.R", line = 82)
+               document = TRUE)
 ```
 

@@ -23,26 +23,39 @@ library(attachment)
   
 
 
-# create_dependencies_file
+# Write instructions to install all dependencies from a "DESCRIPTION" file
 
-Create a dependencies.R in the `inst` folder that contains the list of dependencies your users will have to install.
+`create_dependencies_file()` creates "inst/dependencies.R" file with the instructions to install all dependencies listed in your "DESCRIPTION".
+This accounts for the "Remotes" field and write instructions accordingly.   
+
+Use `create_dependencies_file(to = NULL)` to only retrieve the output as a list of character and not save a "inst/dependencies.R" file in your project. 
+This can be used in a `Readme.Rmd` file for instance, to get the full list of each dependency to install and how, from any "DESCRIPTION" file.
 
 
-```{r examples-create_dependencies_file, eval = FALSE}
-#' \dontrun{
-  tmpdir <- tempfile(pattern = "depsfile")
-  dir.create(tmpdir)
-  file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
-   recursive = TRUE)
-  dummypackage <- file.path(tmpdir, "dummypackage")
-  
-  # browseURL(dummypackage)
-  create_dependencies_file(path = file.path(dummypackage,"DESCRIPTION"),
+
+```{r examples-create_dependencies_file, eval = TRUE}
+# Create a fake package
+tmpdir <- tempfile(pattern = "depsfile")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir,
+          recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+
+# Create the dependencies commands but no file
+create_dependencies_file(
+  path = file.path(dummypackage,"DESCRIPTION"),
+  to = NULL,
+  open_file = FALSE)
+
+# Create the dependencies files in the package
+create_dependencies_file(
+  path = file.path(dummypackage,"DESCRIPTION"),
   to = file.path(dummypackage, "inst/dependencies.R"),
   open_file = FALSE)
-  
-  # Clean temp files after this example
-  unlink(tmpdir, recursive = TRUE)
-#' }
+list.files(file.path(dummypackage, "inst"))
+# browseURL(dummypackage)
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
 ```
 
