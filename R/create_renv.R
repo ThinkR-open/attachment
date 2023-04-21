@@ -40,6 +40,7 @@ extra_dev_pkg <- c(
 #'
 #' @examples
 #' \dontrun{
+#' # Writes a renv.lock a file in the user directory
 #' create_renv_for_dev()
 #' create_renv_for_dev(dev_pkg = "attachment")
 #' create_renv_for_prod()

@@ -7,10 +7,11 @@
 #' @return Used for side effect. Installs R packages from DESCRIPTION file if missing.
 #' @examples
 #' \dontrun{
+#' # This will install packages on your system
 #' dummypackage <- system.file("dummypackage", package = "attachment")
 #' # browseURL(dummypackage)
 #'
-#' install_from_description(path = file.path(dummypackage,"DESCRIPTION"))
+#' install_from_description(path = file.path(dummypackage, "DESCRIPTION"))
 #' }
 
 install_from_description <- function(path = "DESCRIPTION", field = c("Depends", "Imports", "Suggests"), ...) {
@@ -30,7 +31,8 @@ install_from_description <- function(path = "DESCRIPTION", field = c("Depends", 
 #' @return Used for side effect. Install missing packages from the character vector input.
 #' @examples
 #' \dontrun{
-#' install_if_missing(c("dplyr","fcuk","rusk"))
+#' # This will install packages on your system
+#' install_if_missing(c("dplyr", "fcuk", "rusk"))
 #' }
 #'
 install_if_missing <- function(to_be_installed, ...) {

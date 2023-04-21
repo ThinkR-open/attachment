@@ -19,11 +19,13 @@ Proposes values for Remotes field for DESCRIPTION file based on your installatio
 \examples{
 # Find from vector of packages
 find_remotes(pkg = c("attachment", "desc", "glue"))
+
 # Find from Description file
 dummypackage <- system.file("dummypackage", package = "attachment")
 att_from_description(
 path = file.path(dummypackage, "DESCRIPTION")) \%>\%
 find_remotes()
+
 \dontrun{
 # For the current package directory
 att_from_description() \%>\% find_remotes()

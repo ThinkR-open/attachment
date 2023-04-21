@@ -62,6 +62,7 @@ they are not necessary in your project, package or Shiny application.
 }
 \examples{
 \dontrun{
+# Writes a renv.lock a file in the user directory
 create_renv_for_dev()
 create_renv_for_dev(dev_pkg = "attachment")
 create_renv_for_prod()

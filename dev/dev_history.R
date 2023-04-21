@@ -128,6 +128,7 @@ tools:::.check_packages_used_in_tests(dir = ".", testdir = "tests/testthat")
 
 # Check package coverage
 covr::package_coverage()
+covr::report()
 
 # _Check in interactive test-inflate for templates and Addins
 pkgload::load_all()
