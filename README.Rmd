@@ -54,6 +54,7 @@ library(attachment)
 
 What you really want is to fill and update your description file along with the modifications of your documentation. Indeed, only the following function will really be called. Use and abuse during the development of your package !
 
+
 ```{r, eval=FALSE}
 attachment::att_amend_desc()
 ```
@@ -61,6 +62,14 @@ attachment::att_amend_desc()
 As {pkgdown} and {covr} are not listed in any script in your package, a common call for your development packages would be:
 ```{r, eval=FALSE}
 attachment::att_amend_desc(extra.suggests = c("pkgdown", "covr"))
+```
+
+The `update.config = TRUE` parameter will save the parameters used in the call of `att_amend_desc()` to the package configuration file.
+
+If you run `att_amend_desc()` , afterwards, directly from the console, it will use the last set of parameters executed when the configuration file was last updated. 
+
+```{r, eval=FALSE}
+attachment::att_amend_desc(extra.suggests = c("pkgdown", "covr"), update.config = TRUE)
 ```
 
 If you would like to add dependencies in the "Remotes" field of your DESCRIPTION file, to mimic your local installation, you will want to use:
