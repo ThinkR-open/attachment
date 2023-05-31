@@ -44,17 +44,10 @@ install.packages("attachment")
 Development version
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("ThinkR-open/attachment")
+install.packages('attachment', repos = c('https://thinkr-open.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
-## Use package {attachment}
-
-### During package development
-
-``` r
-library(attachment)
-```
+## Declare all dependencies in DESCRIPTION during package development
 
 What you really want is to fill and update your description file along
 with the modifications of your documentation. Indeed, only the following
@@ -65,25 +58,49 @@ your package !
 attachment::att_amend_desc()
 ```
 
-As {pkgdown} and {covr} are not listed in any script in your package, a
-common call for your development packages would be:
+{attachment} detects all calls to `library(pkg)`, `@importFrom pkg fun`,
+`pkg::fun()` in the different classical directories of your R package,
+then list them in the correct “Imports” or “Suggests” category in the
+DESCRIPTION file, according to their position in the package.
+
+### Declare extra dependencies for extra uses
+
+If you want to add extra packages like {pkgdown} or {covr} that are not
+listed in any script in your package, a call for your development
+packages would be:
 
 ``` r
-attachment::att_amend_desc(extra.suggests = c("pkgdown", "covr"))
+attachment::att_amend_desc(extra.suggests = c("pkgdown", "covr"), update.config = TRUE)
 ```
 
-If you would like to add dependencies in the “Remotes” field of your
-DESCRIPTION file, to mimic your local installation, you will want to
-use:
+Note the `update.config = TRUE` parameter that will save the parameters
+used in the call of `att_amend_desc()` to the package configuration
+file: “dev/config_attachment.yaml”.
+
+If you run `att_amend_desc()` a second time afterwards, directly from
+the console, it will use the last set of parameters extracted from the
+configuration file.
+
+Indeed, we recommend to store the complete command line in a
+“dev/dev_history.R” file to update and run it when needed. If the
+parameters do not change, you can run `attachment::att_amend_desc()`
+directly in the console, wherever you are, it will use the configuration
+file.
+
+### Automatically fill the “Remotes” field
+
+If you would like to detect the sources of your installations so that
+you can add dependencies in the “Remotes” field of your DESCRIPTION
+file, to mimic your local installation, you will use:
 
 ``` r
 attachment::set_remotes_to_desc()
 ```
 
-#### Example on a fake package
+## Example on a fake package
 
 ``` r
-# Copy package in a temporary directory
+# Copy example package in a temporary directory
 tmpdir <- tempfile(pattern = "fakepkg")
 dir.create(tmpdir)
 file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
@@ -92,7 +109,10 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 
 # Fill the DESCRIPTION file automatically
-desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE)
+# `inside_rmd` is specifically designed here to allow to run this command line in the "Readme.Rmd" file
+desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE, update.config = TRUE)
+#> 'update.config' was set to TRUE, hence, 'use.config' was forced to FALSE
+#> Saving attachment parameters to yaml config file
 #> Updating dummypackage documentation
 #> ────────────────────────────────────────────────────────────────────────────────
 #> Changes in roxygen2 7.0.0:
@@ -100,13 +120,11 @@ desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE)
 #> Please carefully check .Rd files for changes
 #> ────────────────────────────────────────────────────────────────────────────────
 #> 
-#> Setting `RoxygenNote` to "7.2.0"
+#> Setting `RoxygenNote` to "7.2.2"
 #> ℹ Loading dummypackage
-#> 
-#> Writing 'NAMESPACE'
-#> Writing 'NAMESPACE'
+#> Writing ']8;;file:///tmp/Rtmp3Dpn4h/fakepkg3538450e5c49/dummypackage/NAMESPACENAMESPACE]8;;'
+#> Writing ']8;;file:///tmp/Rtmp3Dpn4h/fakepkg3538450e5c49/dummypackage/NAMESPACENAMESPACE]8;;'
 #> ℹ Loading dummypackage
-#> 
 #> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
 #> 
 #> [-] 1 package(s) removed: utils.
@@ -122,14 +140,14 @@ attachment::set_remotes_to_desc(path.d = desc_file)
 unlink(tmpdir, recursive = TRUE)
 ```
 
-#### More on finding Remotes repositories (non installed from CRAN)
+## More on finding Remotes repositories (non installed from CRAN)
 
 Find packages installed out of CRAN. This helps fill the “Remotes” field
 in DESCRIPTION file with `set_remotes_to_desc()`.  
-Behind the scene, it uses `fund_remotes()`.
+Behind the scene, it uses `find_remotes()`.
 
--   See the examples below if {fusen} is installed from GitHub
-    -   Also works for GitLab, Bioconductor, Git, Local installations
+- See the examples below if {fusen} is installed from GitHub
+  - Also works for GitLab, Bioconductor, Git, Local installations
 
 ``` r
 # From GitHub
@@ -140,7 +158,7 @@ attachment::find_remotes("fusen")
 #> [1] "ThinkR-open/fusen"
 ```
 
-### For installation
+## Find and install missing dependencies required for your R scripts
 
 To quickly install missing packages from a DESCRIPTION file, use:
 
@@ -149,13 +167,13 @@ attachment::install_from_description()
 #> All required packages are installed
 ```
 
-To quickly install missing packages needed to compile Rmd files or run
-Rscripts, use:
+To quickly install missing packages needed to compile Rmd files or run R
+scripts, use:
 
 ``` r
-attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
+attachment::att_from_rmds(path = ".") |> attachment::install_if_missing()
 
-attachment::att_from_rscripts(path = ".") %>% attachment::install_if_missing()
+attachment::att_from_rscripts(path = ".") |> attachment::install_if_missing()
 ```
 
 Function `attachment::create_dependencies_file()` will create a
@@ -163,7 +181,7 @@ Function `attachment::create_dependencies_file()` will create a
 procedure to quickly install missing dependencies:
 
 ``` r
-# No Remotes ----
+# Remotes ----
 # remotes::install_github("ThinkR-open/fcuk")
 # Attachments ----
 to_install <- c("covr", "desc", "devtools", "glue", "knitr", "magrittr", "rmarkdown", "stats", "stringr", "testthat", "utils")
@@ -176,7 +194,7 @@ for (i in to_install) {
 }
 ```
 
-### For bookdown, pagedown, quarto
+## Allow the CI to install all dependencies required for your bookdown, pagedown, quarto, …
 
 If you write a {bookdown} and want to publish it on Github using GitHub
 Actions or GitLab CI for instance, you will need a DESCRIPTION file with
@@ -198,7 +216,7 @@ Then, install dependencies with
 remotes::install_deps()
 ```
 
-### To list information
+## List packages required in any script or notebook
 
 Of course, you can also use {attachment} out of a package to list all
 package dependencies of R scripts using `att_from_rscripts()` or Rmd/qmd
@@ -207,6 +225,7 @@ If you are running this inside a Rmd, you may need parameter
 `inside_rmd = TRUE`.
 
 ``` r
+library(attachment)
 dummypackage <- system.file("dummypackage", package = "attachment")
 
 att_from_rscripts(path = dummypackage)
@@ -215,7 +234,7 @@ att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
 #> [1] "knitr"     "rmarkdown" "glue"
 ```
 
-## Vignettes
+## Vignettes included
 
 Package {attachment} has vignettes to present the different functions
 available. There is also a recommendation to have a `dev_history.R` in
@@ -227,6 +246,7 @@ in the present package*)
 vignette("a-fill-pkg-description", package = "attachment")
 vignette("b-bookdown-and-scripts", package = "attachment")
 vignette("use_renv", package = "attachment")
+vignette("create-dependencies-file", package = "attachment")
 ```
 
 The vignettes are available on the {pkgdown} page, in the “Articles”
