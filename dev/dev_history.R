@@ -139,32 +139,41 @@ testthat::test_dir("tests/testthat/")
 # Run examples in interactive mode too
 devtools::run_examples()
 
-# Check that the state is clean after check
-all_files <- checkhelper::check_clean_userspace()
-all_files
-
 # Check package as CRAN
 rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
 # devtools::check(args = c("--no-manual", "--as-cran"))
 
 # Check content
-# remotes::install_github("ThinkR-open/checkhelper")
+# install.packages('checkhelper', repos = 'https://thinkr-open.r-universe.dev')
 tags <-
-  checkhelper::find_missing_tags() # Toutes les fonctions doivent avoir soit `@noRd` soit un `@export`
+  checkhelper::find_missing_tags() # Toutes les fonctions doivent avoir soit `@noRd` soit un `@export`, (alias pour att_to_description ok)
 tags
-checkhelper::check_as_cran()
+
+# _Check that you let the house clean after the check, examples and tests
+all_files <- checkhelper::check_clean_userspace() # ok si ce qui reste c'est dans tmpdir()
+all_files
+
 
 # Check spelling
 # usethis::use_spell_check()
-spelling::spell_check_package()
+spelling::spell_check_package() # juste regarder s'il y a des typos
 
-# Check URL are correct
-# remotes::install_github("r-lib/urlchecker")
+# Check URL are correct - No redirection
+# install.packages('urlchecker', repos = 'https://r-lib.r-universe.dev')
 urlchecker::url_check()
-urlchecker::url_update()
+urlchecker::url_update() # corrige les redirections
 
-# Upgrade version number
-usethis::use_version(which = c("patch", "minor", "major", "dev")[2])
+
+# Check as cran:
+# probleme rencontre: cf https://github.com/ThinkR-open/checkhelper/issues/79
+withr::with_options(list(repos = c(CRAN = "https://cran.rstudio.com")),
+                    {callr::default_repos()
+                     checkhelper::check_as_cran() })
+checkhelper::check_as_cran()
+
+
+
+
 # check on other distributions
 # _rhub
 # devtools::check_rhub()
@@ -192,14 +201,42 @@ devtools::check_win_devel()
 devtools::check_win_release()
 # remotes::install_github("r-lib/devtools")
 devtools::check_mac_release() # Need to follow the URL proposed to see the results
+
+
+# Check reverse dependencies
+# https://github.com/r-lib/revdepcheck
+# remotes::install_github("r-lib/revdepcheck")
+install.packages('revdepcheck', repos = 'https://r-lib.r-universe.dev')
+usethis::use_git_ignore("revdep/")
+usethis::use_build_ignore("revdep/")
+
+devtools::revdep()
+library(revdepcheck)
+# In another session
+id <- rstudioapi::terminalExecute("Rscript -e 'revdepcheck::revdep_check(num_workers = 4)'")
+rstudioapi::terminalKill(id)
+# See outputs
+revdep_details(revdep = "pkg")
+revdep_summary()                 # table of results by package
+revdep_report() # in revdep/
+# Clean up when on CRAN
+revdep_reset()
+
+# Si cela ne fonctionne pas : recuperer les GitHub des packages dependant de attachment (fusen et golem), installer attachment en local et check()
+
 # Update NEWS
 # Bump version manually and add list of changes
+
+# Upgrade version number
+usethis::use_version(which = c("patch", "minor", "major", "dev")[2])
+
 # Add comments for CRAN
 # Need to .gitignore this file
 usethis::use_cran_comments(open = rlang::is_interactive())
+# Why we have `\dontrun{}`
+
 usethis::use_git_ignore("cran-comments.md")
 usethis::use_git_ignore("CRAN-SUBMISSION")
-# Upgrade version number if necessary
-usethis::use_version(which = c("patch", "minor", "major", "dev")[1])
+
 # Verify you're ready for release, and release
 devtools::release()
