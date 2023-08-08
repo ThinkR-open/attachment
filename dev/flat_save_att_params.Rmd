@@ -28,7 +28,7 @@ This function will save a list of attachment parameters to a yaml file. It is us
 #' @param overwrite logical Whether to overwrite the yaml file if it already exists
 #' 
 #' @importFrom yaml write_yaml
-#' 
+#' @importFrom usethis use_build_ignore
 #' @return character The path to the yaml file
 #' @noRd
 save_att_params <- function(
@@ -48,7 +48,10 @@ save_att_params <- function(
   
   # Create dir if missing
   dir_yaml <- normalizePath(dirname(path_to_yaml), mustWork = FALSE)
-  if (!dir.exists(dir_yaml)) {dir.create(dir_yaml)}
+  if (!dir.exists(dir_yaml)) {
+    dir.create(dir_yaml)
+    usethis::use_build_ignore(dir_yaml)
+    }
   
   # Write params to yaml
   yaml_exists <- file.exists(path_to_yaml)
