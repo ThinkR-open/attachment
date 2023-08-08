@@ -153,7 +153,7 @@ save_att_params <- function(
   dir_yaml <- normalizePath(dirname(path_to_yaml), mustWork = FALSE)
   if (!dir.exists(dir_yaml)) {
     dir.create(dir_yaml)
-    add_build_ignore(dir_yaml)
+    add_build_ignore(dirname(dir_yaml))
     }
 
   # Write params to yaml
