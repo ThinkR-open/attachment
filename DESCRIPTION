@@ -1,6 +1,6 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.4.0.9000
+Version: 0.4.0.9099
 Authors@R: c(
     person("Sébastien", "Rochette", , "sebastien@thinkr.fr", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-1565-9313")),
@@ -44,7 +44,6 @@ Imports:
     roxygen2,
     stats,
     stringr (>= 1.3.1),
-    usethis,
     utils,
     withr,
     yaml
