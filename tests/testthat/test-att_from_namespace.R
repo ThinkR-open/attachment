@@ -86,9 +86,20 @@ writeLines(enc2utf8(lines), r_file)
 
 test_that("bad namespace can be corrected", {
   # expect_warning(cli::cli_warn("toto"), regexp = "tota")
-  # roxygen > 7.1.2 does not let a bad NAMESPACE happen
-  if (packageVersion("roxygen2") > "7.1.2") {
-    # "must have at least 2 words, not 1"
+
+  # Check that the information transmitted by roxygen2 is correctly retransmitted by attachment
+
+  if (packageVersion("roxygen2") >= "7.3.0") {
+    # roxygen > 7.3.0 generates a message
+
+    expect_message(att_amend_desc(dummypackage),
+                   "must have at least 2 words, not 1")
+
+    # Still message because of r_file but no error
+    expect_message(att_from_namespace(path = file.path(dummypackage, "NAMESPACE"),
+                                      document = TRUE, clean = TRUE))
+  } else {
+    # roxygen > 7.1.2 generates a warning
     expect_warning(att_amend_desc(dummypackage),
                    "must have at least 2 words, not 1")
     # Hence no error
@@ -99,15 +110,13 @@ test_that("bad namespace can be corrected", {
           document = TRUE, clean = FALSE)
       ),
       regexp = NA)
-  } else {
-    expect_warning(att_amend_desc(dummypackage))
-    expect_error(
-      att_from_namespace(path = file.path(dummypackage, "NAMESPACE"),
-                         document = TRUE, clean = FALSE))
+
+    # Still warning because of r_file but no error
+    expect_warning(att_from_namespace(path = file.path(dummypackage, "NAMESPACE"),
+                                      document = TRUE, clean = TRUE))
   }
-  # Still warning because of r_file but no error
-  expect_warning(att_from_namespace(path = file.path(dummypackage, "NAMESPACE"),
-                                  document = TRUE, clean = TRUE))
+
+
   # Correct R function, no warning, no error
   writeLines(enc2utf8(lines_orig), r_file)
   deps <- att_from_namespace(path = file.path(dummypackage, "NAMESPACE"),
