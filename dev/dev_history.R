@@ -8,6 +8,11 @@ usethis::use_travis()
 usethis::use_news_md()
 usethis::use_pkgdown()
 
+# contributing
+usethis::use_tidy_contributing()
+usethis::use_build_ignore("CONTRIBUTING.md")
+
+
 usethis::use_code_of_conduct(contact = "sebastien@thinkr.fr")
 
 library(desc)
