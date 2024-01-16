@@ -21,3 +21,4 @@ img
 ^revdep$
 ^CRAN-SUBMISSION$
 ^attachment\.Rproj$
+^CONTRIBUTING\.md$
