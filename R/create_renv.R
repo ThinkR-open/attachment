@@ -6,14 +6,14 @@ extra_dev_pkg <- c(
   "pkgdown"
 )
 
-#' Create reproducible environments for your R projects with {renv}
+#' Create reproducible environments for your R projects with \emph{renv}
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
 #' Tool to create and maintain renv.lock files.
 #' The idea is to have 2 distinct files, one for development and the other for deployment.
-#' Indeed, although packages like {attachment} or {pkgload} must be installed to develop,
+#' Indeed, although packages like \emph{attachment} or \emph{pkgload} must be installed to develop,
 #' they are not necessary in your project, package or Shiny application.
 #'
 #'

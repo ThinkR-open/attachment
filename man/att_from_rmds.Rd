@@ -39,7 +39,7 @@ in case this must be executed in an external R session}
 }
 \value{
 Character vector of packages called with library or require.
-{knitr} and {rmarkdown} are added by default to allow building the vignettes
+\emph{knitr} and \emph{rmarkdown} are added by default to allow building the vignettes
 if the directory contains "vignettes" in the path
 }
 \description{
