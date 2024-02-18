@@ -59,7 +59,6 @@ create_renv_for_dev <- function(path = ".",
     stop("'renv' is required. Please install it before.")
   }
 
-  path_orig <- path
   path <- normalizePath(path)
 
   if (!is.null(dev_pkg) && "_default" %in% dev_pkg) {
@@ -110,7 +109,7 @@ create_renv_for_dev <- function(path = ".",
   )} else {
     cli::cli_alert_info("No DESCRIPTION file found")
     cli::cli_alert_info(      paste(
-      "we wil parse qmd files,Rmd files and R scripts i ",path,
+      "we wil parse qmd files,Rmd files and R scripts from ",path,
       "."
     ))
 
