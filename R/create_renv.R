@@ -68,6 +68,11 @@ create_renv_for_dev <- function(path = ".",
     dev_pkg <- c(extra_dev_pkg, dev_pkg[dev_pkg != "_default"])
   }
 
+
+# s'il n y pas de fichier DESCRIPTION on va chercher l'information ailleurs
+
+  if (file.exists(file.path(path, "DESCRIPTION"))){
+
   if (isTRUE(document)) {
     # Use a temporary config_file for renv
     config_file <- file.path(path, "dev", "config_attachment.yaml")
@@ -101,7 +106,23 @@ create_renv_for_dev <- function(path = ".",
       att_from_description(path = file.path(path, "DESCRIPTION"),field = fields),
       dev_pkg
     )
-  )
+  )} else {
+    cli::cli_alert_info("No DESCRIPTION file found")
+    cli::cli_alert_info(      paste(
+      "we wil parse qmd files,Rmd files and R scripts from ",path,
+      "."
+    ))
+
+
+    pkg_list <- unique(
+      c(
+        att_from_qmds(path = path,recursive = TRUE),
+        att_from_rmds(path = path,recursive = TRUE),
+        att_from_rscripts(path = path,recursive = TRUE),
+        dev_pkg
+      )
+    )
+  }
 
   # Extra folders
   folder_to_include_relative <- folder_to_include
