@@ -9,6 +9,12 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 user_warn <- getOption("warn")
 att_amend_desc(path = dummypackage)
 
+test_that("att_amend_desc add dev/ in .Rbuildignore if needed", {
+  rbuildignore_file <- readLines(file.path(tmpdir, "dummypackage", ".Rbuildignore"))
+  expect_true(any(grepl("\\^dev\\$",rbuildignore_file)))
+})
+
+
 test_that("att_amend_desc does not change warn level", {
   new_warn <- getOption("warn")
   expect_equal(new_warn, user_warn)
