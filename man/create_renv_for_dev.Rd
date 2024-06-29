@@ -3,7 +3,7 @@
 \name{create_renv_for_dev}
 \alias{create_renv_for_dev}
 \alias{create_renv_for_prod}
-\title{Create reproducible environments for your R projects with {renv}}
+\title{Create reproducible environments for your R projects with \emph{renv}}
 \usage{
 create_renv_for_dev(
   path = ".",
@@ -57,7 +57,7 @@ a renv.lock file
 
 Tool to create and maintain renv.lock files.
 The idea is to have 2 distinct files, one for development and the other for deployment.
-Indeed, although packages like {attachment} or {pkgload} must be installed to develop,
+Indeed, although packages like \emph{attachment} or \emph{pkgload} must be installed to develop,
 they are not necessary in your project, package or Shiny application.
 }
 \examples{

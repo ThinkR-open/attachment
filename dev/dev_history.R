@@ -8,6 +8,11 @@ usethis::use_travis()
 usethis::use_news_md()
 usethis::use_pkgdown()
 
+# contributing
+usethis::use_tidy_contributing()
+usethis::use_build_ignore("CONTRIBUTING.md")
+
+
 usethis::use_code_of_conduct(contact = "sebastien@thinkr.fr")
 
 library(desc)
@@ -97,6 +102,7 @@ attachment::dependencies_file_text(field = c("Depends", "Imports", "Suggests"))
 usethis::use_vignette("fill-pkg-description")
 
 # Checks
+# remotes::install_github("r-lib/devtools")
 devtools::build_vignettes()
 devtools::check()
 
@@ -124,119 +130,32 @@ tools:::.check_packages_used_in_tests(dir = ".", testdir = "tests/testthat")
 
 # Checks for CRAN release ----
 
-## Prepare for CRAN ----
+## Copy the latest version of PREPARE_FOR_CRAN ----
 
-# Check package coverage
-covr::package_coverage()
-covr::report()
+url <- "https://raw.githubusercontent.com/ThinkR-open/prepare-for-cran/master/README.md"
+destination <- "dev/dev_history_PREPARE_FOR_CRAN.md"
+download.file(url, destfile = destination, mode = "wb")
 
-# _Check in interactive test-inflate for templates and Addins
-pkgload::load_all()
-devtools::test()
-testthat::test_dir("tests/testthat/")
+line <- grep(pattern = "# Prepare for CRAN ----", readLines(destination))
+rstudioapi::navigateToFile(destination, line = line)
 
-# Test no output generated in the user files
-# Run examples in interactive mode too
-devtools::run_examples()
+### Run the automated tests
 
-# Check package as CRAN
-rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"))
-# devtools::check(args = c("--no-manual", "--as-cran"))
+## {attachment} specificity : ----
 
-# Check content
-# install.packages('checkhelper', repos = 'https://thinkr-open.r-universe.dev')
-tags <-
-  checkhelper::find_missing_tags() # Toutes les fonctions doivent avoir soit `@noRd` soit un `@export`, (alias pour att_to_description ok)
-tags
+### An alias for `att_to_description` -> ok
 
-# _Check that you let the house clean after the check, examples and tests
-all_files <- checkhelper::check_clean_userspace() # ok si ce qui reste c'est dans tmpdir()
-all_files
+### If `Check reverse dependencies` doesn't work`with `revdep_check()`:
+### retrieve the GitHub files of the {attachment}-dependent packages (checkhelper, fusen and golem),
+### install attachment locally and check().
 
+## BEFORE RELEASE: ----
 
-# Check spelling
-# usethis::use_spell_check()
-spelling::spell_check_package() # juste regarder s'il y a des typos
-
-# Check URL are correct - No redirection
-# install.packages('urlchecker', repos = 'https://r-lib.r-universe.dev')
-urlchecker::url_check()
-urlchecker::url_update() # corrige les redirections
-
-
-# Check as cran:
-# probleme rencontre: cf https://github.com/ThinkR-open/checkhelper/issues/79
-withr::with_options(list(repos = c(CRAN = "https://cran.rstudio.com")),
-                    {callr::default_repos()
-                     checkhelper::check_as_cran() })
-checkhelper::check_as_cran()
-
-
-
-
-# check on other distributions
-# _rhub
-# devtools::check_rhub()
-buildpath <- devtools::build()
-rhub::platforms()
-rhub::check_on_windows(check_args = "--force-multiarch",
-                       show_status = FALSE,
-                       path = buildpath)
-rhub::check_on_solaris(show_status = FALSE, path = buildpath)
-rhub::check(platform = "debian-clang-devel",
-            show_status = FALSE,
-            path = buildpath)
-rhub::check(platform = "debian-gcc-devel",
-            show_status = FALSE,
-            path = buildpath)
-rhub::check(platform = "fedora-clang-devel",
-            show_status = FALSE,
-            path = buildpath)
-rhub::check(platform = "macos-highsierra-release-cran",
-            show_status = FALSE,
-            path = buildpath)
-rhub::check_for_cran(show_status = FALSE, path = buildpath)
-# _win devel
-devtools::check_win_devel()
-devtools::check_win_release()
-# remotes::install_github("r-lib/devtools")
-devtools::check_mac_release() # Need to follow the URL proposed to see the results
-
-
-# Check reverse dependencies
-# https://github.com/r-lib/revdepcheck
-# remotes::install_github("r-lib/revdepcheck")
-install.packages('revdepcheck', repos = 'https://r-lib.r-universe.dev')
-usethis::use_git_ignore("revdep/")
-usethis::use_build_ignore("revdep/")
-
-devtools::revdep()
-library(revdepcheck)
-# In another session
-id <- rstudioapi::terminalExecute("Rscript -e 'revdepcheck::revdep_check(num_workers = 4)'")
-rstudioapi::terminalKill(id)
-# See outputs
-revdep_details(revdep = "pkg")
-revdep_summary()                 # table of results by package
-revdep_report() # in revdep/
-# Clean up when on CRAN
-revdep_reset()
-
-# Si cela ne fonctionne pas : recuperer les GitHub des packages dependant de attachment (fusen et golem), installer attachment en local et check()
-
-# Update NEWS
-# Bump version manually and add list of changes
-
-# Upgrade version number
-usethis::use_version(which = c("patch", "minor", "major", "dev")[2])
-
-# Add comments for CRAN
-# Need to .gitignore this file
+### Add comments for CRAN
+### Need to .gitignore this file
 usethis::use_cran_comments(open = rlang::is_interactive())
-# Why we have `\dontrun{}`
+### Why we have `\dontrun{}`
 
 usethis::use_git_ignore("cran-comments.md")
 usethis::use_git_ignore("CRAN-SUBMISSION")
 
-# Verify you're ready for release, and release
-devtools::release()
