@@ -20,7 +20,7 @@ compare_inputs_load_or_save <- function(path.c, local_att_params, use.config, up
         stop(c("Params in your `att_amend_desc()` and the one in the config file are different. ",
              "Please choose among `update.config = TRUE` or `use.config = FALSE`"))
       }
-      
+
       params_to_load <- saved_att_params
       # for (param_name in names(saved_att_params)){
       #   assign(param_name, saved_att_params[[param_name]])
@@ -32,11 +32,11 @@ compare_inputs_load_or_save <- function(path.c, local_att_params, use.config, up
         param_list = local_att_params,
         path_to_yaml = path.c,
         overwrite = TRUE)
-      
+
       params_to_load <- NULL
     } else {
       message("attachment config file was not updated. Parameters used this time won't be stored.")
-      
+
       params_to_load <- local_att_params
     }
 
@@ -44,14 +44,14 @@ compare_inputs_load_or_save <- function(path.c, local_att_params, use.config, up
   }
 
 #' load_att_params
-#' 
+#'
 #' @param path_to_yaml character The path to the yaml file
-#' 
+#'
 #' @importFrom yaml read_yaml
 #' @importFrom glue glue
-#' 
+#'
 #' @return list A named list of att_amend_desc parameters
-#' 
+#'
 #' @noRd
 #' @examples
 #' # create a list of parameters and tmp file name
@@ -60,30 +60,30 @@ compare_inputs_load_or_save <- function(path.c, local_att_params, use.config, up
 #'   extra.suggests = c("testthat", "rstudioapi")
 #' )
 #' yaml_path <- paste0(tempfile(pattern = "save_att"), ".yaml")
-#' 
+#'
 #' # save params
 #' save_att_params(param_list = parameter_list,
 #'                 path_to_yaml = yaml_path)
-#' 
+#'
 #' # read yaml file
 #' config_params <- load_att_params(path_to_yaml = yaml_path)
-#' 
+#'
 #' # clear created yaml file
 #' unlink(yaml_path)
-#' 
+#'
 load_att_params <- function(
     path_to_yaml = "dev/config_attachment.yaml",
     verbose = FALSE
     ){
-    
+
   # check yaml file exist
   if (isFALSE(file.exists(path_to_yaml))){
     stop(glue("The att_amend_desc() config file {path_to_yaml} does not exist"))
   }
-  
+
   # read yaml
   param_list <- read_yaml(file = path_to_yaml)
-  
+
   # Check each name in list corresponds to a parameter name
   att_param_names <- names(formals(att_amend_desc))
   input_names <- names(param_list)
@@ -92,7 +92,7 @@ load_att_params <- function(
     bad_names <- input_names[!input_names %in% att_param_names]
     stop(paste0("Unexpected parameters in config : ", paste0(bad_names, collapse = " ; ")))
   }
-  
+
   # Show parameters used from config
   if (isTRUE(verbose)) {
     message("att_amend_desc() parameter loaded are : \n",
@@ -102,10 +102,10 @@ load_att_params <- function(
             )
     )
   }
-  
+
   # return parameters
   return(param_list)
-  
+
 }
 
 #' save_att_params
@@ -113,9 +113,8 @@ load_att_params <- function(
 #' @param param_list list A named list of all parameters to save
 #' @param path_to_yaml character The path to the yaml file
 #' @param overwrite logical Whether to overwrite the yaml file if it already exists
-#' 
+#'
 #' @importFrom yaml write_yaml
-#' 
 #' @return character The path to the yaml file
 #' @noRd
 #' @examples
@@ -125,14 +124,14 @@ load_att_params <- function(
 #'   extra.suggests = c("testthat", "rstudioapi")
 #' )
 #' yaml_path <- paste0(tempfile(pattern = "save_att"), ".yaml")
-#' 
+#'
 #' # save params
 #' save_att_params(param_list = parameter_list,
 #'                 path_to_yaml = yaml_path)
-#' 
+#'
 #' yaml::read_yaml(yaml_path)
 #' # rstudioapi::navigateToFile(yaml_path)
-#' 
+#'
 #' # clear created yaml file
 #' unlink(yaml_path)
 save_att_params <- function(
@@ -140,7 +139,7 @@ save_att_params <- function(
     path_to_yaml = "dev/config_attachment.yaml",
     overwrite = FALSE
     ) {
-  
+
   # Check each name in list corresponds to a parameter name
   att_param_names <- names(formals(att_amend_desc))
   input_names <- names(param_list)
@@ -149,14 +148,17 @@ save_att_params <- function(
     bad_names <- input_names[!input_names %in% att_param_names]
     stop(paste0("Unexpected parameters to save : ", paste0(bad_names, collapse = " ; ")))
   }
-  
+
   # Create dir if missing
   dir_yaml <- normalizePath(dirname(path_to_yaml), mustWork = FALSE)
-  if (!dir.exists(dir_yaml)) {dir.create(dir_yaml)}
-  
+  if (!dir.exists(dir_yaml)) {
+    dir.create(dir_yaml)
+    add_build_ignore(dirname(dir_yaml))
+    }
+
   # Write params to yaml
   yaml_exists <- file.exists(path_to_yaml)
-  
+
   if (isTRUE(yaml_exists & !overwrite)) {
     stop("yaml file already exists and overwriting is not permitted")
   } else {
