@@ -1,8 +1,8 @@
-# attachment (development version)
+# attachment 0.4.2
 
 ## New features
 
--`create_renv_for_dev` can work even outside of an R packages
+- `create_renv_for_dev` can work even outside of an R packages
 
 # attachment 0.4.1
 
