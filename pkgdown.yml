@@ -6,7 +6,7 @@ articles:
   b-bookdown-and-scripts: b-bookdown-and-scripts.html
   create-dependencies-file: create-dependencies-file.html
   use_renv: use_renv.html
-last_built: 2024-07-02T11:07Z
+last_built: 2024-07-02T11:09Z
 urls:
   reference: https://thinkr-open.github.io/attachment/reference
   article: https://thinkr-open.github.io/attachment/articles
