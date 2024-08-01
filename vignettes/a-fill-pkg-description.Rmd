@@ -221,13 +221,14 @@ for (i in to_install) {
 
 ## Other possibilities
 
-Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts()` or Rmd files using `att_from_rmds()`.
+Of course, you can also use {attachment} out of a package to list all package dependencies of R scripts using `att_from_rscripts()`, Rmd files using `att_from_rmds()` or examples from R scripts using `att_from_examples()`.
 
 ```{r, eval=TRUE}
 dummypackage <- system.file("dummypackage", package = "attachment")
 
 att_from_rscripts(path = file.path(dummypackage, "R"))
 att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
+att_from_examples(dir.r = file.path(dummypackage, "R"))
 ```
 
 
