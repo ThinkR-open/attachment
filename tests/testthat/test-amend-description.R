@@ -40,9 +40,10 @@ test_that("att_amend_desc updates description", {
   expect_equal(desc_file[w.depends + 6], "    glue,")
   expect_equal(desc_file[w.depends + 7], "    knitr,")
   expect_equal(desc_file[w.depends + 8], "    rmarkdown,")
-  expect_equal(desc_file[w.depends + 9], "    testthat")
-  expect_equal(desc_file[w.depends + 10], "LinkingTo:" )
-  expect_equal(desc_file[w.depends + 11], "    Rcpp")
+  expect_equal(desc_file[w.depends + 9], "    testthat,")
+  expect_equal(desc_file[w.depends + 10], "    utils")
+  expect_equal(desc_file[w.depends + 11], "LinkingTo:" )
+  expect_equal(desc_file[w.depends + 12], "    Rcpp")
   # base does not appear
   expect_false(all(grepl("base", desc_file)))
   # utils is removed
@@ -485,12 +486,105 @@ library(ggplot3)
   expect_equal(desc_file[w.depends + 7], "    glue,")
   expect_equal(desc_file[w.depends + 8], "    knitr,")
   expect_equal(desc_file[w.depends + 9], "    rmarkdown,")
-  expect_equal(desc_file[w.depends + 10], "    testthat")
-  expect_equal(desc_file[w.depends + 11], "LinkingTo:" )
-  expect_equal(desc_file[w.depends + 12], "    Rcpp")
+  expect_equal(desc_file[w.depends + 10], "    testthat,")
+  expect_equal(desc_file[w.depends + 11], "    utils")
+  expect_equal(desc_file[w.depends + 12], "LinkingTo:" )
+  expect_equal(desc_file[w.depends + 13], "    Rcpp")
 
 
   # Clean after
   unlink(dummypackage, recursive = TRUE)
 })
 
+
+# Test update desc when packages in examples ----
+test_that("if a package is used in an example, it is added to Suggests packages", {
+  # Copy package in a temporary directory
+  tmpdir <- tempfile("dummysuggestexamples")
+  dir.create(tmpdir)
+  file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+  dummypackage <- file.path(tmpdir, "dummypackage")
+
+  r_file <- file.path(dummypackage, "R", "fun_manual.R")
+  file.create(r_file)
+  #> [1] TRUE
+  writeLines(
+    text = "#' @importFrom magrittr %>%
+#' @examples
+#' library(pkgfake)
+#' fakepkg::fun()
+#' @export
+my_length <- function(x) {
+  x %>% length()
+}",
+    con = r_file
+  )
+
+  attachment::att_amend_desc(path = dummypackage, check_if_suggests_is_installed = FALSE)
+
+
+  desc_file <- readLines(file.path(dummypackage, "DESCRIPTION"))
+
+  w.depends <- grep("Depends:", desc_file)
+  expect_length(w.depends, 1)
+  expect_equal(desc_file[w.depends + 5], "Suggests: ")
+  expect_equal(desc_file[w.depends + 6], "    fakepkg,")
+  expect_equal(desc_file[w.depends + 7], "    glue,")
+  expect_equal(desc_file[w.depends + 8], "    knitr,")
+  expect_equal(desc_file[w.depends + 9], "    pkgfake,")
+  expect_equal(desc_file[w.depends + 10], "    rmarkdown,")
+  expect_equal(desc_file[w.depends + 11], "    testthat,")
+  expect_equal(desc_file[w.depends + 12], "    utils")
+  # Clean after
+  unlink(dummypackage, recursive = TRUE)
+
+})
+
+
+test_that("if a package is used in an example has already been added to IMPORTS, it is not added to the suggests, it is added to Suggests packages", {
+  # Copy package in a temporary directory
+  tmpdir <- tempfile("dummysuggestexamples")
+  dir.create(tmpdir)
+  file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+  dummypackage <- file.path(tmpdir, "dummypackage")
+
+  r_file <- file.path(dummypackage, "R", "fun_manual.R")
+  file.create(r_file)
+  #> [1] TRUE
+  writeLines(
+    text = "#' @importFrom magrittr %>%
+#' @examples
+#' library(magrittr)
+#' fakepkg::fun()
+#' @export
+my_length <- function(x) {
+  x %>% length()
+}",
+    con = r_file
+  )
+
+  attachment::att_amend_desc(path = dummypackage, check_if_suggests_is_installed = FALSE)
+
+
+  desc_file <- readLines(file.path(dummypackage, "DESCRIPTION"))
+
+  w.depends <- grep("Depends:", desc_file)
+  expect_length(w.depends, 1)
+  expect_equal(desc_file[w.depends + 1], "    R (>= 3.5.0)")
+  expect_equal(desc_file[w.depends + 2], "Imports: ")
+  expect_equal(desc_file[w.depends + 3], "    magrittr,")
+  expect_equal(desc_file[w.depends + 4], "    stats")
+  expect_equal(desc_file[w.depends + 5], "Suggests: ")
+  expect_equal(desc_file[w.depends + 6], "    fakepkg,")
+  expect_equal(desc_file[w.depends + 7], "    glue,")
+  expect_equal(desc_file[w.depends + 8], "    knitr,")
+  expect_equal(desc_file[w.depends + 9], "    rmarkdown,")
+  expect_equal(desc_file[w.depends + 10], "    testthat,")
+  expect_equal(desc_file[w.depends + 11], "    utils")
+  expect_equal(desc_file[w.depends + 12], "LinkingTo:" )
+  expect_equal(desc_file[w.depends + 13], "    Rcpp")
+
+  # Clean after
+  unlink(dummypackage, recursive = TRUE)
+
+})

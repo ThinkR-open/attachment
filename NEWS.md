@@ -1,3 +1,14 @@
+# attachment (development version)
+
+## New features
+
+- Add `att_from_examples()` to get all packages called in examples from R files
+- `att_amend_desc` amend package DESCRIPTION file (Suggests) with the list of dependencies extracted from examples in R files.
+
+## Patch
+
+- Adding an example using a suggest package to the dummypackage
+
 # attachment 0.4.2
 
 ## New features
@@ -182,7 +193,7 @@ Minor
 * New function `install_from_description` to install all missing packages listed in the description file
 * Add an hex by @statnmap !
 * Allow for absence of vignette folder in `att_to_description`
-* Add `create_dependencies_file` to create a file listing all packages dependencies to install before your package
+* Add `create_dependencies_file` to create a file listing all packages dependencies to dinstall before your package
 * Allow for `pkg::fun` calls in R scripts with `att_from_functions`
 * Add option to run `devtools::document()` before `att_from_description`
 

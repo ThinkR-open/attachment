@@ -106,6 +106,12 @@ This reads all files in directories of R scripts (default to `R` directory of a 
 att_from_rscripts()
 ```
 
+Called in examples from R scripts: 
+
+```{r, eval=FALSE}
+att_from_examples()
+```
+
 ## Get all packages called in your Rmd
 If you have vignette, you may want to list extra libraries, not listed in your "Depends" list. This function applies to any Rmd file, of course.
 
