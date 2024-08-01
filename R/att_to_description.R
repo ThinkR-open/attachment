@@ -1,7 +1,7 @@
 #' Amend DESCRIPTION with dependencies read from package code parsing
 #'
 #' Amend package DESCRIPTION file with the list of dependencies extracted from
-#' R, tests, vignettes files.
+#' R, examples, tests, vignettes files.
 #' att_to_desc_from_pkg() is an alias of att_amend_desc(),
 #' for the correspondence with [att_to_desc_from_is()].
 #'
@@ -19,6 +19,7 @@
 #' @inheritParams att_from_namespace
 #' @inheritParams att_to_desc_from_is
 #' @inheritParams att_from_rmds
+#' @inheritParams att_from_examples
 #'
 #' @importFrom desc description
 #'
@@ -87,6 +88,8 @@ att_amend_desc <- function(path = ".",
     old <- setwd(normalizePath(path))
     on.exit(setwd(old))
   }
+
+
 
   path <- normalizePath(path)
 
@@ -196,6 +199,13 @@ att_amend_desc <- function(path = ".",
 
   # Suggests ----
   suggests <- NULL
+
+  # Get suggests in examples and remove if already in imports
+  if (dir.r != "") {
+    ex <- att_from_examples(dir.r = dir.r)
+    suggests <- c(suggests, ex[!ex %in% imports])
+  }
+
   # Get suggests in vignettes and remove if already in imports
   if (!grepl("^$|^\\s+$$", dir.v)) {
     vg <- att_from_rmds(dir.v, inside_rmd = inside_rmd)

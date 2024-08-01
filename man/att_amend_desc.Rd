@@ -83,7 +83,7 @@ Update DESCRIPTION file.
 }
 \description{
 Amend package DESCRIPTION file with the list of dependencies extracted from
-R, tests, vignettes files.
+R, examples, tests, vignettes files.
 att_to_desc_from_pkg() is an alias of att_amend_desc(),
 for the correspondence with \code{\link[=att_to_desc_from_is]{att_to_desc_from_is()}}.
 }
