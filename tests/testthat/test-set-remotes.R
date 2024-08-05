@@ -62,6 +62,7 @@ test_that("extract_pkg_info extracts code", {
     c("r-universe: need to set options to repos=\"https://thinkr-open.r-universe.dev\"" = NA))
   #"universe::thinkr-open/fusen"
 
+
   # R-universe from repos changed
   fake_desc_universe2 <- list(
     list(
@@ -89,6 +90,18 @@ test_that("extract_pkg_info extracts code", {
   ) %>% setNames("fusen")
   expect_equal(extract_pkg_info(fake_desc_github)[["fusen"]], "ThinkR-open/fusen")
 
+  # Github with branch
+  fake_desc_github_with_branch <- list(
+    list(
+      RemoteType = "github",
+      RemoteHost = "api.github.com",
+      RemoteRepo = "fusen",
+      RemoteUsername = "ThinkR-open",
+      RemoteRef = "branchdev"
+    )
+  ) %>% setNames("fusen")
+  expect_equal(extract_pkg_info(fake_desc_github_with_branch)[["fusen"]], "ThinkR-open/fusen@branchdev")
+
   # GitLab
   fake_desc_gitlab <- list(
     list(
@@ -99,6 +112,20 @@ test_that("extract_pkg_info extracts code", {
     )
   ) %>% setNames("fakepkg")
   expect_equal(extract_pkg_info(fake_desc_gitlab)[["fakepkg"]], "gitlab::statnmap/fakepkg")
+
+
+  # GitLab with branch
+  fake_desc_gitlab_with_branch <- list(
+    list(
+      RemoteType = "gitlab",
+      RemoteHost = "gitlab.com",
+      RemoteRepo = "fakepkg",
+      RemoteRef = "fakebranch",
+      RemoteUsername = "statnmap"
+    )
+  ) %>% setNames("fakepkg")
+  expect_equal(extract_pkg_info(fake_desc_gitlab_with_branch)[["fakepkg"]], "gitlab::statnmap/fakepkg@fakebranch")
+
 
   # Git
   fake_desc_git <- list(
@@ -118,6 +145,19 @@ test_that("extract_pkg_info extracts code", {
     )
   ) %>% setNames("fakepkggit2r")
   expect_equal(extract_pkg_info(fake_desc_git2r)[["fakepkggit2r"]], "git::https://MyForge.com/fakepkggit2r")
+
+  # Git with branch
+  fake_desc_git2r_with_branch <- list(
+    list(
+      RemoteType = "git2r",
+      RemoteUrl = "https://MyForge.com/fakepkggit2r",
+      RemoteRepo = NULL,
+      RemoteRef = "fakepkgbranch",
+      RemoteUsername = NULL
+    )
+  ) %>% setNames("fakepkggit2r")
+  expect_equal(extract_pkg_info(fake_desc_git2r_with_branch)[["fakepkggit2r"]], "git::https://MyForge.com/fakepkggit2r@fakepkgbranch")
+
 
   # Bioconductor
   fake_desc_bioc <- list(

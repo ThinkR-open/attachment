@@ -179,16 +179,35 @@ extract_pkg_info <- function(pkgdesc) {
         # paste0("universe::", gsub(".r-universe.dev", "", desc[["Repository"]]), "/", desc[["Package"]])
         setNames(NA, paste0("r-universe: need to set options to repos=\"", desc[["Repository"]], "\""))
       } else if (!is.null(desc$RemoteType) && desc$RemoteType == "github") {
-        paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")
+
+        attachment::complete_remote_branch(
+          remote = paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"),
+          remoteref = desc$RemoteRef
+        )
+
       } else if (!is.null(desc$RemoteType) && desc$RemoteType %in% c("gitlab", "bitbucket")) {
-        paste0(desc$RemoteType, "::",
-                       paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/"))
+
+        attachment::complete_remote_branch(remote = paste0(
+          desc$RemoteType,
+          "::",
+          paste(desc$RemoteUsername, desc$RemoteRepo, sep = "/")
+        ),
+        remoteref = desc$RemoteRef)
+
       } else if (!is.null(desc$RemoteType) && desc$RemoteType == "local" && !is.null(desc$RemoteUrl)  && is.null(desc$RemoteHost)) {
-        paste0(desc$RemoteType, "::", desc$RemoteUrl)
+
+        attachment::complete_remote_branch(
+          remote = paste0(desc$RemoteType, "::", desc$RemoteUrl),
+          remoteref = desc$RemoteRef
+        )
+
       } else if (!is.null(desc$RemoteType) &&
                  !(desc$RemoteType %in% c("github","gitlab","bitbucket","local")) &&
                  grepl("git",x = desc$RemoteType) ){
-        paste0("git::",desc$RemoteUrl)
+
+        attachment::complete_remote_branch(remote = paste0("git::", desc$RemoteUrl),
+                               remoteref = desc$RemoteRef)
+
       } else if (is.null(desc$RemoteType) && isTRUE(grepl("bioconductor",x = desc$URL))) {
         biocversion <-  desc$git_branch %>%
           gsub(pattern = "RELEASE_", replacement = "") %>%
@@ -204,6 +223,31 @@ extract_pkg_info <- function(pkgdesc) {
       setNames(pkg_not_cran)
   }
   guess_repo
+
 }
 
 
+#' Construct a Remote Branch Reference String
+#'
+#' This function constructs a reference string for a remote branch in a version control system like Git.
+#' It returns a formatted string combining the remote name and a specified branch or reference.
+#'
+#' @param remote A character string representing the name of the remote repository (e.g., `"origin"`).
+#' @param remoteref A character string representing the branch or reference within the remote repository.
+#'        Default is `"HEAD"`.
+#'
+#' @return A character string. If `remoteref` is `"HEAD"`, it returns just the `remote` string. If
+#'         `remoteref` is not `"HEAD"`, it returns a string in the format `"remote@remoteref"`.
+#' @keywords internal
+#' @export
+complete_remote_branch <- function(remote, remoteref = "HEAD"){
+
+  if (isTRUE(remoteref != "HEAD")) {
+    return(
+      paste(remote, remoteref, sep = "@")
+    )
+  } else {
+    return(remote)
+  }
+
+}
