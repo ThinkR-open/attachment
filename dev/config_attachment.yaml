@@ -36,6 +36,9 @@ pkg_ignore:
   - svn
   - pkgload
   - bookdown
+  - pkgfake
+  - fakepkg
+  - dplyr
 document: yes
 normalize: no
 inside_rmd: no

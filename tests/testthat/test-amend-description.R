@@ -40,10 +40,11 @@ test_that("att_amend_desc updates description", {
   expect_equal(desc_file[w.depends + 6], "    glue,")
   expect_equal(desc_file[w.depends + 7], "    knitr,")
   expect_equal(desc_file[w.depends + 8], "    rmarkdown,")
-  expect_equal(desc_file[w.depends + 9], "    testthat,")
-  expect_equal(desc_file[w.depends + 10], "    utils")
-  expect_equal(desc_file[w.depends + 11], "LinkingTo:" )
-  expect_equal(desc_file[w.depends + 12], "    Rcpp")
+  expect_equal(desc_file[w.depends + 9], "    stringr,")
+  expect_equal(desc_file[w.depends + 10], "    testthat,")
+  expect_equal(desc_file[w.depends + 11], "    utils")
+  expect_equal(desc_file[w.depends + 12], "LinkingTo:" )
+  expect_equal(desc_file[w.depends + 13], "    Rcpp")
   # base does not appear
   expect_false(all(grepl("base", desc_file)))
   # utils is removed
@@ -486,10 +487,11 @@ library(ggplot3)
   expect_equal(desc_file[w.depends + 7], "    glue,")
   expect_equal(desc_file[w.depends + 8], "    knitr,")
   expect_equal(desc_file[w.depends + 9], "    rmarkdown,")
-  expect_equal(desc_file[w.depends + 10], "    testthat,")
-  expect_equal(desc_file[w.depends + 11], "    utils")
-  expect_equal(desc_file[w.depends + 12], "LinkingTo:" )
-  expect_equal(desc_file[w.depends + 13], "    Rcpp")
+  expect_equal(desc_file[w.depends + 10], "    stringr,")
+  expect_equal(desc_file[w.depends + 11], "    testthat,")
+  expect_equal(desc_file[w.depends + 12], "    utils")
+  expect_equal(desc_file[w.depends + 13], "LinkingTo:" )
+  expect_equal(desc_file[w.depends + 14], "    Rcpp")
 
 
   # Clean after
@@ -533,8 +535,9 @@ my_length <- function(x) {
   expect_equal(desc_file[w.depends + 8], "    knitr,")
   expect_equal(desc_file[w.depends + 9], "    pkgfake,")
   expect_equal(desc_file[w.depends + 10], "    rmarkdown,")
-  expect_equal(desc_file[w.depends + 11], "    testthat,")
-  expect_equal(desc_file[w.depends + 12], "    utils")
+  expect_equal(desc_file[w.depends + 11], "    stringr,")
+  expect_equal(desc_file[w.depends + 12], "    testthat,")
+  expect_equal(desc_file[w.depends + 13], "    utils")
   # Clean after
   unlink(dummypackage, recursive = TRUE)
 
@@ -579,10 +582,11 @@ my_length <- function(x) {
   expect_equal(desc_file[w.depends + 7], "    glue,")
   expect_equal(desc_file[w.depends + 8], "    knitr,")
   expect_equal(desc_file[w.depends + 9], "    rmarkdown,")
-  expect_equal(desc_file[w.depends + 10], "    testthat,")
-  expect_equal(desc_file[w.depends + 11], "    utils")
-  expect_equal(desc_file[w.depends + 12], "LinkingTo:" )
-  expect_equal(desc_file[w.depends + 13], "    Rcpp")
+  expect_equal(desc_file[w.depends + 10], "    stringr,")
+  expect_equal(desc_file[w.depends + 11], "    testthat,")
+  expect_equal(desc_file[w.depends + 12], "    utils")
+  expect_equal(desc_file[w.depends + 13], "LinkingTo:" )
+  expect_equal(desc_file[w.depends + 14], "    Rcpp")
 
   # Clean after
   unlink(dummypackage, recursive = TRUE)

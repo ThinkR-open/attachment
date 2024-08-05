@@ -33,7 +33,7 @@ dep_file_without_remotes <- readLines(file.path(dummypackage, "inst", "dependenc
 
 test_that("create-dependencies-file works without remotes", {
   expect_equal(dep_file_without_remotes[1], "# No Remotes ----")
-  expect_equal(dep_file_without_remotes[3], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
+  expect_equal(dep_file_without_remotes[3], "to_install <- c(\"glue\", \"knitr\", \"magrittr\", \"rmarkdown\", \"stringr\", \"testthat\")")
 })
   
 
@@ -68,7 +68,7 @@ test_that("create-dependencies-file works with remotes", {
   expect_equal(dep_file_with_remotes[7], "remotes::install_git('https://github.com/fakepkggit.git')")
   expect_equal(dep_file_with_remotes[8], "remotes::install_git('https://MyForge.com/fakepkggit2r')")
   expect_equal(dep_file_with_remotes[9], "remotes::install_github('ThinkR-open/fusen')")
-  expect_equal(dep_file_with_remotes[11], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
+  expect_equal(dep_file_with_remotes[11], "to_install <- c(\"glue\", \"knitr\", \"magrittr\", \"rmarkdown\", \"stringr\", \"testthat\")")
 })
 
 
@@ -89,7 +89,7 @@ test_that("create-dependencies-file works with remotes install_only_if_missing",
   expect_equal(dep_file_with_remotes_install_only_if_missing[7], "if(isFALSE(requireNamespace('fakepkggit', quietly = TRUE))) {message('installation of fakepkggit');remotes::install_git('https://github.com/fakepkggit.git')}")
   expect_equal(dep_file_with_remotes_install_only_if_missing[8],  "if(isFALSE(requireNamespace('fakepkggit2r', quietly = TRUE))) {message('installation of fakepkggit2r');remotes::install_git('https://MyForge.com/fakepkggit2r')}")
   expect_equal(dep_file_with_remotes_install_only_if_missing[9], "if(isFALSE(requireNamespace('fusen', quietly = TRUE))) {message('installation of fusen');remotes::install_github('ThinkR-open/fusen')}")
-  expect_equal(dep_file_with_remotes_install_only_if_missing[11], "to_install <- c(\"knitr\", \"magrittr\", \"rmarkdown\", \"testthat\")")
+  expect_equal(dep_file_with_remotes_install_only_if_missing[11], "to_install <- c(\"glue\", \"knitr\", \"magrittr\", \"rmarkdown\", \"stringr\", \"testthat\")")
 })
 
 # Clean temp files after this example

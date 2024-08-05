@@ -8,6 +8,14 @@ flat_create_dependencies_file.Rmd:
   - tests/testthat/test-dependencies_file_text.R
   - tests/testthat/test-create_dependencies_file.R
   vignettes: vignettes/create-dependencies-file.Rmd
+  inflate:
+    flat_file: dev/flat_create_dependencies_file.Rmd
+    vignette_name: Create dependencies file
+    open_vignette: false
+    check: false
+    document: true
+    overwrite: 'yes'
+    clean: ask
 flat_save_att_params.Rmd:
   path: dev/flat_save_att_params.Rmd
   state: active

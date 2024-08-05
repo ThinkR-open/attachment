@@ -3,7 +3,7 @@
 #' @param dir.r path to directory with R scripts.
 #'
 #' @return Character vector of packages called with library or require.
-#'
+#' @importFrom roxygen2 parse_file block_get_tag_value
 #' @examples
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #'
@@ -28,7 +28,14 @@ att_from_examples <- function(dir.r = "R") {
   all_examples_clean <-
     gsub(pattern = "\\\\dontrun\\s*\\{|\\\\donttest\\s*\\{", replacement = "#ICI\n{", x = all_examples)
   cat(all_examples_clean, file = roxy_file, sep = "\n")
+
+  all_deps_examples_data <- attachment::att_from_data(all_examples_clean)
+
   all_deps_examples <- attachment::att_from_rscript(roxy_file)
+
   file.remove(roxy_file)
-  return(all_deps_examples)
+
+  all_deps <- unique(c(all_deps_examples, all_deps_examples_data))
+
+  return(all_deps)
 }
