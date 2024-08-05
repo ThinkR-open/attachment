@@ -9,14 +9,18 @@ Depends:
     R (>= 3.5.0)
 Imports: 
     magrittr,
-    utils
-LinkingTo:
-    Rcpp
-Encoding: UTF-8
-LazyData: true
-RoxygenNote: 6.1.0
+    stats
 Suggests: 
+    glue,
     knitr,
     rmarkdown,
-    testthat
-VignetteBuilder: knitr
+    testthat,
+    utils,
+    stringr
+LinkingTo:
+    Rcpp
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1

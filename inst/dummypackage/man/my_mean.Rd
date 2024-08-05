@@ -12,3 +12,8 @@ my_mean(x)
 \description{
 my_mean
 }
+\examples{
+# example code
+library(utils)
+data("fruit", package = "stringr")
+}
