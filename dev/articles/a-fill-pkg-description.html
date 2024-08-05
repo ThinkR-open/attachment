@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">attachment</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.2.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">0.4.2.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Sébastien
 Rochette</h4>
             
-            <h4 data-toc-skip class="date">2024-08-01</h4>
+            <h4 data-toc-skip class="date">2024-08-05</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/main/vignettes/a-fill-pkg-description.Rmd" class="external-link"><code>vignettes/a-fill-pkg-description.Rmd</code></a></small>
       <div class="d-none name"><code>a-fill-pkg-description.Rmd</code></div>
@@ -164,7 +164,7 @@ follows, with {bookdown} being used only there in my package:</p>
 <pre><code>---
 title: "My Super template"
 author: "John Doe"
-date: "2024-08-01"
+date: "2024-08-05"
 output: bookdown::html_document2
 ---
 
@@ -213,21 +213,12 @@ parameter <code>inside_rmd = TRUE</code>.</p>
 <span><span class="co">#&gt; Saving attachment parameters to yaml config file</span></span>
 <span><span class="co">#&gt; Loading required namespace: rstudioapi</span></span>
 <span><span class="co">#&gt; Updating dummypackage documentation</span></span>
-<span><span class="co">#&gt; ────────────────────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; Changes in roxygen2 7.0.0:</span></span>
-<span><span class="co">#&gt; * `%` is now escaped automatically in Markdown mode.</span></span>
-<span><span class="co">#&gt; Please carefully check .Rd files for changes</span></span>
-<span><span class="co">#&gt; ────────────────────────────────────────────────────────────────────────────────</span></span>
-<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Setting `RoxygenNote` to "7.3.2"</span></span>
 <span><span class="co">#&gt; Writing <span style="color: #0000BB;">NAMESPACE</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span></span>
 <span><span class="co">#&gt; Writing <span style="color: #0000BB;">NAMESPACE</span></span></span>
-<span><span class="co">#&gt; Writing <span style="color: #0000BB;">my_mean.Rd</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span></span>
 <span><span class="co">#&gt; Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; [+] 2 package(s) added: stats, glue.</span></span>
 <span></span>
 <span><span class="co"># Clean temp files after this example</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unlink.html" class="external-link">unlink</a></span><span class="op">(</span><span class="va">tmpdir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -334,7 +325,7 @@ package dependencies of R scripts using
 <span><span class="fu"><a href="../reference/att_from_rmds.html">att_from_rmds</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"vignettes"</span><span class="op">)</span>, inside_rmd <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "knitr"     "rmarkdown" "glue"</span></span>
 <span><span class="fu"><a href="../reference/att_from_examples.html">att_from_examples</a></span><span class="op">(</span>dir.r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"R"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "utils"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "utils"   "stringr"</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
