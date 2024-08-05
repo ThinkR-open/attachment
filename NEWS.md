@@ -5,6 +5,7 @@
 - Add `att_from_examples()` to get all packages called in examples from R files
 - Add `att_from_data()` to look for functions called in data loading code
 - `att_amend_desc` amend package DESCRIPTION file (Suggests) with the list of dependencies extracted from examples in R files.
+- `set_remotes_to_desc()` takes into account the branch
 
 ## Patch
 
