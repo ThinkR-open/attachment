@@ -3,11 +3,12 @@
 ## New features
 
 - Add `att_from_examples()` to get all packages called in examples from R files
+- Add `att_from_data()` to look for functions called in data loading code
 - `att_amend_desc` amend package DESCRIPTION file (Suggests) with the list of dependencies extracted from examples in R files.
 
 ## Patch
 
-- Adding an example using a suggest package to the dummypackage
+- Adding an example using suggest packages to the dummypackage
 
 # attachment 0.4.2
 
