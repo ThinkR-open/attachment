@@ -79,6 +79,7 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 #' @param path path to directory with Rmds or vector of Rmd files
 #' @param pattern pattern to detect Rmd files
 #' @param recursive logical. Should the listing recurse into directories?
+#' @param folder_to_exclude Folder to exclude during scan to detect packages 'renv' by default
 #' @inheritParams att_from_rmd
 #'
 #' @return Character vector of packages called with library or require.

@@ -47,7 +47,7 @@ att_from_rscript <- function(path) {
 #' @param path directory with R scripts inside or vector of R scripts
 #' @param pattern pattern to detect R script files
 #' @param recursive logical. Should the listing recurse into directories?
-#'
+#' @param folder_to_exclude Folder to exclude during scan to detect packages. 'renv' by default.
 #' @return vector of character of packages names found in the R script
 #'
 #' @export

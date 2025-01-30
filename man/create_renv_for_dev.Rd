@@ -36,7 +36,7 @@ Use \code{attachment:::extra_dev_pkg} for the list.}
 
 \item{folder_to_include}{Folder to scan to detect development packages}
 
-\item{folder_to_exclude}{Folder to exclude during scan to detect packages}
+\item{folder_to_exclude}{Folder to exclude during scan to detect packages.'renv' by default}
 
 \item{output}{Path and name of the file created, default is \code{./renv.lock}}
 

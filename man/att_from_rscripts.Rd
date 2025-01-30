@@ -17,6 +17,8 @@ att_from_rscripts(
 \item{pattern}{pattern to detect R script files}
 
 \item{recursive}{logical. Should the listing recurse into directories?}
+
+\item{folder_to_exclude}{Folder to exclude during scan to detect packages. 'renv' by default.}
 }
 \value{
 vector of character of packages names found in the R script

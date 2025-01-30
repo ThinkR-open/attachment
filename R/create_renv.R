@@ -23,7 +23,7 @@ extra_dev_pkg <- c(
 #' use the default list. Use `NULL` for no extra package.
 #' Use `attachment:::extra_dev_pkg` for the list.
 #' @param folder_to_include Folder to scan to detect development packages
-#' @param folder_to_exclude Folder to exclude during scan to detect packages
+#' @param folder_to_exclude Folder to exclude during scan to detect packages.'renv' by default
 #' @param output Path and name of the file created, default is `./renv.lock`
 #' @param install_if_missing Logical. Install missing packages. `TRUE` by default
 #' @param document Logical. Whether to run [att_amend_desc()] before
