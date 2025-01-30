@@ -8,7 +8,8 @@
 create_renv_for_dev(
   path = ".",
   dev_pkg = "_default",
-  folder_to_include = c("dev", "data-raw"),
+  folder_to_include = c("dev", "data-raw", "renv"),
+  folder_to_exclude = c("renv"),
   output = "renv.lock",
   install_if_missing = TRUE,
   document = TRUE,
@@ -34,6 +35,8 @@ use the default list. Use \code{NULL} for no extra package.
 Use \code{attachment:::extra_dev_pkg} for the list.}
 
 \item{folder_to_include}{Folder to scan to detect development packages}
+
+\item{folder_to_exclude}{Folder to exclude during scan to detect packages.'renv' by default}
 
 \item{output}{Path and name of the file created, default is \code{./renv.lock}}
 

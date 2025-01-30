@@ -23,6 +23,7 @@ extra_dev_pkg <- c(
 #' use the default list. Use `NULL` for no extra package.
 #' Use `attachment:::extra_dev_pkg` for the list.
 #' @param folder_to_include Folder to scan to detect development packages
+#' @param folder_to_exclude Folder to exclude during scan to detect packages.'renv' by default
 #' @param output Path and name of the file created, default is `./renv.lock`
 #' @param install_if_missing Logical. Install missing packages. `TRUE` by default
 #' @param document Logical. Whether to run [att_amend_desc()] before
@@ -47,7 +48,8 @@ extra_dev_pkg <- c(
 #' }
 create_renv_for_dev <- function(path = ".",
                                 dev_pkg = "_default",
-                                folder_to_include = c("dev", "data-raw"),
+                                folder_to_include = c("dev", "data-raw","renv"),
+                                folder_to_exclude = c("renv"),
                                 output = "renv.lock",
                                 install_if_missing = TRUE,
                                 document = TRUE,
@@ -116,9 +118,8 @@ create_renv_for_dev <- function(path = ".",
 
     pkg_list <- unique(
       c(
-        att_from_qmds(path = path,recursive = TRUE),
-        att_from_rmds(path = path,recursive = TRUE),
-        att_from_rscripts(path = path,recursive = TRUE),
+        att_from_rmds(path = path,recursive = TRUE, folder_to_exclude = folder_to_exclude),
+        att_from_rscripts(path = path,recursive = TRUE, folder_to_exclude = folder_to_exclude),
         dev_pkg
       )
     )
@@ -144,8 +145,8 @@ create_renv_for_dev <- function(path = ".",
 
     # folder_to_include <- folder_to_include[dir.exists(file.path(path, folder_to_include))]
 
-    from_r_script <- att_from_rscripts(folder_to_include)
-    from_rmd <- att_from_rmds(folder_to_include)
+    from_r_script <- att_from_rscripts(folder_to_include,, folder_to_exclude = folder_to_exclude)
+    from_rmd <- att_from_rmds(folder_to_include,, folder_to_exclude = folder_to_exclude)
 
     pkg_list <- unique(c(pkg_list, from_r_script, from_rmd))
   }

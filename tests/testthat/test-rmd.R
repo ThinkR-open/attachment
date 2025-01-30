@@ -108,3 +108,49 @@ test_that("rmds well parsed", {
   })
 })
 
+
+
+
+test_that("folder_to_exclude works in att_from_rmds", {
+
+
+  dir_with_Rmd <- tempfile(pattern = "rmds")
+  dir.create(dir_with_Rmd)
+  file.copy("f1.Rmd", to = file.path(dir_with_Rmd, "f1.Rmd"))
+  dir.create(file.path(dir_with_Rmd,"renv"))
+  dir.create(file.path(dir_with_Rmd,"avoid"))
+  dir.create(file.path(dir_with_Rmd,"keep"))
+  file.copy("f1.Rmd", to = file.path(dir_with_Rmd,"renv", "f3.Rmd")) #library(dont.find.me3)
+  file.copy("f1.Rmd", to = file.path(dir_with_Rmd,"avoid", "f4.Rmd")) #library(dont.find.me4)
+  file.copy("f1.Rmd", to = file.path(dir_with_Rmd,"keep", "f5.Rmd")) #library(find.me5.from.keep)
+
+cat("
+```{r}
+library(find.me5.from.keep)
+```
+    ",append = TRUE,file = file.path(dir_with_Rmd,"keep", "f5.Rmd"))
+
+
+cat("
+```{r}
+library(dont.find.me3)
+```
+    ",append = TRUE,file = file.path(dir_with_Rmd,"renv", "f3.Rmd"))
+
+cat("
+```{r}
+library(dont.find.me4)
+```
+    ",append = TRUE,file = file.path(dir_with_Rmd,"avoid", "f4.Rmd"))
+
+  res_dir <- att_from_rmds(path = dir_with_Rmd,folder_to_exclude = c("renv","avoid"),recursive = TRUE)
+
+  expect_true("find.me5.from.keep" %in% res_dir)
+  expect_false("dont.find.me3" %in% res_dir)
+  expect_false("dont.find.me4" %in% res_dir)
+
+
+
+
+})
+

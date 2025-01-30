@@ -4,7 +4,12 @@
 \alias{att_from_rscripts}
 \title{Look for functions called with \code{::} and library/requires in folder of scripts}
 \usage{
-att_from_rscripts(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE)
+att_from_rscripts(
+  path = "R",
+  pattern = "*.[.](r|R)$",
+  recursive = TRUE,
+  folder_to_exclude = "renv"
+)
 }
 \arguments{
 \item{path}{directory with R scripts inside or vector of R scripts}
@@ -12,6 +17,8 @@ att_from_rscripts(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE)
 \item{pattern}{pattern to detect R script files}
 
 \item{recursive}{logical. Should the listing recurse into directories?}
+
+\item{folder_to_exclude}{Folder to exclude during scan to detect packages. 'renv' by default.}
 }
 \value{
 vector of character of packages names found in the R script

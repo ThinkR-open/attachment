@@ -79,6 +79,7 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 #' @param path path to directory with Rmds or vector of Rmd files
 #' @param pattern pattern to detect Rmd files
 #' @param recursive logical. Should the listing recurse into directories?
+#' @param folder_to_exclude Folder to exclude during scan to detect packages 'renv' by default
 #' @inheritParams att_from_rmd
 #'
 #' @return Character vector of packages called with library or require.
@@ -94,7 +95,7 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 att_from_rmds <- function(path = "vignettes",
                           pattern = "*.[.](Rmd|rmd|qmd)$",
                           recursive = TRUE, warn = -1,
-                          inside_rmd = FALSE, inline = TRUE) {
+                          inside_rmd = FALSE, inline = TRUE,folder_to_exclude = "renv") {
 
   if (isTRUE(all(dir.exists(path)))) {
     all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
@@ -103,6 +104,17 @@ att_from_rmds <- function(path = "vignettes",
   } else {
     stop("Some files/directories do not exist")
   }
+
+  if (!is.null(folder_to_exclude) && length(folder_to_exclude) > 0) {
+    exclude_files <- unlist(lapply(folder_to_exclude, function(folder) {
+      list.files(path = file.path(path, folder), full.names = TRUE, pattern = pattern, recursive = recursive)
+    }))
+
+    # Exclure les fichiers
+    all_f <- setdiff(all_f, exclude_files)
+  }
+
+
 
   res <- lapply(all_f,
                 function(x) att_from_rmd(

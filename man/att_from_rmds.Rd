@@ -11,7 +11,8 @@ att_from_rmds(
   recursive = TRUE,
   warn = -1,
   inside_rmd = FALSE,
-  inline = TRUE
+  inline = TRUE,
+  folder_to_exclude = "renv"
 )
 
 att_from_qmds(
@@ -20,7 +21,8 @@ att_from_qmds(
   recursive = TRUE,
   warn = -1,
   inside_rmd = FALSE,
-  inline = TRUE
+  inline = TRUE,
+  folder_to_exclude = "renv"
 )
 }
 \arguments{
@@ -36,6 +38,8 @@ att_from_qmds(
 in case this must be executed in an external R session}
 
 \item{inline}{Logical. Default TRUE. Whether to explore inline code for dependencies.}
+
+\item{folder_to_exclude}{Folder to exclude during scan to detect packages 'renv' by default}
 }
 \value{
 Character vector of packages called with library or require.
