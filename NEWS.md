@@ -10,6 +10,7 @@
 ## Patch
 
 - Adding an example using suggest packages to the dummypackage
+- `att_from_rmds()` and `att_from_rscript` doesn't search in 'renv' folder anymore
 
 # attachment 0.4.2
 

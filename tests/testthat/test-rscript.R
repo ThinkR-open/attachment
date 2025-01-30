@@ -65,3 +65,30 @@ test_that("newline correctly escaped", {
   expect_true(!"nknitr" %in% newline_script)
 
 })
+
+
+
+test_that("folder_to_exclude works in att_from_rscripts", {
+
+
+  dir_with_R <- tempfile(pattern = "rscripts")
+  dir.create(dir_with_R)
+  file.copy("f2.R", to = file.path(dir_with_R, "f2.R"))
+  dir.create(file.path(dir_with_R,"renv"))
+  dir.create(file.path(dir_with_R,"avoid"))
+  dir.create(file.path(dir_with_R,"keep"))
+  file.copy("f3.R", to = file.path(dir_with_R,"renv", "f3.R"))
+  file.copy("f4.R", to = file.path(dir_with_R,"avoid", "f4.R"))
+  file.copy("f5.R", to = file.path(dir_with_R,"keep", "f5.R"))
+  file.copy("f1.Rmd", to = file.path(dir_with_R, "f1.Rmd"))
+
+  res_dir <- att_from_rscripts(path = dir_with_R,folder_to_exclude = c("renv","avoid"))
+
+  expect_true("find.me5.from.keep" %in% res_dir)
+  expect_false("dont.find.me3" %in% res_dir)
+  expect_false("dont.find.me4" %in% res_dir)
+
+
+
+
+})

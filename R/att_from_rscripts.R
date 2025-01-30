@@ -58,7 +58,7 @@ att_from_rscript <- function(path) {
 #' att_from_rscripts(path = file.path(dummypackage, "R"))
 #' att_from_rscripts(path = list.files(file.path(dummypackage, "R"), full.names = TRUE))
 
-att_from_rscripts <- function(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE) {
+att_from_rscripts <- function(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE, folder_to_exclude = "renv") {
 
   if (isTRUE(all(dir.exists(path)))) {
     all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
@@ -67,6 +67,16 @@ att_from_rscripts <- function(path = "R", pattern = "*.[.](r|R)$", recursive = T
   } else {
     stop("Some files/directories do not exist")
   }
+
+  if (!is.null(folder_to_exclude) && length(folder_to_exclude) > 0) {
+    exclude_files <- unlist(lapply(folder_to_exclude, function(folder) {
+      list.files(path = file.path(path, folder), full.names = TRUE, pattern = pattern, recursive = recursive)
+    }))
+
+    # Exclure les fichiers
+    all_f <- setdiff(all_f, exclude_files)
+  }
+
 
   lapply(all_f, att_from_rscript) %>%
     unlist() %>%

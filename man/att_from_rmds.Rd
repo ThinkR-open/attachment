@@ -11,7 +11,8 @@ att_from_rmds(
   recursive = TRUE,
   warn = -1,
   inside_rmd = FALSE,
-  inline = TRUE
+  inline = TRUE,
+  folder_to_exclude = "renv"
 )
 
 att_from_qmds(
@@ -20,7 +21,8 @@ att_from_qmds(
   recursive = TRUE,
   warn = -1,
   inside_rmd = FALSE,
-  inline = TRUE
+  inline = TRUE,
+  folder_to_exclude = "renv"
 )
 }
 \arguments{

@@ -4,7 +4,12 @@
 \alias{att_from_rscripts}
 \title{Look for functions called with \code{::} and library/requires in folder of scripts}
 \usage{
-att_from_rscripts(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE)
+att_from_rscripts(
+  path = "R",
+  pattern = "*.[.](r|R)$",
+  recursive = TRUE,
+  folder_to_exclude = "renv"
+)
 }
 \arguments{
 \item{path}{directory with R scripts inside or vector of R scripts}
