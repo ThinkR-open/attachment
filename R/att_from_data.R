@@ -13,7 +13,7 @@ att_from_data <- function(chr) {
     str_extract_all(
       chr,
       '(?<=data\\(\\".{1,100}\\"\\,\\s{0,5}package\\s{0,5}\\=\\s{0,5}\\\")[[:alnum:]\\.]+(?=\\\"\\))'
-    ) |>
+    ) %>%
     unlist()
   return(pkg)
 
