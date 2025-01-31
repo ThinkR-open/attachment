@@ -2,12 +2,14 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/ThinkR-open/attachment/workflows/R-CMD-check/badge.svg)](https://github.com/ThinkR-open/attachment/actions)
 [![Coverage
 status](https://codecov.io/gh/ThinkR-open/attachment/branch/main/graph/badge.svg)](https://app.codecov.io/github/ThinkR-open/attachment/tree/main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/attachment)](https://cran.r-project.org/package=attachment)
 ![downloads](http://cranlogs.r-pkg.org/badges/attachment)
+[![R-CMD-check](https://github.com/ThinkR-open/attachment/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ThinkR-open/attachment/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/ThinkR-open/attachment/graph/badge.svg)](https://app.codecov.io/gh/ThinkR-open/attachment)
 <!-- badges: end -->
 
 # attachment <img src="man/figures/logo.png" align="right" alt="" width="120" />
@@ -114,22 +116,12 @@ desc_file <- attachment::att_amend_desc(path = dummypackage, inside_rmd = TRUE, 
 #> 'update.config' was set to TRUE, hence, 'use.config' was forced to FALSE
 #> Saving attachment parameters to yaml config file
 #> Updating dummypackage documentation
-#> ────────────────────────────────────────────────────────────────────────────────
-#> Changes in roxygen2 7.0.0:
-#> * `%` is now escaped automatically in Markdown mode.
-#> Please carefully check .Rd files for changes
-#> ────────────────────────────────────────────────────────────────────────────────
-#> 
-#> Setting `RoxygenNote` to "7.2.2"
+#> Setting `RoxygenNote` to "7.3.2"
+#> Writing 'NAMESPACE'
 #> ℹ Loading dummypackage
-#> Writing ']8;;file:///tmp/Rtmp3Dpn4h/fakepkg3538450e5c49/dummypackage/NAMESPACENAMESPACE]8;;'
-#> Writing ']8;;file:///tmp/Rtmp3Dpn4h/fakepkg3538450e5c49/dummypackage/NAMESPACENAMESPACE]8;;'
+#> Writing 'NAMESPACE'
 #> ℹ Loading dummypackage
 #> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
-#> 
-#> [-] 1 package(s) removed: utils.
-#> 
-#> [+] 2 package(s) added: stats, glue.
 
 # Add Remotes if you have some installed
 attachment::set_remotes_to_desc(path.d = desc_file)
