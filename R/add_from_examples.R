@@ -12,7 +12,7 @@
 
 #' @export
 att_from_examples <- function(dir.r = "R") {
-  rfiles <- list.files(dir.r, full.names = TRUE)
+  rfiles <- list.files(dir.r, full.names = TRUE, pattern = "\\.r$", ignore.case = TRUE,recursive = FALSE)
 
   roxy_file <- tempfile("roxy.examples", fileext = ".R")
 
