@@ -24,7 +24,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Sébastien Rochette \email{sebastien@thinkr.fr} (\href{https://orcid.org/0000-0002-1565-9313}{ORCID}) (previous maintainer)
+  \item Sébastien Rochette \email{sebastienrochettefr@gmail.com} (\href{https://orcid.org/0000-0002-1565-9313}{ORCID}) (previous maintainer)
   \item Murielle Delmotte \email{murielle@thinkr.fr} (\href{https://orcid.org/0000-0002-1339-2424}{ORCID})
   \item Swann Floc'hlay \email{swann@thinkr.fr} (\href{https://orcid.org/0000-0003-1477-830X}{ORCID})
 }
