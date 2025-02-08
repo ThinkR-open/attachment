@@ -1,93 +1,36 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/404.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/articles/a-fill-pkg-description.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/articles/b-bookdown-and-scripts.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/articles/create-dependencies-file.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/articles/use_renv.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/index.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/att_amend_desc.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/att_from_description.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/att_from_namespace.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/att_from_rmd.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/att_from_rmds.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/att_from_rscript.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/att_from_rscripts.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/att_to_desc_from_is.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/attachment-deprecated.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/attachment-package.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/create_dependencies_file.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/create_renv_for_dev.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/find_remotes.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/install_from_description.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/install_if_missing.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>https://thinkr-open.github.io/attachment/reference/set_remotes_to_desc.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://thinkr-open.github.io/attachment/404.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/CONTRIBUTING.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/LICENSE.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/articles/a-fill-pkg-description.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/articles/b-bookdown-and-scripts.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/articles/create-dependencies-file.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/articles/index.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/articles/use_renv.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/authors.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/index.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/news/index.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_amend_desc.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_from_data.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_from_description.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_from_examples.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_from_namespace.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_from_rmd.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_from_rmds.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_from_rscript.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_from_rscripts.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/att_to_desc_from_is.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/attachment-deprecated.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/attachment-package.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/complete_remote_branch.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/create_dependencies_file.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/create_renv_for_dev.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/find_remotes.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/index.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/install_from_description.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/install_if_missing.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/pipe.html</loc></url>
+<url><loc>https://thinkr-open.github.io/attachment/reference/set_remotes_to_desc.html</loc></url>
 </urlset>
+
