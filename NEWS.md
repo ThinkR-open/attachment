@@ -1,3 +1,9 @@
+# attachment 0.4.4
+
+## Patch
+
+- `att_from_examples()` Fixed the selection of `.R` files in the source directory. (#124)
+
 # attachment 0.4.3
 
 ## New features

@@ -1,10 +1,10 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 0.4.3
+Version: 0.4.4
 Authors@R: c(
     person("Vincent", "Guyader", , "vincent@thinkr.fr", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-0671-9270")),
-    person("Sébastien", "Rochette", , "sebastien@thinkr.fr", role = c("aut"),
+    person("Sébastien", "Rochette", , "sebastienrochettefr@gmail.com", role = c("aut"),
            comment = c(ORCID = "0000-0002-1565-9313", "previous maintainer")),
     person("Murielle", "Delmotte", , "murielle@thinkr.fr", role = "aut",
            comment = c(ORCID = "0000-0002-1339-2424")),
