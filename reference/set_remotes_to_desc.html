@@ -79,7 +79,7 @@ Message otherwise.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tmpdir</span>, <span class="st">"dummypackage"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Add remotes field if there are Remotes locally</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="va">dummypackage</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="va">dummypackage</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">set_remotes_to_desc</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Saving attachment parameters to yaml config file</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Updating dummypackage documentation</span>
@@ -97,7 +97,7 @@ Message otherwise.</p></dd>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># For your current package</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">set_remotes_to_desc</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
