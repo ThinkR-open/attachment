@@ -1,3 +1,9 @@
+# attachment 0.4.5
+
+## Bug fixes 
+
+- `att_from_examples()` Removed escape characters (`\`) from Roxygen examples.
+
 # attachment 0.4.4
 
 ## Patch
