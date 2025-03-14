@@ -27,6 +27,10 @@ att_from_examples <- function(dir.r = "R") {
   # Clean \dontrun and \donttest, and replace with '{' on next line
   all_examples_clean <-
     gsub(pattern = "\\\\dontrun\\s*\\{|\\\\donttest\\s*\\{", replacement = "#ICI\n{", x = all_examples)
+
+# Clean escape characters
+  all_examples_clean <- gsub(pattern = "\\\\", replacement = "", x = all_examples_clean)
+
   cat(all_examples_clean, file = roxy_file, sep = "\n")
 
   all_deps_examples_data <- attachment::att_from_data(all_examples_clean)
