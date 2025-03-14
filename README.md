@@ -163,9 +163,9 @@ To quickly install missing packages needed to compile Rmd files or run R
 scripts, use:
 
 ``` r
-attachment::att_from_rmds(path = ".") |> attachment::install_if_missing()
+attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
 
-attachment::att_from_rscripts(path = ".") |> attachment::install_if_missing()
+attachment::att_from_rscripts(path = ".") %>% attachment::install_if_missing()
 ```
 
 Function `attachment::create_dependencies_file()` will create a

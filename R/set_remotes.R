@@ -15,12 +15,12 @@
 #' # Find from Description file
 #' dummypackage <- system.file("dummypackage", package = "attachment")
 #' att_from_description(
-#' path = file.path(dummypackage, "DESCRIPTION")) |>
+#' path = file.path(dummypackage, "DESCRIPTION")) %>%
 #' find_remotes()
 #'
 #' \dontrun{
 #' # For the current package directory
-#' att_from_description() |> find_remotes()
+#' att_from_description() %>% find_remotes()
 #' }
 #'
 #' \donttest{
@@ -69,7 +69,7 @@ find_remotes <- function(pkg) {
 #'  recursive = TRUE)
 #' dummypackage <- file.path(tmpdir, "dummypackage")
 #' # Add remotes field if there are Remotes locally
-#' att_amend_desc(dummypackage) |>
+#' att_amend_desc(dummypackage) %>%
 #'   set_remotes_to_desc()
 #'
 #' # Clean temp files after this example
@@ -77,7 +77,7 @@ find_remotes <- function(pkg) {
 #'
 #' \dontrun{
 #' # For your current package
-#' att_amend_desc() |>
+#' att_amend_desc() %>%
 #'   set_remotes_to_desc()
 #' }
 set_remotes_to_desc <- function(path.d = "DESCRIPTION", stop.local = FALSE,
