@@ -1,12 +1,12 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   a-fill-pkg-description: a-fill-pkg-description.html
   b-bookdown-and-scripts: b-bookdown-and-scripts.html
   create-dependencies-file: create-dependencies-file.html
   use_renv: use_renv.html
-last_built: 2025-01-31T14:10Z
+last_built: 2025-06-13T23:04Z
 urls:
   reference: https://thinkr-open.github.io/attachment/reference
   article: https://thinkr-open.github.io/attachment/articles
