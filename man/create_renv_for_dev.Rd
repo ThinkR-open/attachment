@@ -8,7 +8,7 @@
 create_renv_for_dev(
   path = ".",
   dev_pkg = "_default",
-  folder_to_include = c("dev", "data-raw", "renv"),
+  folder_to_include = c("dev", "data-raw"),
   folder_to_exclude = c("renv"),
   output = "renv.lock",
   install_if_missing = TRUE,
@@ -23,6 +23,7 @@ create_renv_for_prod(
   output = "renv.lock.prod",
   dev_pkg = "remotes",
   check_if_suggests_is_installed = FALSE,
+  folder_to_include = NULL,
   ...
 )
 }
