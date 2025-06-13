@@ -48,7 +48,7 @@ extra_dev_pkg <- c(
 #' }
 create_renv_for_dev <- function(path = ".",
                                 dev_pkg = "_default",
-                                folder_to_include = c("dev", "data-raw","renv"),
+                                folder_to_include = c("dev", "data-raw"),
                                 folder_to_exclude = c("renv"),
                                 output = "renv.lock",
                                 install_if_missing = TRUE,
@@ -189,11 +189,12 @@ create_renv_for_prod <- function(path = ".",
                                  output = "renv.lock.prod",
                                  dev_pkg = "remotes",
                                  check_if_suggests_is_installed = FALSE,
+                                 folder_to_include = NULL,
                                  ...) {
   create_renv_for_dev(
     path = path,
     dev_pkg = dev_pkg,
-    folder_to_include = NULL,
+    folder_to_include = folder_to_include,
     output = output,
     check_if_suggests_is_installed = check_if_suggests_is_installed,
     ...

@@ -1,3 +1,8 @@
+# dev version
+
+- fix `create_renv_for_dev` by removing 'renv' from folder_to_include.
+
+
 # attachment 0.4.5
 
 ## Bug fixes 
