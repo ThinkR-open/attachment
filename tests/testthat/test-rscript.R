@@ -92,3 +92,20 @@ test_that("folder_to_exclude works in att_from_rscripts", {
 
 
 })
+
+test_that("att_from_rscript ignores :: found in CSS strings", {
+  css_script <- tempfile(fileext = ".R")
+  on.exit(unlink(css_script), add = TRUE)
+  writeLines(
+    c(
+      "x <- '.pretty .state label::after { color: red; }'",
+      "glue::glue('ok')"
+    ),
+    con = css_script
+  )
+
+  res <- att_from_rscript(path = css_script)
+
+  expect_true("glue" %in% res)
+  expect_false("label" %in% res)
+})

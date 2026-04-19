@@ -22,7 +22,10 @@ att_from_rscript <- function(path) {
   # Replace newlines `\n` by space
   file <- gsub("\\\\n", " ", file)
 
-  pkg_points <- file %>%
+  # Ignore `::` patterns found in string literals (e.g. CSS selectors)
+  file_without_strings <- gsub("\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'", "", file)
+
+  pkg_points <- file_without_strings %>%
     .[grep("^#", ., invert = TRUE)] %>%
     str_extract_all("[[:alnum:]\\.]+(?=::)") %>%
     unlist()
