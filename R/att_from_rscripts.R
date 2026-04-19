@@ -23,6 +23,7 @@ att_from_rscript <- function(path) {
   file <- gsub("\\\\n", " ", file)
 
   # Ignore `::` patterns found in string literals (e.g. CSS selectors)
+  # Match both double-quoted and single-quoted strings, including escaped quotes
   file_no_strings <- gsub("\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'", "", file)
 
   pkg_points <- file_no_strings %>%
