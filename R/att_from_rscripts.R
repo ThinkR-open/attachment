@@ -81,6 +81,8 @@ att_from_rscripts <- function(path = "R", pattern = "*.[.](r|R)$", recursive = T
     all_f <- setdiff(all_f, exclude_files)
   }
 
+  # `att_from_rscript()` parses R code, so keep only R scripts
+  all_f <- all_f[grepl("\\.[rR]$", all_f)]
 
   lapply(all_f, att_from_rscript) %>%
     unlist() %>%

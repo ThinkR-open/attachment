@@ -109,3 +109,27 @@ test_that("att_from_rscript ignores :: found in CSS strings", {
   expect_true("glue" %in% res)
   expect_false("label" %in% res)
 })
+
+test_that("att_from_rscripts ignores css files in scanned directories", {
+  dir_with_files <- tempfile(pattern = "rscripts_css")
+  dir.create(dir_with_files)
+  on.exit(unlink(dir_with_files, recursive = TRUE), add = TRUE)
+
+  writeLines(
+    c(
+      ".pretty .state label::before {",
+      "  color: red;",
+      "}"
+    ),
+    con = file.path(dir_with_files, "global.css")
+  )
+  writeLines(
+    "glue::glue('ok')",
+    con = file.path(dir_with_files, "ok.R")
+  )
+
+  res <- att_from_rscripts(path = dir_with_files)
+
+  expect_true("glue" %in% res)
+  expect_false("label" %in% res)
+})
