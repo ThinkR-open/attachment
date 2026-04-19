@@ -23,9 +23,9 @@ att_from_rscript <- function(path) {
   file <- gsub("\\\\n", " ", file)
 
   # Ignore `::` patterns found in string literals (e.g. CSS selectors)
-  file_without_string_literals <- gsub("\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'", "", file)
+  file_no_strings <- gsub("\"(?:[^\"\\\\]|\\\\.)*\"|'(?:[^'\\\\]|\\\\.)*'", "", file)
 
-  pkg_points <- file_without_string_literals %>%
+  pkg_points <- file_no_strings %>%
     .[grep("^#", ., invert = TRUE)] %>%
     str_extract_all("[[:alnum:]\\.]+(?=::)") %>%
     unlist()
