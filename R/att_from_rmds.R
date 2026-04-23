@@ -126,7 +126,13 @@ att_from_rmds <- function(path = "vignettes",
     na.omit()
 
   if (isTRUE(any(grepl("vignettes", path)))) {
-    unique(c("knitr", "rmarkdown", res))
+    engine <- character(0)
+    if (length(all_f)) {
+      if (any(grepl("\\.qmd$", all_f, ignore.case = TRUE))) engine <- c(engine, "quarto")
+      if (any(grepl("\\.rmd$", all_f, ignore.case = TRUE))) engine <- c(engine, "rmarkdown")
+    }
+    if (length(engine) == 0) engine <- "rmarkdown"
+    unique(c("knitr", engine, res))
   } else {
     res
   }
