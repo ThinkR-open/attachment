@@ -4,7 +4,7 @@
 res_edge <- att_from_rscript(path = "f_edge_cases.R")
 
 must_find <- c(
-  "dplyr", "findedge1", "findedge2", "findedge3", "glue", "stringr",
+  "findedge0", "findedge1", "findedge2", "findedge3", "glue", "stringr",
   "findedge4", "findedge5", "findedge6", "findedge7",
   "findedge8", "findedge9", "findedge10",
   "findedge11", "findedge12"

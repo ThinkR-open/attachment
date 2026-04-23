@@ -16,7 +16,10 @@ a vector
 Look for functions called with \code{::} and library/requires in one script
 }
 \details{
-Calls from pkg::fun in roxygen skeleton and comments are ignored
+Uses the R parser to walk the syntax tree so that occurrences of \code{pkg::fun}
+or \code{library()/require()/requireNamespace()/loadNamespace()/use()/getFromNamespace()}
+inside string literals or comments are ignored.
+Named arguments such as \code{library(package = "pkg")} are supported.
 }
 \examples{
 dummypackage <- system.file("dummypackage",package = "attachment")

@@ -2,7 +2,7 @@
 # Each line below tests one specific detection case.
 
 # --- Must detect (true positives) ---
-library(dplyr)
+library(findedge0)
 require(findedge1)
 requireNamespace("findedge2")
 loadNamespace("findedge3")

@@ -1,5 +1,23 @@
 # dev version
 
+- `att_from_rscript()` now walks the R syntax tree instead of matching the
+  source text with regexes. Dependency detection no longer produces false
+  positives on `::` inside string literals or comments (e.g. xpath
+  `following-sibling::td`, CSS `label::after`, `sprintf('%s::plot()', ...)`)
+  (#120, #132).
+- `att_from_rscript()` also recognises `use("pkg", ...)` (R >= 4.4),
+  `getFromNamespace("fn", "pkg")`, `loadNamespace()`, and named-argument
+  forms such as `library(package = "pkg")` or
+  `requireNamespace("pkg", lib.loc = "...")` (#128, #129).
+- `att_from_rmds()` now adds `quarto` to vignette dependencies when the
+  vignettes directory contains `.qmd` files, and only adds `rmarkdown`
+  when `.Rmd` files are present (#131).
+- `att_from_rmd()` / `att_from_rmds()`: `inside_rmd` now defaults to
+  `NULL` and is auto-detected via `knitr::opts_knit$get("out.format")`,
+  so users no longer have to think about it (#106).
+- Dropped the `{fusen}` development workflow; `R/amend_with_config.R`,
+  `R/create_dependencies_file.R`, `R/dependencies_file_text.R` and their
+  tests are now hand-maintained.
 - fix `create_renv_for_dev` by removing 'renv' from folder_to_include.
 
 
