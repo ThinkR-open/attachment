@@ -1,4 +1,4 @@
-# dev version
+# attachment 1.0.0
 
 - `att_from_rscript()` now walks the R syntax tree instead of matching the
   source text with regexes. Dependency detection no longer produces false
