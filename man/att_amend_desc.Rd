@@ -16,7 +16,7 @@ att_amend_desc(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = FALSE,
+  inside_rmd = NULL,
   must.exist = TRUE,
   check_if_suggests_is_installed = TRUE,
   update.config = FALSE,
@@ -35,7 +35,7 @@ att_to_desc_from_pkg(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = FALSE,
+  inside_rmd = NULL,
   must.exist = TRUE,
   check_if_suggests_is_installed = TRUE,
   update.config = FALSE,
@@ -64,8 +64,10 @@ att_to_desc_from_pkg(
 
 \item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc:desc_normalize]{desc::desc_normalize()}}}
 
-\item{inside_rmd}{Logical. Whether function is run inside a Rmd,
-in case this must be executed in an external R session}
+\item{inside_rmd}{Logical or \code{NULL}. Whether the function is being called
+from inside a knit session, in which case the actual purl step must be
+delegated to an external R process. When \code{NULL} (the default), this is
+auto-detected via \code{knitr::opts_knit$get("out.format")}.}
 
 \item{must.exist}{Logical. If TRUE then an error is given if packages do not exist
 within installed packages. If NA, a warning.}

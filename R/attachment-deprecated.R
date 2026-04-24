@@ -28,7 +28,7 @@ att_to_description <- function(path = ".",
                                pkg_ignore = NULL,
                                document = TRUE,
                                normalize = TRUE,
-                               inside_rmd = FALSE) {
+                               inside_rmd = NULL) {
   .Deprecated("att_amend_desc")
   att_amend_desc(path = path,
                  path.n = path.n,

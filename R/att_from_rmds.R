@@ -3,8 +3,10 @@
 #' @param path Path to a Rmd file
 #' @param temp_dir Path to temporary script from purl vignette
 #' @param warn -1 for quiet warnings with purl, 0 to see warnings
-#' @param inside_rmd Logical. Whether function is run inside a Rmd,
-#'  in case this must be executed in an external R session
+#' @param inside_rmd Logical or `NULL`. Whether the function is being called
+#'  from inside a knit session, in which case the actual purl step must be
+#'  delegated to an external R process. When `NULL` (the default), this is
+#'  auto-detected via `knitr::opts_knit$get("out.format")`.
 #' @param inline Logical. Default TRUE. Whether to explore inline code for dependencies.
 #' @inheritParams knitr::purl
 #'
@@ -22,8 +24,12 @@
 #' @export
 att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
                          encoding = getOption("encoding"),
-                         inside_rmd = FALSE, inline = TRUE) {
+                         inside_rmd = NULL, inline = TRUE) {
   if (missing(path)) {stop("argument 'path' is missing, with no default")}
+
+  if (is.null(inside_rmd)) {
+    inside_rmd <- !is.null(knitr::opts_knit$get("out.format"))
+  }
 
   op <- options(knitr.purl.inline = inline)
   on.exit(options(op))
@@ -83,8 +89,11 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 #' @inheritParams att_from_rmd
 #'
 #' @return Character vector of packages called with library or require.
-#' \emph{knitr} and \emph{rmarkdown} are added by default to allow building the vignettes
-#'  if the directory contains "vignettes" in the path
+#' When the directory contains "vignettes" in its path, `knitr` is always added
+#' and the vignette engine is inferred from the files actually present:
+#' `rmarkdown` is added when `.Rmd` files are found, `quarto` when `.qmd`
+#' files are found (both when the directory mixes the two). If the directory
+#' is empty, `rmarkdown` is added as a safe default.
 #'
 #' @examples
 #' dummypackage <- system.file("dummypackage",package = "attachment")
@@ -95,7 +104,7 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 att_from_rmds <- function(path = "vignettes",
                           pattern = "*.[.](Rmd|rmd|qmd)$",
                           recursive = TRUE, warn = -1,
-                          inside_rmd = FALSE, inline = TRUE,folder_to_exclude = "renv") {
+                          inside_rmd = NULL, inline = TRUE,folder_to_exclude = "renv") {
 
   if (isTRUE(all(dir.exists(path)))) {
     all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
@@ -126,7 +135,13 @@ att_from_rmds <- function(path = "vignettes",
     na.omit()
 
   if (isTRUE(any(grepl("vignettes", path)))) {
-    unique(c("knitr", "rmarkdown", res))
+    engine <- character(0)
+    if (length(all_f)) {
+      if (any(grepl("\\.qmd$", all_f, ignore.case = TRUE))) engine <- c(engine, "quarto")
+      if (any(grepl("\\.rmd$", all_f, ignore.case = TRUE))) engine <- c(engine, "rmarkdown")
+    }
+    if (length(engine) == 0) engine <- "rmarkdown"
+    unique(c("knitr", engine, res))
   } else {
     res
   }

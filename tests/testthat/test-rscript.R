@@ -60,10 +60,14 @@ unlink(dir_with_R, recursive = TRUE)
 newline_script <- att_from_rscript(path = "escape_newline.R")
 
 test_that("newline correctly escaped", {
-  expect_equal(sort(c("rmarkdown", "glue", "knitr")),
-               sort(newline_script))
-  expect_true(!"nknitr" %in% newline_script)
-
+  # Only `glue` is a real R call here (via `glue::glue_collapse`).
+  # `rmarkdown` and `knitr` only appear inside glue-template string literals
+  # and must not be detected (previous regex-based detection produced these
+  # as false positives).
+  expect_equal(sort(newline_script), "glue")
+  expect_false("nknitr" %in% newline_script)
+  expect_false("knitr" %in% newline_script)
+  expect_false("rmarkdown" %in% newline_script)
 })
 
 

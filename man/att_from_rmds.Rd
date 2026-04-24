@@ -10,7 +10,7 @@ att_from_rmds(
   pattern = "*.[.](Rmd|rmd|qmd)$",
   recursive = TRUE,
   warn = -1,
-  inside_rmd = FALSE,
+  inside_rmd = NULL,
   inline = TRUE,
   folder_to_exclude = "renv"
 )
@@ -20,7 +20,7 @@ att_from_qmds(
   pattern = "*.[.](Rmd|rmd|qmd)$",
   recursive = TRUE,
   warn = -1,
-  inside_rmd = FALSE,
+  inside_rmd = NULL,
   inline = TRUE,
   folder_to_exclude = "renv"
 )
@@ -34,8 +34,10 @@ att_from_qmds(
 
 \item{warn}{-1 for quiet warnings with purl, 0 to see warnings}
 
-\item{inside_rmd}{Logical. Whether function is run inside a Rmd,
-in case this must be executed in an external R session}
+\item{inside_rmd}{Logical or \code{NULL}. Whether the function is being called
+from inside a knit session, in which case the actual purl step must be
+delegated to an external R process. When \code{NULL} (the default), this is
+auto-detected via \code{knitr::opts_knit$get("out.format")}.}
 
 \item{inline}{Logical. Default TRUE. Whether to explore inline code for dependencies.}
 
@@ -43,8 +45,11 @@ in case this must be executed in an external R session}
 }
 \value{
 Character vector of packages called with library or require.
-\emph{knitr} and \emph{rmarkdown} are added by default to allow building the vignettes
-if the directory contains "vignettes" in the path
+When the directory contains "vignettes" in its path, \code{knitr} is always added
+and the vignette engine is inferred from the files actually present:
+\code{rmarkdown} is added when \code{.Rmd} files are found, \code{quarto} when \code{.qmd}
+files are found (both when the directory mixes the two). If the directory
+is empty, \code{rmarkdown} is added as a safe default.
 }
 \description{
 Get all packages called in vignettes folder

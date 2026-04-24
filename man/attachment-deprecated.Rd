@@ -16,7 +16,7 @@ att_to_description(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = FALSE
+  inside_rmd = NULL
 )
 }
 \arguments{
@@ -40,8 +40,10 @@ att_to_description(
 
 \item{normalize}{Logical. Whether to normalize the DESCRIPTION file. See \code{\link[desc:desc_normalize]{desc::desc_normalize()}}}
 
-\item{inside_rmd}{Logical. Whether function is run inside a Rmd,
-in case this must be executed in an external R session}
+\item{inside_rmd}{Logical or \code{NULL}. Whether the function is being called
+from inside a knit session, in which case the actual purl step must be
+delegated to an external R process. When \code{NULL} (the default), this is
+auto-detected via \code{knitr::opts_knit$get("out.format")}.}
 }
 \value{
 List of functions used for deprecation side effects.

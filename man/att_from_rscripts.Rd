@@ -8,7 +8,8 @@ att_from_rscripts(
   path = "R",
   pattern = "*.[.](r|R)$",
   recursive = TRUE,
-  folder_to_exclude = "renv"
+  folder_to_exclude = "renv",
+  encoding = getOption("encoding")
 )
 }
 \arguments{
@@ -19,6 +20,10 @@ att_from_rscripts(
 \item{recursive}{logical. Should the listing recurse into directories?}
 
 \item{folder_to_exclude}{Folder to exclude during scan to detect packages. 'renv' by default.}
+
+\item{encoding}{Encoding passed to \code{\link[=readLines]{readLines()}} when reading \code{path}. Defaults
+to \code{getOption("encoding")} so the system locale is respected (important on
+Windows where scripts are often Latin-1 / Windows-1252).}
 }
 \value{
 vector of character of packages names found in the R script

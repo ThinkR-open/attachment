@@ -1,6 +1,66 @@
-# dev version
+# attachment 1.0.0
 
-- fix `create_renv_for_dev` by removing 'renv' from folder_to_include.
+## Detection — new foundation
+
+- `att_from_rscript()` now walks the R syntax tree instead of matching the
+  source text with regexes. Dependency detection no longer produces false
+  positives on `::` inside string literals or comments (e.g. xpath
+  `following-sibling::td`, CSS `label::after`, `sprintf('%s::plot()', ...)`)
+  (#120, #132).
+- The AST walker safely handles "empty" call arguments (`x[, 1]`, `x[1, ]`,
+  empty `switch` alternatives, missing `else` branches). Earlier development
+  drafts of the walker crashed with `argument "el" is missing, with no
+  default` on any script containing these patterns, which would have
+  silently degraded every real-world script to the legacy regex fallback.
+
+## Detection — new patterns recognised
+
+- `att_from_rscript()` also recognises `use("pkg", ...)` (R >= 4.4) (#128),
+  `getFromNamespace("fn", "pkg")`, `loadNamespace()`, and named-argument
+  forms such as `library(package = "pkg")` or
+  `requireNamespace("pkg", lib.loc = "...")`.
+- Fully-qualified dependency-introducing calls such as `base::library(pkg)`,
+  `base::requireNamespace("pkg")`, and `methods::getFromNamespace(fn, "pkg")`
+  are now honoured; the inner package is added to the dependency list.
+- Introspection helpers (`packageVersion()`, `getNamespace()`,
+  `asNamespace()`, `attachNamespace()`) are intentionally **not** treated as
+  dependency introducers to avoid silently widening `Imports` on code that
+  only uses them for feature detection.
+
+## Detection — robustness
+
+- `att_from_rscript()` gains an `encoding` argument (default
+  `getOption("encoding")`) so scripts saved in Latin-1 / Windows-1252 are
+  read with the system locale instead of being forced to UTF-8.
+- `att_from_rscript()` now warns when a file fails to parse as valid R code
+  and the legacy regex-based detector is used as a fallback, so broken
+  scripts are no longer silently degraded.
+- The legacy regex-based fallback detector now accepts underscores in
+  package names (e.g. `my_pkg::fn`). Previously an underscore truncated the
+  detected name to the portion after the underscore, so a single syntax
+  error upstream could corrupt detection across the whole file.
+
+## Vignettes & Rmd / Quarto
+
+- `att_from_rmds()` infers the vignette engine from the files actually
+  present: `quarto` is added when `.qmd` files are found, `rmarkdown` when
+  `.Rmd` files are found, both when the directory mixes the two.
+  Previously `rmarkdown` was forced in for `.qmd`-only projects (#131).
+- `att_from_rmd()` / `att_from_rmds()`: `inside_rmd` now defaults to `NULL`
+  and is auto-detected via `knitr::opts_knit$get("out.format")`, so users
+  no longer have to think about it (#106).
+
+## Maintenance
+
+- Dropped the `{fusen}` development workflow; `R/amend_with_config.R`,
+  `R/create_dependencies_file.R`, `R/dependencies_file_text.R` and their
+  tests are now hand-maintained.
+- Fixed `create_renv_for_dev()` by removing `'renv'` from
+  `folder_to_include`.
+- Added a manual detection edge-case harness at
+  `dev/manual_detection_edge_cases.R` covering ~170 scripted cases (true
+  positives, false positives, known limitations) to make future
+  regressions of the detector obvious.
 
 
 # attachment 0.4.5
