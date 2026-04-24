@@ -23,7 +23,13 @@ att_from_rscript <- function(path) {
 
   lines <- tryCatch(
     readLines(path, warn = FALSE, encoding = "UTF-8"),
-    error = function(e) character(0)
+    error = function(e) {
+      warning(
+        sprintf("Could not read R script '%s': %s", path, conditionMessage(e)),
+        call. = FALSE
+      )
+      character(0)
+    }
   )
   if (length(lines) == 0) return(character(0))
 
