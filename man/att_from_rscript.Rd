@@ -4,10 +4,14 @@
 \alias{att_from_rscript}
 \title{Look for functions called with \code{::} and library/requires in one script}
 \usage{
-att_from_rscript(path)
+att_from_rscript(path, encoding = getOption("encoding"))
 }
 \arguments{
 \item{path}{path to R script file}
+
+\item{encoding}{Encoding passed to \code{\link[=readLines]{readLines()}} when reading \code{path}. Defaults
+to \code{getOption("encoding")} so the system locale is respected (important on
+Windows where scripts are often Latin-1 / Windows-1252).}
 }
 \value{
 a vector
@@ -20,6 +24,10 @@ Uses the R parser to walk the syntax tree so that occurrences of \code{pkg::fun}
 or \code{library()/require()/requireNamespace()/loadNamespace()/use()/getFromNamespace()}
 inside string literals or comments are ignored.
 Named arguments such as \code{library(package = "pkg")} are supported.
+Introspection helpers such as \code{packageVersion()}, \code{getNamespace()},
+\code{asNamespace()}, and \code{attachNamespace()} are \strong{not} treated as dependency
+introducers, because they are commonly used for version or feature checks
+on packages that may or may not be required at runtime.
 }
 \examples{
 dummypackage <- system.file("dummypackage",package = "attachment")

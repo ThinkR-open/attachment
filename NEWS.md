@@ -8,7 +8,16 @@
 - `att_from_rscript()` also recognises `use("pkg", ...)` (R >= 4.4),
   `getFromNamespace("fn", "pkg")`, `loadNamespace()`, and named-argument
   forms such as `library(package = "pkg")` or
-  `requireNamespace("pkg", lib.loc = "...")` (#128, #129).
+  `requireNamespace("pkg", lib.loc = "...")` (#128, #129). Introspection
+  helpers (`packageVersion()`, `getNamespace()`, `asNamespace()`,
+  `attachNamespace()`) are intentionally **not** treated as dependency
+  introducers to avoid silently widening `Imports`.
+- `att_from_rscript()` gains an `encoding` argument (default
+  `getOption("encoding")`) so scripts saved in Latin-1 / Windows-1252 are
+  read with the system locale instead of being forced to UTF-8.
+- `att_from_rscript()` now warns when a file fails to parse as valid R code
+  and the legacy regex-based detector is used as a fallback, so broken
+  scripts are no longer silently degraded.
 - `att_from_rmds()` now adds `quarto` to vignette dependencies when the
   vignettes directory contains `.qmd` files, and only adds `rmarkdown`
   when `.Rmd` files are present (#131).

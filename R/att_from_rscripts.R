@@ -1,6 +1,9 @@
 #' Look for functions called with `::` and library/requires in one script
 #'
 #' @param path path to R script file
+#' @param encoding Encoding passed to [readLines()] when reading `path`. Defaults
+#'  to `getOption("encoding")` so the system locale is respected (important on
+#'  Windows where scripts are often Latin-1 / Windows-1252).
 #'
 #' @importFrom stringr str_extract_all str_replace_all
 #'
@@ -12,6 +15,10 @@
 #' or `library()/require()/requireNamespace()/loadNamespace()/use()/getFromNamespace()`
 #' inside string literals or comments are ignored.
 #' Named arguments such as `library(package = "pkg")` are supported.
+#' Introspection helpers such as `packageVersion()`, `getNamespace()`,
+#' `asNamespace()`, and `attachNamespace()` are **not** treated as dependency
+#' introducers, because they are commonly used for version or feature checks
+#' on packages that may or may not be required at runtime.
 #'
 #' @examples
 #' dummypackage <- system.file("dummypackage",package = "attachment")
@@ -19,10 +26,10 @@
 #'
 #' att_from_rscript(path = file.path(dummypackage,"R","my_mean.R"))
 
-att_from_rscript <- function(path) {
+att_from_rscript <- function(path, encoding = getOption("encoding")) {
 
   lines <- tryCatch(
-    readLines(path, warn = FALSE, encoding = "UTF-8"),
+    readLines(path, warn = FALSE, encoding = encoding),
     error = function(e) {
       warning(
         sprintf("Could not read R script '%s': %s", path, conditionMessage(e)),
@@ -35,7 +42,16 @@ att_from_rscript <- function(path) {
 
   out <- tryCatch(
     parse_pkgs_from_r_code(lines),
-    error = function(e) legacy_pkgs_from_r_code(lines)
+    error = function(e) {
+      warning(
+        sprintf(
+          "Could not parse R script '%s' as valid R code (%s); falling back to text-based detection, which may return false positives.",
+          path, conditionMessage(e)
+        ),
+        call. = FALSE
+      )
+      legacy_pkgs_from_r_code(lines)
+    }
   )
   out <- unique(stats::na.omit(out))
   out <- out[nzchar(out) & out != "base"]
@@ -45,17 +61,16 @@ att_from_rscript <- function(path) {
 
 # Known dependency-introducing function calls and where the package arg lives.
 # Each entry: `arg_name` = canonical named arg, `arg_index` = positional fallback.
+# Kept intentionally narrow: only calls that *load/attach* a package are treated
+# as introducing a dependency. `packageVersion()`, `getNamespace()`, and friends
+# are often used for feature-detection and should not silently expand Imports.
 pkg_intro_calls <- list(
   library          = list(arg_name = "package", arg_index = 1L),
   require          = list(arg_name = "package", arg_index = 1L),
   requireNamespace = list(arg_name = "package", arg_index = 1L),
   loadNamespace    = list(arg_name = "package", arg_index = 1L),
-  attachNamespace  = list(arg_name = "ns",      arg_index = 1L),
   use              = list(arg_name = "package", arg_index = 1L),
-  getFromNamespace = list(arg_name = "ns",      arg_index = 2L),
-  getNamespace     = list(arg_name = "name",    arg_index = 1L),
-  asNamespace      = list(arg_name = "ns",      arg_index = 1L),
-  packageVersion   = list(arg_name = "pkg",     arg_index = 1L)
+  getFromNamespace = list(arg_name = "ns",      arg_index = 2L)
 )
 
 match_call_arg <- function(call_args, arg_name, arg_index) {
@@ -76,11 +91,25 @@ arg_as_string <- function(arg) {
   NA_character_
 }
 
+is_empty_symbol <- function(x) {
+  is.symbol(x) && !nzchar(as.character(x))
+}
+
+# Guard against "empty" call arguments such as the first subscript in `x[, 1]`
+# or the missing `else` branch of `if (cond) a`. Passing the element as a
+# promise avoids triggering "argument is missing, with no default" errors when
+# the element is an empty symbol — we only inspect it, never assign it locally.
+walk_elem <- function(el, walker) {
+  if (missing(el) || is.null(el) || is_empty_symbol(el)) return(invisible())
+  walker(el)
+}
+
 parse_pkgs_from_r_code <- function(lines) {
   exprs <- parse(text = lines, keep.source = FALSE)
   pkgs <- character(0)
 
   walk <- function(x) {
+    if (is_empty_symbol(x) || is.null(x)) return(invisible())
     if (is.call(x)) {
       head <- x[[1]]
       if (is.call(head) && length(head) >= 2) {
@@ -104,16 +133,17 @@ parse_pkgs_from_r_code <- function(lines) {
           if (!is.na(pkg) && nzchar(pkg)) pkgs[[length(pkgs) + 1L]] <<- pkg
         }
       }
-      for (el in as.list(x)[-1]) {
-        if (!missing(el) && !is.null(el)) walk(el)
-      }
+      args <- as.list(x)[-1]
+      for (i in seq_along(args)) walk_elem(args[[i]], walk)
       if (is.call(head)) walk(head)
     } else if (is.expression(x) || is.pairlist(x)) {
-      for (el in as.list(x)) walk(el)
+      xs <- as.list(x)
+      for (i in seq_along(xs)) walk_elem(xs[[i]], walk)
     }
   }
 
-  for (e in as.list(exprs)) walk(e)
+  exprs_list <- as.list(exprs)
+  for (i in seq_along(exprs_list)) walk(exprs_list[[i]])
   unique(pkgs)
 }
 
@@ -144,6 +174,7 @@ legacy_pkgs_from_r_code <- function(lines) {
 #' @param pattern pattern to detect R script files
 #' @param recursive logical. Should the listing recurse into directories?
 #' @param folder_to_exclude Folder to exclude during scan to detect packages. 'renv' by default.
+#' @inheritParams att_from_rscript
 #' @return vector of character of packages names found in the R script
 #'
 #' @export
@@ -154,7 +185,9 @@ legacy_pkgs_from_r_code <- function(lines) {
 #' att_from_rscripts(path = file.path(dummypackage, "R"))
 #' att_from_rscripts(path = list.files(file.path(dummypackage, "R"), full.names = TRUE))
 
-att_from_rscripts <- function(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE, folder_to_exclude = "renv") {
+att_from_rscripts <- function(path = "R", pattern = "*.[.](r|R)$", recursive = TRUE,
+                              folder_to_exclude = "renv",
+                              encoding = getOption("encoding")) {
 
   if (isTRUE(all(dir.exists(path)))) {
     all_f <- list.files(path, full.names = TRUE, pattern = pattern, recursive = recursive)
@@ -174,7 +207,7 @@ att_from_rscripts <- function(path = "R", pattern = "*.[.](r|R)$", recursive = T
   }
 
 
-  lapply(all_f, att_from_rscript) %>%
+  lapply(all_f, att_from_rscript, encoding = encoding) %>%
     unlist() %>%
     unique() %>%
     na.omit()
