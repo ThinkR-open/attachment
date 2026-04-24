@@ -23,11 +23,17 @@ Look for functions called with \code{::} and library/requires in one script
 Uses the R parser to walk the syntax tree so that occurrences of \code{pkg::fun}
 or \code{library()/require()/requireNamespace()/loadNamespace()/use()/getFromNamespace()}
 inside string literals or comments are ignored.
-Named arguments such as \code{library(package = "pkg")} are supported.
+Named arguments such as \code{library(package = "pkg")} are supported, as are
+fully-qualified forms like \code{base::library(pkg)} or
+\code{methods::getFromNamespace(fn, "pkg")}.
 Introspection helpers such as \code{packageVersion()}, \code{getNamespace()},
 \code{asNamespace()}, and \code{attachNamespace()} are \strong{not} treated as dependency
 introducers, because they are commonly used for version or feature checks
 on packages that may or may not be required at runtime.
+
+If the file cannot be parsed as valid R (syntax error, corrupt encoding,
+etc.), the function falls back to a regex-based detector and emits a
+\code{warning()} naming the file so users can investigate.
 }
 \examples{
 dummypackage <- system.file("dummypackage",package = "attachment")

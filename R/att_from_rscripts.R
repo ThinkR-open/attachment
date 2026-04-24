@@ -14,11 +14,17 @@
 #' Uses the R parser to walk the syntax tree so that occurrences of `pkg::fun`
 #' or `library()/require()/requireNamespace()/loadNamespace()/use()/getFromNamespace()`
 #' inside string literals or comments are ignored.
-#' Named arguments such as `library(package = "pkg")` are supported.
+#' Named arguments such as `library(package = "pkg")` are supported, as are
+#' fully-qualified forms like `base::library(pkg)` or
+#' `methods::getFromNamespace(fn, "pkg")`.
 #' Introspection helpers such as `packageVersion()`, `getNamespace()`,
 #' `asNamespace()`, and `attachNamespace()` are **not** treated as dependency
 #' introducers, because they are commonly used for version or feature checks
 #' on packages that may or may not be required at runtime.
+#'
+#' If the file cannot be parsed as valid R (syntax error, corrupt encoding,
+#' etc.), the function falls back to a regex-based detector and emits a
+#' `warning()` naming the file so users can investigate.
 #'
 #' @examples
 #' dummypackage <- system.file("dummypackage",package = "attachment")
@@ -117,6 +123,17 @@ parse_pkgs_from_r_code <- function(lines) {
         if (length(op) == 1 && op %in% c("::", ":::")) {
           ns <- tryCatch(as.character(head[[2]]), error = function(e) NA_character_)
           if (!is.na(ns) && nzchar(ns)) pkgs[[length(pkgs) + 1L]] <<- ns
+          # Also honour fully-qualified dependency-introducing calls such as
+          # `base::library(pkg)`, `base::require(pkg)`, `methods::getFromNamespace(fn, "pkg")`.
+          fn_name <- tryCatch(as.character(head[[3]]), error = function(e) NA_character_)
+          if (length(fn_name) == 1 && !is.na(fn_name) &&
+              fn_name %in% names(pkg_intro_calls)) {
+            spec <- pkg_intro_calls[[fn_name]]
+            call_args <- as.list(x)[-1]
+            arg <- match_call_arg(call_args, spec$arg_name, spec$arg_index)
+            pkg <- arg_as_string(arg)
+            if (!is.na(pkg) && nzchar(pkg)) pkgs[[length(pkgs) + 1L]] <<- pkg
+          }
         }
       } else if (is.name(head)) {
         fn <- as.character(head)
@@ -149,16 +166,18 @@ parse_pkgs_from_r_code <- function(lines) {
 
 # Fallback used only when parse() fails on the input (e.g. non-R snippets).
 # Keeps the historical regex-based behaviour so we never silently drop a file.
+# Character class includes `_` so that package names like `my_pkg` are not
+# truncated to `pkg` — CRAN forbids `_` but many dev / GitHub packages use it.
 legacy_pkgs_from_r_code <- function(lines) {
   file <- gsub("\\\\n", " ", lines)
   file <- file[grep("^\\s*#", file, invert = TRUE)]
-  pkg_points <- unlist(str_extract_all(file, "[[:alnum:]\\.]+(?=::)"))
+  pkg_points <- unlist(str_extract_all(file, "[[:alnum:]\\._]+(?=::)"))
   w.lib <- grep("library|require", file)
   if (length(w.lib)) {
     pkg_lib <- file[w.lib]
     pkg_lib <- unlist(str_extract_all(
       pkg_lib,
-      "(?<=library\\()[[:alnum:]\\.\\\"]+(?=\\))|(?<=require\\()[[:alnum:]\\.\\\"]+(?=\\))|(?<=requireNamespace\\()[[:alnum:]\\.\\\"]+(?=\\))"
+      "(?<=library\\()[[:alnum:]\\._\\\"]+(?=\\))|(?<=require\\()[[:alnum:]\\._\\\"]+(?=\\))|(?<=requireNamespace\\()[[:alnum:]\\._\\\"]+(?=\\))"
     ))
     pkg_lib <- str_replace_all(pkg_lib, "\\\"$|^\\\"", "")
   } else {

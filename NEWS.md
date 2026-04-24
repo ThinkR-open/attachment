@@ -18,6 +18,12 @@
 - `att_from_rscript()` now warns when a file fails to parse as valid R code
   and the legacy regex-based detector is used as a fallback, so broken
   scripts are no longer silently degraded.
+- `att_from_rscript()` now recognises fully-qualified dependency-introducing
+  calls such as `base::library(pkg)`, `base::requireNamespace("pkg")`, and
+  `methods::getFromNamespace(fn, "pkg")`.
+- The legacy regex-based fallback detector now accepts underscores in package
+  names (e.g. `my_pkg::fn`). Previously an underscore truncated the detected
+  name to the portion after the underscore.
 - `att_from_rmds()` now adds `quarto` to vignette dependencies when the
   vignettes directory contains `.qmd` files, and only adds `rmarkdown`
   when `.Rmd` files are present (#131).
