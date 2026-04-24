@@ -16,7 +16,7 @@ att_to_description(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = FALSE
+  inside_rmd = NULL
 )
 }
 \arguments{
