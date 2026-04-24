@@ -1,0 +1,279 @@
+# a-Help during package development
+
+## Load package {attachment}
+
+``` r
+library(attachment)
+```
+
+## Use “dev/dev_history.R”
+
+When building your package, create a file called “dev_history.R” in a
+“dev/” directory. You will store all “manual” calls to `devtools::xxx`
+and `usethis::xxx` in this script.  
+Its first line should be :
+
+``` r
+usethis::use_build_ignore("dev")
+```
+
+You can then call {attachment} in this file to help you build your
+description file.
+
+## Fill your DESCRIPTION file
+
+What you really want is to fill and update your description file along
+with the modifications of your documentation. Indeed, only this function
+will really be called in your “dev/dev_history.R”.  
+Run
+[`attachment::att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+each time before `devtools::check()`, this will save you some warnings
+and errors !
+
+``` r
+att_amend_desc()
+```
+
+## Change default parameters
+
+We recommend to store the {attachment} command in a “dev/dev_history.R”
+file in your package, so that you can update the parameters if not using
+the default ones.
+
+### Use the configuration file
+
+If you run
+[`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+directly in the console, it will use the last set of parameters run the
+last time you updated the configuration file.  
+Hence, you can change the command in your “dev/dev_history.R” with
+`update.config = TRUE`, so that next time, you can run
+[`attachment::att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+directly in the console using these updated parameters.
+
+### Ignore some of the dependencies automatically detected
+
+``` r
+att_amend_desc(pkg_ignore = c("fakepackage.to_ignore", "other.package"), update.config = TRUE)
+```
+
+### Add extra `Suggests` dependencies
+
+``` r
+att_amend_desc(extra.suggests = c("suggested.package.not.detected"), update.config = TRUE)
+```
+
+### Move detected dependencies from `Imports` to `Suggests`
+
+``` r
+att_amend_desc(pkg_ignore = c("package.to.move"), extra.suggests = c("package.to.move"), update.config = TRUE)
+```
+
+Next time, you can run
+[`attachment::att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+without any parameters, it will use the config file.
+
+## A package was not detected by `att_amend_desc`
+
+### I have a Rmarkdown file / Quarto file in my “inst/” directory
+
+In your package, you can have a wrapper around
+[`knitr::knit()`](https://rdrr.io/pkg/knitr/man/knit.html) with a
+specific template that you store in “inst/”. In this case, {attachment}
+will not detect if there are important dependencies that you used inside
+your notebook file that are necessary for your package to work properly.
+Indeed, we can not anticipate if dependencies listed in files in “inst/”
+need to be in “Imports”, “Suggests”, or not listed, depending on your
+use of these files.
+
+For instance, I have a notebook file “inst/my_template.Rmd” as follows,
+with {bookdown} being used only there in my package:
+
+    ---
+    title: "My Super template"
+    author: "John Doe"
+    date: "2026-04-24"
+    output: bookdown::html_document2
+    ---
+
+    # First title
+
+    My text here.
+
+*Suggests* - If I want to present this template in an example only,
+{bookdown} should be listed in “Suggests”. Then I can run this once:
+
+``` r
+att_amend_desc(extra.suggests = c("bookdown"), update.config = TRUE)
+```
+
+*Imports* - If I want to knit it inside a major function of my package,
+it is recommended to declare the dependency in the ‘roxygen’
+documentation of this function.
+
+``` r
+#' Knit my internal template
+#'
+#' @importFrom bookdown html_document2
+#' @export
+#'
+my_knit <- function() {
+  rmarkdown::render(system.file("my_template.Rmd", package = "my.package"))
+}
+```
+
+Then I can directly run
+[`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md).
+
+In the *Imports* case, if for any reason I decide to delete this
+`my_knit()` function, then the {bookdown} dependency won’t be needed
+anymore, and {attachment} will automatically remove it with the next
+[`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+
+## Example on a fake package
+
+If you are running this inside a Rmd like here, you may need parameter
+`inside_rmd = TRUE`.
+
+``` r
+# Copy package in a temporary directory
+tmpdir <- tempfile(pattern = "insidermd")
+dir.create(tmpdir)
+file.copy(system.file("dummypackage",package = "attachment"), tmpdir, recursive = TRUE)
+#> [1] TRUE
+dummypackage <- file.path(tmpdir, "dummypackage")
+# browseURL(dummypackage)
+att_amend_desc(path = dummypackage, inside_rmd = TRUE, update.config = TRUE)
+#> 'update.config' was set to TRUE, hence, 'use.config' was forced to FALSE
+#> Saving attachment parameters to yaml config file
+#> Loading required namespace: rstudioapi
+#> Updating dummypackage documentation
+#> ℹ Setting RoxygenNote to "7.3.3"
+#> Writing NAMESPACE
+#> ℹ Loading dummypackage
+#> Writing NAMESPACE
+#> ℹ Loading dummypackage
+#> Package(s) Rcpp is(are) in category 'LinkingTo'. Check your Description file to be sure it is really what you want.
+
+# Clean temp files after this example
+unlink(tmpdir, recursive = TRUE)
+```
+
+## Propose content for “Remotes” field
+
+[`set_remotes_to_desc()`](https://thinkr-open.github.io/attachment/reference/set_remotes_to_desc.md)
+adds packages that were installed from other source than CRAN to
+`Remotes:` field in DESCRIPTION.
+
+For instance:
+
+- For GitHub: `Remotes: thinkr-open/attachment`
+- For GitLab: `Remotes: gitlab::jimhester/covr`
+- For Git: `Remotes: git::https://theurl/package_git.git`
+- For local package: `Remotes: local::c:\mylocalpackage` or
+  `Remotes: local::subdir/mylocalpackage`
+- For Bioconductor: `Remotes: bioc::3.3/package_bioc`
+- For r-universe: Show a message to inform how to use r-universe with
+  `options`, like
+  `r-universe: need to set options to repos="https://thinkr-open.r-universe.dev"`
+
+You may want to run it after
+[`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md).
+
+``` r
+att_amend_desc(dummypackage) %>%
+  set_remotes_to_desc()
+```
+
+If you only want to find if packages were installed from other source
+than CRAN, without amending DESCRIPTION, you can use
+[`find_remotes()`](https://thinkr-open.github.io/attachment/reference/find_remotes.md).
+
+You can use it on a vector of packages names
+
+``` r
+find_remotes(pkg = c("attachment", "desc", "glue"))
+#> $attachment
+#> local maybe ? 
+#>            NA
+```
+
+You may also want to combine it to
+[`att_from_description()`](https://thinkr-open.github.io/attachment/reference/att_from_description.md)
+
+``` r
+att_from_description() %>%
+  find_remotes()
+```
+
+If you want to get the complete list of packages installed on your
+computer with non-CRAN repositories:
+
+``` r
+find_remotes(list.dirs(.libPaths(), full.names = FALSE, recursive = FALSE))
+```
+
+You can test it if you install {fusen} from GitHub or r-universe:
+
+``` r
+# From GitHub
+remotes::install_github("ThinkR-open/fusen",
+                        quiet = TRUE, upgrade = "never")
+attachment::find_remotes("fusen")
+#> $fusen
+#> [1] "ThinkR-open/fusen"
+
+# From r-universe as default repos
+install.packages("fusen", repos = "https://thinkr-open.r-universe.dev")
+attachment::find_remotes("fusen")
+#> r-universe: need to set options to repos="https://thinkr-open.r-universe.dev" 
+```
+
+## Create a file for package installation
+
+Once your package is finished. Well, is a package ever finished ? Let’s
+say, once you want to release a version of your package, you may want to
+deliver the list of dependencies your users will have to install. A
+little script like `install.packages(c(...all dep...))` would be so nice
+:
+
+``` r
+create_dependencies_file()
+```
+
+This file will be placed in `inst/dependencies.R` and contains :
+
+``` r
+# No Remotes ----
+# remotes::install_github("ThinkR-open/fcuk")
+# Attachments ----
+to_install <- c("covr", "desc", "devtools", "glue", "knitr", "magrittr", "rmarkdown", "stats", "stringr", "testthat", "utils")
+for (i in to_install) {
+  message(paste("looking for ", i))
+  if (!requireNamespace(i)) {
+    message(paste("     installing", i))
+    install.packages(i)
+  }
+}
+```
+
+## Other possibilities
+
+Of course, you can also use {attachment} out of a package to list all
+package dependencies of R scripts using
+[`att_from_rscripts()`](https://thinkr-open.github.io/attachment/reference/att_from_rscripts.md),
+Rmd files using
+[`att_from_rmds()`](https://thinkr-open.github.io/attachment/reference/att_from_rmds.md)
+or examples from R scripts using
+[`att_from_examples()`](https://thinkr-open.github.io/attachment/reference/att_from_examples.md).
+
+``` r
+dummypackage <- system.file("dummypackage", package = "attachment")
+
+att_from_rscripts(path = file.path(dummypackage, "R"))
+#> [1] "stats"
+att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
+#> [1] "knitr"     "rmarkdown" "glue"
+att_from_examples(dir.r = file.path(dummypackage, "R"))
+#> [1] "utils"   "stringr"
+```

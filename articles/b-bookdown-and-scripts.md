@@ -1,0 +1,143 @@
+# Bookdown, quarto and other scripts dependencies
+
+## Load package {attachment}
+
+``` r
+library(attachment)
+```
+
+## Use “dev/dev_history.R”
+
+When building your package, create a file called “dev_history.R” in a
+“dev/” directory. You will store all “manual” calls to `devtools::xxx`
+and `usethis::xxx` in this script.  
+Its first line should be :
+
+``` r
+usethis::use_build_ignore("dev")
+```
+
+You can then call {attachment} in this file to help you build your
+description file.
+
+## Use {attachment} with {bookdown} / {pagedown} / {quarto} dependencies
+
+Dependencies of your Bookdown can be automatically installed if you use
+a “DESCRIPTION” file.  
+Indeed, you can use this procedure to create the DESCRIPTION file for
+local installation or for Continuous Integration with GitLab Pages or
+GitHub Actions. See for instance, the GitLab CI workflows in {gitlabr}:
+<https://github.com/ThinkR-open/gitlabr/tree/main/inst/gitlab-ci>
+
+1.  Create a “DESCRIPTION” file
+
+``` r
+usethis::use_description()
+```
+
+2.  Fill the “DESCRIPTION” file using
+    [`attachment::att_to_desc_from_is()`](https://thinkr-open.github.io/attachment/reference/att_to_desc_from_is.md).
+    *Note that to include it directly in CI (as proposed in {gitlabr}
+    templates), you may need to set
+    `att_to_desc_from_is(must.exist = FALSE)`.*  
+    *Note that
+    [`att_from_rmds()`](https://thinkr-open.github.io/attachment/reference/att_from_rmds.md)
+    also works for “.qmd” documents. You can use
+    [`att_from_qmds()`](https://thinkr-open.github.io/attachment/reference/att_from_rmds.md)
+    if you want, although for now there is no difference and it will
+    also parse “.Rmd” documents.*
+
+``` r
+# bookdown Imports are in Rmds
+imports <- c("bookdown", attachment::att_from_rmds("."))
+
+attachment::att_to_desc_from_is(
+  path.d = "DESCRIPTION",
+  imports = imports, suggests = NULL, 
+  must.exist = FALSE
+)
+```
+
+3.  Install dependencies from the DESCRIPTION file
+
+``` r
+# install.packages("remotes")
+remotes::install_deps()
+```
+
+4.  Build your {bookdown} / {pagedown} / {quarto}
+
+### Propose content for “Remotes” field
+
+An interest of using DESCRIPTION to list your bookdown dependencies is
+to use packages from other sources than CRAN and list them in the
+‘Remotes’ field.  
+Here comes
+[`set_remotes_to_desc()`](https://thinkr-open.github.io/attachment/reference/set_remotes_to_desc.md),
+which adds packages that were installed from other source than CRAN to
+`Remotes:` field in DESCRIPTION.
+
+You can run it after
+[`att_to_desc_from_is()`](https://thinkr-open.github.io/attachment/reference/att_to_desc_from_is.md).
+
+``` r
+attachment::att_to_desc_from_is(
+  path.d = "DESCRIPTION",
+  imports = imports, suggests = NULL, 
+  must.exist = FALSE
+) %>%
+  set_remotes_to_desc()
+```
+
+## Get all packages listed in “namespace”
+
+You can get the list of packages in your package with
+[`att_from_namespace()`](https://thinkr-open.github.io/attachment/reference/att_from_namespace.md)
+
+``` r
+att_from_namespace()
+```
+
+## Get all packages added using `pkg::function` or library/require
+
+This reads all files in directories of R scripts (default to `R`
+directory of a package)
+
+``` r
+att_from_rscripts()
+```
+
+Called in examples from R scripts:
+
+``` r
+att_from_examples()
+```
+
+## Get all packages called in your Rmd
+
+If you have vignette, you may want to list extra libraries, not listed
+in your “Depends” list. This function applies to any Rmd file, of
+course.
+
+``` r
+att_from_rmds()
+```
+
+## Get all packages called in your Rmd and show them in this same Rmd
+
+Of course, you can also use {attachment} out of a package to list all
+package dependencies of R scripts using
+[`att_from_rscripts()`](https://thinkr-open.github.io/attachment/reference/att_from_rscripts.md)
+or Rmd files using
+[`att_from_rmds()`](https://thinkr-open.github.io/attachment/reference/att_from_rmds.md).  
+If you want to run
+[`att_from_rmds()`](https://thinkr-open.github.io/attachment/reference/att_from_rmds.md)
+inside a Rmd as for this vignette, you will need to set
+`att_from_rmds(inside_rmd = TRUE)`
+
+``` r
+dummypackage <- system.file("dummypackage", package = "attachment")
+
+att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)
+#> [1] "knitr"     "rmarkdown" "glue"
+```
