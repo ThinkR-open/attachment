@@ -45,8 +45,11 @@ auto-detected via \code{knitr::opts_knit$get("out.format")}.}
 }
 \value{
 Character vector of packages called with library or require.
-\emph{knitr} and \emph{rmarkdown} are added by default to allow building the vignettes
-if the directory contains "vignettes" in the path
+When the directory contains "vignettes" in its path, \code{knitr} is always added
+and the vignette engine is inferred from the files actually present:
+\code{rmarkdown} is added when \code{.Rmd} files are found, \code{quarto} when \code{.qmd}
+files are found (both when the directory mixes the two). If the directory
+is empty, \code{rmarkdown} is added as a safe default.
 }
 \description{
 Get all packages called in vignettes folder

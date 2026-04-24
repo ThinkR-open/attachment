@@ -101,12 +101,12 @@ is_empty_symbol <- function(x) {
   is.symbol(x) && !nzchar(as.character(x))
 }
 
-# Guard against "empty" call arguments such as the first subscript in `x[, 1]`
-# or the missing `else` branch of `if (cond) a`. Passing the element as a
-# promise avoids triggering "argument is missing, with no default" errors when
-# the element is an empty symbol — we only inspect it, never assign it locally.
+# Skip "empty" AST nodes such as the first subscript in `x[, 1]` or the
+# missing `else` branch of `if (cond) a`. The element is received as a
+# function argument (never bound to a local), which avoids triggering
+# "argument is missing, with no default" errors on empty-symbol values.
 walk_elem <- function(el, walker) {
-  if (missing(el) || is.null(el) || is_empty_symbol(el)) return(invisible())
+  if (is.null(el) || is_empty_symbol(el)) return(invisible())
   walker(el)
 }
 

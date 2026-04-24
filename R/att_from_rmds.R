@@ -89,8 +89,11 @@ att_from_rmd <- function(path, temp_dir = tempdir(), warn = -1,
 #' @inheritParams att_from_rmd
 #'
 #' @return Character vector of packages called with library or require.
-#' \emph{knitr} and \emph{rmarkdown} are added by default to allow building the vignettes
-#'  if the directory contains "vignettes" in the path
+#' When the directory contains "vignettes" in its path, `knitr` is always added
+#' and the vignette engine is inferred from the files actually present:
+#' `rmarkdown` is added when `.Rmd` files are found, `quarto` when `.qmd`
+#' files are found (both when the directory mixes the two). If the directory
+#' is empty, `rmarkdown` is added as a safe default.
 #'
 #' @examples
 #' dummypackage <- system.file("dummypackage",package = "attachment")
