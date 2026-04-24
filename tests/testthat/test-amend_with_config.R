@@ -162,7 +162,7 @@ test_that("att_amend_desc can create, use and update config file", {
                  #paste0("path: ", dummypackage), # no path stored
                  "path.n: NAMESPACE", "path.d: DESCRIPTION", "dir.r: R", "dir.v: vignettes",
                  "dir.t: tests", "extra.suggests: ~", "pkg_ignore: ~", "document: yes",
-                 "normalize: yes", "inside_rmd: no", "must.exist: yes", "check_if_suggests_is_installed: yes"
+                 "normalize: yes", "inside_rmd: ~", "must.exist: yes", "check_if_suggests_is_installed: yes"
                ))
 
   # Do not overwrite if not update.config and not default params
@@ -202,7 +202,7 @@ test_that("att_amend_desc can create, use and update config file", {
                  #paste0("path: ", dummypackage), # no path stored
                  "path.n: NAMESPACE", "path.d: DESCRIPTION", "dir.r: R", "dir.v: vignettes",
                  "dir.t: tests", "extra.suggests: ~", "pkg_ignore: ~", "document: yes",
-                 "normalize: yes", "inside_rmd: no", "must.exist: yes", "check_if_suggests_is_installed: yes"
+                 "normalize: yes", "inside_rmd: ~", "must.exist: yes", "check_if_suggests_is_installed: yes"
                ))
   
   # overwrite config file with new non-default parameters
@@ -224,7 +224,7 @@ test_that("att_amend_desc can create, use and update config file", {
                expected = c(
                  "path.n: NAMESPACE", "path.d: DESCRIPTION", "dir.r: R", "dir.v: vignettes",
                  "dir.t: tests", "extra.suggests: ggplot2", "pkg_ignore: ~", "document: no",
-                 "normalize: yes", "inside_rmd: no", "must.exist: yes", "check_if_suggests_is_installed: no"
+                 "normalize: yes", "inside_rmd: ~", "must.exist: yes", "check_if_suggests_is_installed: no"
                ))
   
   # remove non-default edits, without updating config
