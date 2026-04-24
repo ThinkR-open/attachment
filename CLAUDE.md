@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Common commands
 
-Run from the package root in an R session (the package is developed with `devtools` / `usethis` / `fusen`):
+Run from the package root in an R session (the package is developed with `devtools` / `usethis`; `{fusen}` was used historically but its workflow has been removed):
 
 - `devtools::load_all()` — load the in-development package.
 - `devtools::document()` — regenerate `NAMESPACE` and `man/*.Rd` from roxygen.
