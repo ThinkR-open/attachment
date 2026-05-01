@@ -19,7 +19,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/ThinkR-open/attachment/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/ThinkR-open/attachment/blob/v1.0.0/DESCRIPTION)
 
 Guyader V, Rochette S, Delmotte M, Floc'hlay S (2026). *attachment: Deal
 with Dependencies*. R package version 1.0.0,
