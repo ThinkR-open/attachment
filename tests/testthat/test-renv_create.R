@@ -311,10 +311,16 @@ test_that("suggested package are not in renv prod", {
     # check_if_suggests_is_installed = FALSE,
     force = TRUE)
 
-  base <- paste(readLines(out_renv_file),collapse = " ")
-  expect_false(grepl(pattern = "idontexist",x = base))
-  expect_false(grepl(pattern = "withr",x = base))
-  expect_true(grepl(pattern = "magrittr",x = base))
+  # Parse the lockfile and inspect *top-level* package names rather than
+  # grepping raw JSON text — otherwise a Suggests entry inside another
+  # package's metadata (e.g. `withr` listed under remotes' Suggests) would
+  # leak as a false positive.
+  pkg_in_lock <- names(
+    getFromNamespace("lockfile", "renv")(out_renv_file)$data()$Packages
+  )
+  expect_false("idontexist" %in% pkg_in_lock)
+  expect_false("withr" %in% pkg_in_lock)
+  expect_true("magrittr" %in% pkg_in_lock)
 
   unlink(dummypackage, recursive = TRUE)
 }
@@ -411,12 +417,14 @@ test_that("suggested package are not in renv prod even from vignettes", {
     # check_if_suggests_is_installed = FALSE,
     force = TRUE)
 
-  base <- paste(readLines(out_renv_file),collapse = " ")
-  expect_false(grepl(pattern = "idontexist",x = base))
-  expect_false(grepl(pattern = "withr",x = base))
-  expect_false(grepl(pattern = "ggplot3",x = base))
-  expect_false(grepl(pattern = "glue",x = base))
-  expect_true(grepl(pattern = "magrittr",x = base))
+  pkg_in_lock <- names(
+    getFromNamespace("lockfile", "renv")(out_renv_file)$data()$Packages
+  )
+  expect_false("idontexist" %in% pkg_in_lock)
+  expect_false("withr" %in% pkg_in_lock)
+  expect_false("ggplot3" %in% pkg_in_lock)
+  expect_false("glue" %in% pkg_in_lock)
+  expect_true("magrittr" %in% pkg_in_lock)
 
   unlink(dummypackage, recursive = TRUE)
   file.remove(out_renv_file)
@@ -462,12 +470,14 @@ test_that("suggested package are not in renv prod even from vignettes", {
     # check_if_suggests_is_installed = FALSE,
     force = TRUE)
 
-  base <- paste(readLines(out_renv_file),collapse = " ")
-  expect_false(grepl(pattern = "idontexist",x = base))
-  expect_false(grepl(pattern = "withr",x = base))
-  expect_false(grepl(pattern = "ggplot3",x = base))
-  expect_false(grepl(pattern = "glue",x = base))
-  expect_true(grepl(pattern = "magrittr",x = base))
+  pkg_in_lock <- names(
+    getFromNamespace("lockfile", "renv")(out_renv_file)$data()$Packages
+  )
+  expect_false("idontexist" %in% pkg_in_lock)
+  expect_false("withr" %in% pkg_in_lock)
+  expect_false("ggplot3" %in% pkg_in_lock)
+  expect_false("glue" %in% pkg_in_lock)
+  expect_true("magrittr" %in% pkg_in_lock)
 
   unlink(dummypackage, recursive = TRUE)
   file.remove(out_renv_file)
