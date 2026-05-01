@@ -6,8 +6,10 @@
   on inline R inside roxygen2 markdown tags such as
   `@param x \`r helper("x")\`` when `helper()` is a package-local function.
   Previously, `att_from_examples()` delegated to `roxygen2::parse_file()`,
-  which evaluated inline R against an empty environment and emitted a
-  cascade of `could not find function "helper"` messages for each tag.
+  which evaluated inline R against `baseenv()` (roxygen2's fallback when
+  no package env is registered) — base R is reachable, but package-local
+  helpers are not, so each affected tag emitted
+  `could not find function "helper"`.
   Example detection now uses a focused regex over the source instead of
   the full roxygen2 tokenizer (#135).
 

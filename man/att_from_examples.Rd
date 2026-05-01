@@ -4,10 +4,14 @@
 \alias{att_from_examples}
 \title{Get all packages called in examples from R files}
 \usage{
-att_from_examples(dir.r = "R")
+att_from_examples(dir.r = "R", encoding = getOption("encoding"))
 }
 \arguments{
 \item{dir.r}{path to directory with R scripts.}
+
+\item{encoding}{Encoding passed to \code{\link[=readLines]{readLines()}} when reading source files.
+Defaults to \code{getOption("encoding")} so the system locale is respected,
+matching \code{\link[=att_from_rscript]{att_from_rscript()}}.}
 }
 \value{
 Character vector of packages called with library or require.
