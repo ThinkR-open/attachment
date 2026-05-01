@@ -138,6 +138,7 @@ these parameters from the configuration file directly.
 ## Examples
 
 ``` r
+
 # Run on an external "dummypackage" as an example
 # For your local use, you do not have to specify the `path` as below
 # By default, `att_amend_desc()` will run on the current working directory

@@ -33,6 +33,7 @@ A character vector with packages names
 ## Examples
 
 ``` r
+
 dummypackage <- system.file("dummypackage", package = "attachment")
 # browseURL(dummypackage)
 att_from_description(path = file.path(dummypackage, "DESCRIPTION"))

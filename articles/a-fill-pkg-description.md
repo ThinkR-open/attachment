@@ -3,6 +3,7 @@
 ## Load package {attachment}
 
 ``` r
+
 library(attachment)
 ```
 
@@ -14,6 +15,7 @@ and `usethis::xxx` in this script.
 Its first line should be :
 
 ``` r
+
 usethis::use_build_ignore("dev")
 ```
 
@@ -31,6 +33,7 @@ each time before `devtools::check()`, this will save you some warnings
 and errors !
 
 ``` r
+
 att_amend_desc()
 ```
 
@@ -54,18 +57,21 @@ directly in the console using these updated parameters.
 ### Ignore some of the dependencies automatically detected
 
 ``` r
+
 att_amend_desc(pkg_ignore = c("fakepackage.to_ignore", "other.package"), update.config = TRUE)
 ```
 
 ### Add extra `Suggests` dependencies
 
 ``` r
+
 att_amend_desc(extra.suggests = c("suggested.package.not.detected"), update.config = TRUE)
 ```
 
 ### Move detected dependencies from `Imports` to `Suggests`
 
 ``` r
+
 att_amend_desc(pkg_ignore = c("package.to.move"), extra.suggests = c("package.to.move"), update.config = TRUE)
 ```
 
@@ -92,7 +98,7 @@ with {bookdown} being used only there in my package:
     ---
     title: "My Super template"
     author: "John Doe"
-    date: "2026-04-24"
+    date: "2026-05-01"
     output: bookdown::html_document2
     ---
 
@@ -104,6 +110,7 @@ with {bookdown} being used only there in my package:
 {bookdown} should be listed in “Suggests”. Then I can run this once:
 
 ``` r
+
 att_amend_desc(extra.suggests = c("bookdown"), update.config = TRUE)
 ```
 
@@ -112,6 +119,7 @@ it is recommended to declare the dependency in the ‘roxygen’
 documentation of this function.
 
 ``` r
+
 #' Knit my internal template
 #'
 #' @importFrom bookdown html_document2
@@ -136,6 +144,7 @@ If you are running this inside a Rmd like here, you may need parameter
 `inside_rmd = TRUE`.
 
 ``` r
+
 # Copy package in a temporary directory
 tmpdir <- tempfile(pattern = "insidermd")
 dir.create(tmpdir)
@@ -181,6 +190,7 @@ You may want to run it after
 [`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md).
 
 ``` r
+
 att_amend_desc(dummypackage) %>%
   set_remotes_to_desc()
 ```
@@ -192,6 +202,7 @@ than CRAN, without amending DESCRIPTION, you can use
 You can use it on a vector of packages names
 
 ``` r
+
 find_remotes(pkg = c("attachment", "desc", "glue"))
 #> $attachment
 #> local maybe ? 
@@ -202,6 +213,7 @@ You may also want to combine it to
 [`att_from_description()`](https://thinkr-open.github.io/attachment/reference/att_from_description.md)
 
 ``` r
+
 att_from_description() %>%
   find_remotes()
 ```
@@ -210,12 +222,14 @@ If you want to get the complete list of packages installed on your
 computer with non-CRAN repositories:
 
 ``` r
+
 find_remotes(list.dirs(.libPaths(), full.names = FALSE, recursive = FALSE))
 ```
 
 You can test it if you install {fusen} from GitHub or r-universe:
 
 ``` r
+
 # From GitHub
 remotes::install_github("ThinkR-open/fusen",
                         quiet = TRUE, upgrade = "never")
@@ -238,12 +252,14 @@ little script like `install.packages(c(...all dep...))` would be so nice
 :
 
 ``` r
+
 create_dependencies_file()
 ```
 
 This file will be placed in `inst/dependencies.R` and contains :
 
 ``` r
+
 # No Remotes ----
 # remotes::install_github("ThinkR-open/fcuk")
 # Attachments ----
@@ -268,6 +284,7 @@ or examples from R scripts using
 [`att_from_examples()`](https://thinkr-open.github.io/attachment/reference/att_from_examples.md).
 
 ``` r
+
 dummypackage <- system.file("dummypackage", package = "attachment")
 
 att_from_rscripts(path = file.path(dummypackage, "R"))

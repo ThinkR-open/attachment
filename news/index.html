@@ -39,12 +39,12 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0" id="attachment-100">attachment 1.0.0<a class="anchor" aria-label="anchor" href="#attachment-100"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.0.0" id="attachment-100">attachment 1.0.0<a class="anchor" aria-label="anchor" href="#attachment-100"></a></h2><p class="text-muted">CRAN release: 2026-04-25</p>
 <div class="section level3">
 <h3 id="detection--new-foundation-1-0-0">Detection — new foundation<a class="anchor" aria-label="anchor" href="#detection--new-foundation-1-0-0"></a></h3>
 <ul><li>
 <code><a href="../reference/att_from_rscript.html">att_from_rscript()</a></code> now walks the R syntax tree instead of matching the source text with regexes. Dependency detection no longer produces false positives on <code>::</code> inside string literals or comments (e.g. xpath <code>following-sibling::td</code>, CSS <code>label::after</code>, <code>sprintf('%s::plot()', ...)</code>) (<a href="https://github.com/ThinkR-open/attachment/issues/120" class="external-link">#120</a>, <a href="https://github.com/ThinkR-open/attachment/issues/132" class="external-link">#132</a>).</li>
-<li>The AST walker safely handles “empty” call arguments (<code>x[, 1]</code>, <code>x[1, ]</code>, empty <code>switch</code> alternatives, missing <code>else</code> branches). Earlier development drafts of the walker crashed with <code>argument "el" is missing, with no   default</code> on any script containing these patterns, which would have silently degraded every real-world script to the legacy regex fallback.</li>
+<li>The AST walker safely handles “empty” call arguments (<code>x[, 1]</code>, <code>x[1, ]</code>, empty <code>switch</code> alternatives, missing <code>else</code> branches). Earlier development drafts of the walker crashed with <code>argument "el" is missing, with no default</code> on any script containing these patterns, which would have silently degraded every real-world script to the legacy regex fallback.</li>
 </ul></div>
 <div class="section level3">
 <h3 id="detection--new-patterns-recognised-1-0-0">Detection — new patterns recognised<a class="anchor" aria-label="anchor" href="#detection--new-patterns-recognised-1-0-0"></a></h3>

@@ -1,6 +1,7 @@
 # Use {renv} with developers tools
 
 ``` r
+
 library(attachment)
 ```
 
@@ -32,6 +33,7 @@ before sending your commit to your remote git server. Use `_default`
 (with underscore), to use the default list.
 
 ``` r
+
 create_renv_for_dev() # with all default above
 create_renv_for_dev(dev_pkg = "attachment") # with {attachment} only
 create_renv_for_dev(dev_pkg = c("_default", "DT")) # for all default and {DT}
@@ -45,5 +47,6 @@ Indeed, your users only need to install packages listed in your
 development.
 
 ``` r
+
 create_renv_for_prod(output = "renv.lock.prod")
 ```

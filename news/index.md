@@ -2,6 +2,8 @@
 
 ## attachment 1.0.0
 
+CRAN release: 2026-04-25
+
 ### Detection — new foundation
 
 - [`att_from_rscript()`](https://thinkr-open.github.io/attachment/reference/att_from_rscript.md)

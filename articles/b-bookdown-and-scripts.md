@@ -3,6 +3,7 @@
 ## Load package {attachment}
 
 ``` r
+
 library(attachment)
 ```
 
@@ -14,6 +15,7 @@ and `usethis::xxx` in this script.
 Its first line should be :
 
 ``` r
+
 usethis::use_build_ignore("dev")
 ```
 
@@ -32,6 +34,7 @@ GitHub Actions. See for instance, the GitLab CI workflows in {gitlabr}:
 1.  Create a “DESCRIPTION” file
 
 ``` r
+
 usethis::use_description()
 ```
 
@@ -48,6 +51,7 @@ usethis::use_description()
     also parse “.Rmd” documents.*
 
 ``` r
+
 # bookdown Imports are in Rmds
 imports <- c("bookdown", attachment::att_from_rmds("."))
 
@@ -61,6 +65,7 @@ attachment::att_to_desc_from_is(
 3.  Install dependencies from the DESCRIPTION file
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_deps()
 ```
@@ -81,6 +86,7 @@ You can run it after
 [`att_to_desc_from_is()`](https://thinkr-open.github.io/attachment/reference/att_to_desc_from_is.md).
 
 ``` r
+
 attachment::att_to_desc_from_is(
   path.d = "DESCRIPTION",
   imports = imports, suggests = NULL, 
@@ -95,6 +101,7 @@ You can get the list of packages in your package with
 [`att_from_namespace()`](https://thinkr-open.github.io/attachment/reference/att_from_namespace.md)
 
 ``` r
+
 att_from_namespace()
 ```
 
@@ -104,12 +111,14 @@ This reads all files in directories of R scripts (default to `R`
 directory of a package)
 
 ``` r
+
 att_from_rscripts()
 ```
 
 Called in examples from R scripts:
 
 ``` r
+
 att_from_examples()
 ```
 
@@ -120,6 +129,7 @@ in your “Depends” list. This function applies to any Rmd file, of
 course.
 
 ``` r
+
 att_from_rmds()
 ```
 
@@ -136,6 +146,7 @@ inside a Rmd as for this vignette, you will need to set
 `att_from_rmds(inside_rmd = TRUE)`
 
 ``` r
+
 dummypackage <- system.file("dummypackage", package = "attachment")
 
 att_from_rmds(path = file.path(dummypackage, "vignettes"), inside_rmd = TRUE)

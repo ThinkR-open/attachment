@@ -62,6 +62,7 @@ vector of character of packages names found in the Rmd
 ## Examples
 
 ``` r
+
 dummypackage <- system.file("dummypackage",package = "attachment")
 # browseURL(dummypackage)
 att_from_rmd(path = file.path(dummypackage,"vignettes/demo.Rmd"))

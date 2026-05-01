@@ -25,6 +25,7 @@ datasets are being loaded.
 ## Examples
 
 ``` r
+
 vec_char <- 'data("starwars", package = "dplyr")'
 att_from_data(vec_char)
 #> [1] "dplyr"

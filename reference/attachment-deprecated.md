@@ -79,6 +79,6 @@ the deprecated function.
 
 ## Details
 
-|                      |                                                                                                     |
-|----------------------|-----------------------------------------------------------------------------------------------------|
+|  |  |
+|----|----|
 | `att_to_description` | is now called `att_amend_desc` so that it is the first function proposed when using auto-completion |

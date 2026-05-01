@@ -26,12 +26,14 @@ See full documentation realized using {pkgdown} at
 CRAN version
 
 ``` r
+
 install.packages("attachment")
 ```
 
 Development version
 
 ``` r
+
 install.packages('attachment', repos = c('https://thinkr-open.r-universe.dev', 'https://cloud.r-project.org'))
 ```
 
@@ -43,6 +45,7 @@ function will really be called. Use and abuse during the development of
 your package !
 
 ``` r
+
 attachment::att_amend_desc()
 ```
 
@@ -60,6 +63,7 @@ listed in any script in your package, a call for your development
 packages would be:
 
 ``` r
+
 attachment::att_amend_desc(extra.suggests = c("pkgdown", "covr"), update.config = TRUE)
 ```
 
@@ -87,12 +91,14 @@ you can add dependencies in the “Remotes” field of your DESCRIPTION
 file, to mimic your local installation, you will use:
 
 ``` r
+
 attachment::set_remotes_to_desc()
 ```
 
 ## Example on a fake package
 
 ``` r
+
 # Copy example package in a temporary directory
 tmpdir <- tempfile(pattern = "fakepkg")
 dir.create(tmpdir)
@@ -135,6 +141,7 @@ Behind the scene, it uses
   - Also works for GitLab, Bioconductor, Git, Local installations
 
 ``` r
+
 # From GitHub
 remotes::install_github("ThinkR-open/fusen",
                         quiet = TRUE, upgrade = "never")
@@ -148,6 +155,7 @@ attachment::find_remotes("fusen")
 To quickly install missing packages from a DESCRIPTION file, use:
 
 ``` r
+
 attachment::install_from_description()
 #> All required packages are installed
 ```
@@ -156,6 +164,7 @@ To quickly install missing packages needed to compile Rmd files or run R
 scripts, use:
 
 ``` r
+
 attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
 
 attachment::att_from_rscripts(path = ".") %>% attachment::install_if_missing()
@@ -167,6 +176,7 @@ will create a `dependencies.R` file in `inst/` directory. This R script
 contains the procedure to quickly install missing dependencies:
 
 ``` r
+
 # Remotes ----
 # remotes::install_github("ThinkR-open/fcuk")
 # Attachments ----
@@ -189,6 +199,7 @@ the function to description from import/suggest:
 [`att_to_desc_from_is()`](https://thinkr-open.github.io/attachment/reference/att_to_desc_from_is.md).
 
 ``` r
+
 usethis::use_description()
 # bookdown Imports are in Rmds
 imports <- c("bookdown", attachment::att_from_rmds("."))
@@ -199,6 +210,7 @@ attachment::att_to_desc_from_is(path.d = "DESCRIPTION",
 Then, install dependencies with
 
 ``` r
+
 remotes::install_deps()
 ```
 
@@ -213,6 +225,7 @@ If you are running this inside a Rmd, you may need parameter
 `inside_rmd = TRUE`.
 
 ``` r
+
 library(attachment)
 dummypackage <- system.file("dummypackage", package = "attachment")
 
@@ -231,6 +244,7 @@ the root directory of your package. (*Have a look at
 in the present package*)
 
 ``` r
+
 vignette("a-fill-pkg-description", package = "attachment")
 vignette("b-bookdown-and-scripts", package = "attachment")
 vignette("use_renv", package = "attachment")

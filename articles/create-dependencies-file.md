@@ -1,6 +1,7 @@
 # Create dependencies file
 
 ``` r
+
 library(attachment)
 ```
 
@@ -18,6 +19,7 @@ the full list of each dependency to install and how, from any
 “DESCRIPTION” file.
 
 ``` r
+
 # Create a fake package
 tmpdir <- tempfile(pattern = "depsfile")
 dir.create(tmpdir)
