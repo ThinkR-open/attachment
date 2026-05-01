@@ -127,3 +127,83 @@ test_that("bad namespace can be corrected", {
 unlink(dummypackage, recursive = TRUE)
 unlink(tmpdir, recursive = TRUE)
 
+# Issue #135: inline R in @param must resolve package-local functions ----
+tmpdir <- tempfile(pattern = "pkginline")
+dir.create(tmpdir)
+file.copy(
+  system.file("dummypackage", package = "attachment"), tmpdir,
+  recursive = TRUE)
+dummypackage <- file.path(tmpdir, "dummypackage")
+
+# Enable roxygen markdown so inline R inside @param is actually evaluated
+desc_file <- file.path(dummypackage, "DESCRIPTION")
+writeLines(
+  c(readLines(desc_file), "Roxygen: list(markdown = TRUE)"),
+  desc_file
+)
+
+# Add an exported helper that the @param will call inline
+helper_file <- file.path(dummypackage, "R", "helper.R")
+writeLines(
+  c(
+    "#' Return a doc snippet",
+    "#' @param name a name",
+    "#' @return a string",
+    "#' @export",
+    "helper <- function(name) {",
+    "  paste('a', name, 'parameter')",
+    "}"
+  ),
+  helper_file
+)
+
+# Rewrite my_mean.R so its @param uses inline R calling the package-local helper
+my_mean_file <- file.path(dummypackage, "R", "my_mean.R")
+writeLines(
+  c(
+    "#' my_mean",
+    "#'",
+    "#' @param x `r helper(\"x\")`",
+    "#'",
+    "#' @export",
+    "#' @importFrom magrittr %>%",
+    "my_mean <- function(x){",
+    "  x <- x %>% stats::na.omit()",
+    "  sum(x) / base::length(x)",
+    "}"
+  ),
+  my_mean_file
+)
+
+test_that("inline R in @param resolves package-local functions (#135)", {
+  unlink(file.path(dummypackage, "man"), recursive = TRUE)
+
+  captured <- character()
+  withCallingHandlers(
+    att_amend_desc(dummypackage),
+    message = function(m) {
+      captured <<- c(captured, conditionMessage(m))
+      invokeRestart("muffleMessage")
+    },
+    warning = function(w) {
+      captured <<- c(captured, conditionMessage(w))
+      invokeRestart("muffleWarning")
+    }
+  )
+
+  expect_false(
+    any(grepl("could not find function", captured, fixed = TRUE)),
+    info = paste0(
+      "Inline R in @param failed to resolve `helper()`. Captured conditions:\n",
+      paste(captured, collapse = "\n")
+    )
+  )
+
+  rd_file <- file.path(dummypackage, "man", "my_mean.Rd")
+  expect_true(file.exists(rd_file))
+  rd_content <- paste(readLines(rd_file), collapse = "\n")
+  expect_match(rd_content, "a x parameter", fixed = TRUE)
+})
+
+unlink(tmpdir, recursive = TRUE)
+
