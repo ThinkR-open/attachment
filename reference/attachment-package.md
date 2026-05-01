@@ -25,7 +25,7 @@ Useful links:
 
 Authors:
 
-- Sébastien Rochette <sebastien@thinkr.fr>
+- Sébastien Rochette <sebastienrochettefr@gmail.com>
   ([ORCID](https://orcid.org/0000-0002-1565-9313)) (previous maintainer)
 
 - Murielle Delmotte <murielle@thinkr.fr>

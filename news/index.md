@@ -1,5 +1,24 @@
 # Changelog
 
+## attachment 0.4.5
+
+CRAN release: 2025-03-14
+
+### Bug fixes
+
+- [`att_from_examples()`](https://thinkr-open.github.io/attachment/reference/att_from_examples.md)
+  Removed escape characters (`\`) from Roxygen examples.
+
+## attachment 0.4.4
+
+CRAN release: 2025-02-08
+
+### Patch
+
+- [`att_from_examples()`](https://thinkr-open.github.io/attachment/reference/att_from_examples.md)
+  Fixed the selection of `.R` files in the source directory.
+  ([\#124](https://github.com/ThinkR-open/attachment/issues/124))
+
 ## attachment 0.4.3
 
 CRAN release: 2025-01-31

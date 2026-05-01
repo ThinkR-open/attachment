@@ -37,7 +37,7 @@ file.copy(system.file("dummypackage", package = "attachment"), tmpdir,
 #> [1] TRUE
 dummypackage <- file.path(tmpdir, "dummypackage")
 # Add remotes field if there are Remotes locally
-att_amend_desc(dummypackage) |>
+att_amend_desc(dummypackage) %>%
   set_remotes_to_desc()
 #> Saving attachment parameters to yaml config file
 #> Updating dummypackage documentation
@@ -55,7 +55,7 @@ unlink(tmpdir, recursive = TRUE)
 
 if (FALSE) { # \dontrun{
 # For your current package
-att_amend_desc() |>
+att_amend_desc() %>%
   set_remotes_to_desc()
 } # }
 ```

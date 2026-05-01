@@ -165,9 +165,9 @@ scripts, use:
 
 ``` r
 
-attachment::att_from_rmds(path = ".") |> attachment::install_if_missing()
+attachment::att_from_rmds(path = ".") %>% attachment::install_if_missing()
 
-attachment::att_from_rscripts(path = ".") |> attachment::install_if_missing()
+attachment::att_from_rscripts(path = ".") %>% attachment::install_if_missing()
 ```
 
 Function

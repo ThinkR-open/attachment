@@ -19,16 +19,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/ThinkR-open/attachment/blob/v0.4.3/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/ThinkR-open/attachment/blob/v0.4.5/DESCRIPTION)
 
 Guyader V, Rochette S, Delmotte M, Floc'hlay S (2026). *attachment: Deal
-with Dependencies*. R package version 0.4.3,
+with Dependencies*. R package version 0.4.5,
 <https://thinkr-open.github.io/attachment/>.
 
     @Manual{,
       title = {attachment: Deal with Dependencies},
       author = {Vincent Guyader and Sébastien Rochette and Murielle Delmotte and Swann Floc'hlay},
       year = {2026},
-      note = {R package version 0.4.3},
+      note = {R package version 0.4.5},
       url = {https://thinkr-open.github.io/attachment/},
     }
