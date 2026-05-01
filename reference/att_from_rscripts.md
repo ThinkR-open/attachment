@@ -10,8 +10,7 @@ att_from_rscripts(
   path = "R",
   pattern = "*.[.](r|R)$",
   recursive = TRUE,
-  folder_to_exclude = "renv",
-  encoding = getOption("encoding")
+  folder_to_exclude = "renv"
 )
 ```
 
@@ -32,14 +31,6 @@ att_from_rscripts(
 - folder_to_exclude:
 
   Folder to exclude during scan to detect packages. 'renv' by default.
-
-- encoding:
-
-  Encoding passed to
-  [`readLines()`](https://rdrr.io/r/base/readLines.html) when reading
-  `path`. Defaults to `getOption("encoding")` so the system locale is
-  respected (important on Windows where scripts are often Latin-1 /
-  Windows-1252).
 
 ## Value
 

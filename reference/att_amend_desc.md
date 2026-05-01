@@ -19,7 +19,7 @@ att_amend_desc(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = NULL,
+  inside_rmd = FALSE,
   must.exist = TRUE,
   check_if_suggests_is_installed = TRUE,
   update.config = FALSE,
@@ -38,7 +38,7 @@ att_to_desc_from_pkg(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = NULL,
+  inside_rmd = FALSE,
   must.exist = TRUE,
   check_if_suggests_is_installed = TRUE,
   update.config = FALSE,
@@ -94,10 +94,8 @@ att_to_desc_from_pkg(
 
 - inside_rmd:
 
-  Logical or `NULL`. Whether the function is being called from inside a
-  knit session, in which case the actual purl step must be delegated to
-  an external R process. When `NULL` (the default), this is
-  auto-detected via `knitr::opts_knit$get("out.format")`.
+  Logical. Whether function is run inside a Rmd, in case this must be
+  executed in an external R session
 
 - must.exist:
 

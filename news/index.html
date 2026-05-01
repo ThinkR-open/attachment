@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">attachment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,62 +35,9 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/ThinkR-open/attachment/blob/v1.0.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/ThinkR-open/attachment/blob/v0.4.3/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0" id="attachment-100">attachment 1.0.0<a class="anchor" aria-label="anchor" href="#attachment-100"></a></h2><p class="text-muted">CRAN release: 2026-04-25</p>
-<div class="section level3">
-<h3 id="detection--new-foundation-1-0-0">Detection — new foundation<a class="anchor" aria-label="anchor" href="#detection--new-foundation-1-0-0"></a></h3>
-<ul><li>
-<code><a href="../reference/att_from_rscript.html">att_from_rscript()</a></code> now walks the R syntax tree instead of matching the source text with regexes. Dependency detection no longer produces false positives on <code>::</code> inside string literals or comments (e.g. xpath <code>following-sibling::td</code>, CSS <code>label::after</code>, <code>sprintf('%s::plot()', ...)</code>) (<a href="https://github.com/ThinkR-open/attachment/issues/120" class="external-link">#120</a>, <a href="https://github.com/ThinkR-open/attachment/issues/132" class="external-link">#132</a>).</li>
-<li>The AST walker safely handles “empty” call arguments (<code>x[, 1]</code>, <code>x[1, ]</code>, empty <code>switch</code> alternatives, missing <code>else</code> branches). Earlier development drafts of the walker crashed with <code>argument "el" is missing, with no default</code> on any script containing these patterns, which would have silently degraded every real-world script to the legacy regex fallback.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="detection--new-patterns-recognised-1-0-0">Detection — new patterns recognised<a class="anchor" aria-label="anchor" href="#detection--new-patterns-recognised-1-0-0"></a></h3>
-<ul><li>
-<code><a href="../reference/att_from_rscript.html">att_from_rscript()</a></code> also recognises <code>use("pkg", ...)</code> (R &gt;= 4.4) (<a href="https://github.com/ThinkR-open/attachment/issues/128" class="external-link">#128</a>), <code>getFromNamespace("fn", "pkg")</code>, <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">loadNamespace()</a></code>, and named-argument forms such as <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(package = "pkg")</a></code> or <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace("pkg", lib.loc = "...")</a></code>.</li>
-<li>Fully-qualified dependency-introducing calls such as <code><a href="https://rdrr.io/r/base/library.html" class="external-link">base::library(pkg)</a></code>, <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">base::requireNamespace("pkg")</a></code>, and <code>methods::getFromNamespace(fn, "pkg")</code> are now honoured; the inner package is added to the dependency list.</li>
-<li>Introspection helpers (<code><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion()</a></code>, <code><a href="https://rdrr.io/r/base/ns-reflect.html" class="external-link">getNamespace()</a></code>, <code><a href="https://rdrr.io/r/base/ns-internal.html" class="external-link">asNamespace()</a></code>, <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">attachNamespace()</a></code>) are intentionally <strong>not</strong> treated as dependency introducers to avoid silently widening <code>Imports</code> on code that only uses them for feature detection.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="detection--robustness-1-0-0">Detection — robustness<a class="anchor" aria-label="anchor" href="#detection--robustness-1-0-0"></a></h3>
-<ul><li>
-<code><a href="../reference/att_from_rscript.html">att_from_rscript()</a></code> gains an <code>encoding</code> argument (default <code>getOption("encoding")</code>) so scripts saved in Latin-1 / Windows-1252 are read with the system locale instead of being forced to UTF-8.</li>
-<li>
-<code><a href="../reference/att_from_rscript.html">att_from_rscript()</a></code> now warns when a file fails to parse as valid R code and the legacy regex-based detector is used as a fallback, so broken scripts are no longer silently degraded.</li>
-<li>The legacy regex-based fallback detector now accepts underscores in package names (e.g. <code>my_pkg::fn</code>). Previously an underscore truncated the detected name to the portion after the underscore, so a single syntax error upstream could corrupt detection across the whole file.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="vignettes--rmd--quarto-1-0-0">Vignettes &amp; Rmd / Quarto<a class="anchor" aria-label="anchor" href="#vignettes--rmd--quarto-1-0-0"></a></h3>
-<ul><li>
-<code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> infers the vignette engine from the files actually present: <code>quarto</code> is added when <code>.qmd</code> files are found, <code>rmarkdown</code> when <code>.Rmd</code> files are found, both when the directory mixes the two. Previously <code>rmarkdown</code> was forced in for <code>.qmd</code>-only projects (<a href="https://github.com/ThinkR-open/attachment/issues/131" class="external-link">#131</a>).</li>
-<li>
-<code><a href="../reference/att_from_rmd.html">att_from_rmd()</a></code> / <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code>: <code>inside_rmd</code> now defaults to <code>NULL</code> and is auto-detected via <code>knitr::opts_knit$get("out.format")</code>, so users no longer have to think about it (<a href="https://github.com/ThinkR-open/attachment/issues/106" class="external-link">#106</a>).</li>
-</ul></div>
-<div class="section level3">
-<h3 id="maintenance-1-0-0">Maintenance<a class="anchor" aria-label="anchor" href="#maintenance-1-0-0"></a></h3>
-<ul><li>Dropped the <a href="https://thinkr-open.github.io/fusen/" class="external-link">fusen</a> development workflow; <code>R/amend_with_config.R</code>, <code>R/create_dependencies_file.R</code>, <code>R/dependencies_file_text.R</code> and their tests are now hand-maintained.</li>
-<li>Fixed <code><a href="../reference/create_renv_for_dev.html">create_renv_for_dev()</a></code> by removing <code>'renv'</code> from <code>folder_to_include</code>.</li>
-<li>Added a manual detection edge-case harness at <code>dev/manual_detection_edge_cases.R</code> covering ~170 scripted cases (true positives, false positives, known limitations) to make future regressions of the detector obvious.</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.5" id="attachment-045">attachment 0.4.5<a class="anchor" aria-label="anchor" href="#attachment-045"></a></h2><p class="text-muted">CRAN release: 2025-03-14</p>
-<div class="section level3">
-<h3 id="bug-fixes-0-4-5">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-0-4-5"></a></h3>
-<ul><li>
-<code><a href="../reference/att_from_examples.html">att_from_examples()</a></code> Removed escape characters (<code>\</code>) from Roxygen examples.</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.4" id="attachment-044">attachment 0.4.4<a class="anchor" aria-label="anchor" href="#attachment-044"></a></h2><p class="text-muted">CRAN release: 2025-02-08</p>
-<div class="section level3">
-<h3 id="patch-0-4-4">Patch<a class="anchor" aria-label="anchor" href="#patch-0-4-4"></a></h3>
-<ul><li>
-<code><a href="../reference/att_from_examples.html">att_from_examples()</a></code> Fixed the selection of <code>.R</code> files in the source directory. (<a href="https://github.com/ThinkR-open/attachment/issues/124" class="external-link">#124</a>)</li>
-</ul></div>
-</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.3" id="attachment-043">attachment 0.4.3<a class="anchor" aria-label="anchor" href="#attachment-043"></a></h2><p class="text-muted">CRAN release: 2025-01-31</p>
 <div class="section level3">

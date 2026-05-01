@@ -10,7 +10,7 @@ att_from_rmd(
   temp_dir = tempdir(),
   warn = -1,
   encoding = getOption("encoding"),
-  inside_rmd = NULL,
+  inside_rmd = FALSE,
   inline = TRUE
 )
 
@@ -19,7 +19,7 @@ att_from_qmd(
   temp_dir = tempdir(),
   warn = -1,
   encoding = getOption("encoding"),
-  inside_rmd = NULL,
+  inside_rmd = FALSE,
   inline = TRUE
 )
 ```
@@ -45,10 +45,8 @@ att_from_qmd(
 
 - inside_rmd:
 
-  Logical or `NULL`. Whether the function is being called from inside a
-  knit session, in which case the actual purl step must be delegated to
-  an external R process. When `NULL` (the default), this is
-  auto-detected via `knitr::opts_knit$get("out.format")`.
+  Logical. Whether function is run inside a Rmd, in case this must be
+  executed in an external R session
 
 - inline:
 
@@ -66,5 +64,5 @@ vector of character of packages names found in the Rmd
 dummypackage <- system.file("dummypackage",package = "attachment")
 # browseURL(dummypackage)
 att_from_rmd(path = file.path(dummypackage,"vignettes/demo.Rmd"))
-#> [1] "knitr"     "glue"      "rmarkdown"
+#> [1] "glue"      "knitr"     "rmarkdown"
 ```
