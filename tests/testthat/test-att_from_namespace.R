@@ -135,12 +135,17 @@ file.copy(
   recursive = TRUE)
 dummypackage <- file.path(tmpdir, "dummypackage")
 
-# Enable roxygen markdown so inline R inside @param is actually evaluated
+# Enable roxygen markdown so inline R inside @param is actually evaluated.
+# Strip trailing blank lines from the dummypackage DESCRIPTION before
+# appending: in DCF format a blank line starts a new record, so an
+# unstripped append would silently produce a second record and tooling may
+# ignore the new field.
 desc_file <- file.path(dummypackage, "DESCRIPTION")
-writeLines(
-  c(readLines(desc_file), "Roxygen: list(markdown = TRUE)"),
-  desc_file
-)
+desc_lines <- readLines(desc_file)
+while (length(desc_lines) > 0 && !nzchar(desc_lines[length(desc_lines)])) {
+  desc_lines <- desc_lines[-length(desc_lines)]
+}
+writeLines(c(desc_lines, "Roxygen: list(markdown = TRUE)"), desc_file)
 
 # Add an exported helper that the @param will call inline
 helper_file <- file.path(dummypackage, "R", "helper.R")
@@ -203,6 +208,34 @@ test_that("inline R in @param resolves package-local functions (#135)", {
   expect_true(file.exists(rd_file))
   rd_content <- paste(readLines(rd_file), collapse = "\n")
   expect_match(rd_content, "a x parameter", fixed = TRUE)
+})
+
+unlink(tmpdir, recursive = TRUE)
+
+# @examplesIf condition payload must NOT be scanned for dependencies (#136 review) ----
+tmpdir <- tempfile(pattern = "pkgexamplesif")
+dir.create(tmpdir)
+ifpkg_dir <- file.path(tmpdir, "Rscripts")
+dir.create(ifpkg_dir)
+ifpkg_file <- file.path(ifpkg_dir, "fun.R")
+writeLines(
+  c(
+    "#' fun",
+    "#' @param x a value",
+    "#' @return x",
+    "#' @export",
+    "#' @examplesIf requireNamespace(\"fakeguardpkg\", quietly = TRUE)",
+    "#' library(magrittr)",
+    "#' x %>% identity()",
+    "fun <- function(x) x"
+  ),
+  ifpkg_file
+)
+
+test_that("att_from_examples ignores @examplesIf condition for dep detection (#136 review)", {
+  deps <- att_from_examples(dir.r = ifpkg_dir)
+  expect_true("magrittr" %in% deps)
+  expect_false("fakeguardpkg" %in% deps)
 })
 
 unlink(tmpdir, recursive = TRUE)

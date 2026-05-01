@@ -48,6 +48,12 @@ att_from_examples <- function(dir.r = "R", encoding = getOption("encoding")) {
 # the example code with the leading `#' ` removed. Mirrors the relevant subset
 # of roxygen2::parse_file() + block_get_tag_value(tag = "examples") behaviour
 # without triggering inline R evaluation of @param markdown.
+#
+# `@examplesIf` is treated specially: the payload on the tag line is a guard
+# *condition*, not example code, so it is discarded — including the condition
+# in the extracted text would cause packages mentioned only in the guard to be
+# falsely picked up as dependencies. The example body that follows is captured
+# normally.
 extract_examples_lines <- function(rfile, encoding = getOption("encoding")) {
   lines <- tryCatch(
     readLines(rfile, warn = FALSE, encoding = encoding),
@@ -63,15 +69,19 @@ extract_examples_lines <- function(rfile, encoding = getOption("encoding")) {
 
   is_roxy <- grepl("^\\s*#'", lines)
   is_tag  <- grepl("^\\s*#'\\s*@", lines)
-  is_example_tag <- grepl("^\\s*#'\\s*@examples(If)?\\b", lines)
+  is_example_tag   <- grepl("^\\s*#'\\s*@examples\\b",   lines)
+  is_examplesif_tag <- grepl("^\\s*#'\\s*@examplesIf\\b", lines)
 
   out <- character()
   in_example <- FALSE
   for (i in seq_along(lines)) {
+    if (is_examplesif_tag[i]) {
+      in_example <- TRUE
+      next
+    }
     if (is_example_tag[i]) {
       in_example <- TRUE
-      first_payload <- sub("^\\s*#'\\s*@examplesIf\\s*", "", lines[i])
-      first_payload <- sub("^\\s*#'\\s*@examples\\s*", "", first_payload)
+      first_payload <- sub("^\\s*#'\\s*@examples\\s*", "", lines[i])
       if (nzchar(first_payload)) {
         out <- c(out, first_payload)
       }
