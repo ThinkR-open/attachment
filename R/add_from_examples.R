@@ -1,9 +1,11 @@
 #' Get all packages called in examples from R files
 #'
 #' @param dir.r path to directory with R scripts.
+#' @param encoding Encoding passed to [readLines()] when reading source files.
+#'  Defaults to `getOption("encoding")` so the system locale is respected,
+#'  matching [att_from_rscript()].
 #'
 #' @return Character vector of packages called with library or require.
-#' @importFrom roxygen2 parse_file block_get_tag_value
 #' @examples
 #' dummypackage <- system.file("dummypackage",package = "attachment")
 #'
@@ -11,19 +13,17 @@
 #' att_from_examples(dir.r = file.path(dummypackage,"R"))
 
 #' @export
-att_from_examples <- function(dir.r = "R") {
+att_from_examples <- function(dir.r = "R", encoding = getOption("encoding")) {
   rfiles <- list.files(dir.r, full.names = TRUE, pattern = "\\.r$", ignore.case = TRUE,recursive = FALSE)
 
   roxy_file <- tempfile("roxy.examples", fileext = ".R")
 
-  all_examples <- unlist(lapply(rfiles, function(the_file) {
-    file_roxytags <- roxygen2::parse_file(the_file)
-    res <- unlist(
-      lapply(file_roxytags,
-             function(x) roxygen2::block_get_tag_value(block = x, tag = "examples"))
-    )
-    res
-  }))
+  # Extract @examples / @examplesIf blocks via regex on the source instead of
+  # roxygen2::parse_file(). parse_file() unconditionally evaluates inline R
+  # found in roxygen markdown (e.g. `@param x \`r helper("x")\``), and the
+  # evaluation env defaults to baseenv() outside a full roxygenise() context,
+  # which makes any package-local helper unresolvable (issue #135).
+  all_examples <- unlist(lapply(rfiles, extract_examples_lines, encoding = encoding))
   # Clean \dontrun and \donttest, and replace with '{' on next line
   all_examples_clean <-
     gsub(pattern = "\\\\dontrun\\s*\\{|\\\\donttest\\s*\\{", replacement = "#ICI\n{", x = all_examples)
@@ -42,4 +42,58 @@ att_from_examples <- function(dir.r = "R") {
   all_deps <- unique(c(all_deps_examples, all_deps_examples_data))
 
   return(all_deps)
+}
+
+# Extract @examples / @examplesIf blocks from a single R source file, returning
+# the example code with the leading `#' ` removed. Mirrors the relevant subset
+# of roxygen2::parse_file() + block_get_tag_value(tag = "examples") behaviour
+# without triggering inline R evaluation of @param markdown.
+#
+# `@examplesIf` is treated specially: the payload on the tag line is a guard
+# *condition*, not example code, so it is discarded — including the condition
+# in the extracted text would cause packages mentioned only in the guard to be
+# falsely picked up as dependencies. The example body that follows is captured
+# normally.
+extract_examples_lines <- function(rfile, encoding = getOption("encoding")) {
+  lines <- tryCatch(
+    readLines(rfile, warn = FALSE, encoding = encoding),
+    error = function(e) {
+      warning(
+        sprintf("Could not read R script '%s': %s", rfile, conditionMessage(e)),
+        call. = FALSE
+      )
+      character(0)
+    }
+  )
+  if (length(lines) == 0) return(character(0))
+
+  is_roxy <- grepl("^\\s*#'", lines)
+  is_tag  <- grepl("^\\s*#'\\s*@", lines)
+  is_example_tag   <- grepl("^\\s*#'\\s*@examples\\b",   lines)
+  is_examplesif_tag <- grepl("^\\s*#'\\s*@examplesIf\\b", lines)
+
+  out <- character()
+  in_example <- FALSE
+  for (i in seq_along(lines)) {
+    if (is_examplesif_tag[i]) {
+      in_example <- TRUE
+      next
+    }
+    if (is_example_tag[i]) {
+      in_example <- TRUE
+      first_payload <- sub("^\\s*#'\\s*@examples\\s*", "", lines[i])
+      if (nzchar(first_payload)) {
+        out <- c(out, first_payload)
+      }
+      next
+    }
+    if (in_example) {
+      if (!is_roxy[i] || is_tag[i]) {
+        in_example <- FALSE
+        next
+      }
+      out <- c(out, sub("^\\s*#'\\s?", "", lines[i]))
+    }
+  }
+  out
 }
