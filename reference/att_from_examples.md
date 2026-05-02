@@ -5,7 +5,7 @@ Get all packages called in examples from R files
 ## Usage
 
 ``` r
-att_from_examples(dir.r = "R")
+att_from_examples(dir.r = "R", encoding = getOption("encoding"))
 ```
 
 ## Arguments
@@ -13,6 +13,14 @@ att_from_examples(dir.r = "R")
 - dir.r:
 
   path to directory with R scripts.
+
+- encoding:
+
+  Encoding passed to
+  [`readLines()`](https://rdrr.io/r/base/readLines.html) when reading
+  source files. Defaults to `getOption("encoding")` so the system locale
+  is respected, matching
+  [`att_from_rscript()`](https://thinkr-open.github.io/attachment/reference/att_from_rscript.md).
 
 ## Value
 

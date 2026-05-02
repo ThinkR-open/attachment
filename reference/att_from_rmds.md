@@ -10,7 +10,7 @@ att_from_rmds(
   pattern = "*.[.](Rmd|rmd|qmd)$",
   recursive = TRUE,
   warn = -1,
-  inside_rmd = FALSE,
+  inside_rmd = NULL,
   inline = TRUE,
   folder_to_exclude = "renv"
 )
@@ -20,7 +20,7 @@ att_from_qmds(
   pattern = "*.[.](Rmd|rmd|qmd)$",
   recursive = TRUE,
   warn = -1,
-  inside_rmd = FALSE,
+  inside_rmd = NULL,
   inline = TRUE,
   folder_to_exclude = "renv"
 )
@@ -46,8 +46,10 @@ att_from_qmds(
 
 - inside_rmd:
 
-  Logical. Whether function is run inside a Rmd, in case this must be
-  executed in an external R session
+  Logical or `NULL`. Whether the function is being called from inside a
+  knit session, in which case the actual purl step must be delegated to
+  an external R process. When `NULL` (the default), this is
+  auto-detected via `knitr::opts_knit$get("out.format")`.
 
 - inline:
 
@@ -60,9 +62,12 @@ att_from_qmds(
 
 ## Value
 
-Character vector of packages called with library or require. *knitr* and
-*rmarkdown* are added by default to allow building the vignettes if the
-directory contains "vignettes" in the path
+Character vector of packages called with library or require. When the
+directory contains "vignettes" in its path, `knitr` is always added and
+the vignette engine is inferred from the files actually present:
+`rmarkdown` is added when `.Rmd` files are found, `quarto` when `.qmd`
+files are found (both when the directory mixes the two). If the
+directory is empty, `rmarkdown` is added as a safe default.
 
 ## Examples
 

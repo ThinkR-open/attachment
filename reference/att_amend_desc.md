@@ -19,7 +19,7 @@ att_amend_desc(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = FALSE,
+  inside_rmd = NULL,
   must.exist = TRUE,
   check_if_suggests_is_installed = TRUE,
   update.config = FALSE,
@@ -38,7 +38,7 @@ att_to_desc_from_pkg(
   pkg_ignore = NULL,
   document = TRUE,
   normalize = TRUE,
-  inside_rmd = FALSE,
+  inside_rmd = NULL,
   must.exist = TRUE,
   check_if_suggests_is_installed = TRUE,
   update.config = FALSE,
@@ -94,8 +94,10 @@ att_to_desc_from_pkg(
 
 - inside_rmd:
 
-  Logical. Whether function is run inside a Rmd, in case this must be
-  executed in an external R session
+  Logical or `NULL`. Whether the function is being called from inside a
+  knit session, in which case the actual purl step must be delegated to
+  an external R process. When `NULL` (the default), this is
+  auto-detected via `knitr::opts_knit$get("out.format")`.
 
 - must.exist:
 
@@ -153,7 +155,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 att_amend_desc(path = dummypackage)
 #> Saving attachment parameters to yaml config file
 #> Updating dummypackage documentation
-#> ℹ Setting RoxygenNote to "7.3.3"
+#> ℹ Setting Config/roxygen2/version to "8.0.0"
 #> Writing NAMESPACE
 #> ℹ Loading dummypackage
 #> Writing NAMESPACE

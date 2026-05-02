@@ -38,7 +38,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 # browseURL(dummypackage)
 att_from_namespace(path = file.path(dummypackage, "NAMESPACE"))
 #> Updating dummypackage documentation
-#> ℹ Setting RoxygenNote to "7.3.3"
+#> ℹ Setting Config/roxygen2/version to "8.0.0"
 #> Writing NAMESPACE
 #> ℹ Loading dummypackage
 #> Writing NAMESPACE

@@ -41,7 +41,7 @@ att_amend_desc(dummypackage) %>%
   set_remotes_to_desc()
 #> Saving attachment parameters to yaml config file
 #> Updating dummypackage documentation
-#> ℹ Setting RoxygenNote to "7.3.3"
+#> ℹ Setting Config/roxygen2/version to "8.0.0"
 #> Writing NAMESPACE
 #> ℹ Loading dummypackage
 #> Writing NAMESPACE

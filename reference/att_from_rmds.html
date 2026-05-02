@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">attachment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Get all packages called in vignettes folder</h1>
-      <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/v0.4.5/R/att_from_rmds.R" class="external-link"><code>R/att_from_rmds.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/main/R/att_from_rmds.R" class="external-link"><code>R/att_from_rmds.R</code></a></small>
       <div class="d-none name"><code>att_from_rmds.Rd</code></div>
     </div>
 
@@ -50,7 +50,7 @@
 <span>  pattern <span class="op">=</span> <span class="st">"*.[.](Rmd|rmd|qmd)$"</span>,</span>
 <span>  recursive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  warn <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
-<span>  inside_rmd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  inside_rmd <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  inline <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  folder_to_exclude <span class="op">=</span> <span class="st">"renv"</span></span>
 <span><span class="op">)</span></span>
@@ -60,7 +60,7 @@
 <span>  pattern <span class="op">=</span> <span class="st">"*.[.](Rmd|rmd|qmd)$"</span>,</span>
 <span>  recursive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  warn <span class="op">=</span> <span class="op">-</span><span class="fl">1</span>,</span>
-<span>  inside_rmd <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  inside_rmd <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  inline <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  folder_to_exclude <span class="op">=</span> <span class="st">"renv"</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -87,8 +87,10 @@
 
 
 <dt id="arg-inside-rmd">inside_rmd<a class="anchor" aria-label="anchor" href="#arg-inside-rmd"></a></dt>
-<dd><p>Logical. Whether function is run inside a Rmd,
-in case this must be executed in an external R session</p></dd>
+<dd><p>Logical or <code>NULL</code>. Whether the function is being called
+from inside a knit session, in which case the actual purl step must be
+delegated to an external R process. When <code>NULL</code> (the default), this is
+auto-detected via <code>knitr::opts_knit$get("out.format")</code>.</p></dd>
 
 
 <dt id="arg-inline">inline<a class="anchor" aria-label="anchor" href="#arg-inline"></a></dt>
@@ -102,8 +104,11 @@ in case this must be executed in an external R session</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Character vector of packages called with library or require.
-<em>knitr</em> and <em>rmarkdown</em> are added by default to allow building the vignettes
-if the directory contains "vignettes" in the path</p>
+When the directory contains "vignettes" in its path, <code>knitr</code> is always added
+and the vignette engine is inferred from the files actually present:
+<code>rmarkdown</code> is added when <code>.Rmd</code> files are found, <code>quarto</code> when <code>.qmd</code>
+files are found (both when the directory mixes the two). If the directory
+is empty, <code>rmarkdown</code> is added as a safe default.</p>
     </div>
 
     <div class="section level2">

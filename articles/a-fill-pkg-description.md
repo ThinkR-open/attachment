@@ -98,7 +98,7 @@ with {bookdown} being used only there in my package:
     ---
     title: "My Super template"
     author: "John Doe"
-    date: "2026-05-01"
+    date: "2026-05-02"
     output: bookdown::html_document2
     ---
 
@@ -157,7 +157,7 @@ att_amend_desc(path = dummypackage, inside_rmd = TRUE, update.config = TRUE)
 #> Saving attachment parameters to yaml config file
 #> Loading required namespace: rstudioapi
 #> Updating dummypackage documentation
-#> ℹ Setting RoxygenNote to "7.3.3"
+#> ℹ Setting Config/roxygen2/version to "8.0.0"
 #> Writing NAMESPACE
 #> ℹ Loading dummypackage
 #> Writing NAMESPACE

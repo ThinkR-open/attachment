@@ -15,7 +15,7 @@ they are not necessary in your project, package or Shiny application."><meta pro
 
     <a class="navbar-brand me-2" href="../index.html">attachment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,7 +43,7 @@ they are not necessary in your project, package or Shiny application."><meta pro
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Create reproducible environments for your R projects with <em>renv</em></h1>
-      <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/v0.4.5/R/create_renv.R" class="external-link"><code>R/create_renv.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/main/R/create_renv.R" class="external-link"><code>R/create_renv.R</code></a></small>
       <div class="d-none name"><code>create_renv_for_dev.Rd</code></div>
     </div>
 
@@ -60,7 +60,7 @@ they are not necessary in your project, package or Shiny application.</p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">create_renv_for_dev</span><span class="op">(</span></span>
 <span>  path <span class="op">=</span> <span class="st">"."</span>,</span>
 <span>  dev_pkg <span class="op">=</span> <span class="st">"_default"</span>,</span>
-<span>  folder_to_include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dev"</span>, <span class="st">"data-raw"</span>, <span class="st">"renv"</span><span class="op">)</span>,</span>
+<span>  folder_to_include <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dev"</span>, <span class="st">"data-raw"</span><span class="op">)</span>,</span>
 <span>  folder_to_exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"renv"</span><span class="op">)</span>,</span>
 <span>  output <span class="op">=</span> <span class="st">"renv.lock"</span>,</span>
 <span>  install_if_missing <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -75,6 +75,7 @@ they are not necessary in your project, package or Shiny application.</p>
 <span>  output <span class="op">=</span> <span class="st">"renv.lock.prod"</span>,</span>
 <span>  dev_pkg <span class="op">=</span> <span class="st">"remotes"</span>,</span>
 <span>  check_if_suggests_is_installed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  folder_to_include <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>

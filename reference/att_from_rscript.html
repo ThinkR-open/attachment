@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">attachment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Look for functions called with <code>::</code> and library/requires in one script</h1>
-      <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/v0.4.5/R/att_from_rscripts.R" class="external-link"><code>R/att_from_rscripts.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/main/R/att_from_rscripts.R" class="external-link"><code>R/att_from_rscripts.R</code></a></small>
       <div class="d-none name"><code>att_from_rscript.Rd</code></div>
     </div>
 
@@ -45,7 +45,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">att_from_rscript</span><span class="op">(</span><span class="va">path</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">att_from_rscript</span><span class="op">(</span><span class="va">path</span>, encoding <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"encoding"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -55,6 +55,12 @@
 <dl><dt id="arg-path">path<a class="anchor" aria-label="anchor" href="#arg-path"></a></dt>
 <dd><p>path to R script file</p></dd>
 
+
+<dt id="arg-encoding">encoding<a class="anchor" aria-label="anchor" href="#arg-encoding"></a></dt>
+<dd><p>Encoding passed to <code><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines()</a></code> when reading <code>path</code>. Defaults
+to <code>getOption("encoding")</code> so the system locale is respected (important on
+Windows where scripts are often Latin-1 / Windows-1252).</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -62,7 +68,19 @@
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Calls from pkg::fun in roxygen skeleton and comments are ignored</p>
+    <p>Uses the R parser to walk the syntax tree so that occurrences of <code>pkg::fun</code>
+or <code>library()/require()/requireNamespace()/loadNamespace()/use()/getFromNamespace()</code>
+inside string literals or comments are ignored.
+Named arguments such as <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(package = "pkg")</a></code> are supported, as are
+fully-qualified forms like <code><a href="https://rdrr.io/r/base/library.html" class="external-link">base::library(pkg)</a></code> or
+<code>methods::getFromNamespace(fn, "pkg")</code>.
+Introspection helpers such as <code><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion()</a></code>, <code><a href="https://rdrr.io/r/base/ns-reflect.html" class="external-link">getNamespace()</a></code>,
+<code><a href="https://rdrr.io/r/base/ns-internal.html" class="external-link">asNamespace()</a></code>, and <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">attachNamespace()</a></code> are <strong>not</strong> treated as dependency
+introducers, because they are commonly used for version or feature checks
+on packages that may or may not be required at runtime.</p>
+<p>If the file cannot be parsed as valid R (syntax error, corrupt encoding,
+etc.), the function falls back to a regex-based detector and emits a
+<code><a href="https://rdrr.io/r/base/warning.html" class="external-link">warning()</a></code> naming the file so users can investigate.</p>
     </div>
 
     <div class="section level2">
