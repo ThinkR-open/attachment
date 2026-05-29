@@ -111,7 +111,7 @@ create_renv_for_dev <- function(path = ".",
   )} else {
     cli::cli_alert_info("No DESCRIPTION file found")
     cli::cli_alert_info(      paste(
-      "we wil parse qmd files,Rmd files and R scripts from ",path,
+      "we will parse qmd files, Rmd files and R scripts from ", path,
       "."
     ))
 
