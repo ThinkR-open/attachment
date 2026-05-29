@@ -98,7 +98,7 @@ with {bookdown} being used only there in my package:
     ---
     title: "My Super template"
     author: "John Doe"
-    date: "2026-05-02"
+    date: "2026-05-29"
     output: bookdown::html_document2
     ---
 
