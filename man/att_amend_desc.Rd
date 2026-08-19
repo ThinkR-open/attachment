@@ -50,7 +50,12 @@ att_to_desc_from_pkg(
 
 \item{path.d}{path to description file.}
 
-\item{dir.r}{path to directory with R scripts.}
+\item{dir.r}{Character vector of one or more directories holding R scripts to
+parse for dependencies. Defaults to \code{"R"}. Pass several paths, for example
+\code{c("R", "inst")}, to also scan sources that live outside the standard
+package directories (a deployment entry point under \verb{inst/}, say). Packages
+called with \code{library()} or \code{pkg::fun()} in these scripts are added to
+Imports, so a version already pinned for them in DESCRIPTION is preserved.}
 
 \item{dir.v}{path to vignettes directory. Set to empty (dir.v = "") to ignore.}
 
