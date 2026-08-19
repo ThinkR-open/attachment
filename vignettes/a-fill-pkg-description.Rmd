@@ -121,6 +121,16 @@ Then I can directly run `att_amend_desc()`.
 
 In the _Imports_ case, if for any reason I decide to delete this `my_knit()` function, then the {bookdown} dependency won't be needed anymore, and {attachment} will automatically remove it with the next `att_amend_desc()`
 
+### I have an R script in my "inst/" directory
+
+If the file under "inst/" is a plain R script rather than a notebook, for instance a deployment entry point "inst/main.R" that calls `pkg::fun()`, you can have {attachment} scan it by adding its directory to `dir.r`:
+
+```{r, eval=FALSE}
+att_amend_desc(dir.r = c("R", "inst"))
+```
+
+Packages detected this way are added to "Imports". A version already pinned by hand in DESCRIPTION for such a package is preserved.
+
 
 ## Example on a fake package
 
