@@ -125,22 +125,22 @@ test_that("create_renv_for_dev creates lock files", {
 # print(my_renv_extra)
 
 
-local_renv_extra_dev <- getFromNamespace("lockfile", "renv")(my_renv_extra_dev)
-local_renv_blank_dev <- getFromNamespace("lockfile", "renv")(my_renv_blank_dev)
-local_renv_extra_prod <- getFromNamespace("lockfile", "renv")(my_renv_extra_prod)
-local_renv_blank_prod <- getFromNamespace("lockfile", "renv")(my_renv_blank_prod)
+local_renv_extra_dev <- renv::lockfile_read(my_renv_extra_dev)
+local_renv_blank_dev <- renv::lockfile_read(my_renv_blank_dev)
+local_renv_extra_prod <- renv::lockfile_read(my_renv_extra_prod)
+local_renv_blank_prod <- renv::lockfile_read(my_renv_blank_prod)
 
 test_that("lockfile are renv files", {
-  expect_s3_class(local_renv_extra_dev, "renv_lockfile_api")
-  expect_s3_class(local_renv_blank_dev, "renv_lockfile_api")
-  expect_s3_class(local_renv_extra_prod, "renv_lockfile_api")
-  expect_s3_class(local_renv_blank_prod, "renv_lockfile_api")
+  expect_s3_class(local_renv_extra_dev, "renv_lockfile")
+  expect_s3_class(local_renv_blank_dev, "renv_lockfile")
+  expect_s3_class(local_renv_extra_prod, "renv_lockfile")
+  expect_s3_class(local_renv_blank_prod, "renv_lockfile")
 })
 
-pkg_extra_dev <- names(local_renv_extra_dev$data()$Packages)
-pkg_blank_dev <- names(local_renv_blank_dev$data()$Packages)
-pkg_extra_prod <- names(local_renv_extra_prod$data()$Packages)
-pkg_blank_prod <- names(local_renv_blank_prod$data()$Packages)
+pkg_extra_dev <- names(local_renv_extra_dev$Packages)
+pkg_blank_dev <- names(local_renv_blank_dev$Packages)
+pkg_extra_prod <- names(local_renv_extra_prod$Packages)
+pkg_blank_prod <- names(local_renv_blank_prod$Packages)
 
 test_that("extrapackage is present thanks to dev_pkg", {
 
@@ -185,10 +185,10 @@ test_that("_default works", {
   expect_true(file.exists(lock_includes_extra_default))
   expect_true(file.exists(my_renv_extra_default))
 
-  local_renv_extra_default <- getFromNamespace("lockfile", "renv")(my_renv_extra_default)
-  expect_s3_class(local_renv_extra_default, "renv_lockfile_api")
+  local_renv_extra_default <- renv::lockfile_read(my_renv_extra_default)
+  expect_s3_class(local_renv_extra_default, "renv_lockfile")
 
-  pkg_extra_default <- names(local_renv_extra_default$data()$Packages)
+  pkg_extra_default <- names(local_renv_extra_default$Packages)
   expect_true("glue" %in% pkg_extra_default)
   # all extra are in extra_default
   # expect_true(all(pkg_extra_dev %in% pkg_extra_default))
@@ -217,10 +217,10 @@ test_that("folder_to_include works", {
   expect_true(file.exists(lock_includes_devdir))
   expect_true(file.exists(my_renv_devdir))
 
-  local_renv_devdir <- getFromNamespace("lockfile", "renv")(my_renv_devdir)
-  expect_s3_class(local_renv_devdir, "renv_lockfile_api")
+  local_renv_devdir <- renv::lockfile_read(my_renv_devdir)
+  expect_s3_class(local_renv_devdir, "renv_lockfile")
 
-  pkg_devdir <- names(local_renv_devdir$data()$Packages)
+  pkg_devdir <- names(local_renv_devdir$Packages)
   # glue and extrapackage in dev/ are there
   expect_true(all(c("glue", "extrapackage") %in% pkg_devdir))
 })
@@ -242,10 +242,10 @@ test_that("DEV create_renv_(pkg_ignore) works", {
   expect_true(file.exists(lock_includes_ignore))
   expect_true(file.exists(my_renv_ignore))
 
-  local_renv_ignore <- getFromNamespace("lockfile", "renv")(my_renv_ignore)
-  expect_s3_class(local_renv_ignore, "renv_lockfile_api")
+  local_renv_ignore <- renv::lockfile_read(my_renv_ignore)
+  expect_s3_class(local_renv_ignore, "renv_lockfile")
 
-  pkg_ignore <- names(local_renv_ignore$data()$Packages)
+  pkg_ignore <- names(local_renv_ignore$Packages)
   # glue and  in dev/ are there
   expect_true(all(c("glue") %in% pkg_ignore))
   expect_true(all(c("magrittr") %in% pkg_ignore))
@@ -271,10 +271,10 @@ test_that("PROD create_renv_(pkg_ignore) works", {
   expect_true(file.exists(lock_includes_ignore))
   expect_true(file.exists(my_renv_ignore))
 
-  local_renv_ignore <- getFromNamespace("lockfile", "renv")(my_renv_ignore)
-  expect_s3_class(local_renv_ignore, "renv_lockfile_api")
+  local_renv_ignore <- renv::lockfile_read(my_renv_ignore)
+  expect_s3_class(local_renv_ignore, "renv_lockfile")
 
-  pkg_ignore <- names(local_renv_ignore$data()$Packages)
+  pkg_ignore <- names(local_renv_ignore$Packages)
   # glue and  in dev/ are there
   expect_false(all(c("glue") %in% pkg_ignore)) # in suggests only so not present
   expect_true(all(c("magrittr") %in% pkg_ignore))
@@ -316,7 +316,7 @@ test_that("suggested package are not in renv prod", {
   # package's metadata (e.g. `withr` listed under remotes' Suggests) would
   # leak as a false positive.
   pkg_in_lock <- names(
-    getFromNamespace("lockfile", "renv")(out_renv_file)$data()$Packages
+    renv::lockfile_read(out_renv_file)$Packages
   )
   expect_false("idontexist" %in% pkg_in_lock)
   expect_false("withr" %in% pkg_in_lock)
@@ -362,9 +362,9 @@ test_that("suggested package are in renv dev", {
 
   expect_true(file.exists(lock_temp))
   expect_true(file.exists(my_renv))
-  local_renv <- getFromNamespace("lockfile", "renv")(my_renv)
-  expect_s3_class(local_renv, "renv_lockfile_api")
-  pkg_local_renv <- names(local_renv$data()$Packages)
+  local_renv <- renv::lockfile_read(my_renv)
+  expect_s3_class(local_renv, "renv_lockfile")
+  pkg_local_renv <- names(local_renv$Packages)
 
   base <- paste(pkg_local_renv,collapse = " ")
   # expect_true(grepl(pattern = "idontexist",x = base)) #renv dont install unistalled package
@@ -418,7 +418,7 @@ test_that("suggested package are not in renv prod even from vignettes", {
     force = TRUE)
 
   pkg_in_lock <- names(
-    getFromNamespace("lockfile", "renv")(out_renv_file)$data()$Packages
+    renv::lockfile_read(out_renv_file)$Packages
   )
   expect_false("idontexist" %in% pkg_in_lock)
   expect_false("withr" %in% pkg_in_lock)
@@ -471,7 +471,7 @@ test_that("suggested package are not in renv prod even from vignettes", {
     force = TRUE)
 
   pkg_in_lock <- names(
-    getFromNamespace("lockfile", "renv")(out_renv_file)$data()$Packages
+    renv::lockfile_read(out_renv_file)$Packages
   )
   expect_false("idontexist" %in% pkg_in_lock)
   expect_false("withr" %in% pkg_in_lock)
