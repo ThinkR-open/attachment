@@ -1,7 +1,21 @@
-# attachment 1.0.1
+# attachment 1.1.0
+
+## New features
+
+- `att_amend_desc()` now accepts several directories in `dir.r`, for example
+  `att_amend_desc(dir.r = c("R", "inst"))`. This lets you declare dependencies
+  used only outside the standard package directories, such as a deployment
+  entry point under `inst/`, which the default scan does not reach. Passing a
+  vector previously raised `the condition has length > 1` (#139).
 
 ## Bug fixes
 
+- `att_amend_desc()` no longer drops a version constraint set by hand in
+  DESCRIPTION when the same package is listed under two types (a pinned
+  `Imports` and a bare `Suggests`, for instance). Previously the version that
+  survived depended on the order of the rows in DESCRIPTION; the hand-set
+  constraint is now kept, and when both an `Imports` and a `Suggests` row carry
+  a version the `Imports` one wins (#140).
 - `att_from_examples()` (and therefore `att_amend_desc()`) no longer chokes
   on inline R inside roxygen2 markdown tags such as
   `@param x \`r helper("x")\`` when `helper()` is a package-local function.

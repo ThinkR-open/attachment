@@ -7,7 +7,12 @@
 #'
 #' @param path path to the root of the package directory. Default to current directory.
 #' @param path.n path to namespace file.
-#' @param dir.r path to directory with R scripts.
+#' @param dir.r Character vector of one or more directories holding R scripts to
+#'   parse for dependencies. Defaults to `"R"`. Pass several paths, for example
+#'   `c("R", "inst")`, to also scan sources that live outside the standard
+#'   package directories (a deployment entry point under `inst/`, say). Packages
+#'   called with `library()` or `pkg::fun()` in these scripts are added to
+#'   Imports, so a version already pinned for them in DESCRIPTION is preserved.
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
 #' @param dir.t path to tests directory. Set to empty (dir.t = "") to ignore.
 #' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown, covr for instance)
@@ -190,7 +195,7 @@ att_amend_desc <- function(path = ".",
   if (path.n != "") {
     imports <- unique(c(imports, att_from_namespace(path.n, document = document)))
   }
-  if (dir.r != "") {
+  if (!identical(dir.r, "")) {
     # Look for R scripts
     imports <- unique(c(imports, att_from_rscripts(dir.r)))
     # Look for Rmd, in case in a bookdown
@@ -201,7 +206,7 @@ att_amend_desc <- function(path = ".",
   suggests <- NULL
 
   # Get suggests in examples and remove if already in imports
-  if (dir.r != "") {
+  if (!identical(dir.r, "")) {
     ex <- att_from_examples(dir.r = dir.r)
     suggests <- c(suggests, ex[!ex %in% imports])
   }
@@ -364,10 +369,21 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   all_packages <- c(imports, suggests)
   if (is.null(all_packages)) {all_packages <- character()}
 
+  # Collapse the original versions to one row per package before the join.
+  # A package listed under two types (a pinned Imports and a bare Suggests, say)
+  # otherwise multiplies rows in the merge, and the later de-duplication would
+  # keep whichever row happened to come first. Order so that an explicit
+  # constraint beats "*", and Imports beats Suggests on a tie, so a version set
+  # by hand in DESCRIPTION is never silently dropped.
+  orig_versions <- deps_orig[
+    order(deps_orig$version == "*", deps_orig$type),
+    c("package", "version")]
+  orig_versions <- orig_versions[!duplicated(orig_versions$package), ]
+
   deps_new <- data.frame(
     type = c(rep("Imports", length(imports)), rep("Suggests", length(suggests))),
     package = all_packages, stringsAsFactors = FALSE) %>%
-    merge(deps_orig[,c("package", "version")],
+    merge(orig_versions,
           by = "package", sort = TRUE, all.x = TRUE, all.y = FALSE) %>%
     .[,c("type", "package", "version")] %>%
     .[order(.$type, .$package), , drop = FALSE] %>%
