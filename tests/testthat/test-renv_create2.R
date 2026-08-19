@@ -80,13 +80,13 @@ test_that("create_renv_for_dev creates lock files even without DESCRIPTION file"
 # print(my_renv_extra)
 
 
-renv_content <- getFromNamespace("lockfile", "renv")(my_renv_)
+renv_content <- renv::lockfile_read(my_renv_)
 
 
 test_that("lockfile are correct renv files", {
-expect_s3_class(renv_content, "renv_lockfile_api")
-expect_true("glue" %in% names(renv_content$data()$Packages))
-expect_true("extrapackage" %in% names(renv_content$data()$Packages))
+expect_s3_class(renv_content, "renv_lockfile")
+expect_true("glue" %in% names(renv_content$Packages))
+expect_true("extrapackage" %in% names(renv_content$Packages))
 })
 
 
