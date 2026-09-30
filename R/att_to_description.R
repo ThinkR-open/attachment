@@ -12,7 +12,10 @@
 #'   `c("R", "inst")`, to also scan sources that live outside the standard
 #'   package directories (a deployment entry point under `inst/`, say). Packages
 #'   called with `library()` or `pkg::fun()` in these scripts are added to
-#'   Imports, so a version already pinned for them in DESCRIPTION is preserved.
+#'   Imports. A package that no scanned directory mentions is removed from
+#'   DESCRIPTION, and any version constraint set by hand goes with it: widening
+#'   `dir.r` is how such a dependency is kept, and a removal that drops a
+#'   constraint is reported so it does not pass unnoticed.
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
 #' @param dir.t path to tests directory. Set to empty (dir.t = "") to ignore.
 #' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown, covr for instance)
