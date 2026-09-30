@@ -1,7 +1,18 @@
-# attachment 1.1.1
+# attachment 1.2.0
 
 ## Bug fixes
 
+- `att_amend_desc()` no longer writes nearly every dependency out of
+  DESCRIPTION when the package carries a `Depends:` entry other than `R` that
+  the code scan no longer finds. The guard around that branch tested the
+  *column* count of a data frame, so it held even with no row kept, and the
+  branch then took the complement of an empty selection with `x[-which(...), ]`,
+  which in R keeps nothing rather than everything. On a package with eleven
+  declared dependencies, two survived. The only visible trace was a message
+  reading `Package(s)  is(are) in category 'Depends'` with an empty list. The
+  guard now counts rows, and the complement is taken by negating the logical
+  test, which is correct on an empty frame instead of correct by accident
+  (#146).
 - `att_from_rscript()` (and therefore `att_amend_desc()`) no longer reports a
   variable name as a package name. `requireNamespace()`, `loadNamespace()` and
   the `ns` argument of `getFromNamespace()` take a character string, so a bare
