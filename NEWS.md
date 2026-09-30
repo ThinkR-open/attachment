@@ -1,3 +1,19 @@
+# attachment 1.1.1
+
+## Bug fixes
+
+- `att_from_rscript()` (and therefore `att_amend_desc()`) no longer reports a
+  variable name as a package name. `requireNamespace()`, `loadNamespace()` and
+  the `ns` argument of `getFromNamespace()` take a character string, so a bare
+  symbol there can only be a variable holding the name, never the name itself;
+  the same goes for `library()` and `require()` when the call passes
+  `character.only = TRUE`. A guard such as
+  `for (pkg in c("callr", "jsonlite")) requireNamespace(pkg, quietly = TRUE)`
+  used to add a package literally called `pkg` to `DESCRIPTION`, which then
+  stopped every `renv` / `pak` install on a package that cannot exist. A symbol
+  is still read as the package name for `library()`, `require()` and `use()`,
+  which compute on the unevaluated argument (#143).
+
 # attachment 1.1.0
 
 ## New features

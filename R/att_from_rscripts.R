@@ -66,17 +66,26 @@ att_from_rscript <- function(path, encoding = getOption("encoding")) {
 }
 
 # Known dependency-introducing function calls and where the package arg lives.
-# Each entry: `arg_name` = canonical named arg, `arg_index` = positional fallback.
+# Each entry: `arg_name` = canonical named arg, `arg_index` = positional fallback,
+# `nse` = whether the call computes on the *unevaluated* argument.
 # Kept intentionally narrow: only calls that *load/attach* a package are treated
 # as introducing a dependency. `packageVersion()`, `getNamespace()`, and friends
 # are often used for feature-detection and should not silently expand Imports.
+#
+# `nse` decides whether a bare symbol may be read as the package name.
+# `library(dplyr)` attaches dplyr, so there the symbol IS the name. But
+# `requireNamespace()`, `loadNamespace()` and the `ns` argument of
+# `getFromNamespace()` take a character string, evaluated as usual:
+# `requireNamespace(dplyr)` is an "object not found" error, so a symbol there can
+# only be a variable holding the name. Reading it as a package name invents a
+# dependency named after a loop variable (#143).
 pkg_intro_calls <- list(
-  library          = list(arg_name = "package", arg_index = 1L),
-  require          = list(arg_name = "package", arg_index = 1L),
-  requireNamespace = list(arg_name = "package", arg_index = 1L),
-  loadNamespace    = list(arg_name = "package", arg_index = 1L),
-  use              = list(arg_name = "package", arg_index = 1L),
-  getFromNamespace = list(arg_name = "ns",      arg_index = 2L)
+  library          = list(arg_name = "package", arg_index = 1L, nse = TRUE),
+  require          = list(arg_name = "package", arg_index = 1L, nse = TRUE),
+  requireNamespace = list(arg_name = "package", arg_index = 1L, nse = FALSE),
+  loadNamespace    = list(arg_name = "package", arg_index = 1L, nse = FALSE),
+  use              = list(arg_name = "package", arg_index = 1L, nse = TRUE),
+  getFromNamespace = list(arg_name = "ns",      arg_index = 2L, nse = FALSE)
 )
 
 match_call_arg <- function(call_args, arg_name, arg_index) {
@@ -95,6 +104,36 @@ arg_as_string <- function(arg) {
   if (is.character(arg) && length(arg) == 1) return(arg)
   if (is.name(arg) || is.symbol(arg)) return(as.character(arg))
   NA_character_
+}
+
+# Same, minus the symbol branch: for a call whose argument is a plain character
+# string, a symbol is a variable and its name is not a package name.
+arg_as_literal <- function(arg) {
+  if (is.character(arg) && length(arg) == 1) return(arg)
+  NA_character_
+}
+
+# `library(x, character.only = TRUE)` is the caller stating that `x` holds the
+# name rather than being it, so the symbol must not be read. Anything other than
+# a literal FALSE is taken as character-only: when the flag itself is a variable
+# nothing can be inferred, and staying silent beats inventing a package.
+is_character_only <- function(call_args) {
+  flag <- call_args[["character.only"]]
+  if (is.null(flag)) return(FALSE)
+
+  !identical(flag, FALSE)
+}
+
+# The package named by one dependency-introducing call, or NA_character_ when the
+# source does not say which package it is.
+pkg_from_intro_call <- function(fn_name, call_args) {
+  spec <- pkg_intro_calls[[fn_name]]
+  arg <- match_call_arg(call_args, spec$arg_name, spec$arg_index)
+  if (isTRUE(spec$nse) && !is_character_only(call_args)) {
+    return(arg_as_string(arg))
+  }
+
+  arg_as_literal(arg)
 }
 
 is_empty_symbol <- function(x) {
@@ -128,10 +167,8 @@ parse_pkgs_from_r_code <- function(lines) {
           fn_name <- tryCatch(as.character(head[[3]]), error = function(e) NA_character_)
           if (length(fn_name) == 1 && !is.na(fn_name) &&
               fn_name %in% names(pkg_intro_calls)) {
-            spec <- pkg_intro_calls[[fn_name]]
             call_args <- as.list(x)[-1]
-            arg <- match_call_arg(call_args, spec$arg_name, spec$arg_index)
-            pkg <- arg_as_string(arg)
+            pkg <- pkg_from_intro_call(fn_name, call_args)
             if (!is.na(pkg) && nzchar(pkg)) pkgs[[length(pkgs) + 1L]] <<- pkg
           }
         }
@@ -143,10 +180,8 @@ parse_pkgs_from_r_code <- function(lines) {
             if (!is.na(ns) && nzchar(ns)) pkgs[[length(pkgs) + 1L]] <<- ns
           }
         } else if (fn %in% names(pkg_intro_calls)) {
-          spec <- pkg_intro_calls[[fn]]
           call_args <- as.list(x)[-1]
-          arg <- match_call_arg(call_args, spec$arg_name, spec$arg_index)
-          pkg <- arg_as_string(arg)
+          pkg <- pkg_from_intro_call(fn, call_args)
           if (!is.na(pkg) && nzchar(pkg)) pkgs[[length(pkgs) + 1L]] <<- pkg
         }
       }
