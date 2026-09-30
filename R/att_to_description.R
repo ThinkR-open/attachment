@@ -245,6 +245,23 @@ att_amend_desc <- function(path = ".",
 #' @export
 att_to_desc_from_pkg <- att_amend_desc
 
+# Rank of a dependency type, strongest first, for deciding which of two rows
+# pinning the same package carries the version that survives. Imports is the
+# strongest statement about a package that is actually used; Enhances is the
+# weakest, being about the other package rather than about this one. An unknown
+# type ranks last rather than erroring: DESCRIPTION may grow a field we do not
+# know, and a dependency list is not the place to stop a run over it.
+#
+# This sits BEFORE the roxygen block below on purpose. Between a block and its
+# function, it would have become the documented object, and `att_to_desc_from_is`
+# would have lost its entry on the next document() run.
+DEP_TYPE_PRECEDENCE <- c("Imports", "Depends", "LinkingTo", "Suggests", "Enhances")
+
+type_precedence <- function(type) {
+  return(match(type, table = DEP_TYPE_PRECEDENCE,
+               nomatch = length(DEP_TYPE_PRECEDENCE) + 1L))
+}
+
 #' Amend DESCRIPTION with dependencies from imports and suggests package list
 #'
 #' @param path.d path to description file.
@@ -373,10 +390,16 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   # A package listed under two types (a pinned Imports and a bare Suggests, say)
   # otherwise multiplies rows in the merge, and the later de-duplication would
   # keep whichever row happened to come first. Order so that an explicit
-  # constraint beats "*", and Imports beats Suggests on a tie, so a version set
+  # constraint beats "*", and the strongest type wins on a tie, so a version set
   # by hand in DESCRIPTION is never silently dropped.
+  #
+  # The precedence is SEMANTIC AND NOT ALPHABETICAL. `deps_orig` keeps every type
+  # but Depends, so Enhances and LinkingTo rows sit in it too, and sorting the
+  # type as text puts "Enhances" ahead of "Imports": an `Enhances: pkg (>= 9.9.9)`
+  # then overrode `Imports: pkg (>= 2.0.0)`, writing a bound the maintainer never
+  # set for that type and possibly making the package uninstallable.
   orig_versions <- deps_orig[
-    order(deps_orig$version == "*", deps_orig$type),
+    order(deps_orig$version == "*", type_precedence(deps_orig$type)),
     c("package", "version")]
   orig_versions <- orig_versions[!duplicated(orig_versions$package), ]
 
@@ -433,6 +456,26 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   if (length(removed) > 0) {
     message("[-] ", length(removed), " package(s) removed: ",
             paste(removed, collapse = ", "), ".")
+
+    # A REMOVAL THAT TAKES A HAND-SET CONSTRAINT WITH IT DESERVES ITS OWN LINE.
+    # The list above names the package but says nothing of the version, so a
+    # load-bearing `pkgA (>= 1.2.0)` leaves inside a list of ordinary removals
+    # and nobody notices until the built image lacks the bound. The pin is set by
+    # a person and the scan has no opinion on it, so say what is leaving and how
+    # to keep it (issue #139).
+    pinned_gone <- deps_desc[
+      deps_desc$package %in% removed & deps_desc$version != "*",
+      c("package", "version")]
+    if (nrow(pinned_gone) > 0) {
+      message(
+        "[!] ", nrow(pinned_gone),
+        " removed package(s) carried a version constraint set in DESCRIPTION: ",
+        paste0(pinned_gone$package, " (", pinned_gone$version, ")",
+               collapse = ", "),
+        ". Add the directory where they are used to `dir.r`, or declare them",
+        " again by hand, if these constraints were deliberate."
+      )
+    }
   }
   added <- deps_new$package[!deps_new$package %in% deps_desc$package]
   if (length(added) > 0) {

@@ -49,6 +49,6 @@ Imports:
     yaml
 Suggests: 
     lifecycle,
-    renv (>= 0.8.4),
+    renv (>= 1.0.0),
     rstudioapi,
     testthat (>= 3.0.0)

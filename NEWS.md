@@ -13,6 +13,30 @@
   stopped every `renv` / `pak` install on a package that cannot exist. A symbol
   is still read as the package name for `library()`, `require()` and `use()`,
   which compute on the unevaluated argument (#143).
+- `att_amend_desc()` no longer lets an `Enhances` version constraint override the
+  `Imports` one for the same package. The rule that picks a version when a
+  package is pinned under two types ordered the type as text, and `"Enhances"`
+  sorts before `"Imports"`, so `Enhances: pkg (>= 9.9.9)` replaced
+  `Imports: pkg (>= 2.0.0)` and wrote a bound nobody had set for that type,
+  which can make a package uninstallable. The precedence is now named
+  explicitly, strongest first: Imports, Depends, LinkingTo, Suggests, Enhances.
+
+## New features
+
+- `att_amend_desc()` now says when a removed package took a version constraint
+  with it. The `[-] N package(s) removed` line names the package but not the
+  constraint, so a deliberate `pkgA (>= 1.2.0)` used to leave inside a list of
+  ordinary removals and go unnoticed until the built image lacked the bound. A
+  second line now lists those packages with their constraint and points at
+  `dir.r` for sources the default scan does not reach (#139).
+
+## Maintenance
+
+- The test suite reads lockfiles with `renv::lockfile_read()` instead of reaching
+  into renv with `getFromNamespace("lockfile", "renv")`, which stopped working
+  when renv 1.2.4 changed that internal. `renv` moves from
+  `Suggests: renv (>= 0.8.4)` to `renv (>= 1.0.0)`, the version that introduced
+  the public lockfile functions.
 
 # attachment 1.1.0
 
