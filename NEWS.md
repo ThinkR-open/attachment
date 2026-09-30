@@ -1,7 +1,18 @@
-# attachment 1.1.1
+# attachment 1.2.0
 
 ## Bug fixes
 
+- `att_amend_desc()` no longer writes nearly every dependency out of
+  DESCRIPTION when the package carries a `Depends:` entry other than `R` that
+  the code scan no longer finds. The guard around that branch tested the
+  *column* count of a data frame, so it held even with no row kept, and the
+  branch then took the complement of an empty selection with `x[-which(...), ]`,
+  which in R keeps nothing rather than everything. On a package with eleven
+  declared dependencies, two survived. The only visible trace was a message
+  reading `Package(s)  is(are) in category 'Depends'` with an empty list. The
+  guard now counts rows, and the complement is taken by negating the logical
+  test, which is correct on an empty frame instead of correct by accident
+  (#146).
 - `att_from_rscript()` (and therefore `att_amend_desc()`) no longer reports a
   variable name as a package name. `requireNamespace()`, `loadNamespace()` and
   the `ns` argument of `getFromNamespace()` take a character string, so a bare
@@ -36,12 +47,18 @@
 
 ## New features
 
-- `att_amend_desc()` now says when a removed package took a version constraint
-  with it. The `[-] N package(s) removed` line names the package but not the
-  constraint, so a deliberate `pkgA (>= 1.2.0)` used to leave inside a list of
-  ordinary removals and go unnoticed until the built image lacked the bound. A
-  `[!]` diagnostic now lists those packages with their constraint and points at
-  `dir.r` for sources the default scan does not reach (#139).
+- `att_amend_desc()` never drops a version constraint set by hand in
+  DESCRIPTION. A package that no scanned source mentions used to be removed and
+  its constraint to go with it, and a package listed in `pkg_ignore` used to be
+  removed too, although `pkg_ignore` means "do not infer this from code" and not
+  "delete what I wrote". Such an entry is now kept as declared, with its type and
+  its version, and reported so the decision is visible. Widening `dir.r` makes it
+  a detected dependency again; removing its constraint lets it go. A **bare**
+  entry, with no version, is still removed: there is nothing to lose, and
+  `pkg_ignore` stays usable for cleaning a wrong entry out. An `Imports` kept
+  this way while no code uses it draws `All declared Imports should be used` from
+  R CMD check, which reports a real defect of the package being amended that
+  dropping the pin used to conceal (#139).
 
 ## Maintenance
 

@@ -131,16 +131,19 @@ att_amend_desc(dir.r = c("R", "inst"))
 
 Packages detected this way are added to "Imports". A version already pinned by hand in DESCRIPTION for such a package is preserved.
 
-And if I do not widen `dir.r`, the dependency is not detected at all, so `att_amend_desc()` removes it from DESCRIPTION and the pin goes with it. That removal is reported:
+And if I do not widen `dir.r`, the dependency is not detected at all. It is **not** removed for that, because it carries a version constraint I set by hand, and {attachment} never drops one: the entry is kept as declared, and I am told so.
 
 ```
-[-] 3 package(s) removed: knitr, clipr, testthat.
-[!] 1 removed package(s) carried a version constraint set in DESCRIPTION: clipr (>= 1.0.0).
-    Add the directory where they are used to `dir.r`, or declare them again by hand,
-    if these constraints were deliberate.
+[=] 1 package(s) kept though no scanned source mentions them, because DESCRIPTION pins a version: clipr (>= 1.0.0).
+    Add the directory where they are used to `dir.r` if they are used,
+    or drop the version constraint to let them go.
 ```
 
-The second line is worth reading: the first one lists removals of every kind, while a constraint written by hand is a decision that {attachment} has no way to second-guess. Widening `dir.r` is the answer when the package really is used somewhere; declaring it again by hand is the answer when it is used somewhere no scan can see, a package named through a string variable for instance.
+A constraint written by hand is a decision that {attachment} has no way to second-guess, and it is often load-bearing: it is what puts the right version in a built image or a lockfile. So the entry stays until I say otherwise, and there are two ways to say it. Widening `dir.r` makes the package a detected dependency again, which is the answer when it really is used somewhere. Removing its constraint lets the next `att_amend_desc()` take it out, which is the answer when it is not.
+
+An `Imports` kept this way while no code uses it will draw `All declared Imports should be used` from `R CMD check`. That note is not the price of this behaviour, it is the point of it: a pinned dependency that nothing uses is a real thing to fix, and dropping the pin silently used to hide it.
+
+A **bare** entry, with no version, is still removed: there is nothing to lose, and `pkg_ignore` has to stay usable for cleaning a wrong entry out.
 
 
 ## Example on a fake package

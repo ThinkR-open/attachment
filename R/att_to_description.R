@@ -13,9 +13,10 @@
 #'   package directories (a deployment entry point under `inst/`, say). Packages
 #'   called with `library()` or `pkg::fun()` in these scripts are added to
 #'   Imports. A package that no scanned directory mentions is removed from
-#'   DESCRIPTION, and any version constraint set by hand goes with it: widening
-#'   `dir.r` is how such a dependency is kept, and a removal that drops a
-#'   constraint is reported so it does not pass unnoticed.
+#'   DESCRIPTION, unless it carries a version constraint set by hand, which is
+#'   never dropped: such an entry is kept as declared and reported. Widening
+#'   `dir.r` is how it becomes a detected dependency again; removing its
+#'   constraint is how it is allowed to go.
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
 #' @param dir.t path to tests directory. Set to empty (dir.t = "") to ignore.
 #' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown, covr for instance)
@@ -425,15 +426,24 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
       .[order(.$package),]
     if (nrow(Other_depends) != 0) {
       Other_depends_keep <- Other_depends[Other_depends$package %in% deps_new$package, ]
-      if (length(Other_depends_keep) != 0) {
+      # `nrow()` AND NOT `length()`. On a data frame `length()` is the column
+      # count, which survives an empty selection, so the guard used to hold with
+      # zero rows kept. The branch then ran on an empty frame and wrote nearly
+      # every dependency out of DESCRIPTION, announcing it as
+      # `Package(s)  is(are) in category 'Depends'` with an empty list (#146).
+      if (nrow(Other_depends_keep) != 0) {
         message("Package(s) ",
                 paste(Other_depends_keep$package, collapse = ", "),
                 " is(are) in category 'Depends'. Check your Description file",
                 " to be sure it is really what you want."
         )
-        # If in Depends, not in Imports
+        # If in Depends, not in Imports.
+        # The complement is taken by NEGATING THE LOGICAL and not by `-which()`:
+        # `x[-integer(0), ]` is the empty selection and not the whole frame, so a
+        # `which()` that matches nothing used to erase everything. The guard above
+        # now makes that unreachable; the logical form is correct on its own.
         deps_new <- rbind(Other_depends_keep,
-                          deps_new[-which(deps_new$package %in% Other_depends_keep$package),])
+                          deps_new[!deps_new$package %in% Other_depends_keep$package, ])
       }
     }
 
@@ -458,43 +468,49 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   # `unique()` because `deps_desc` holds one row per (type, package) pair: a
   # package pinned under both Imports and Suggests appears twice, and counting
   # rows announces "2 package(s) removed: pkgA, pkgA" for a single removal.
+  # A HAND-SET CONSTRAINT IS NEVER LOST. A pin is written by a person and the scan
+  # has no opinion on it, so a package carrying one is kept as declared rather
+  # than dropped for not being found. Two situations reached that loss: the package
+  # is not detected at all, or it sits in `pkg_ignore`, which means "do not infer
+  # this from code" and used to mean "delete what I wrote by hand". One rule closes
+  # both (issue #139).
+  #
+  # A BARE ENTRY STILL GOES. Nothing is lost where there is no constraint to lose,
+  # and `pkg_ignore` has to stay usable for cleaning a wrong entry out.
+  #
+  # The cost is named rather than hidden: an `Imports` kept while no code uses it
+  # draws `All declared Imports should be used` from R CMD check. That note reports
+  # a real defect of the package being amended, a pinned dependency it no longer
+  # uses, and dropping the pin used to conceal it.
+  #
+  # This runs BEFORE the comparison below, so a kept package is not announced as
+  # removed. One row per PACKAGE and not per constraint, since two types may pin
+  # the same one; which version survives follows `type_precedence()`, the order
+  # that already decides it everywhere else in this function.
+  pinned_kept <- deps_desc[
+    !deps_desc$package %in% deps_new$package & deps_desc$version != "*", ]
+  if (nrow(pinned_kept) > 0) {
+    pinned_kept <- pinned_kept[order(type_precedence(pinned_kept$type)), ]
+    pinned_kept <- pinned_kept[!duplicated(pinned_kept$package), ]
+    # The line breaks are part of the documented output, see the transcript in
+    # `vignettes/a-fill-pkg-description.Rmd`. `message()` pastes with no
+    # separator, so without them the guidance lands as one very long line.
+    message(
+      "[=] ", nrow(pinned_kept),
+      " package(s) kept though no scanned source mentions them, because",
+      " DESCRIPTION pins a version: ",
+      paste0(pinned_kept$package, " (", pinned_kept$version, ")",
+             collapse = ", "),
+      ".\n    Add the directory where they are used to `dir.r` if they are used,",
+      "\n    or drop the version constraint to let them go."
+    )
+    deps_new <- rbind(deps_new, pinned_kept[, c("type", "package", "version")])
+  }
+
   removed <- unique(deps_desc$package[!deps_desc$package %in% deps_new$package])
   if (length(removed) > 0) {
     message("[-] ", length(removed), " package(s) removed: ",
             paste(removed, collapse = ", "), ".")
-
-    # A REMOVAL THAT TAKES A HAND-SET CONSTRAINT WITH IT DESERVES ITS OWN LINE.
-    # The list above names the package but says nothing of the version, so a
-    # load-bearing `pkgA (>= 1.2.0)` leaves inside a list of ordinary removals
-    # and nobody notices until the built image lacks the bound. The pin is set by
-    # a person and the scan has no opinion on it, so say what is leaving and how
-    # to keep it (issue #139).
-    #
-    # One row per PACKAGE, not per constraint. Two types may pin the same
-    # package, and the count the user reads is a count of packages. Which of the
-    # two versions is shown follows `type_precedence()`, the same order that
-    # decides which version survives the rebuild: naming a bound here that the
-    # rebuild would not have kept would be its own kind of lie.
-    pinned_desc <- deps_desc[
-      deps_desc$package %in% removed & deps_desc$version != "*", ]
-    pinned_desc <- pinned_desc[order(type_precedence(pinned_desc$type)), ]
-    pinned_desc <- pinned_desc[!duplicated(pinned_desc$package), ]
-    pinned_gone <- pinned_desc[
-      order(match(pinned_desc$package, table = removed)),
-      c("package", "version")]
-    if (nrow(pinned_gone) > 0) {
-      # The line breaks are part of the documented output (see the transcript in
-      # `vignettes/a-fill-pkg-description.Rmd`). `message()` pastes with no
-      # separator, so without them the guidance lands as one ~200-char line.
-      message(
-        "[!] ", nrow(pinned_gone),
-        " removed package(s) carried a version constraint set in DESCRIPTION: ",
-        paste0(pinned_gone$package, " (", pinned_gone$version, ")",
-               collapse = ", "),
-        ".\n    Add the directory where they are used to `dir.r`, or declare",
-        " them again by hand,\n    if these constraints were deliberate."
-      )
-    }
   }
   added <- deps_new$package[!deps_new$package %in% deps_desc$package]
   if (length(added) > 0) {
