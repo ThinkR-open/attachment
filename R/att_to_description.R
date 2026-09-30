@@ -425,15 +425,24 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
       .[order(.$package),]
     if (nrow(Other_depends) != 0) {
       Other_depends_keep <- Other_depends[Other_depends$package %in% deps_new$package, ]
-      if (length(Other_depends_keep) != 0) {
+      # `nrow()` AND NOT `length()`. On a data frame `length()` is the column
+      # count, which survives an empty selection, so the guard used to hold with
+      # zero rows kept. The branch then ran on an empty frame and wrote nearly
+      # every dependency out of DESCRIPTION, announcing it as
+      # `Package(s)  is(are) in category 'Depends'` with an empty list (#146).
+      if (nrow(Other_depends_keep) != 0) {
         message("Package(s) ",
                 paste(Other_depends_keep$package, collapse = ", "),
                 " is(are) in category 'Depends'. Check your Description file",
                 " to be sure it is really what you want."
         )
-        # If in Depends, not in Imports
+        # If in Depends, not in Imports.
+        # The complement is taken by NEGATING THE LOGICAL and not by `-which()`:
+        # `x[-integer(0), ]` is the empty selection and not the whole frame, so a
+        # `which()` that matches nothing used to erase everything. The guard above
+        # now makes that unreachable; the logical form is correct on its own.
         deps_new <- rbind(Other_depends_keep,
-                          deps_new[-which(deps_new$package %in% Other_depends_keep$package),])
+                          deps_new[!deps_new$package %in% Other_depends_keep$package, ])
       }
     }
 
