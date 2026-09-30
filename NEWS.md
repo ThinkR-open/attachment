@@ -47,12 +47,18 @@
 
 ## New features
 
-- `att_amend_desc()` now says when a removed package took a version constraint
-  with it. The `[-] N package(s) removed` line names the package but not the
-  constraint, so a deliberate `pkgA (>= 1.2.0)` used to leave inside a list of
-  ordinary removals and go unnoticed until the built image lacked the bound. A
-  `[!]` diagnostic now lists those packages with their constraint and points at
-  `dir.r` for sources the default scan does not reach (#139).
+- `att_amend_desc()` never drops a version constraint set by hand in
+  DESCRIPTION. A package that no scanned source mentions used to be removed and
+  its constraint to go with it, and a package listed in `pkg_ignore` used to be
+  removed too, although `pkg_ignore` means "do not infer this from code" and not
+  "delete what I wrote". Such an entry is now kept as declared, with its type and
+  its version, and reported so the decision is visible. Widening `dir.r` makes it
+  a detected dependency again; removing its constraint lets it go. A **bare**
+  entry, with no version, is still removed: there is nothing to lose, and
+  `pkg_ignore` stays usable for cleaning a wrong entry out. An `Imports` kept
+  this way while no code uses it draws `All declared Imports should be used` from
+  R CMD check, which reports a real defect of the package being amended that
+  dropping the pin used to conceal (#139).
 
 ## Maintenance
 

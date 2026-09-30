@@ -56,9 +56,10 @@ parse for dependencies. Defaults to \code{"R"}. Pass several paths, for example
 package directories (a deployment entry point under \verb{inst/}, say). Packages
 called with \code{library()} or \code{pkg::fun()} in these scripts are added to
 Imports. A package that no scanned directory mentions is removed from
-DESCRIPTION, and any version constraint set by hand goes with it: widening
-\code{dir.r} is how such a dependency is kept, and a removal that drops a
-constraint is reported so it does not pass unnoticed.}
+DESCRIPTION, unless it carries a version constraint set by hand, which is
+never dropped: such an entry is kept as declared and reported. Widening
+\code{dir.r} is how it becomes a detected dependency again; removing its
+constraint is how it is allowed to go.}
 
 \item{dir.v}{path to vignettes directory. Set to empty (dir.v = "") to ignore.}
 
