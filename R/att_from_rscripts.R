@@ -66,25 +66,105 @@ att_from_rscript <- function(path, encoding = getOption("encoding")) {
 }
 
 # Known dependency-introducing function calls and where the package arg lives.
-# Each entry: `arg_name` = canonical named arg, `arg_index` = positional fallback.
+# Each entry: `arg_name` = canonical named arg, `arg_index` = positional fallback,
+# `nse` = whether the call computes on the *unevaluated* argument.
 # Kept intentionally narrow: only calls that *load/attach* a package are treated
 # as introducing a dependency. `packageVersion()`, `getNamespace()`, and friends
 # are often used for feature-detection and should not silently expand Imports.
+#
+# `nse` decides whether a bare symbol may be read as the package name.
+# `library(dplyr)` attaches dplyr, so there the symbol IS the name. But
+# `requireNamespace()`, `loadNamespace()` and the `ns` argument of
+# `getFromNamespace()` take a character string, evaluated as usual:
+# `requireNamespace(dplyr)` is an "object not found" error, so a symbol there can
+# only be a variable holding the name. Reading it as a package name invents a
+# dependency named after a loop variable (#143).
 pkg_intro_calls <- list(
-  library          = list(arg_name = "package", arg_index = 1L),
-  require          = list(arg_name = "package", arg_index = 1L),
-  requireNamespace = list(arg_name = "package", arg_index = 1L),
-  loadNamespace    = list(arg_name = "package", arg_index = 1L),
-  use              = list(arg_name = "package", arg_index = 1L),
-  getFromNamespace = list(arg_name = "ns",      arg_index = 2L)
+  library          = list(arg_name = "package", arg_index = 1L, nse = TRUE),
+  require          = list(arg_name = "package", arg_index = 1L, nse = TRUE),
+  requireNamespace = list(arg_name = "package", arg_index = 1L, nse = FALSE),
+  loadNamespace    = list(arg_name = "package", arg_index = 1L, nse = FALSE),
+  use              = list(arg_name = "package", arg_index = 1L, nse = TRUE),
+  getFromNamespace = list(arg_name = "ns",      arg_index = 2L, nse = FALSE)
 )
 
-match_call_arg <- function(call_args, arg_name, arg_index) {
+# Formal names of a dependency-introducing call, READ FROM THE RUNNING R rather
+# than written down here. A hardcoded table is a lie waiting to happen: on R 4.6.1
+# `requireNamespace()` is `(package, ..., quietly)`, where a table written from an
+# older signature still claimed `versionCheck` and `lib.loc`. A function this R
+# does not have (`base::use()` exists only since R 4.4) yields no names, and no
+# names means no partial matching, which is the previous behaviour rather than a
+# guess.
+.formals_cache <- new.env(parent = emptyenv())
+
+pkg_intro_formals <- function(fn_name) {
+  connu <- .formals_cache[[fn_name]]
+  if (!is.null(connu)) {
+    return(connu)
+  }
+  trouve <- character(0)
+  for (ou in c("base", "utils")) {
+    f <- tryCatch(
+      get(fn_name, envir = asNamespace(ou), inherits = FALSE),
+      error = function(e) NULL
+    )
+    if (is.function(f)) {
+      trouve <- names(formals(f))
+      break
+    }
+  }
+  if (is.null(trouve)) trouve <- character(0)
+  assign(fn_name, trouve, envir = .formals_cache)
+
+  trouve
+}
+
+# R MATCHES A NAMED ARGUMENT BY PREFIX, NOT BY STRING EQUALITY. A name that is not
+# an exact formal is matched against a prefix unambiguous among the formals. So
+# `library(x, char = TRUE)` runs with character.only TRUE, and matching by equality
+# alone both misses that flag, inventing a package out of the symbol `x`, and
+# misses `library(pack = "pkg")`, a real dependency.
+#
+# ONE EXCEPTION, AND IT IS R'S RULE, NOT A PRECAUTION: a formal placed after `...`
+# can only be matched by its exact name, anything shorter falling into the dots.
+# `requireNamespace()` is `(package, ..., quietly)`, so `quietly` is in that case
+# while `package` is not.
+#
+# The POSITION of the match is returned rather than its value, so the caller can
+# tell an absent argument from one whose value happens to be NULL.
+match_named_arg <- function(nms, arg_name, formals_names) {
+  exact <- which(nms == arg_name)
+  if (length(exact) > 0) {
+    return(exact[[1]])
+  }
+  if (length(formals_names) == 0) {
+    return(NA_integer_)
+  }
+  dots <- match("...", table = formals_names)
+  rang <- match(arg_name, table = formals_names)
+  if (!is.na(dots) && !is.na(rang) && rang > dots) {
+    return(NA_integer_)
+  }
+  # A name that IS another formal exactly is that other argument, not an
+  # abbreviation of this one.
+  candidats <- which(nzchar(nms) & !(nms %in% formals_names))
+  for (i in candidats) {
+    vises <- formals_names[startsWith(formals_names, nms[[i]])]
+    if (length(vises) == 1 && identical(vises, arg_name)) {
+      return(i)
+    }
+  }
+
+  NA_integer_
+}
+
+match_call_arg <- function(call_args, arg_name, arg_index,
+                           formals_names = character(0)) {
   if (length(call_args) == 0) return(NULL)
   nms <- names(call_args)
   if (is.null(nms)) nms <- rep("", length(call_args))
-  hit <- which(nms == arg_name)
-  if (length(hit) > 0) return(call_args[[hit[1]]])
+  hit <- match_named_arg(nms, arg_name = arg_name, formals_names = formals_names)
+  if (!is.na(hit)) return(call_args[[hit]])
   positional <- call_args[nms == ""]
   if (length(positional) >= arg_index) return(positional[[arg_index]])
   NULL
@@ -95,6 +175,48 @@ arg_as_string <- function(arg) {
   if (is.character(arg) && length(arg) == 1) return(arg)
   if (is.name(arg) || is.symbol(arg)) return(as.character(arg))
   NA_character_
+}
+
+# Same, minus the symbol branch: for a call whose argument is a plain character
+# string, a symbol is a variable and its name is not a package name.
+arg_as_literal <- function(arg) {
+  if (is.character(arg) && length(arg) == 1) return(arg)
+  NA_character_
+}
+
+# `library(x, character.only = TRUE)` is the caller stating that `x` holds the
+# name rather than being it, so the symbol must not be read. Anything other than
+# a literal FALSE is taken as character-only: when the flag itself is a variable
+# nothing can be inferred, and staying silent beats inventing a package.
+is_character_only <- function(call_args, formals_names = character(0)) {
+  nms <- names(call_args)
+  if (is.null(nms)) {
+    return(FALSE)
+  }
+  i <- match_named_arg(
+    nms, arg_name = "character.only", formals_names = formals_names
+  )
+  if (is.na(i)) {
+    return(FALSE)
+  }
+
+  !identical(call_args[[i]], FALSE)
+}
+
+# The package named by one dependency-introducing call, or NA_character_ when the
+# source does not say which package it is.
+pkg_from_intro_call <- function(fn_name, call_args) {
+  spec <- pkg_intro_calls[[fn_name]]
+  formals_names <- pkg_intro_formals(fn_name)
+  arg <- match_call_arg(
+    call_args, spec$arg_name, spec$arg_index, formals_names = formals_names
+  )
+  if (isTRUE(spec$nse) &&
+      !is_character_only(call_args, formals_names = formals_names)) {
+    return(arg_as_string(arg))
+  }
+
+  arg_as_literal(arg)
 }
 
 is_empty_symbol <- function(x) {
@@ -128,10 +250,8 @@ parse_pkgs_from_r_code <- function(lines) {
           fn_name <- tryCatch(as.character(head[[3]]), error = function(e) NA_character_)
           if (length(fn_name) == 1 && !is.na(fn_name) &&
               fn_name %in% names(pkg_intro_calls)) {
-            spec <- pkg_intro_calls[[fn_name]]
             call_args <- as.list(x)[-1]
-            arg <- match_call_arg(call_args, spec$arg_name, spec$arg_index)
-            pkg <- arg_as_string(arg)
+            pkg <- pkg_from_intro_call(fn_name, call_args)
             if (!is.na(pkg) && nzchar(pkg)) pkgs[[length(pkgs) + 1L]] <<- pkg
           }
         }
@@ -143,10 +263,8 @@ parse_pkgs_from_r_code <- function(lines) {
             if (!is.na(ns) && nzchar(ns)) pkgs[[length(pkgs) + 1L]] <<- ns
           }
         } else if (fn %in% names(pkg_intro_calls)) {
-          spec <- pkg_intro_calls[[fn]]
           call_args <- as.list(x)[-1]
-          arg <- match_call_arg(call_args, spec$arg_name, spec$arg_index)
-          pkg <- arg_as_string(arg)
+          pkg <- pkg_from_intro_call(fn, call_args)
           if (!is.na(pkg) && nzchar(pkg)) pkgs[[length(pkgs) + 1L]] <<- pkg
         }
       }

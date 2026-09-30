@@ -1,6 +1,6 @@
 Package: attachment
 Title: Deal with Dependencies
-Version: 1.0.1
+Version: 1.1.1
 Authors@R: c(
     person("Vincent", "Guyader", , "vincent@thinkr.fr", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-0671-9270")),
@@ -49,6 +49,6 @@ Imports:
     yaml
 Suggests: 
     lifecycle,
-    renv (>= 0.8.4),
+    renv (>= 1.0.0),
     rstudioapi,
     testthat (>= 3.0.0)

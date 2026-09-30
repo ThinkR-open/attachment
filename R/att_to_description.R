@@ -7,7 +7,15 @@
 #'
 #' @param path path to the root of the package directory. Default to current directory.
 #' @param path.n path to namespace file.
-#' @param dir.r path to directory with R scripts.
+#' @param dir.r Character vector of one or more directories holding R scripts to
+#'   parse for dependencies. Defaults to `"R"`. Pass several paths, for example
+#'   `c("R", "inst")`, to also scan sources that live outside the standard
+#'   package directories (a deployment entry point under `inst/`, say). Packages
+#'   called with `library()` or `pkg::fun()` in these scripts are added to
+#'   Imports. A package that no scanned directory mentions is removed from
+#'   DESCRIPTION, and any version constraint set by hand goes with it: widening
+#'   `dir.r` is how such a dependency is kept, and a removal that drops a
+#'   constraint is reported so it does not pass unnoticed.
 #' @param dir.v path to vignettes directory. Set to empty (dir.v = "") to ignore.
 #' @param dir.t path to tests directory. Set to empty (dir.t = "") to ignore.
 #' @param extra.suggests vector of other packages that should be added in Suggests (pkgdown, covr for instance)
@@ -190,7 +198,7 @@ att_amend_desc <- function(path = ".",
   if (path.n != "") {
     imports <- unique(c(imports, att_from_namespace(path.n, document = document)))
   }
-  if (dir.r != "") {
+  if (!identical(dir.r, "")) {
     # Look for R scripts
     imports <- unique(c(imports, att_from_rscripts(dir.r)))
     # Look for Rmd, in case in a bookdown
@@ -201,7 +209,7 @@ att_amend_desc <- function(path = ".",
   suggests <- NULL
 
   # Get suggests in examples and remove if already in imports
-  if (dir.r != "") {
+  if (!identical(dir.r, "")) {
     ex <- att_from_examples(dir.r = dir.r)
     suggests <- c(suggests, ex[!ex %in% imports])
   }
@@ -239,6 +247,23 @@ att_amend_desc <- function(path = ".",
 #' @rdname att_amend_desc
 #' @export
 att_to_desc_from_pkg <- att_amend_desc
+
+# Rank of a dependency type, strongest first, for deciding which of two rows
+# pinning the same package carries the version that survives. Imports is the
+# strongest statement about a package that is actually used; Enhances is the
+# weakest, being about the other package rather than about this one. An unknown
+# type ranks last rather than erroring: DESCRIPTION may grow a field we do not
+# know, and a dependency list is not the place to stop a run over it.
+#
+# This sits BEFORE the roxygen block below on purpose. Between a block and its
+# function, it would have become the documented object, and `att_to_desc_from_is`
+# would have lost its entry on the next document() run.
+DEP_TYPE_PRECEDENCE <- c("Imports", "Depends", "LinkingTo", "Suggests", "Enhances")
+
+type_precedence <- function(type) {
+  return(match(type, table = DEP_TYPE_PRECEDENCE,
+               nomatch = length(DEP_TYPE_PRECEDENCE) + 1L))
+}
 
 #' Amend DESCRIPTION with dependencies from imports and suggests package list
 #'
@@ -364,10 +389,27 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   all_packages <- c(imports, suggests)
   if (is.null(all_packages)) {all_packages <- character()}
 
+  # Collapse the original versions to one row per package before the join.
+  # A package listed under two types (a pinned Imports and a bare Suggests, say)
+  # otherwise multiplies rows in the merge, and the later de-duplication would
+  # keep whichever row happened to come first. Order so that an explicit
+  # constraint beats "*", and the strongest type wins on a tie, so a version set
+  # by hand in DESCRIPTION is never silently dropped.
+  #
+  # The precedence is SEMANTIC AND NOT ALPHABETICAL. `deps_orig` keeps every type
+  # but Depends, so Enhances and LinkingTo rows sit in it too, and sorting the
+  # type as text puts "Enhances" ahead of "Imports": an `Enhances: pkg (>= 9.9.9)`
+  # then overrode `Imports: pkg (>= 2.0.0)`, writing a bound the maintainer never
+  # set for that type and possibly making the package uninstallable.
+  orig_versions <- deps_orig[
+    order(deps_orig$version == "*", type_precedence(deps_orig$type)),
+    c("package", "version")]
+  orig_versions <- orig_versions[!duplicated(orig_versions$package), ]
+
   deps_new <- data.frame(
     type = c(rep("Imports", length(imports)), rep("Suggests", length(suggests))),
     package = all_packages, stringsAsFactors = FALSE) %>%
-    merge(deps_orig[,c("package", "version")],
+    merge(orig_versions,
           by = "package", sort = TRUE, all.x = TRUE, all.y = FALSE) %>%
     .[,c("type", "package", "version")] %>%
     .[order(.$type, .$package), , drop = FALSE] %>%
@@ -413,10 +455,46 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   deps_new$version[is.na(deps_new$version)] <- "*"
 
   # Compare old and new
-  removed <- deps_desc$package[!deps_desc$package %in% deps_new$package]
+  # `unique()` because `deps_desc` holds one row per (type, package) pair: a
+  # package pinned under both Imports and Suggests appears twice, and counting
+  # rows announces "2 package(s) removed: pkgA, pkgA" for a single removal.
+  removed <- unique(deps_desc$package[!deps_desc$package %in% deps_new$package])
   if (length(removed) > 0) {
     message("[-] ", length(removed), " package(s) removed: ",
             paste(removed, collapse = ", "), ".")
+
+    # A REMOVAL THAT TAKES A HAND-SET CONSTRAINT WITH IT DESERVES ITS OWN LINE.
+    # The list above names the package but says nothing of the version, so a
+    # load-bearing `pkgA (>= 1.2.0)` leaves inside a list of ordinary removals
+    # and nobody notices until the built image lacks the bound. The pin is set by
+    # a person and the scan has no opinion on it, so say what is leaving and how
+    # to keep it (issue #139).
+    #
+    # One row per PACKAGE, not per constraint. Two types may pin the same
+    # package, and the count the user reads is a count of packages. Which of the
+    # two versions is shown follows `type_precedence()`, the same order that
+    # decides which version survives the rebuild: naming a bound here that the
+    # rebuild would not have kept would be its own kind of lie.
+    pinned_desc <- deps_desc[
+      deps_desc$package %in% removed & deps_desc$version != "*", ]
+    pinned_desc <- pinned_desc[order(type_precedence(pinned_desc$type)), ]
+    pinned_desc <- pinned_desc[!duplicated(pinned_desc$package), ]
+    pinned_gone <- pinned_desc[
+      order(match(pinned_desc$package, table = removed)),
+      c("package", "version")]
+    if (nrow(pinned_gone) > 0) {
+      # The line breaks are part of the documented output (see the transcript in
+      # `vignettes/a-fill-pkg-description.Rmd`). `message()` pastes with no
+      # separator, so without them the guidance lands as one ~200-char line.
+      message(
+        "[!] ", nrow(pinned_gone),
+        " removed package(s) carried a version constraint set in DESCRIPTION: ",
+        paste0(pinned_gone$package, " (", pinned_gone$version, ")",
+               collapse = ", "),
+        ".\n    Add the directory where they are used to `dir.r`, or declare",
+        " them again by hand,\n    if these constraints were deliberate."
+      )
+    }
   }
   added <- deps_new$package[!deps_new$package %in% deps_desc$package]
   if (length(added) > 0) {
