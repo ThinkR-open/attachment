@@ -13,7 +13,7 @@ for the correspondence with att_to_desc_from_is()."><meta property="og:image" co
 
     <a class="navbar-brand me-2" href="../index.html">attachment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -110,7 +110,15 @@ for the correspondence with <code><a href="att_to_desc_from_is.html">att_to_desc
 
 
 <dt id="arg-dir-r">dir.r<a class="anchor" aria-label="anchor" href="#arg-dir-r"></a></dt>
-<dd><p>path to directory with R scripts.</p></dd>
+<dd><p>Character vector of one or more directories holding R scripts to
+parse for dependencies. Defaults to <code>"R"</code>. Pass several paths, for example
+<code>c("R", "inst")</code>, to also scan sources that live outside the standard
+package directories (a deployment entry point under <code>inst/</code>, say). Packages
+called with <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> or <code>pkg::fun()</code> in these scripts are added to
+Imports. A package that no scanned directory mentions is removed from
+DESCRIPTION, and any version constraint set by hand goes with it: widening
+<code>dir.r</code> is how such a dependency is kept, and a removal that drops a
+constraint is reported so it does not pass unnoticed.</p></dd>
 
 
 <dt id="arg-dir-v">dir.v<a class="anchor" aria-label="anchor" href="#arg-dir-v"></a></dt>
@@ -198,7 +206,7 @@ file directly.</p>
 <span class="r-in"><span><span class="fu">att_amend_desc</span><span class="op">(</span>path <span class="op">=</span> <span class="va">dummypackage</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Saving attachment parameters to yaml config file</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Updating dummypackage documentation</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Setting <span style="color: #00BB00;">Config/roxygen2/version</span> to <span style="color: #0000BB;">"8.0.0"</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Setting <span style="color: #00BB00;">Config/roxygen2/version</span> to <span style="color: #0000BB;">"8.1.0"</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Writing <span style="color: #0000BB;">NAMESPACE</span></span>
@@ -244,7 +252,7 @@ file directly.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

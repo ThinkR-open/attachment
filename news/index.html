@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">attachment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,10 +39,39 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.1" id="attachment-101">attachment 1.0.1<a class="anchor" aria-label="anchor" href="#attachment-101"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1.1" id="attachment-111">attachment 1.1.1<a class="anchor" aria-label="anchor" href="#attachment-111"></a></h2>
 <div class="section level3">
-<h3 id="bug-fixes-1-0-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-1"></a></h3>
+<h3 id="bug-fixes-1-1-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-1"></a></h3>
 <ul><li>
+<code><a href="../reference/att_from_rscript.html">att_from_rscript()</a></code> (and therefore <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code>) no longer reports a variable name as a package name. <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace()</a></code>, <code><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">loadNamespace()</a></code> and the <code>ns</code> argument of <code><a href="https://rdrr.io/r/utils/getFromNamespace.html" class="external-link">getFromNamespace()</a></code> take a character string, so a bare symbol there can only be a variable holding the name, never the name itself; the same goes for <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> and <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code> when the call passes <code>character.only = TRUE</code>. A guard such as <code>for (pkg in c("callr", "jsonlite")) requireNamespace(pkg, quietly = TRUE)</code> used to add a package literally called <code>pkg</code> to <code>DESCRIPTION</code>, which then stopped every <code>renv</code> / <code>pak</code> install on a package that cannot exist. A symbol is still read as the package name for <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code>, <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code> and <code><a href="https://rdrr.io/r/base/use.html" class="external-link">use()</a></code>, which compute on the unevaluated argument (<a href="https://github.com/ThinkR-open/attachment/issues/143" class="external-link">#143</a>).</li>
+<li>Named arguments of a dependency-introducing call are now matched the way R matches them, by exact name first and then by a prefix unambiguous among the formals, instead of by string equality. An abbreviated but perfectly legal spelling of the flag, <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(pkgvar, char = TRUE)</a></code>, went unrecognised and added a package named after the variable; and an abbreviated package argument, <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library(pack = "jsonlite")</a></code>, was missed altogether. The formals are read from the running R rather than written down here, and a formal placed after <code>...</code> is matched by its exact name only, which is R’s own rule (<a href="https://github.com/ThinkR-open/attachment/issues/143" class="external-link">#143</a>).</li>
+<li>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> no longer lets an <code>Enhances</code> version constraint override the <code>Imports</code> one for the same package. The rule that picks a version when a package is pinned under two types ordered the type as text, and <code>"Enhances"</code> sorts before <code>"Imports"</code>, so <code>Enhances: pkg (&gt;= 9.9.9)</code> replaced <code>Imports: pkg (&gt;= 2.0.0)</code> and wrote a bound nobody had set for that type, which can make a package uninstallable. The precedence is now named explicitly, strongest first: Imports, Depends, LinkingTo, Suggests, Enhances.</li>
+<li>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> no longer counts a removal twice, nor names the package twice, when DESCRIPTION lists it under two dependency types. The list read by the comparison holds one row per (type, package) pair, so a package pinned under both <code>Imports</code> and <code>Suggests</code> produced <code>[-] 2 package(s) removed: pkgA, pkgA</code> for a single removal.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-features-1-1-1">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-1"></a></h3>
+<ul><li>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> now says when a removed package took a version constraint with it. The <code>[-] N package(s) removed</code> line names the package but not the constraint, so a deliberate <code>pkgA (&gt;= 1.2.0)</code> used to leave inside a list of ordinary removals and go unnoticed until the built image lacked the bound. A <code>[!]</code> diagnostic now lists those packages with their constraint and points at <code>dir.r</code> for sources the default scan does not reach (<a href="https://github.com/ThinkR-open/attachment/issues/139" class="external-link">#139</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="maintenance-1-1-1">Maintenance<a class="anchor" aria-label="anchor" href="#maintenance-1-1-1"></a></h3>
+<ul><li>The test suite reads lockfiles with <code><a href="https://rstudio.github.io/renv/reference/lockfiles.html" class="external-link">renv::lockfile_read()</a></code> instead of reaching into renv with <code>getFromNamespace("lockfile", "renv")</code>, which stopped working when renv 1.2.4 changed that internal. <code>renv</code> moves from <code>Suggests: renv (&gt;= 0.8.4)</code> to <code>renv (&gt;= 1.0.0)</code>, the version that introduced the public lockfile functions.</li>
+</ul></div>
+</div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.1.0" id="attachment-110">attachment 1.1.0<a class="anchor" aria-label="anchor" href="#attachment-110"></a></h2><p class="text-muted">CRAN release: 2026-08-20</p>
+<div class="section level3">
+<h3 id="new-features-1-1-0">New features<a class="anchor" aria-label="anchor" href="#new-features-1-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> now accepts several directories in <code>dir.r</code>, for example <code>att_amend_desc(dir.r = c("R", "inst"))</code>. This lets you declare dependencies used only outside the standard package directories, such as a deployment entry point under <code>inst/</code>, which the default scan does not reach. Passing a vector previously raised <code>the condition has length &gt; 1</code> (<a href="https://github.com/ThinkR-open/attachment/issues/139" class="external-link">#139</a>).</li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-1-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-1-0"></a></h3>
+<ul><li>
+<code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> no longer drops a version constraint set by hand in DESCRIPTION when the same package is listed under two types (a pinned <code>Imports</code> and a bare <code>Suggests</code>, for instance). Previously the version that survived depended on the order of the rows in DESCRIPTION; the hand-set constraint is now kept, and when both an <code>Imports</code> and a <code>Suggests</code> row carry a version the <code>Imports</code> one wins (<a href="https://github.com/ThinkR-open/attachment/issues/140" class="external-link">#140</a>).</li>
+<li>
 <code><a href="../reference/att_from_examples.html">att_from_examples()</a></code> (and therefore <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code>) no longer chokes on inline R inside roxygen2 markdown tags such as <code>@param x \</code>r helper(“x”)`<code>when</code>helper()<code>is a package-local function. Previously,</code>att_from_examples()<code>delegated to</code>roxygen2::parse_file()<code>, which evaluated inline R against</code>baseenv()<code>(roxygen2's fallback when no package env is registered) — base R is reachable, but package-local helpers are not, so each affected tag emitted</code>could not find function “helper”`. Example detection now uses a focused regex over the source instead of the full roxygen2 tokenizer (<a href="https://github.com/ThinkR-open/attachment/issues/135" class="external-link">#135</a>).</li>
 </ul></div>
 </div>
@@ -363,7 +392,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

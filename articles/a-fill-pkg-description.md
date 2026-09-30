@@ -98,7 +98,7 @@ with {bookdown} being used only there in my package:
     ---
     title: "My Super template"
     author: "John Doe"
-    date: "2026-05-29"
+    date: "2026-09-30"
     output: bookdown::html_document2
     ---
 
@@ -138,6 +138,38 @@ In the *Imports* case, if for any reason I decide to delete this
 anymore, and {attachment} will automatically remove it with the next
 [`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
 
+### I have an R script in my “inst/” directory
+
+If the file under “inst/” is a plain R script rather than a notebook,
+for instance a deployment entry point “inst/main.R” that calls
+`pkg::fun()`, you can have {attachment} scan it by adding its directory
+to `dir.r`:
+
+``` r
+
+att_amend_desc(dir.r = c("R", "inst"))
+```
+
+Packages detected this way are added to “Imports”. A version already
+pinned by hand in DESCRIPTION for such a package is preserved.
+
+And if I do not widen `dir.r`, the dependency is not detected at all, so
+[`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+removes it from DESCRIPTION and the pin goes with it. That removal is
+reported:
+
+    [-] 3 package(s) removed: knitr, clipr, testthat.
+    [!] 1 removed package(s) carried a version constraint set in DESCRIPTION: clipr (>= 1.0.0).
+        Add the directory where they are used to `dir.r`, or declare them again by hand,
+        if these constraints were deliberate.
+
+The second line is worth reading: the first one lists removals of every
+kind, while a constraint written by hand is a decision that {attachment}
+has no way to second-guess. Widening `dir.r` is the answer when the
+package really is used somewhere; declaring it again by hand is the
+answer when it is used somewhere no scan can see, a package named
+through a string variable for instance.
+
 ## Example on a fake package
 
 If you are running this inside a Rmd like here, you may need parameter
@@ -157,7 +189,7 @@ att_amend_desc(path = dummypackage, inside_rmd = TRUE, update.config = TRUE)
 #> Saving attachment parameters to yaml config file
 #> Loading required namespace: rstudioapi
 #> Updating dummypackage documentation
-#> ℹ Setting Config/roxygen2/version to "8.0.0"
+#> ℹ Setting Config/roxygen2/version to "8.1.0"
 #> Writing NAMESPACE
 #> ℹ Loading dummypackage
 #> Writing NAMESPACE

@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">attachment</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,7 +62,7 @@
                         <h4 data-toc-skip class="author">Sébastien
 Rochette</h4>
             
-            <h4 data-toc-skip class="date">2026-05-29</h4>
+            <h4 data-toc-skip class="date">2026-09-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/ThinkR-open/attachment/blob/main/vignettes/a-fill-pkg-description.Rmd" class="external-link"><code>vignettes/a-fill-pkg-description.Rmd</code></a></small>
       <div class="d-none name"><code>a-fill-pkg-description.Rmd</code></div>
@@ -163,7 +163,7 @@ follows, with {bookdown} being used only there in my package:</p>
 <pre><code>---
 title: "My Super template"
 author: "John Doe"
-date: "2026-05-29"
+date: "2026-09-30"
 output: bookdown::html_document2
 ---
 
@@ -193,13 +193,38 @@ this <code>my_knit()</code> function, then the {bookdown} dependency
 won’t be needed anymore, and {attachment} will automatically remove it
 with the next <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code></p>
 </div>
+<div class="section level3">
+<h3 id="i-have-an-r-script-in-my-inst-directory">I have an R script in my “inst/” directory<a class="anchor" aria-label="anchor" href="#i-have-an-r-script-in-my-inst-directory"></a>
+</h3>
+<p>If the file under “inst/” is a plain R script rather than a notebook,
+for instance a deployment entry point “inst/main.R” that calls
+<code>pkg::fun()</code>, you can have {attachment} scan it by adding its
+directory to <code>dir.r</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span>dir.r <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R"</span>, <span class="st">"inst"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Packages detected this way are added to “Imports”. A version already
+pinned by hand in DESCRIPTION for such a package is preserved.</p>
+<p>And if I do not widen <code>dir.r</code>, the dependency is not
+detected at all, so <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code> removes it from
+DESCRIPTION and the pin goes with it. That removal is reported:</p>
+<pre><code>[-] 3 package(s) removed: knitr, clipr, testthat.
+[!] 1 removed package(s) carried a version constraint set in DESCRIPTION: clipr (&gt;= 1.0.0).
+    Add the directory where they are used to `dir.r`, or declare them again by hand,
+    if these constraints were deliberate.</code></pre>
+<p>The second line is worth reading: the first one lists removals of
+every kind, while a constraint written by hand is a decision that
+{attachment} has no way to second-guess. Widening <code>dir.r</code> is
+the answer when the package really is used somewhere; declaring it again
+by hand is the answer when it is used somewhere no scan can see, a
+package named through a string variable for instance.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="example-on-a-fake-package">Example on a fake package<a class="anchor" aria-label="anchor" href="#example-on-a-fake-package"></a>
 </h2>
 <p>If you are running this inside a Rmd like here, you may need
 parameter <code>inside_rmd = TRUE</code>.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Copy package in a temporary directory</span></span>
 <span><span class="va">tmpdir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">"insidermd"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="va">tmpdir</span><span class="op">)</span></span>
@@ -212,7 +237,7 @@ parameter <code>inside_rmd = TRUE</code>.</p>
 <span><span class="co">#&gt; Saving attachment parameters to yaml config file</span></span>
 <span><span class="co">#&gt; Loading required namespace: rstudioapi</span></span>
 <span><span class="co">#&gt; Updating dummypackage documentation</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Setting <span style="color: #00BB00;">Config/roxygen2/version</span> to <span style="color: #0000BB;">"8.0.0"</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Setting <span style="color: #00BB00;">Config/roxygen2/version</span> to <span style="color: #0000BB;">"8.1.0"</span></span></span>
 <span><span class="co">#&gt; Writing <span style="color: #0000BB;">NAMESPACE</span></span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Loading <span style="color: #0000BB;">dummypackage</span></span></span>
 <span><span class="co">#&gt; Writing <span style="color: #0000BB;">NAMESPACE</span></span></span>
@@ -248,29 +273,29 @@ DESCRIPTION.</p>
 </li>
 </ul>
 <p>You may want to run it after <code><a href="../reference/att_amend_desc.html">att_amend_desc()</a></code>.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/att_amend_desc.html">att_amend_desc</a></span><span class="op">(</span><span class="va">dummypackage</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/set_remotes_to_desc.html">set_remotes_to_desc</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>If you only want to find if packages were installed from other source
 than CRAN, without amending DESCRIPTION, you can use
 <code><a href="../reference/find_remotes.html">find_remotes()</a></code>.</p>
 <p>You can use it on a vector of packages names</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/find_remotes.html">find_remotes</a></span><span class="op">(</span>pkg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"attachment"</span>, <span class="st">"desc"</span>, <span class="st">"glue"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $attachment</span></span>
 <span><span class="co">#&gt; local maybe ? </span></span>
 <span><span class="co">#&gt;            NA</span></span></code></pre></div>
 <p>You may also want to combine it to
 <code><a href="../reference/att_from_description.html">att_from_description()</a></code></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/att_from_description.html">att_from_description</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="../reference/find_remotes.html">find_remotes</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>If you want to get the complete list of packages installed on your
 computer with non-CRAN repositories:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/find_remotes.html">find_remotes</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.dirs</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">FALSE</span>, recursive <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>You can test it if you install {fusen} from GitHub or r-universe:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># From GitHub</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ThinkR-open/fusen"</span>,</span>
 <span>                        quiet <span class="op">=</span> <span class="cn">TRUE</span>, upgrade <span class="op">=</span> <span class="st">"never"</span><span class="op">)</span></span>
@@ -291,11 +316,11 @@ Let’s say, once you want to release a version of your package, you may
 want to deliver the list of dependencies your users will have to
 install. A little script like
 <code>install.packages(c(...all dep...))</code> would be so nice :</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/create_dependencies_file.html">create_dependencies_file</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>This file will be placed in <code>inst/dependencies.R</code> and
 contains :</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># No Remotes ----</span></span>
 <span><span class="co"># remotes::install_github("ThinkR-open/fcuk")</span></span>
 <span><span class="co"># Attachments ----</span></span>
@@ -316,7 +341,7 @@ package dependencies of R scripts using
 <code><a href="../reference/att_from_rscripts.html">att_from_rscripts()</a></code>, Rmd files using
 <code><a href="../reference/att_from_rmds.html">att_from_rmds()</a></code> or examples from R scripts using
 <code><a href="../reference/att_from_examples.html">att_from_examples()</a></code>.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dummypackage</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"dummypackage"</span>, package <span class="op">=</span> <span class="st">"attachment"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/att_from_rscripts.html">att_from_rscripts</a></span><span class="op">(</span>path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">dummypackage</span>, <span class="st">"R"</span><span class="op">)</span><span class="op">)</span></span>
@@ -337,7 +362,7 @@ package dependencies of R scripts using
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

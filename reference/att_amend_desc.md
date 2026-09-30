@@ -64,7 +64,17 @@ att_to_desc_from_pkg(
 
 - dir.r:
 
-  path to directory with R scripts.
+  Character vector of one or more directories holding R scripts to parse
+  for dependencies. Defaults to `"R"`. Pass several paths, for example
+  `c("R", "inst")`, to also scan sources that live outside the standard
+  package directories (a deployment entry point under `inst/`, say).
+  Packages called with
+  [`library()`](https://rdrr.io/r/base/library.html) or `pkg::fun()` in
+  these scripts are added to Imports. A package that no scanned
+  directory mentions is removed from DESCRIPTION, and any version
+  constraint set by hand goes with it: widening `dir.r` is how such a
+  dependency is kept, and a removal that drops a constraint is reported
+  so it does not pass unnoticed.
 
 - dir.v:
 
@@ -155,7 +165,7 @@ dummypackage <- file.path(tmpdir, "dummypackage")
 att_amend_desc(path = dummypackage)
 #> Saving attachment parameters to yaml config file
 #> Updating dummypackage documentation
-#> ℹ Setting Config/roxygen2/version to "8.0.0"
+#> ℹ Setting Config/roxygen2/version to "8.1.0"
 #> Writing NAMESPACE
 #> ℹ Loading dummypackage
 #> Writing NAMESPACE

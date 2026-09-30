@@ -1,9 +1,106 @@
 # Changelog
 
-## attachment 1.0.1
+## attachment 1.1.1
 
 ### Bug fixes
 
+- [`att_from_rscript()`](https://thinkr-open.github.io/attachment/reference/att_from_rscript.md)
+  (and therefore
+  [`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md))
+  no longer reports a variable name as a package name.
+  [`requireNamespace()`](https://rdrr.io/r/base/ns-load.html),
+  [`loadNamespace()`](https://rdrr.io/r/base/ns-load.html) and the `ns`
+  argument of
+  [`getFromNamespace()`](https://rdrr.io/r/utils/getFromNamespace.html)
+  take a character string, so a bare symbol there can only be a variable
+  holding the name, never the name itself; the same goes for
+  [`library()`](https://rdrr.io/r/base/library.html) and
+  [`require()`](https://rdrr.io/r/base/library.html) when the call
+  passes `character.only = TRUE`. A guard such as
+  `for (pkg in c("callr", "jsonlite")) requireNamespace(pkg, quietly = TRUE)`
+  used to add a package literally called `pkg` to `DESCRIPTION`, which
+  then stopped every `renv` / `pak` install on a package that cannot
+  exist. A symbol is still read as the package name for
+  [`library()`](https://rdrr.io/r/base/library.html),
+  [`require()`](https://rdrr.io/r/base/library.html) and
+  [`use()`](https://rdrr.io/r/base/use.html), which compute on the
+  unevaluated argument
+  ([\#143](https://github.com/ThinkR-open/attachment/issues/143)).
+- Named arguments of a dependency-introducing call are now matched the
+  way R matches them, by exact name first and then by a prefix
+  unambiguous among the formals, instead of by string equality. An
+  abbreviated but perfectly legal spelling of the flag,
+  [`library(pkgvar, char = TRUE)`](https://rdrr.io/r/base/library.html),
+  went unrecognised and added a package named after the variable; and an
+  abbreviated package argument,
+  [`library(pack = "jsonlite")`](https://rdrr.io/r/base/library.html),
+  was missed altogether. The formals are read from the running R rather
+  than written down here, and a formal placed after `...` is matched by
+  its exact name only, which is R’s own rule
+  ([\#143](https://github.com/ThinkR-open/attachment/issues/143)).
+- [`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+  no longer lets an `Enhances` version constraint override the `Imports`
+  one for the same package. The rule that picks a version when a package
+  is pinned under two types ordered the type as text, and `"Enhances"`
+  sorts before `"Imports"`, so `Enhances: pkg (>= 9.9.9)` replaced
+  `Imports: pkg (>= 2.0.0)` and wrote a bound nobody had set for that
+  type, which can make a package uninstallable. The precedence is now
+  named explicitly, strongest first: Imports, Depends, LinkingTo,
+  Suggests, Enhances.
+- [`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+  no longer counts a removal twice, nor names the package twice, when
+  DESCRIPTION lists it under two dependency types. The list read by the
+  comparison holds one row per (type, package) pair, so a package pinned
+  under both `Imports` and `Suggests` produced
+  `[-] 2 package(s) removed: pkgA, pkgA` for a single removal.
+
+### New features
+
+- [`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+  now says when a removed package took a version constraint with it. The
+  `[-] N package(s) removed` line names the package but not the
+  constraint, so a deliberate `pkgA (>= 1.2.0)` used to leave inside a
+  list of ordinary removals and go unnoticed until the built image
+  lacked the bound. A `[!]` diagnostic now lists those packages with
+  their constraint and points at `dir.r` for sources the default scan
+  does not reach
+  ([\#139](https://github.com/ThinkR-open/attachment/issues/139)).
+
+### Maintenance
+
+- The test suite reads lockfiles with
+  [`renv::lockfile_read()`](https://rstudio.github.io/renv/reference/lockfiles.html)
+  instead of reaching into renv with
+  `getFromNamespace("lockfile", "renv")`, which stopped working when
+  renv 1.2.4 changed that internal. `renv` moves from
+  `Suggests: renv (>= 0.8.4)` to `renv (>= 1.0.0)`, the version that
+  introduced the public lockfile functions.
+
+## attachment 1.1.0
+
+CRAN release: 2026-08-20
+
+### New features
+
+- [`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+  now accepts several directories in `dir.r`, for example
+  `att_amend_desc(dir.r = c("R", "inst"))`. This lets you declare
+  dependencies used only outside the standard package directories, such
+  as a deployment entry point under `inst/`, which the default scan does
+  not reach. Passing a vector previously raised
+  `the condition has length > 1`
+  ([\#139](https://github.com/ThinkR-open/attachment/issues/139)).
+
+### Bug fixes
+
+- [`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md)
+  no longer drops a version constraint set by hand in DESCRIPTION when
+  the same package is listed under two types (a pinned `Imports` and a
+  bare `Suggests`, for instance). Previously the version that survived
+  depended on the order of the rows in DESCRIPTION; the hand-set
+  constraint is now kept, and when both an `Imports` and a `Suggests`
+  row carry a version the `Imports` one wins
+  ([\#140](https://github.com/ThinkR-open/attachment/issues/140)).
 - [`att_from_examples()`](https://thinkr-open.github.io/attachment/reference/att_from_examples.md)
   (and therefore
   [`att_amend_desc()`](https://thinkr-open.github.io/attachment/reference/att_amend_desc.md))
