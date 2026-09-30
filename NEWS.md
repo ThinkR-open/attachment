@@ -13,6 +13,14 @@
   stopped every `renv` / `pak` install on a package that cannot exist. A symbol
   is still read as the package name for `library()`, `require()` and `use()`,
   which compute on the unevaluated argument (#143).
+- Named arguments of a dependency-introducing call are now matched the way R
+  matches them, by exact name first and then by a prefix unambiguous among the
+  formals, instead of by string equality. An abbreviated but perfectly legal
+  spelling of the flag, `library(pkgvar, char = TRUE)`, went unrecognised and
+  added a package named after the variable; and an abbreviated package argument,
+  `library(pack = "jsonlite")`, was missed altogether. The formals are read from
+  the running R rather than written down here, and a formal placed after `...` is
+  matched by its exact name only, which is R's own rule (#143).
 - `att_amend_desc()` no longer lets an `Enhances` version constraint override the
   `Imports` one for the same package. The rule that picks a version when a
   package is pinned under two types ordered the type as text, and `"Enhances"`

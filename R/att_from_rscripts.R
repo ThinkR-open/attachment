@@ -88,12 +88,83 @@ pkg_intro_calls <- list(
   getFromNamespace = list(arg_name = "ns",      arg_index = 2L, nse = FALSE)
 )
 
-match_call_arg <- function(call_args, arg_name, arg_index) {
+# Formal names of a dependency-introducing call, READ FROM THE RUNNING R rather
+# than written down here. A hardcoded table is a lie waiting to happen: on R 4.6.1
+# `requireNamespace()` is `(package, ..., quietly)`, where a table written from an
+# older signature still claimed `versionCheck` and `lib.loc`. A function this R
+# does not have (`base::use()` exists only since R 4.4) yields no names, and no
+# names means no partial matching, which is the previous behaviour rather than a
+# guess.
+.formals_cache <- new.env(parent = emptyenv())
+
+pkg_intro_formals <- function(fn_name) {
+  connu <- .formals_cache[[fn_name]]
+  if (!is.null(connu)) {
+    return(connu)
+  }
+  trouve <- character(0)
+  for (ou in c("base", "utils")) {
+    f <- tryCatch(
+      get(fn_name, envir = asNamespace(ou), inherits = FALSE),
+      error = function(e) NULL
+    )
+    if (is.function(f)) {
+      trouve <- names(formals(f))
+      break
+    }
+  }
+  if (is.null(trouve)) trouve <- character(0)
+  assign(fn_name, trouve, envir = .formals_cache)
+
+  trouve
+}
+
+# R MATCHES A NAMED ARGUMENT BY PREFIX, NOT BY STRING EQUALITY. A name that is not
+# an exact formal is matched against a prefix unambiguous among the formals. So
+# `library(x, char = TRUE)` runs with character.only TRUE, and matching by equality
+# alone both misses that flag, inventing a package out of the symbol `x`, and
+# misses `library(pack = "pkg")`, a real dependency.
+#
+# ONE EXCEPTION, AND IT IS R'S RULE, NOT A PRECAUTION: a formal placed after `...`
+# can only be matched by its exact name, anything shorter falling into the dots.
+# `requireNamespace()` is `(package, ..., quietly)`, so `quietly` is in that case
+# while `package` is not.
+#
+# The POSITION of the match is returned rather than its value, so the caller can
+# tell an absent argument from one whose value happens to be NULL.
+match_named_arg <- function(nms, arg_name, formals_names) {
+  exact <- which(nms == arg_name)
+  if (length(exact) > 0) {
+    return(exact[[1]])
+  }
+  if (length(formals_names) == 0) {
+    return(NA_integer_)
+  }
+  dots <- match("...", table = formals_names)
+  rang <- match(arg_name, table = formals_names)
+  if (!is.na(dots) && !is.na(rang) && rang > dots) {
+    return(NA_integer_)
+  }
+  # A name that IS another formal exactly is that other argument, not an
+  # abbreviation of this one.
+  candidats <- which(nzchar(nms) & !(nms %in% formals_names))
+  for (i in candidats) {
+    vises <- formals_names[startsWith(formals_names, nms[[i]])]
+    if (length(vises) == 1 && identical(vises, arg_name)) {
+      return(i)
+    }
+  }
+
+  NA_integer_
+}
+
+match_call_arg <- function(call_args, arg_name, arg_index,
+                           formals_names = character(0)) {
   if (length(call_args) == 0) return(NULL)
   nms <- names(call_args)
   if (is.null(nms)) nms <- rep("", length(call_args))
-  hit <- which(nms == arg_name)
-  if (length(hit) > 0) return(call_args[[hit[1]]])
+  hit <- match_named_arg(nms, arg_name = arg_name, formals_names = formals_names)
+  if (!is.na(hit)) return(call_args[[hit]])
   positional <- call_args[nms == ""]
   if (length(positional) >= arg_index) return(positional[[arg_index]])
   NULL
@@ -117,19 +188,31 @@ arg_as_literal <- function(arg) {
 # name rather than being it, so the symbol must not be read. Anything other than
 # a literal FALSE is taken as character-only: when the flag itself is a variable
 # nothing can be inferred, and staying silent beats inventing a package.
-is_character_only <- function(call_args) {
-  flag <- call_args[["character.only"]]
-  if (is.null(flag)) return(FALSE)
+is_character_only <- function(call_args, formals_names = character(0)) {
+  nms <- names(call_args)
+  if (is.null(nms)) {
+    return(FALSE)
+  }
+  i <- match_named_arg(
+    nms, arg_name = "character.only", formals_names = formals_names
+  )
+  if (is.na(i)) {
+    return(FALSE)
+  }
 
-  !identical(flag, FALSE)
+  !identical(call_args[[i]], FALSE)
 }
 
 # The package named by one dependency-introducing call, or NA_character_ when the
 # source does not say which package it is.
 pkg_from_intro_call <- function(fn_name, call_args) {
   spec <- pkg_intro_calls[[fn_name]]
-  arg <- match_call_arg(call_args, spec$arg_name, spec$arg_index)
-  if (isTRUE(spec$nse) && !is_character_only(call_args)) {
+  formals_names <- pkg_intro_formals(fn_name)
+  arg <- match_call_arg(
+    call_args, spec$arg_name, spec$arg_index, formals_names = formals_names
+  )
+  if (isTRUE(spec$nse) &&
+      !is_character_only(call_args, formals_names = formals_names)) {
     return(arg_as_string(arg))
   }
 
