@@ -3,8 +3,8 @@ require(findme1)
 require(   findme2   )
 library(findme3)
 library(   findme4   )
-requireNamespace(findme5)
-requireNamespace(     findme6      )
+requireNamespace("findme5", quietly = TRUE)
+requireNamespace(     "findme6"      )
 
 
 require("findme1a")
@@ -49,3 +49,14 @@ requireNamespace(     "findme6a"      )
 
 # Do not find base
 base::length(1)
+
+# A VARIABLE IS NOT A PACKAGE NAME. requireNamespace(), loadNamespace() and the
+# ns argument of getFromNamespace() take a character string, so a symbol there
+# can only hold the name. character.only = TRUE says the same of library().
+for (dontfindme7 in c("stats", "utils")) {
+  requireNamespace(dontfindme7, quietly = TRUE)
+}
+loadNamespace(dontfindme8)
+getFromNamespace("f", ns = dontfindme9)
+library(dontfindme10, character.only = TRUE)
+require(dontfindme11, character.only = TRUE)
