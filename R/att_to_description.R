@@ -455,7 +455,10 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
   deps_new$version[is.na(deps_new$version)] <- "*"
 
   # Compare old and new
-  removed <- deps_desc$package[!deps_desc$package %in% deps_new$package]
+  # `unique()` because `deps_desc` holds one row per (type, package) pair: a
+  # package pinned under both Imports and Suggests appears twice, and counting
+  # rows announces "2 package(s) removed: pkgA, pkgA" for a single removal.
+  removed <- unique(deps_desc$package[!deps_desc$package %in% deps_new$package])
   if (length(removed) > 0) {
     message("[-] ", length(removed), " package(s) removed: ",
             paste(removed, collapse = ", "), ".")
@@ -466,17 +469,30 @@ att_to_desc_from_is <- function(path.d = "DESCRIPTION", imports = NULL,
     # and nobody notices until the built image lacks the bound. The pin is set by
     # a person and the scan has no opinion on it, so say what is leaving and how
     # to keep it (issue #139).
-    pinned_gone <- deps_desc[
-      deps_desc$package %in% removed & deps_desc$version != "*",
+    #
+    # One row per PACKAGE, not per constraint. Two types may pin the same
+    # package, and the count the user reads is a count of packages. Which of the
+    # two versions is shown follows `type_precedence()`, the same order that
+    # decides which version survives the rebuild: naming a bound here that the
+    # rebuild would not have kept would be its own kind of lie.
+    pinned_desc <- deps_desc[
+      deps_desc$package %in% removed & deps_desc$version != "*", ]
+    pinned_desc <- pinned_desc[order(type_precedence(pinned_desc$type)), ]
+    pinned_desc <- pinned_desc[!duplicated(pinned_desc$package), ]
+    pinned_gone <- pinned_desc[
+      order(match(pinned_desc$package, table = removed)),
       c("package", "version")]
     if (nrow(pinned_gone) > 0) {
+      # The line breaks are part of the documented output (see the transcript in
+      # `vignettes/a-fill-pkg-description.Rmd`). `message()` pastes with no
+      # separator, so without them the guidance lands as one ~200-char line.
       message(
         "[!] ", nrow(pinned_gone),
         " removed package(s) carried a version constraint set in DESCRIPTION: ",
         paste0(pinned_gone$package, " (", pinned_gone$version, ")",
                collapse = ", "),
-        ". Add the directory where they are used to `dir.r`, or declare them",
-        " again by hand, if these constraints were deliberate."
+        ".\n    Add the directory where they are used to `dir.r`, or declare",
+        " them again by hand,\n    if these constraints were deliberate."
       )
     }
   }

@@ -20,6 +20,11 @@
   `Imports: pkg (>= 2.0.0)` and wrote a bound nobody had set for that type,
   which can make a package uninstallable. The precedence is now named
   explicitly, strongest first: Imports, Depends, LinkingTo, Suggests, Enhances.
+- `att_amend_desc()` no longer counts a removal twice, nor names the package
+  twice, when DESCRIPTION lists it under two dependency types. The list read by
+  the comparison holds one row per (type, package) pair, so a package pinned
+  under both `Imports` and `Suggests` produced
+  `[-] 2 package(s) removed: pkgA, pkgA` for a single removal.
 
 ## New features
 
@@ -27,7 +32,7 @@
   with it. The `[-] N package(s) removed` line names the package but not the
   constraint, so a deliberate `pkgA (>= 1.2.0)` used to leave inside a list of
   ordinary removals and go unnoticed until the built image lacked the bound. A
-  second line now lists those packages with their constraint and points at
+  `[!]` diagnostic now lists those packages with their constraint and points at
   `dir.r` for sources the default scan does not reach (#139).
 
 ## Maintenance
